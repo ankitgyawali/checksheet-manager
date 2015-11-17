@@ -15,7 +15,9 @@ smApp.config(function ($routeProvider) {
     .when('/student', {
       templateUrl: 'partials/student.html'
     })
-    
+    .when('/dashboard', {
+      templateUrl: 'partials/dashboard.html'
+    })
 
 
       // use the HTML5 History API

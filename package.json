@@ -1,7 +1,7 @@
 {
-  "name": "mean-auth",
+  "name": "ksm",
   "scripts": {
-    "start": "node server/server.js"
+    "start": "killall -KILL node && nodemon server/server.js"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
@@ -15,6 +15,11 @@
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^1.0.0",
-    "serve-favicon": "^2.1.7"
-  }
+    "serve-favicon": "^2.1.7",
+    "angularjs-toaster": "~0.4.15"
+  },
+  "repository": {
+  "type": "git",
+  "url": "git://github.com/ankitgyawali/ksm.git"
+}
 }

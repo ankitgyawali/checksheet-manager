@@ -1,7 +1,7 @@
 
 <div ng-include src="'partials/menu.html'"></div>
 
-<div class="row" style="border:0px solid black">
+<div class="row" style="border:0px solid black" >
 
 <div class="col-lg-4">
 
@@ -9,9 +9,12 @@
 
 </div>
 <div class="col-lg-2"></div>
-<div class="col-lg-6" style="padding-top:5%">
+<div class="col-lg-6" >
+Root user login portal<br><br>
 
-<form action="#" method="post">
+
+
+<form id="rootLogin" ng-controller="rootloginController" ng-submit="submit()">
 <div class="input-group input-group-lg">
 
 
@@ -19,24 +22,22 @@
 
 <div class="input-group input-group-lg">
   <span class="input-group-addon" id="emailAddon">Username</span>
-  <input type="text" class="form-control" placeholder="Enter your KU Email ID" aria-describedby="emailAddon" name="rEmail" id="rEmail" autofocus="autofocus">
+  <input type="text" class="form-control" placeholder="Enter your KU Email ID" aria-describedby="emailAddon" name="rEmail" id="rEmail" ng-model="rEmail" autofocus="autofocus">
 </div>
 
 <br>
 	
 <div class="input-group input-group-lg">
   <span class="input-group-addon" id="pwdAddon">Password</span>
-  <input type="password" class="form-control" placeholder="" aria-describedby="pwdAddon"  name="rPassword" id="rPassword" >
+  <input type="password" class="form-control" placeholder="" aria-describedby="pwdAddon"  name="rPassword" id="rPassword" ng-model="rPassword" >
 </div>
 <br><br>
 
 
-  <button class="btn-lg btn-primary" type="submit">  Login <i class="fa fa-sign-in fa-lg"></i>
-
-
-  	 </button>
+  <button class="btn-lg btn-primary"  type="submit" >  Login <i class="fa fa-sign-in fa-lg"></i></button>
 
 </div>
 </form>
 </div>
 
+</div>
