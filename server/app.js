@@ -8,11 +8,8 @@ var express = require('express'),
     hash = require('bcrypt-nodejs'),
     path = require('path'),
     passport = require('passport'),
-    localStrategy = require('passport-local' ).Strategy;
-
-// mongoose
-mongoose.connect('mongodb://localhost/ksm');
-var db = mongoose.connection;
+    localStrategy = require('passport-local' ).Strategy,
+    mongoose = require('mongoose');
 
 
 // user schema/model
@@ -46,12 +43,19 @@ passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+
+
 // routes
-app.use('/user/', routes);
+app.use('/', routes);
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, '../client', 'index.html'));
+  console.log('ok');
 });
+
+
+
+
 
 // error hndlers
 app.use(function(req, res, next) {
@@ -69,3 +73,4 @@ app.use(function(err, req, res) {
 });
 
 module.exports = app;
+

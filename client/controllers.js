@@ -8,25 +8,34 @@ angular.module('smApp').controller('dashboardController',
   ['$scope', '$location', 'notificationFactory',
    function ($scope, $location,notificationFactory ) {
 
-
-
 }]);
 
 
 angular.module('smApp').controller('rootloginController',
-  ['$scope', '$location', 'notificationFactory',
-   function ($scope, $location,notificationFactory ) {
+  ['$scope', '$location', '$http', 'notificationFactory', 
+   function ($scope, $location,$http, notificationFactory ) {
 
 
     $scope.submit = function (){
       var rootEmail = $scope.rEmail;
       var rootPassword = $scope.rPassword;
-      console.log(rootPassword);
-      console.log(rootEmail);
+       console.log('username: '+rootEmail);
+      console.log('password: '+rootPassword);
+  
+     $http({
+  method  : 'POST',
+  url     : '/root',
+    // set the headers so angular passing info as form data (not request payload)
+  headers : { 'Content-Type': 'application/json' },
+  data    :  {
+              type:'root',
+              username:$scope.rEmail,
+              password:$scope.rPassword
+            }
 
-      $scope.pop = function(){
-            toaster.pop('success', "title", "text");
-        };
+ })
+ 
+
 
       if (rootEmail=='aa' && rootPassword=='aa')
       {
@@ -36,9 +45,8 @@ angular.module('smApp').controller('rootloginController',
       {
         //ngNotifier.notifyError($scope.rEmail);
         notificationFactory.error('Invalid username & password combination');
-
       }
-
     };
+
 
 }]);
