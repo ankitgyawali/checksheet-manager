@@ -9,12 +9,19 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/ksm');
 
 var db = mongoose.connection;
-  
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function (callback) {
-  console.log('yay');
-});
-db.close();
+var rootSchema = mongoose.Schema({
+    username: String,
+    password: String
+},{ collection : 'root' });
+var rootCol = mongoose.model('root', rootSchema);
+
+// rootCol.find({}, function(err, username) {
+//     console.log(username);
+//     console.log('>>>'+username[1]);
+//   });
+
+
+
 
 router.post('/register', function(req, res) {
   User.register(new User({ username: req.body.username }), req.body.password, function(err, account) {
@@ -54,24 +61,27 @@ router.get('/logout', function(req, res) {
 });
 
 
-router.post('/root', function(req, res) {
 
-  console.log(req.body);
-  console.log(req.body.username);
-  console.log(req.body.type);
-  console.log(req.body.password);
-  console.log('b4 final');
-var db = mongoose.connection;
+router.post('/root', function(req, res ) {
+   console.log('Inside post /root ');
+  console.log('req body: '+req.body);
+  console.log('req body usr: '+req.body.username);
+  console.log('req body type: '+req.body.type);
+  console.log('req body pwd: '+req.body.password);
+
+  rootCol.findOne({ 'password': 'password' }, function (err, person) {
+  if (err) return handleError(err);
   
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function (callback) {
-  console.log('yay');
-});
+  console.log('from mongo person object >   ' + person);
+  console.log('Person object id>   ' + person._id);
+})
 
-
-  console.log('final');
+ res.send({msg:'HI'});
 
 });
+
+
+
 
 
 module.exports = router;

@@ -33,9 +33,11 @@ angular.module('smApp').controller('rootloginController',
               password:$scope.rPassword
             }
 
- })
- 
-
+ }).then(function (response) {
+console.log('Res response '+response.msg);
+ });
+  console.log('Res http'+$http.msg);
+     console.log('Res scope'+$scope.msg);
 
       if (rootEmail=='aa' && rootPassword=='aa')
       {
