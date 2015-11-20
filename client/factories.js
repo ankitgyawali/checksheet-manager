@@ -44,16 +44,20 @@ angular.module('smApp').factory('notificationFactory', function () {
     };
 });
 
-angular.module('smApp').factory('AuthService',
+angular.module('myApp').factory('AuthService',
   ['$q', '$timeout', '$http',
   function ($q, $timeout, $http) {
 
     // create user variable
     var user = null;
+    var usertype = '';
+    var username = ''
 
     // return available functions for use in controllers
     return ({
       isLoggedIn: isLoggedIn,
+      getusername: getusername,
+      getusertype: getusertype,
       getUserStatus: getUserStatus,
       login: login,
       logout: logout,
@@ -68,36 +72,61 @@ angular.module('smApp').factory('AuthService',
         }
     }
 
-    function getUserStatus() {
-      return user;
-    }
-
-    function login(username, password) {
+    function login(username, password, type) {
 
       // create a new instance of deferred
       var deferred = $q.defer();
 
-      // send a post request to the server
-      $http.post('/user/login', {username: username, password: password})
-        // handle success
-        .success(function (data, status) {
-          if(status === 200 && data.status){
+
+             $http({
+  method  : 'POST',
+  url     : '/root',
+    // set the headers so angular passing info as form data (not request payload)
+  headers : { 'Content-Type': 'application/json' },
+  data    :  {
+              username: username,
+              password: password,
+              type:'root'
+            }
+
+ }).success(function(data, status, headers, config) {
+    // this callback will be called asynchronously
+    // when the response is available
+  if(status === 200 && data.status){
             user = true;
+            username = data.username;
+            usertype = data.usertype;
             deferred.resolve();
           } else {
             user = false;
             deferred.reject();
           }
-        })
-        // handle error
-        .error(function (data) {
+
+  })
+  .error(function(data, status, headers, config) {
+    // called asynchronously if an error occurs
+    // or server returns response with an error status.
           user = false;
           deferred.reject();
-        });
+  });
+
 
       // return promise object
       return deferred.promise;
 
+    }
+
+
+    function getUserStatus() {
+      return user;
+    }
+
+        function getusername() {
+      return username;
+    }
+
+        function getusertype() {
+      return usertype;
     }
 
     function logout() {
