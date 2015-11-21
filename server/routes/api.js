@@ -74,20 +74,27 @@ router.post('/root', function(req, res ) {
   console.log('req body type: '+req.body.type);
   console.log('req body pwd: '+req.body.password);
   
-  rootCol.findOne({ 'password': 'password' }, function (err, person) {
-  if (err) return handleError(err);
-  
-  console.log('from mongo person object >   ' + person);
-  console.log('Person object id>   ' + person._id);
+  rootCol.findOne({ 'username':req.body.username,'password': req.body.password }, function (err, person) {
+  if (err) {
+     console.log('something wrong');
+    res.send({username:'404',usertype:'root'});
+   }
+  if (person){
+  //console.log('from mongo person object >   ' + person);
+  //console.log('Person object id>   ' + person._id);
   req.session.id = person._id;
   req.session.username = person.username;
   req.session.usertype = 'root';
 
    res.send({username:person.username,usertype:'root'});
+  }
+  else
+  {
+    res.status(404);
+    res.send({username:'nope',usertype:'nope'})
+  }
 })
-
-
-
+  
 });
 
 

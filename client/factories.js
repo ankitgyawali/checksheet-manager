@@ -44,7 +44,7 @@ angular.module('smApp').factory('notificationFactory', function () {
     };
 });
 
-angular.module('myApp').factory('AuthService',
+angular.module('smApp').factory('AuthService',
   ['$q', '$timeout', '$http',
   function ($q, $timeout, $http) {
 
@@ -61,7 +61,7 @@ angular.module('myApp').factory('AuthService',
       getUserStatus: getUserStatus,
       login: login,
       logout: logout,
-      register: register
+      register: register,
     });
 
     function isLoggedIn() {
@@ -72,11 +72,10 @@ angular.module('myApp').factory('AuthService',
         }
     }
 
-    function login(username, password, type) {
+    function login(uname, upwd, utype) {
 
       // create a new instance of deferred
       var deferred = $q.defer();
-
 
              $http({
   method  : 'POST',
@@ -84,20 +83,31 @@ angular.module('myApp').factory('AuthService',
     // set the headers so angular passing info as form data (not request payload)
   headers : { 'Content-Type': 'application/json' },
   data    :  {
-              username: username,
-              password: password,
-              type:'root'
+              username: uname,
+              password: upwd,
+              type:utype
             }
 
  }).success(function(data, status, headers, config) {
     // this callback will be called asynchronously
     // when the response is available
-  if(status === 200 && data.status){
+  console.log("Success");
+  if(status === 200){
             user = true;
+        
             username = data.username;
             usertype = data.usertype;
+            console.log('Local username '+username);
+            console.log(data.username);
+            console.log('Local usertype '+usertype);
+            console.log('Local usertype '+getusername());
             deferred.resolve();
+          }
+          else if (status == 404) {
+
+              console.log('FAILED '+usertype);
           } else {
+            console.log("nope 200");
             user = false;
             deferred.reject();
           }
@@ -106,8 +116,11 @@ angular.module('myApp').factory('AuthService',
   .error(function(data, status, headers, config) {
     // called asynchronously if an error occurs
     // or server returns response with an error status.
+        console.log("Error");
           user = false;
+          console.log("nope");
           deferred.reject();
+
   });
 
 
@@ -122,8 +135,10 @@ angular.module('myApp').factory('AuthService',
     }
 
         function getusername() {
+
       return username;
     }
+
 
         function getusertype() {
       return usertype;
