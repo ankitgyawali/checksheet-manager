@@ -58,6 +58,7 @@ angular.module('smApp').factory('AuthService',
       isLoggedIn: isLoggedIn,
       getusername: getusername,
       getusertype: getusertype,
+      setusertype: setusertype,
       getUserStatus: getUserStatus,
       login: login,
       logout: logout,
@@ -142,6 +143,11 @@ angular.module('smApp').factory('AuthService',
 
         function getusertype() {
       return usertype;
+    }
+
+       function setusertype(value) {
+      usertype=value;
+      
     }
 
     function logout() {

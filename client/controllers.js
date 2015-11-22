@@ -1,8 +1,34 @@
-angular.module('smApp').controller('loginController',
-  ['$scope', '$location', 'AuthService',
-  function ($scope, $location, AuthService) {
+
+
+angular.module('smApp').controller('menuController',
+  ['$scope', '$location', 'AuthService',  '$timeout',
+
+   function ($scope, $location, AuthService, $timeout) {
+    $scope.setUser = function(val) {
+      
+    AuthService.setusertype(val);
+     console.log('xx '+AuthService.getusertype());
+  }
+
 
 }]);
+
+
+angular.module('smApp').controller('loginController',
+  ['$scope', '$location', 'notificationFactory','AuthService', 
+   function ($scope, $location,notificationFactory,AuthService) {
+   
+     $scope.userType = 'root';
+   console.log('aaax '+AuthService.getusertype())
+    $scope.userType = AuthService.getusertype();
+     console.log('Ox '+$scope.userType);
+     
+      
+$scope.$apply()
+
+}]);
+
+
 
 angular.module('smApp').controller('dashboardController',
   ['$scope', '$location', 'notificationFactory','AuthService',
