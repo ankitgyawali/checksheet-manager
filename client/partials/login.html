@@ -1,41 +1,17 @@
-<div ng-include src="'partials/menu.html'"></div>
-
-<div class="row" style="border:0px solid black">
-
-<div class="col-lg-4">
-
-<img src="img/{{userType}}.jpg" height="100%" width="100%" alt="">
-
+<div class="col-md-4">
+  <h1>Login</h2>
+  <div ng-show="error" class="alert alert-danger">{{errorMessage}}</div>
+  <form class="form" ng-submit="login()">
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" class="form-control" name="username" ng-model="loginForm.username" required>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+        <input type="password" class="form-control" name="password" ng-model="loginForm.password" required>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-default" ng-disabled="disabled">Login</button>
+      </div>
+  </form>
 </div>
-<div class="col-lg-2"></div>
-<div class="col-lg-6">
-{{userType | firstCapitalize}} login portal<br><br>
-<form action="#" method="post">
-<div class="input-group input-group-lg">
-
-
-
-
-<div class="input-group input-group-lg">
-  <span class="input-group-addon" id="emailAddon">Username</span>
-  <input type="text" class="form-control" placeholder="Enter your KU Email ID" aria-describedby="emailAddon" name="{{userType}}Email" id="{{userType}}Email" autofocus="autofocus">
-</div>
-
-<br>
-	
-<div class="input-group input-group-lg">
-  <span class="input-group-addon" id="pwdAddon">Password</span>
-  <input type="password" class="form-control" placeholder="" aria-describedby="pwdAddon"  name="{{userType}}Password" id="{{userType}}Password" >
-</div>
-<br><br>
-
-
-  <button class="btn-lg btn-primary" type="submit">  Login <i class="fa fa-sign-in fa-lg"></i>
-
-
-  	 </button>
-
-</div>
-</form>
-</div>
-
