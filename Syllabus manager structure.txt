@@ -1,6 +1,5 @@
 Collection -> Document
 
-
 RootUser ->
     UserName:
     Password:
@@ -8,3 +7,10 @@ RootUser ->
 (can add advisor, students and checksheets)
 
 Advisor ->
+
+
+===
+Routing:
+
+Home -> 
+: Homecontroller  -> If not logged in Loginpage

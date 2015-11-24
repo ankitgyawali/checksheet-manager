@@ -45,8 +45,8 @@ angular.module('smApp').factory('notificationFactory', function () {
 });
 
 angular.module('smApp').factory('AuthService',
-  ['$q', '$timeout', '$http',
-  function ($q, $timeout, $http) {
+  ['$q', '$timeout', '$http', '$cookieStore',
+  function ($q, $timeout, $http, $cookieStore) {
 
     // create user variable
     var user = null;
@@ -58,6 +58,7 @@ angular.module('smApp').factory('AuthService',
       isLoggedIn: isLoggedIn,
       getusername: getusername,
       getusertype: getusertype,
+      setusertype: setusertype,
       getUserStatus: getUserStatus,
       login: login,
       logout: logout,
@@ -79,7 +80,7 @@ angular.module('smApp').factory('AuthService',
 
              $http({
   method  : 'POST',
-  url     : '/root',
+  url     : '/login',
     // set the headers so angular passing info as form data (not request payload)
   headers : { 'Content-Type': 'application/json' },
   data    :  {
@@ -142,6 +143,11 @@ angular.module('smApp').factory('AuthService',
 
         function getusertype() {
       return usertype;
+    }
+
+       function setusertype(value) {
+      usertype=value;
+      
     }
 
     function logout() {

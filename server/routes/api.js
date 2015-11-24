@@ -38,23 +38,7 @@ router.post('/register', function(req, res) {
 
 
 
-router.post('/login', function(req, res, next) {
-  console.log('asas');
-  passport.authenticate('local', function(err, user, info) {
-    if (err) {
-      return res.status(500).json({err: err});
-    }
-    if (!user) {
-      return res.status(401).json({err: info});
-    }
-    req.logIn(user, function(err) {
-      if (err) {
-        return res.status(500).json({err: 'Could not log in user'});
-      }
-      res.status(200).json({status: 'Login successful!'});
-    });
-  })(req, res, next);
-});
+
 
 router.get('/logout', function(req, res) {
   req.logout();
@@ -67,7 +51,7 @@ router.get('/logout', function(req, res) {
 
 
 
-router.post('/root', function(req, res ) {
+router.post('/login', function(req, res ) {
    console.log('Inside post /root ');
   console.log('req body: '+req.body);
   console.log('req body usr: '+req.body.username);

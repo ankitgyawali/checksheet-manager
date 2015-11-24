@@ -1,30 +1,22 @@
 angular.module('smApp').controller('loginController',
-  ['$scope', '$location', 'AuthService',
-  function ($scope, $location, AuthService) {
+  ['$scope', '$location', 'notificationFactory','AuthService', 
+   function ($scope, $location,notificationFactory,AuthService) {
+   
+     if(AuthService.getusertype()==''){
+      AuthService.setusertype('student');
+      $scope.userType = AuthService.getusertype();
+    }
 
-}]);
+    $scope.setUser = function(val) {
+    AuthService.setusertype(val);
+    $scope.userType = AuthService.getusertype();
+  } 
+   $scope.userType = AuthService.getusertype();
+  
 
-angular.module('smApp').controller('ApplicationController', function ($scope,
-                                               USER_ROLES,
-                                               AuthService) {
-
-  };
-})
-
-angular.module('smApp').controller('dashboardController',
-  ['$scope', '$location', 'notificationFactory','AuthService',
-   function ($scope, $location,notificationFactory,AuthService ) {
-$scope.username =  AuthService.getusername();
-}]);
-
-
-angular.module('smApp').controller('rootloginController',
-  ['$scope', '$location', 'notificationFactory', 'AuthService', 
-   function ($scope, $location, notificationFactory, AuthService) {
-
-      $scope.submit = function (){
-
-      var x = AuthService.login($scope.rEmail,$scope.rPassword,'root')
+     $scope.submit = function (){
+     console.log('----->'+$scope.rEmail);
+      var x = AuthService.login($scope.Email,$scope.Password,$scope.userType)
        .then(function () {
         if (AuthService.isLoggedIn())
         {
@@ -45,6 +37,24 @@ angular.module('smApp').controller('rootloginController',
 
       console.log('logged or not: '+AuthService.isLoggedIn());     
         };
+
+
+}]);
+
+
+
+angular.module('smApp').controller('dashboardController',
+  ['$scope', '$location', 'notificationFactory','AuthService',
+   function ($scope, $location,notificationFactory,AuthService ) {
+$scope.username =  AuthService.getusername();
+}]);
+
+
+angular.module('smApp').controller('rootloginController',
+  ['$scope', '$location', 'notificationFactory', 'AuthService', 
+   function ($scope, $location, notificationFactory, AuthService) {
+
+    
 
 
 
