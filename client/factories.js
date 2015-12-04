@@ -64,53 +64,54 @@ angular.module('smApp').factory('AuthService',
         return $cookieStore.get('loggedin');
     }
 
-    function login(uname, upwd, utype) {
 
-      // create a new instance of deferred
-      var deferred = $q.defer();
+function login(uname, upwd, utype) {
 
-             $http({
-  method  : 'POST',
-  url     : '/login',
-    // set the headers so angular passing info as form data (not request payload)
-  headers : { 'Content-Type': 'application/json' },
-  data    :  {
-              username: uname,
-              password: upwd,
-              type:utype
+    // create a new instance of deferred
+    var deferred = $q.defer();
+
+    $http({
+            method: 'POST',
+            url: '/login',
+            // set the headers so angular passing info as form data (not request payload)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                username: uname,
+                password: upwd,
+                type: utype
             }
 
- }).success(function(data, status, headers, config) {
-    // this callback will be called asynchronously
-    // when the response is available
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
 
-  if(status === 200){
-            user = true;
-            $cookieStore.put('username', data.username);
-            $cookieStore.put('loggedin', 'true');
-            $cookieStore.put('usertype', data.usertype);
+            if (status === 200) {
+                user = true;
+                $cookieStore.put('username', data.username);
+                $cookieStore.put('loggedin', 'true');
+                $cookieStore.put('usertype', data.usertype);
 
-            deferred.resolve();
-          }
-          else if (status == 404) {
+                deferred.resolve();
+            } else if (status == 404) {
 
-              console.log('404 FAILED '+usertype);
-          } else {
-            console.log("nope 200");
+                console.log('404 FAILED ' + usertype);
+            } else {
+                console.log("nope 200");
+                $cookieStore.put('loggedin', 'false');
+                deferred.reject();
+            }
+
+        })
+        .error(function(data, status, headers, config) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+
             $cookieStore.put('loggedin', 'false');
             deferred.reject();
-          }
 
-  })
-  .error(function(data, status, headers, config) {
-    // called asynchronously if an error occurs
-    // or server returns response with an error status.
-
-          $cookieStore.put('loggedin', 'false');
-          deferred.reject();
-
-  });
-
+        });
 
       // return promise object
       return deferred.promise;
@@ -118,7 +119,46 @@ angular.module('smApp').factory('AuthService',
     }
 
 
+    function logout() {
+    // create a new instance of deferred
+    var deferred = $q.defer();
 
+
+
+     $cookieStore.put('loggedin', 'false');
+
+        $http({
+            method: 'GET',
+            url: '/logout'
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+
+            if (status === 200) {
+                
+            $cookieStore.remove('usertype');
+            $cookieStore.remove('username');
+            $cookieStore.remove('loggedin');
+                deferred.resolve();
+            } else if (status == 404) {
+
+                console.log('404 FAILED ' + usertype);
+            } else {
+                deferred.reject();
+            }
+
+        })
+        .error(function(data, status, headers, config) {
+            deferred.reject();
+
+        });
+
+      // return promise object
+      return deferred.promise;
+
+  
+    }
 
         function getusername() {
 
@@ -135,16 +175,7 @@ angular.module('smApp').factory('AuthService',
       
     }
 
-    function logout() {
 
-     $cookieStore.remove('usertype');
-     $cookieStore.remove('username');
-     $cookieStore.remove('loggedin');
-
-     $cookieStore.put('loggedin', 'false');
-
-  
-    }
 
     function register(username, password) {
 

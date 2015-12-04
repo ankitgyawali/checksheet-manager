@@ -44,11 +44,11 @@ angular.module('smApp').controller('loginController',
 angular.module('smApp').controller('dashboardController',
   ['$scope', '$location', 'notificationFactory', 'AuthService', 
    function ($scope, $location, notificationFactory, AuthService) {
-      $scope.username =  AuthService.getusername();
+    $scope.username =  AuthService.getusername();
     $scope.logout = function (){
-       AuthService.logout();
-          $location.url('/login');
-      // $location.url('/student');
+    AuthService.logout();
+    $location.url('/login');
+    // $location.url('/student');
      };
 
 
