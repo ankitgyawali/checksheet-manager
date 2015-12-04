@@ -31,6 +31,16 @@ University Requirement
 Concomitant Requirement
 CorePart   [Classes --> Suggested Term (Locked/Unlocked by Default)]
 CourseName(UniqueCOde will be the unique identifier)
+
+
+Class==>
+Optional Time
+Class Name
+Class Description (Can be modified later)
+
+Department==>
+DepartmentName
+DepartmentID
 ===
 Root will add heads/profesoors
 Root/Head will add classes
@@ -38,6 +48,13 @@ Rood/Head will use classes to add checksheet prototypes
 Head/Professors will add Students and match them with prototypes
 Its Student job to maintain his prototype
 Advisor will make necessary edits
+===
+Later:
+
+Provide acess control via Department type
+Department useful for grouping
+Search?? Tutorials?
+
 ===
 Routing:
 

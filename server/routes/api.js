@@ -3,11 +3,8 @@ var express = require('express'),
     passport = require('passport'),
     User = require('../models/user.js'),
     expressSession = require('express-session');
-    
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/ksm');
 
-var db = mongoose.connection;
+var models = require('../database.js');
 
 // rootCol.find({}, function(err, username) {
 //     console.log(username);
@@ -31,7 +28,8 @@ router.post('/login', function(req, res ) {
   console.log('req body usr: '+req.body.username);
   console.log('req body type: '+req.body.type);
   console.log('req body pwd: '+req.body.password);
-  db.rootCol.findOne({ 'username':req.body.username,'password': req.body.password }, function (err, person) {
+
+  models[req.body.type].findOne({ 'username':req.body.username,'password': req.body.password }, function (err, person) {
   if (err) {
      console.log('something wrong');
     res.send({username:'404',usertype:'root'});
@@ -54,13 +52,6 @@ router.post('/login', function(req, res ) {
   
 });
 
-
-router.get('/try', function(req, res ) {
-
-    console.log('get try');
-  console.log(req.session.pid);
-  console.log(req.session.moo); 
-});
 
 
 module.exports = router;

@@ -83,7 +83,7 @@ angular.module('smApp').factory('AuthService',
  }).success(function(data, status, headers, config) {
     // this callback will be called asynchronously
     // when the response is available
-  console.log("Success");
+
   if(status === 200){
             user = true;
             $cookieStore.put('username', data.username);
@@ -105,7 +105,7 @@ angular.module('smApp').factory('AuthService',
   .error(function(data, status, headers, config) {
     // called asynchronously if an error occurs
     // or server returns response with an error status.
-          console.log("Error");
+
           $cookieStore.put('loggedin', 'false');
           deferred.reject();
 
@@ -142,8 +142,7 @@ angular.module('smApp').factory('AuthService',
      $cookieStore.remove('loggedin');
 
      $cookieStore.put('loggedin', 'false');
-      console.log('logout()aaa: '+ $cookieStore.get('loggedin'));
-     console.log('logout()ok: '+ isLoggedIn());
+
   
     }
 

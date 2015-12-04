@@ -30,12 +30,11 @@ smApp.run(['$rootScope', '$location', 'AuthService',
     $rootScope.$on('$routeChangeStart', function (event) {
 
         if (AuthService.isLoggedIn()) {
-            console.log('wat:'+AuthService.isLoggedIn())
-            console.log('ALLOW');
+
            // $location.url('/dashboard');
         }
         else {
-          console.log('DENY');
+
            // event.preventDefault();
             $location.url('/login');
         }

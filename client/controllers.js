@@ -26,7 +26,6 @@ angular.module('smApp').controller('loginController',
      })
         // handle error
        .catch(function () {
-        console.log('authNOPEW');
         notificationFactory.error('Invalid username & password combination');
         
         });
@@ -34,7 +33,7 @@ angular.module('smApp').controller('loginController',
    
         //doesnt reach here if not logged
 
-      console.log('logged or not: '+AuthService.isLoggedIn());     
+     
         };
 
 
@@ -47,8 +46,6 @@ angular.module('smApp').controller('dashboardController',
    function ($scope, $location, notificationFactory, AuthService) {
       $scope.username =  AuthService.getusername();
     $scope.logout = function (){
-        console.log('Hallo');
-         console.log('logged or not: '+AuthService.isLoggedIn());
        AuthService.logout();
           $location.url('/login');
       // $location.url('/student');

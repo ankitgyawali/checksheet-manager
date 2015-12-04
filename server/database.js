@@ -27,7 +27,7 @@ var advisorSchema = mongoose.Schema({
 var advisorCol = mongoose.model('advisor', advisorSchema);
 
 
-//Advisor User Schema
+//Student User Schema
 var studentSchema = mongoose.Schema({
     username: String,
     password: String,
@@ -40,7 +40,8 @@ var studentSchema = mongoose.Schema({
 },{ collection : 'student' });
 var studentCol = mongoose.model('student', studentSchema);
 
-
-module.exports = rootCol;
-module.exports = advisorCol;
-module.exports = studentCol;
+module.exports = {
+    root: rootCol,
+    advisor: advisorCol,
+    student: studentCol,
+};
