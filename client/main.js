@@ -24,3 +24,20 @@ smApp.filter('firstCapitalize', function() {
       return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
     }
 });
+
+smApp.run(['$rootScope', '$location', 'AuthService', 
+  function ($rootScope, $location, AuthService) {
+    $rootScope.$on('$routeChangeStart', function (event) {
+
+        if (AuthService.isLoggedIn()) {
+            console.log('wat:'+AuthService.isLoggedIn())
+            console.log('ALLOW');
+           // $location.url('/dashboard');
+        }
+        else {
+          console.log('DENY');
+           // event.preventDefault();
+            $location.url('/login');
+        }
+    });
+}]);

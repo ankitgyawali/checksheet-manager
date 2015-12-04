@@ -48,10 +48,6 @@ angular.module('smApp').factory('AuthService',
   ['$q', '$timeout', '$http', '$cookieStore',
   function ($q, $timeout, $http, $cookieStore) {
 
-    // create user variable
-    var user = null;
-    var usertype = '';
-    var username = ''
 
     // return available functions for use in controllers
     return ({
@@ -59,18 +55,13 @@ angular.module('smApp').factory('AuthService',
       getusername: getusername,
       getusertype: getusertype,
       setusertype: setusertype,
-      getUserStatus: getUserStatus,
       login: login,
       logout: logout,
       register: register,
     });
 
     function isLoggedIn() {
-        if(user) {
-          return true;
-        } else {
-          return false;
-        }
+        return $cookieStore.get('loggedin');
     }
 
     function login(uname, upwd, utype) {
@@ -95,21 +86,18 @@ angular.module('smApp').factory('AuthService',
   console.log("Success");
   if(status === 200){
             user = true;
-        
-            username = data.username;
-            usertype = data.usertype;
-            console.log('Local username '+username);
-            console.log(data.username);
-            console.log('Local usertype '+usertype);
-            console.log('Local usertype '+getusername());
+            $cookieStore.put('username', data.username);
+            $cookieStore.put('loggedin', 'true');
+            $cookieStore.put('usertype', data.usertype);
+
             deferred.resolve();
           }
           else if (status == 404) {
 
-              console.log('FAILED '+usertype);
+              console.log('404 FAILED '+usertype);
           } else {
             console.log("nope 200");
-            user = false;
+            $cookieStore.put('loggedin', 'false');
             deferred.reject();
           }
 
@@ -117,9 +105,8 @@ angular.module('smApp').factory('AuthService',
   .error(function(data, status, headers, config) {
     // called asynchronously if an error occurs
     // or server returns response with an error status.
-        console.log("Error");
-          user = false;
-          console.log("nope");
+          console.log("Error");
+          $cookieStore.put('loggedin', 'false');
           deferred.reject();
 
   });
@@ -131,46 +118,33 @@ angular.module('smApp').factory('AuthService',
     }
 
 
-    function getUserStatus() {
-      return user;
-    }
+
 
         function getusername() {
 
-      return username;
+      return $cookieStore.get('username');
     }
 
 
         function getusertype() {
-      return usertype;
+       return $cookieStore.get('usertype');
     }
 
        function setusertype(value) {
-      usertype=value;
+      $cookieStore.put('usertype', value);
       
     }
 
     function logout() {
 
-      // create a new instance of deferred
-      var deferred = $q.defer();
+     $cookieStore.remove('usertype');
+     $cookieStore.remove('username');
+     $cookieStore.remove('loggedin');
 
-      // send a get request to the server
-      $http.get('/user/logout')
-        // handle success
-        .success(function (data) {
-          user = false;
-          deferred.resolve();
-        })
-        // handle error
-        .error(function (data) {
-          user = false;
-          deferred.reject();
-        });
-
-      // return promise object
-      return deferred.promise;
-
+     $cookieStore.put('loggedin', 'false');
+      console.log('logout()aaa: '+ $cookieStore.get('loggedin'));
+     console.log('logout()ok: '+ isLoggedIn());
+  
     }
 
     function register(username, password) {

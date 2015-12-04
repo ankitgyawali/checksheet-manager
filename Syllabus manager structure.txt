@@ -1,14 +1,43 @@
 Collection -> Document
 
+##
 RootUser ->
     UserName:
     Password:
 
+##
+Advisor ->
+Username, Pwd, ID
+ FName, LName
+ Phone,
+ Email,
+ Office,
+ Type,
+ Advisor List,
+ Department
 (can add advisor, students and checksheets)
 
-Advisor ->
+##
+Student ->
+Username, Pwd, ID
+FName, LName,
+ChecksheetPrototypeID, 
+ClassStatus (Threeples of TermWhenTaken, PassedOrNot & Class ID ), LockedClasses,
+Major
 
 
+Checksheet Prototype->
+University Requirement
+Concomitant Requirement
+CorePart   [Classes --> Suggested Term (Locked/Unlocked by Default)]
+CourseName(UniqueCOde will be the unique identifier)
+===
+Root will add heads/profesoors
+Root/Head will add classes
+Rood/Head will use classes to add checksheet prototypes
+Head/Professors will add Students and match them with prototypes
+Its Student job to maintain his prototype
+Advisor will make necessary edits
 ===
 Routing:
 
