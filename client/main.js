@@ -30,13 +30,13 @@ smApp.run(['$rootScope', '$location', 'AuthService',
     $rootScope.$on('$routeChangeStart', function (event) {
 
         if (AuthService.isLoggedIn()) {
-            console.log(AuthService.isLoggedIn());
+            console.log('smAPP.run =>'+AuthService.isLoggedIn());
             //$location.url('/dashboard');
         }
         else {
 
            // event.preventDefault();
-            $location.url('/login');
+           // $location.url('/login');
         }
     });
 }]);

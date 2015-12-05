@@ -92,7 +92,7 @@ function login(uname, upwd, utype) {
                 $cookieStore.put('username', data.username);
                 $cookieStore.put('loggedin', 'true');
                 $cookieStore.put('usertype', data.usertype);
-
+console.log('usertype='+$cookieStore.get(usertype));
                 deferred.resolve();
             } else if (status == 404) {
 
@@ -120,6 +120,8 @@ function login(uname, upwd, utype) {
 
 
     function logout() {
+    //  console.log('usertype='+$cookieStore.get(usertype));
+
     // create a new instance of deferred
     var deferred = $q.defer();
 
@@ -136,7 +138,7 @@ function login(uname, upwd, utype) {
             // when the response is available
 
             if (status === 200) {
-                
+            //AuthService.setusertype($cookieStore.usertype);    
             $cookieStore.remove('usertype');
             $cookieStore.remove('username');
             $cookieStore.remove('loggedin');

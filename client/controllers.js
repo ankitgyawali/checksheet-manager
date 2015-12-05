@@ -8,11 +8,12 @@ angular.module('smApp').controller('loginController',
     }
 
     $scope.setUser = function(val) {
+
     AuthService.setusertype(val);
     $scope.userType = AuthService.getusertype();
   } 
    $scope.userType = AuthService.getusertype();
-  
+  console.log(AuthService.getusertype());
 
      $scope.submit = function (){
       var x = AuthService.login($scope.Email,$scope.Password,$scope.userType)
@@ -44,7 +45,7 @@ angular.module('smApp').controller('loginController',
 angular.module('smApp').controller('dashboardController',
   ['$scope', '$location', 'notificationFactory', 'AuthService', 
    function ($scope, $location, notificationFactory, AuthService) {
-    $scope.username =  AuthService.getusername();
+
     $scope.logout = function (){
     AuthService.logout();
     $location.url('/login');
