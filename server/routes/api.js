@@ -32,16 +32,16 @@ router.post('/login', function(req, res ) {
   models[req.body.type].findOne({ 'username':req.body.username,'password': req.body.password }, function (err, person) {
   if (err) {
      console.log('something wrong');
-    res.send({username:'404',usertype:'root'});
+    res.send({username:'404',usertype:'404'});
    }
   if (person){
   //console.log('from mongo person object >   ' + person);
   //console.log('Person object id>   ' + person._id);
   req.session.id = person._id;
   req.session.username = person.username;
-  req.session.usertype = 'root';
+  req.session.usertype = req.body.type;
 
-   res.send({username:person.username,usertype:'root',userid:person._id});
+   res.send({username:person.username,usertype:req.body.type,userid:person._id});
   }
   else
   {

@@ -20,6 +20,48 @@ angular.module('smApp').factory('notificationFactory', function () {
       };
             toastr.success(text,"Success");
         },
+
+        info: function (text) {
+              toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-bottom-right",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "3500",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+      };
+            toastr.info(text,"Success");
+        },
+
+         warning: function (text) {
+              toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-bottom-right",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "3500",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+      };
+            toastr.warning(text,"Success");
+        },
         error: function (text) {
     toastr.options = {
         "closeButton": true,
@@ -45,8 +87,8 @@ angular.module('smApp').factory('notificationFactory', function () {
 });
 
 angular.module('smApp').factory('AuthService',
-  ['$q', '$timeout', '$http', '$cookieStore',
-  function ($q, $timeout, $http, $cookieStore) {
+  ['$q', '$timeout', '$http', '$cookies',
+  function ($q, $timeout, $http, $cookies) {
 
 
     // return available functions for use in controllers
@@ -61,7 +103,7 @@ angular.module('smApp').factory('AuthService',
     });
 
     function isLoggedIn() {
-        return $cookieStore.get('loggedin');
+        return $cookies.get('loggedin');
     }
 
 
@@ -89,17 +131,19 @@ function login(uname, upwd, utype) {
 
             if (status === 200) {
                 user = true;
-                $cookieStore.put('username', data.username);
-                $cookieStore.put('loggedin', 'true');
-                $cookieStore.put('usertype', data.usertype);
-console.log('usertype='+$cookieStore.get(usertype));
+                console.log('datausername'+data.usertype)
+                $cookies.put('username', data.username);
+                $cookies.put('loggedin', 'true');
+                $cookies.put('usertype', data.usertype);
+
+                 console.log('loggedin='+getusertype());
                 deferred.resolve();
             } else if (status == 404) {
 
                 console.log('404 FAILED ' + usertype);
             } else {
                 console.log("nope 200");
-                $cookieStore.put('loggedin', 'false');
+                $cookies.put('loggedin', 'false');
                 deferred.reject();
             }
 
@@ -108,7 +152,7 @@ console.log('usertype='+$cookieStore.get(usertype));
             // called asynchronously if an error occurs
             // or server returns response with an error status.
 
-            $cookieStore.put('loggedin', 'false');
+            $cookies.put('loggedin', 'false');
             deferred.reject();
 
         });
@@ -120,14 +164,14 @@ console.log('usertype='+$cookieStore.get(usertype));
 
 
     function logout() {
-    //  console.log('usertype='+$cookieStore.get(usertype));
-
+  
+console.log('type inside logout: '+getusertype())
     // create a new instance of deferred
     var deferred = $q.defer();
 
 
 
-     $cookieStore.put('loggedin', 'false');
+     $cookies.put('loggedin', 'false');
 
         $http({
             method: 'GET',
@@ -138,10 +182,10 @@ console.log('usertype='+$cookieStore.get(usertype));
             // when the response is available
 
             if (status === 200) {
-            //AuthService.setusertype($cookieStore.usertype);    
-            $cookieStore.remove('usertype');
-            $cookieStore.remove('username');
-            $cookieStore.remove('loggedin');
+            //AuthService.setusertype($cookies.usertype);    
+            $cookies.remove('usertype');
+            $cookies.remove('username');
+            $cookies.remove('loggedin');
                 deferred.resolve();
             } else if (status == 404) {
 
@@ -164,16 +208,16 @@ console.log('usertype='+$cookieStore.get(usertype));
 
         function getusername() {
 
-      return $cookieStore.get('username');
+      return $cookies.get('username');
     }
 
 
         function getusertype() {
-       return $cookieStore.get('usertype');
+       return $cookies.get('usertype');
     }
 
        function setusertype(value) {
-      $cookieStore.put('usertype', value);
+      $cookies.put('usertype', value);
       
     }
 
