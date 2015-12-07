@@ -58,11 +58,7 @@ angular.module('smApp').controller('dashboardController',
    function ($scope, $location, notificationFactory, AuthService) {
 
       console.log("dashboard check: "+AuthService.isLoggedIn());
-        if (!AuthService.isLoggedIn()) {
-          console.log("trying to change");
-            notificationFactory.warning("Not logged in login first!")
-            $location.url('/login');
-        }
+       
 
     $scope.logout = function (){
     AuthService.logout();
