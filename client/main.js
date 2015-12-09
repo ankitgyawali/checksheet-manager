@@ -14,6 +14,9 @@ smApp.config(function ($routeProvider) {
       templateUrl: 'partials/login.html',
       controller: 'loginController'
     })
+      .when('/student', {
+      templateUrl: 'partials/student.html'
+    })
 
       // use the HTML5 History API
       // $locationProvider.html5Mode(true);
@@ -30,10 +33,22 @@ smApp.filter('firstCapitalize', function() {
 
 smApp.run(['$rootScope', '$location', 'AuthService', 
   function ($rootScope, $location, AuthService) {
+
+
+      if (AuthService.isLoggedIn() == "true") {
+            $location.url('/dashboard');
+        }
+        else {
+
+           // event.preventDefault();
+            $location.url('/login');
+        }
+
+
     $rootScope.$on('$routeChangeStart', function (event) {
 
         if (AuthService.isLoggedIn() == "true") {
-            console.log('smAPP.run =>d'+AuthService.isLoggedIn());
+                        console.log("ooxxk");
             $location.url('/dashboard');
         }
         else {

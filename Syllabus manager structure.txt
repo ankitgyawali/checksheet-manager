@@ -60,3 +60,21 @@ Routing:
 
 Home -> 
 : Homecontroller  -> If not logged in Loginpage
+
+Routes Maintained so far:
+
+Client:
+
+/login -> Set scope.username to student by default, scope.usernamelogout same
+Add: Feature of bookmark for each user type /advisor points to login with scope set to advisor
+
+/dashboard -> Checks login
+
+
+Server:
+
+post /login : Auth services
+
+get /logout : logout Auth services
+
+get /dashboard: Branch out??

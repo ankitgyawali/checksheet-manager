@@ -54,11 +54,20 @@ console.log("if auth get usertype: " +AuthService.getusertype());
 
 
 angular.module('smApp').controller('dashboardController',
-  ['$scope', '$location', 'notificationFactory', 'AuthService', 
-   function ($scope, $location, notificationFactory, AuthService) {
+  ['$scope', '$location', 'notificationFactory', 'AuthService','$cookies', 
+   function ($scope, $location, notificationFactory, AuthService,$cookies) {
+
+    if (AuthService.getusertype() == 'student')
+        {
+      $location.url('/student');
+      console.log("nn");
+        notificationFactory.success('xxx');  
+        }
 
       console.log("dashboard check: "+AuthService.isLoggedIn());
-       
+       $scope.username = AuthService.getusername();
+       $scope.usertype = AuthService.getusertype();
+       $scope.lol = $cookies.get('loggedin');
 
     $scope.logout = function (){
     AuthService.logout();

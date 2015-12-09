@@ -1,41 +1,11 @@
-<div ng-include src="'partials/menu.html'"></div>
+<div class="row" ng-controller="advisorController" >
 
-<div class="row" style="border:0px solid black">
 
-<div class="col-lg-4">
+Advisor
 
-<img src="img/advisor.jpg" height="100%" width="100%" alt="">
+<br>THIS is {{username}}, and he is of type {{usertype}}!! <br>
+
+Is he logged in : {{lol}} 
+
 
 </div>
-<div class="col-lg-2"></div>
-<div class="col-lg-6">
-Advisor login portal<br><br>
-<form action="#" method="post">
-<div class="input-group input-group-lg">
-
-
-
-
-<div class="input-group input-group-lg">
-  <span class="input-group-addon" id="emailAddon">Username</span>
-  <input type="text" class="form-control" placeholder="Enter your KU Email ID" aria-describedby="emailAddon" name="aEmail" id="aEmail" autofocus="autofocus">
-</div>
-
-<br>
-	
-<div class="input-group input-group-lg">
-  <span class="input-group-addon" id="pwdAddon">Password</span>
-  <input type="password" class="form-control" placeholder="" aria-describedby="pwdAddon"  name="aPassword" id="aPassword" >
-</div>
-<br><br>
-
-
-  <button class="btn-lg btn-primary" type="submit">  Login <i class="fa fa-sign-in fa-lg"></i>
-
-
-  	 </button>
-
-</div>
-</form>
-</div>
-
