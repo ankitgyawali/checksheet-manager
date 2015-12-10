@@ -1,7 +1,7 @@
 {
   "name": "ksm",
   "scripts": {
-    "start": "killall -KILL node && nodemon server/server.js"
+    "start": "killall -KILL node && nodemon server/server.js && cd! && node!"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",

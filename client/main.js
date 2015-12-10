@@ -14,8 +14,17 @@ smApp.config(function ($routeProvider) {
       templateUrl: 'partials/login.html',
       controller: 'loginController'
     })
-      .when('/student', {
-      templateUrl: 'partials/student.html'
+      .when('/root/dashboard', {
+      templateUrl: 'partials/root.html',
+      controller: 'rootController'
+    })
+       .when('/student/dashboard', {
+      templateUrl: 'partials/student.html',
+      controller: 'studentController'
+    })
+        .when('/advisor/dashboard', {
+      templateUrl: 'partials/advisor.html',
+      controller: 'advisorController'
     })
 
       // use the HTML5 History API
@@ -36,7 +45,23 @@ smApp.run(['$rootScope', '$location', 'AuthService',
 
 
       if (AuthService.isLoggedIn() == "true") {
-            $location.url('/dashboard');
+                if (AuthService.getusertype() == "root")
+                       {
+                         console.log("fin:"+AuthService.getusertype());
+                          $location.url('/root/dashboard');
+                       }
+                      else if (AuthService.getusertype() == "student")
+                      {
+                         $location.url('/student/dashboard');
+                      }
+                      else if (AuthService.getusertype() == "advisor")
+                      {
+                           $location.url('/advisor/dashboard');
+                      }
+                      else
+                      {
+                           $location.url('/login');
+                      }
         }
         else {
 
@@ -48,11 +73,26 @@ smApp.run(['$rootScope', '$location', 'AuthService',
     $rootScope.$on('$routeChangeStart', function (event) {
 
         if (AuthService.isLoggedIn() == "true") {
-                        console.log("ooxxk");
-            $location.url('/dashboard');
-        }
+            if (AuthService.getusertype() == "root")
+                 {
+
+                    $location.url('/root/dashboard');
+                       }
+                      else if (AuthService.getusertype() == "student")
+                      {
+                         $location.url('/student/dashboard');
+                      }
+                      else if (AuthService.getusertype() == "advisor")
+                      {
+                           $location.url('/advisor/dashboard');
+                      }
+                      else
+                      {
+                           $location.url('/login');
+                      }
+       }
         else {
-            console.log("ook");
+
            // event.preventDefault();
             $location.url('/login');
         }

@@ -34,8 +34,26 @@ console.log("if auth get usertype: " +AuthService.getusertype());
        .then(function () {
         if (AuthService.isLoggedIn())
         {
-       $location.url('/dashboard');
+
+       if (AuthService.getusertype() == "root")
+                 {
+
+                          $location.url('/root/dashboard');
+                       }
+                      else if (AuthService.getusertype() == "student")
+                      {
+                         $location.url('/student/dashboard');
+                      }
+                      else if (AuthService.getusertype() == "advisor")
+                      {
+                           $location.url('/advisor/dashboard');
+                      }
+                      else
+                      {
+                           $location.url('/login');
+                      }
         notificationFactory.success('Logged in as ' + AuthService.getusername());  
+        
         }
    
      })
@@ -57,12 +75,71 @@ angular.module('smApp').controller('dashboardController',
   ['$scope', '$location', 'notificationFactory', 'AuthService','$cookies', 
    function ($scope, $location, notificationFactory, AuthService,$cookies) {
 
-    if (AuthService.getusertype() == 'student')
-        {
-      $location.url('/student');
-      console.log("nn");
-        notificationFactory.success('xxx');  
-        }
+
+      console.log("dashboard check: "+AuthService.isLoggedIn());
+       $scope.username = AuthService.getusername();
+       $scope.usertype = AuthService.getusertype();
+       $scope.lol = $cookies.get('loggedin');
+
+    $scope.logout = function (){
+    AuthService.logout();
+    notificationFactory.info("Logged out succesfully!")
+    $location.url('/login');
+     };
+
+
+
+}]);
+
+
+angular.module('smApp').controller('rootController',
+  ['$scope', '$location', 'notificationFactory', 'AuthService','$cookies', 
+   function ($scope, $location, notificationFactory, AuthService,$cookies) {
+
+
+      console.log("dashboard check: "+AuthService.isLoggedIn());
+       $scope.username = AuthService.getusername();
+       $scope.usertype = AuthService.getusertype();
+       $scope.lol = $cookies.get('loggedin');
+
+    $scope.logout = function (){
+    AuthService.logout();
+    notificationFactory.info("Logged out succesfully!")
+    $location.url('/login');
+     };
+
+
+
+}]);
+
+
+
+angular.module('smApp').controller('advisorController',
+  ['$scope', '$location', 'notificationFactory', 'AuthService','$cookies', 
+   function ($scope, $location, notificationFactory, AuthService,$cookies) {
+
+
+      console.log("dashboard check: "+AuthService.isLoggedIn());
+       $scope.username = AuthService.getusername();
+       $scope.usertype = AuthService.getusertype();
+       $scope.lol = $cookies.get('loggedin');
+
+    $scope.logout = function (){
+    AuthService.logout();
+    notificationFactory.info("Logged out succesfully!")
+    $location.url('/login');
+     };
+
+
+
+}]);
+
+
+
+angular.module('smApp').controller('studentController',
+  ['$scope', '$location', 'notificationFactory', 'AuthService','$cookies', 
+   function ($scope, $location, notificationFactory, AuthService,$cookies) {
+
 
       console.log("dashboard check: "+AuthService.isLoggedIn());
        $scope.username = AuthService.getusername();
