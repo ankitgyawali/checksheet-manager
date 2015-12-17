@@ -15,6 +15,7 @@ var rootCol = mongoose.model('root', rootSchema);
 var advisorSchema = mongoose.Schema({
     username: String,
     password: String,
+    email: String,
     id: String,
     firstname: String,
     lastname: String,
@@ -31,6 +32,7 @@ var advisorCol = mongoose.model('advisor', advisorSchema);
 var studentSchema = mongoose.Schema({
     username: String,
     password: String,
+    email: String,
     id: String,
     firstname: String,
     lastname: String,

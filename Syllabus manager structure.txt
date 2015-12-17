@@ -77,4 +77,8 @@ post /login : Auth services
 
 get /logout : logout Auth services
 
-get /dashboard: Branch out??
+get /root/dashboard
+	/advisor/dashboard
+	/student/dashboard
+
+	Root->

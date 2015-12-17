@@ -97,7 +97,7 @@ angular.module('smApp').controller('rootController',
    function ($scope, $location, notificationFactory, AuthService,$cookies) {
 
 
-      console.log("dashboard check: "+AuthService.isLoggedIn());
+
        $scope.username = AuthService.getusername();
        $scope.usertype = AuthService.getusertype();
        $scope.lol = $cookies.get('loggedin');

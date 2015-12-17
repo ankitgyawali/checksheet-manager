@@ -16,10 +16,11 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^1.0.0",
     "serve-favicon": "^2.1.7",
-    "angularjs-toaster": "~0.4.15"
+    "angularjs-toaster": "~0.4.15",
+    "ng-admin": "~0.9.1"
   },
   "repository": {
-  "type": "git",
-  "url": "git://github.com/ankitgyawali/ksm.git"
-}
+    "type": "git",
+    "url": "git://github.com/ankitgyawali/ksm.git"
+  }
 }

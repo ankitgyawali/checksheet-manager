@@ -1,11 +1,8 @@
-var smApp = angular.module('smApp', ['ngRoute','ngCookies']);
-
-
+var smApp = angular.module('smApp', ['ngRoute','ngCookies','ng-admin']);
 
 smApp.config(function ($routeProvider) {
   $routeProvider
     .when('/', {templateUrl: 'partials/login.html', controller:'loginController'})
-
     
     .when('/dashboard', {
       templateUrl: 'partials/dashboard.html'
@@ -31,13 +28,21 @@ smApp.config(function ($routeProvider) {
       // $locationProvider.html5Mode(true);
 });
 
+
+  smApp.config(['NgAdminConfigurationProvider', function(NgAdminConfigurationProvider) {
+        var nga = NgAdminConfigurationProvider;
+        // create an admin application
+        var admin = nga.application('My First Admin');
+        // more configuation here later
+        // ...
+        // attach the admin application to the DOM and run it
+        nga.configure(admin);
+    }]);
 smApp.filter('firstCapitalize', function() {
     return function(input) {
       return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
     }
 });
-
-
 
 
 smApp.run(['$rootScope', '$location', 'AuthService', 
@@ -47,7 +52,6 @@ smApp.run(['$rootScope', '$location', 'AuthService',
       if (AuthService.isLoggedIn() == "true") {
                 if (AuthService.getusertype() == "root")
                        {
-                         console.log("fin:"+AuthService.getusertype());
                           $location.url('/root/dashboard');
                        }
                       else if (AuthService.getusertype() == "student")
