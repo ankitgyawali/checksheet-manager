@@ -1,4 +1,4 @@
-var smApp = angular.module('smApp', ['ngRoute','ngCookies','ng-admin']);
+var smApp = angular.module('smApp', ['ngRoute','ngCookies']);
 
 smApp.config(function ($routeProvider) {
   $routeProvider
@@ -29,15 +29,7 @@ smApp.config(function ($routeProvider) {
 });
 
 
-  smApp.config(['NgAdminConfigurationProvider', function(NgAdminConfigurationProvider) {
-        var nga = NgAdminConfigurationProvider;
-        // create an admin application
-        var admin = nga.application('My First Admin');
-        // more configuation here later
-        // ...
-        // attach the admin application to the DOM and run it
-        nga.configure(admin);
-    }]);
+
 smApp.filter('firstCapitalize', function() {
     return function(input) {
       return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
@@ -101,4 +93,7 @@ smApp.run(['$rootScope', '$location', 'AuthService',
             $location.url('/login');
         }
     });
+
+
+    
 }]);
