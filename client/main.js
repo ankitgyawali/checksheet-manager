@@ -3,10 +3,7 @@ var smApp = angular.module('smApp', ['ngRoute','ngCookies']);
 smApp.config(function ($routeProvider) {
   $routeProvider
     .when('/', {templateUrl: 'partials/login.html', controller:'loginController'})
-    
-    .when('/dashboard', {
-      templateUrl: 'partials/dashboard.html'
-    })
+
      .when('/login', {
       templateUrl: 'partials/login.html',
       controller: 'loginController'
