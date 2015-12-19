@@ -53,5 +53,20 @@ router.post('/login', function(req, res ) {
 });
 
 
+router.get('/departments', function(req, res) {
+
+  console.log("Gotten department");
+
+  models.department.find({}, function(err, dpts) {
+    var deptMap = {};
+
+
+
+    res.send(dpts); 
+    console.log(dpts); 
+  }); 
+});
+
+
 
 module.exports = router;

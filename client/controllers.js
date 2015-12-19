@@ -108,7 +108,38 @@ angular.module('smApp').controller('rootController',
     $location.url('/login');
      };
 
+}]);
 
+
+angular.module('smApp').controller('rootDeptController',
+  ['$scope', '$location', 'notificationFactory', 'AuthService','$cookies', '$http', '$q',
+   function ($scope, $location, notificationFactory, AuthService,$cookies,$http,$q) {
+
+
+console.log("rootdept");
+ var deferred = $q.defer();
+ $http({
+            method: 'GET',
+            url: '/departments'
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+             console.log(" status Done");
+              console.log(status);
+              console.log(data);
+              console.log(data[0].name);
+              console.log(JSON.stringify(data));
+
+             deferred.resolve();
+
+
+        })
+        .error(function(data, status, headers, config) {
+             console.log(" Not Doneee "+ status+data+headers+config);
+              deferred.reject();
+
+        });
 
 }]);
 

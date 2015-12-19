@@ -42,8 +42,19 @@ var studentSchema = mongoose.Schema({
 },{ collection : 'student' });
 var studentCol = mongoose.model('student', studentSchema);
 
+
+
+//Department Schema
+var deparmentSchema = mongoose.Schema({
+    name: String,
+    id: String,
+    office: String
+},{ collection : 'department' });
+var departmentCol = mongoose.model('department', deparmentSchema);
+
 module.exports = {
     root: rootCol,
     advisor: advisorCol,
     student: studentCol,
+    department: departmentCol
 };
