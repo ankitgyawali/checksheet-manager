@@ -4,6 +4,7 @@
 html, body {
     max-width: 100%;
     overflow-x: hidden;
+
 }
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
@@ -11,6 +12,22 @@ body {
 }
 
 
+.pagination > li > a {
+ border: 2px solid purple;
+ color:black;
+ font-size:130%;
+}
+
+.pagination>li.active>a {
+  background: purple;
+
+}
+
+.pagination>li.disabled>a {
+ border: px solid purple;
+
+ font-size:130%;
+}
 /*
  * Global add-ons
  */

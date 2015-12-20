@@ -112,8 +112,8 @@ angular.module('smApp').controller('rootController',
 
 
 angular.module('smApp').controller('rootDeptController',
-  ['$scope', '$location', 'notificationFactory', 'AuthService','$cookies', '$http', '$q',
-   function ($scope, $location, notificationFactory, AuthService,$cookies,$http,$q) {
+  ['$scope', '$location', 'notificationFactory','$uibModal', '$http', '$q',
+   function ($scope, $location, notificationFactory,$uibModal,$http,$q) {
 
 
 
@@ -139,9 +139,33 @@ console.log("rootdept");
  $scope.currentPage = 1;
   $scope.pageSize = 2;
 
+ $scope.modifyDept = function (depID){
+ var modalInstance = $uibModal.open({
+      templateUrl: 'partials/deptModal.html',
+      controller: 'deptModalController',
+      resolve: {
+        depID: function () {
+          return depID;
+        }
+      }
+    });
+};
+
 }]);
 
+angular.module('smApp').controller('deptModalController',
+  ['$scope', '$uibModalInstance', 'depID',
+    function ($scope, $uibModalInstance, depID) {
 
+      $scope.depID = depID;
+
+$scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+
+
+}]);
 
 angular.module('smApp').controller('advisorController',
   ['$scope', '$location', 'notificationFactory', 'AuthService','$cookies', 

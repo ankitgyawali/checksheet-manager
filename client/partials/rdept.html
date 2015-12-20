@@ -1,29 +1,56 @@
-<h1 class="page-header"> Department: 		</h1>
-
 <div ng-controller="rootDeptController">
-	{{username}}	Hey guys
-<br><br>
-Current Page: {{ currentPage }}
-<h5>
-		
+<br>
+<div class="page-header" style="font-size:120%"> 
+<a href=""> <i class="fa fa-fw fa-plus"></i> Add a new department </a>
+&nbsp;&nbsp;&nbsp;
+<a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
+&nbsp;&nbsp;&nbsp;
 
+</div>
+
+<b>Current Page: {{ currentPage }}</b> 
+<br><br>		
+<div class="row">
 <div class="col-xs-4">
-              <label for="search">Search:</label>
+              <label for="search" style="font-size:120%"><u>Search:</u></label>
               <input ng-model="q" id="search" class="form-control" placeholder="Filter text">
             </div>
-            <div class="col-xs-4">
-              <label for="search">items per page:</label>
+            <div class="col-xs-2">
+              <label for="search" style="font-size:120%"><u>Items per page:</u></label>
               <input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
             </div>
+        </div>
+
 <br>
 <br>
 
-<ul>
-    
-    <li dir-paginate="n in departments | filter:q | itemsPerPage: pageSize" current-page="currentPage">{{ n.name }}</li>            	
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-hover table-condensed" style="font-size:125%">
+    <thead>
+    <tr class="info">
 
 
-</ul>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Office</th>
+        <th>Phone</th>        
+        <th> Modify </th>
+        </tr>
+  </thead>
+  <tbody>
+    <tr dir-paginate="department in departments | filter:q | itemsPerPage: pageSize" current-page="currentPage">
+
+        <td>{{department.id}}</td>
+        <td>{{department.name}}</td>
+        <td>{{department.office}}</td>
+        <td>{{department.phone}}</td>        
+        <td> <a href="#" ng-Click="modifyDept(department)"> Edit </a> </td>
+    </tr>
+</tbody>
+</table>
+</div>
 <br><br>
 
 <div>
@@ -32,5 +59,7 @@ Current Page: {{ currentPage }}
 
 </div>
 
-</h5>
+
 </div>
+
+

@@ -81,4 +81,6 @@ get /root/dashboard
 	/advisor/dashboard
 	/student/dashboard
 
-	Root->
+	Root-> dashboard
+
+	add new department

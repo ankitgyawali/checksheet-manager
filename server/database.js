@@ -47,8 +47,9 @@ var studentCol = mongoose.model('student', studentSchema);
 //Department Schema
 var deparmentSchema = mongoose.Schema({
     name: String,
-    id: String,
-    office: String
+    id: { type: String, unique: true },
+    office: String,
+    phone: String
 },{ collection : 'department' });
 var departmentCol = mongoose.model('department', deparmentSchema);
 
