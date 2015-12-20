@@ -116,6 +116,7 @@ angular.module('smApp').controller('rootDeptController',
    function ($scope, $location, notificationFactory, AuthService,$cookies,$http,$q) {
 
 
+
 console.log("rootdept");
  var deferred = $q.defer();
  $http({
@@ -125,12 +126,7 @@ console.log("rootdept");
         }).success(function(data, status, headers, config) {
             // this callback will be called asynchronously
             // when the response is available
-             console.log(" status Done");
-              console.log(status);
-              console.log(data);
-              console.log(data[0].name);
-              console.log(JSON.stringify(data));
-
+             $scope.departments = data;
              deferred.resolve();
 
 
@@ -140,6 +136,8 @@ console.log("rootdept");
               deferred.reject();
 
         });
+ $scope.currentPage = 1;
+  $scope.pageSize = 2;
 
 }]);
 

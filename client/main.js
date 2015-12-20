@@ -1,4 +1,4 @@
-var smApp = angular.module('smApp', ['ngRoute','ngCookies']);
+var smApp = angular.module('smApp', ['ngRoute','ngCookies','angularUtils.directives.dirPagination']);
 
 smApp.config(function ($routeProvider) {
   $routeProvider

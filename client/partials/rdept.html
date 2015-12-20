@@ -1,5 +1,36 @@
-<h1 class="page-header"> Department</h1>
+<h1 class="page-header"> Department: 		</h1>
 
 <div ng-controller="rootDeptController">
 	{{username}}	Hey guys
+<br><br>
+Current Page: {{ currentPage }}
+<h5>
+		
+
+<div class="col-xs-4">
+              <label for="search">Search:</label>
+              <input ng-model="q" id="search" class="form-control" placeholder="Filter text">
+            </div>
+            <div class="col-xs-4">
+              <label for="search">items per page:</label>
+              <input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+            </div>
+<br>
+<br>
+
+<ul>
+    
+    <li dir-paginate="n in departments | filter:q | itemsPerPage: pageSize" current-page="currentPage">{{ n.name }}</li>            	
+
+
+</ul>
+<br><br>
+
+<div>
+ <dir-pagination-controls boundary-links="true" template-url="partials/dirPagination.tpl.html"></dir-pagination-controls>
+ </div
+
+</div>
+
+</h5>
 </div>
