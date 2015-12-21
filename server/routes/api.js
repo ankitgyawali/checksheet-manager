@@ -63,6 +63,20 @@ router.get('/departments', function(req, res) {
   }); 
 });
 
+router.put('/departments', function(req, res) {
+  console.log('new id req body: '+req.body.newID._id);
 
+   // console.log('new id req body newid.name : '+req.newID.name);
+  console.log("Gotten put request");
+
+  models.department.findOneAndUpdate(req.body.newID._id, req.body.newID, {upsert:true}, 
+    function(err, doc){
+    if (err) return res.send(500, { error: err });
+    return res.send("succesfully saved");
+});
+
+
+
+});
 
 module.exports = router;

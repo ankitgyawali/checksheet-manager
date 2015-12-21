@@ -1,14 +1,31 @@
         <div class="modal-header">
-            <h3 class="modal-title">I'm a modal!</h3>
-        </div>
+            <h4 class="modal-title">Modifying "{{newID.name}}" department </h4>
+        </div> <form role="form" ng-submit="modify()">
         <div class="modal-body">
-            <ul>
-               aaaa
-                {{depID._id}} &&   {{depID.id}}
-            </ul>
-            Selected: <b>xxxx</b>
+       
+            <div class="form-group row">
+            <label for="search" style="font-size:120%" class="col-sm-2"><u>Name:</u></label>
+              <input type="string" ng-model="newID.name" autofocus>
+             </div>
+            <div class="form-group row">
+                 <label for="search" style="font-size:120%" class="col-sm-2"><u>ID:</u></label>
+              <input type="string" ng-model="newID.id">
+</div><div class="form-group row">
+
+     
+
+                 <label for="search" style="font-size:120%" class="col-sm-2"><u>Office:</u></label>
+              <input type="string" ng-model="newID.office">   <br>
+</div><div class="form-group row">
+                 <label for="search" style="font-size:120%" class="col-sm-2"><u>Phone:</u></label>
+              <input type="string" ng-model="newID.phone">
         </div>
+    </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
-        </div>
+            <button class="btn btn-primary" type="submit">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button> 
+            <div style="float:left">
+            <button class="btn btn-danger" type="button" ng-click="cancel()"
+             ng-confirm-click="You are about to delete a department. This might affect other people's account. Are you sure?">Delete</button>
+                </div>
+        </div></form>

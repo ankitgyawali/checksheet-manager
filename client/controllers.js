@@ -112,13 +112,13 @@ angular.module('smApp').controller('rootController',
 
 
 angular.module('smApp').controller('rootDeptController',
-  ['$scope', '$location', 'notificationFactory','$uibModal', '$http', '$q',
-   function ($scope, $location, notificationFactory,$uibModal,$http,$q) {
+  ['$scope', '$location', 'notificationFactory','$uibModal', '$http',
+   function ($scope, $location, notificationFactory,$uibModal,$http) {
 
 
 
 console.log("rootdept");
- var deferred = $q.defer();
+
  $http({
             method: 'GET',
             url: '/departments'
@@ -127,13 +127,13 @@ console.log("rootdept");
             // this callback will be called asynchronously
             // when the response is available
              $scope.departments = data;
-             deferred.resolve();
+
 
 
         })
         .error(function(data, status, headers, config) {
              console.log(" Not Doneee "+ status+data+headers+config);
-              deferred.reject();
+
 
         });
  $scope.currentPage = 1;
@@ -154,16 +154,53 @@ console.log("rootdept");
 }]);
 
 angular.module('smApp').controller('deptModalController',
-  ['$scope', '$uibModalInstance', 'depID',
-    function ($scope, $uibModalInstance, depID) {
+  ['$scope', '$uibModalInstance', 'depID', '$http', 'notificationFactory', 
+    function ($scope, $uibModalInstance, depID,$http,notificationFactory) {
 
-      $scope.depID = depID;
+
+$scope.newID = angular.copy(depID);
+
 
 $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
 
+$scope.modify = function () {
+ // create a new instance of deferred
 
+
+    $http({
+            method: 'PUT',
+            url: '/departments',
+            // set the headers so angular passing info as form data (not request payload)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                newID: $scope.newID
+            }
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+            $uibModalInstance.dismiss('cancel');
+
+             if (status === 200) {
+               notificationFactory.info("Successfully updated: "+$scope.newID.name)
+            } else {
+            notificationFactory.error("Error: Status Code "+status+". Please contact admin if issue persists")
+            }
+
+        })
+        .error(function(data, status, headers, config) {
+
+        $uibModalInstance.dismiss('cancel');
+        notificationFactory.error("Error: Status Code "+status+". Please contact admin if issue persists")
+        });
+
+
+
+  };
 
 }]);
 
