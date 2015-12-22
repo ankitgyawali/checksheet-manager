@@ -1,5 +1,5 @@
         <div class="modal-header">
-            <h4 class="modal-title">Modifying "{{newID.name}}" department </h4>
+            <h4 class="modal-title">Modifying "{{depName}}" department </h4>
         </div> <form role="form" ng-submit="modify()">
         <div class="modal-body">
        
@@ -25,7 +25,7 @@
             <button class="btn btn-primary" type="submit">OK</button>
             <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button> 
             <div style="float:left">
-            <button class="btn btn-danger" type="button" ng-click="cancel()"
-             ng-confirm-click="You are about to delete a department. This might affect other people's account. Are you sure?">Delete</button>
+            <button class="btn btn-danger" type="button" ng-click="delete()"
+             confirm="WARNING: You are about to delete a department. This might affect other people's account. Are you sure?" confirm-title="Deleting {{depName}}.." confirm-ok="Yes" confirm-cancel="No">Delete</button>
                 </div>
         </div></form>

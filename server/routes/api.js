@@ -55,27 +55,44 @@ router.post('/login', function(req, res ) {
 
 router.get('/departments', function(req, res) {
 
-  console.log("Gotten department");
-
   models.department.find({}, function(err, dpts) {
     res.send(dpts); 
-    console.log(dpts); 
+
   }); 
 });
+
+
+
+
 
 router.put('/departments', function(req, res) {
   console.log('new id req body: '+req.body.newID._id);
 
-   // console.log('new id req body newid.name : '+req.newID.name);
-  console.log("Gotten put request");
-
-  models.department.findOneAndUpdate(req.body.newID._id, req.body.newID, {upsert:true}, 
+  models.department.update({_id:req.body.newID._id}, req.body.newID, {upsert:true}, 
     function(err, doc){
-    if (err) return res.send(500, { error: err });
-    return res.send("succesfully saved");
+    if (err) {
+     console.log("error because: "+ err + "&&& doc: "+doc)
+      return res.sendStatus(500);
+    }
+    return res.sendStatus(200);
 });
 
+  
+});
 
+router.delete('/departments', function(req, res) {
+
+  console.log("deleting department");
+  console.log (req);
+
+models.department.remove({ _id: req.body.deleteID }, function(err) {
+    if (err) {
+      console.log("error because: "+ err + "&&& doc: "+doc)
+      return res.sendStatus(500);
+    }
+    console.log("deleted: "+ req.body.deleteID)
+    return res.sendStatus(200);
+});
 
 });
 

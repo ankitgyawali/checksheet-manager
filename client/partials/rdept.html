@@ -41,12 +41,12 @@
   </thead>
   <tbody>
     <tr dir-paginate="department in departments | filter:q | itemsPerPage: pageSize" current-page="currentPage">
-
         <td>{{department.id}}</td>
         <td>{{department.name}}</td>
         <td>{{department.office}}</td>
         <td>{{department.phone}}</td>        
         <td> <a href="#" ng-Click="modifyDept(department)"> Edit </a> </td>
+
     </tr>
 </tbody>
 </table>

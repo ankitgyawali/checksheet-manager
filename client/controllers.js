@@ -137,33 +137,75 @@ console.log("rootdept");
 
         });
  $scope.currentPage = 1;
-  $scope.pageSize = 2;
+  $scope.pageSize = 3;
 
  $scope.modifyDept = function (depID){
+
  var modalInstance = $uibModal.open({
       templateUrl: 'partials/deptModal.html',
       controller: 'deptModalController',
+      scope: $scope,
       resolve: {
         depID: function () {
           return depID;
         }
       }
     });
+
+
 };
 
 }]);
 
 angular.module('smApp').controller('deptModalController',
-  ['$scope', '$uibModalInstance', 'depID', '$http', 'notificationFactory', 
-    function ($scope, $uibModalInstance, depID,$http,notificationFactory) {
+  ['$scope', '$filter','$uibModalInstance', 'depID', '$http', 'notificationFactory', '$location',
+    function ($scope,$filter,$uibModalInstance, depID,$http,notificationFactory,$location) {
 
 
 $scope.newID = angular.copy(depID);
-
+$scope.depName = $scope.newID.name;
 
 $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
+
+  $scope.delete = function () {
+
+    $http({
+            method: 'DELETE',
+            url: '/departments',
+            // set the headers so angular passing info as form data (not request payload)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                deleteID: depID._id
+            }
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+            console.log("deleted: "+depID._id);
+            $uibModalInstance.dismiss('cancel');
+            //$location.url('/root/dashboard');
+            
+             if (status === 200) {
+              console.log($scope.departments[0].name);
+     $scope.departments.splice($scope.departments.indexOf(depID),1);
+      notificationFactory.info("Successfully deleted: "+$scope.newID.name)
+            }
+
+        })
+        .error(function(data, status, headers, config) {
+
+        $uibModalInstance.dismiss('cancel');
+        notificationFactory.error("Error: Status Code "+status+". Contact admin if issue persists.")
+        });
+
+
+  };
+
+
 
 $scope.modify = function () {
  // create a new instance of deferred
@@ -184,18 +226,19 @@ $scope.modify = function () {
             // this callback will be called asynchronously
             // when the response is available
             $uibModalInstance.dismiss('cancel');
-
+            //$location.url('/root/dashboard');
+            
              if (status === 200) {
+                angular.copy($scope.newID,depID);
+
                notificationFactory.info("Successfully updated: "+$scope.newID.name)
-            } else {
-            notificationFactory.error("Error: Status Code "+status+". Please contact admin if issue persists")
             }
 
         })
         .error(function(data, status, headers, config) {
 
         $uibModalInstance.dismiss('cancel');
-        notificationFactory.error("Error: Status Code "+status+". Please contact admin if issue persists")
+        notificationFactory.error("Error: Status Code "+status+". Contact admin if issue persists.")
         });
 
 

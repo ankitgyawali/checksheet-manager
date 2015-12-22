@@ -1,4 +1,4 @@
-var smApp = angular.module('smApp', ['ngRoute','ngCookies','angularUtils.directives.dirPagination','ui.bootstrap']);
+var smApp = angular.module('smApp', ['ngRoute','ngCookies','angularUtils.directives.dirPagination','ui.bootstrap','angular-confirm']);
 
 smApp.config(function ($routeProvider) {
   $routeProvider
@@ -33,23 +33,7 @@ smApp.filter('firstCapitalize', function() {
     }
 });
 
-smApp.directive('ngConfirmClick', [
-  function(){
-    return {
-      priority: -1,
-      restrict: 'A',
-      link: function(scope, element, attrs){
-        element.bind('click', function(e){
-          var message = attrs.ngConfirmClick;
-          if(message && !confirm(message)){
-            e.stopImmediatePropagation();
-            e.preventDefault();
-          }
-        });
-      }
-    }
-  }
-]);
+
 
 smApp.run(['$rootScope', '$location', 'AuthService', 
   function ($rootScope, $location, AuthService) {
