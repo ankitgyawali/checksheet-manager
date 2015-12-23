@@ -140,9 +140,49 @@ angular.module('smApp').controller('rootDeptController',
         });
  $scope.currentPage = 1;
  $scope.pageSize = 3;
- $scope.numtoadd = 3;
+ $scope.numtoadd = 1;
+
+ $scope.arraytoAdd = [];
  $scope.newDepts = function(num) {
-    return new Array(num);   
+
+    return new Array(num);
+}
+$scope.newDeptsprimitive = $scope.newDepts;
+
+$scope.delnewDepts = function(index) {
+  $scope.numtoadd = $scope.numtoadd - 1;
+   $scope.arraytoAdd.splice(index,1);
+
+  
+}
+
+ $scope.addDepts = function() {
+    console.log("array is: "+$scope.arraytoAdd + 'or'+ JSON.stringify($scope.arraytoAdd));
+     $http({
+            method: 'POST',
+            url: '/departments',
+            // set the headers so angular passing info as form data (not request payload)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                arraytoAdd: $scope.arraytoAdd
+            }
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+  
+             $scope.settemplateURL('partials/rdept.html');
+            notificationFactory.info("Successfully added departments: ");
+
+        })
+        .error(function(data, status, headers, config) {
+             console.log(" Not Doneee "+ status+data+headers+config);
+                 notificationFactory.error("Error: Status Code "+status+". Contact admin if issue persists.")
+      
+        });
+    
 }
 
  $scope.modifyDept = function (depID){

@@ -23,11 +23,9 @@ router.get('/logout', function(req, res) {
 
 
 router.post('/login', function(req, res ) {
-   console.log('Inside post /root ');
-  console.log('req body: '+req.body);
+
   console.log('req body usr: '+req.body.username);
-  console.log('req body type: '+req.body.type);
-  console.log('req body pwd: '+req.body.password);
+
 
   models[req.body.type].findOne({ 'username':req.body.username,'password': req.body.password }, function (err, person) {
   if (err) {
@@ -62,6 +60,32 @@ router.get('/departments', function(req, res) {
 });
 
 
+
+router.post('/departments', function(req, res) {
+
+  // console.log('req body usr: '+JSON.stringify(req.body.arraytoAdd));
+  // req.body.arraytoAdd.forEach( function (arrayItem)
+  // {
+  //   models.department.insert(arrayItem);
+  //   console.log('sucessfully inserted: '+JSON.stringify(arrayItem));
+  // });
+
+
+models.department.collection.insert(req.body.arraytoAdd, onInsert);
+
+function onInsert(err, docs) {
+    if (err) {
+        // TODO: handle error
+         console.log("error because: "+ err + "&&& doc: "+docs)
+      return res.sendStatus(500);
+    } else {
+        console.info('%d potatoes were successfully stored.', docs.length);
+         return res.sendStatus(200)
+    }
+}
+   
+
+});
 
 
 

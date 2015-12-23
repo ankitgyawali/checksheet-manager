@@ -1,4 +1,5 @@
 <div ng-controller="rootDeptController">
+
 <div class="page-header" style="font-size:120%"> 
 <a href="#" ng-click = "settemplateURL('partials/rdept.html')"> <i class="fa fa-fw fa-times"></i> Cancel adding departments </a>&nbsp;&nbsp;&nbsp;
 <a href="#"  ng-click="showme=true"> <i class="fa fa-fw fa-plus-circle"></i> Add multiple departments </a>
@@ -27,33 +28,36 @@
 
 <br><br>
 
+<form ng-submit="addDepts()">
 <table class="table table-bordered table-hover table-condensed" style="font-size:125%">
     <thead>
     <tr class="info">
 
-		<th>#</th>
+		<th><i class="fa fa-fw fa-list-ol"></i></th>
         <th>Department ID</th>
         <th>Department Name</th>
         <th>Department Office</th>
-        <th>Department Phone
-			
-        </th>        
-
+        <th>Department Phone</th>        
+		<th><i class="fa fa-fw fa-trash"></i></th>
         </tr>
   </thead>
   <tbody>
 	<tr ng-repeat="i in newDepts(numtoadd) track by $index">
 
 		<td> {{$index+1}}) </td>
-        <td><input type="text" class="form-control" placeholder="Department ID" required></td>
-        <td><input type="text" class="form-control" placeholder="Department Name" required></td>
-        <td> <input type="text" class="form-control" placeholder="Department Office" required></td>
-        <td> <input type="text" class="form-control" placeholder="Department Phone" required></td>
+        <td><input type="text" class="form-control" ng-model="arraytoAdd[$index].id" placeholder="Department ID" required></td>
+        <td><input type="text" class="form-control" ng-model="arraytoAdd[$index].name" placeholder="Department Name" required></td>
+        <td> <input type="text" class="form-control" ng-model="arraytoAdd[$index].office" placeholder="Department Office" required></td>
+        <td> <input class="form-control" ng-model="arraytoAdd[$index].phone" placeholder="Department Phone" required></td>
+        <td><button ng-click="delnewDepts($index)" ng-disabled="numtoadd==1"><i class="fa fa-fw fa-trash"></i></button></td>
     </tr>
 </tbody></table>
 
 
 
-<button style="font-size:125%">
+<button style="font-size:125%" type="submit" >
 	<i class="fa fa-fw fa-check"></i>Add all departments to database
-</button></div>
+</button></form></div>
+
+
+
