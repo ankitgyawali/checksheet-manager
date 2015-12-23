@@ -1,12 +1,16 @@
 <div ng-controller="rootDeptController">
 <br>
 <div class="page-header" style="font-size:120%"> 
-<a href=""> <i class="fa fa-fw fa-plus"></i> Add a new department </a>
+<a href="#" ng-click = "settemplateURL('partials/addnewdepartment.html')"> <i class="fa fa-fw fa-plus"></i> Add a new department </a>
 &nbsp;&nbsp;&nbsp;
 <a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
 &nbsp;&nbsp;&nbsp;
 
+
+
 </div>
+   <div ng-include="addDept"></div>
+
 
 <b>Current Page: {{ currentPage }}</b> 
 <br><br>		

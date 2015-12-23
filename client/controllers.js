@@ -97,10 +97,16 @@ angular.module('smApp').controller('rootController',
    function ($scope, $location, notificationFactory, AuthService,$cookies) {
 
 
-       $scope.templateURL = 'partials/rdept.html';
+    $scope.templateURL = 'partials/addnewdepartment.html';
+     
        $scope.username = AuthService.getusername();
        $scope.usertype = AuthService.getusertype();
        $scope.lol = $cookies.get('loggedin');
+
+       $scope.settemplateURL = function (temp){
+      $scope.templateURL  = temp;
+     };
+
 
     $scope.logout = function (){
     AuthService.logout();
@@ -112,12 +118,8 @@ angular.module('smApp').controller('rootController',
 
 
 angular.module('smApp').controller('rootDeptController',
-  ['$scope', '$location', 'notificationFactory','$uibModal', '$http',
-   function ($scope, $location, notificationFactory,$uibModal,$http) {
-
-
-
-console.log("rootdept");
+  ['$scope', '$location', 'notificationFactory','$uibModal', '$http','AuthService',
+   function ($scope, $location, notificationFactory,$uibModal,$http, AuthService) {
 
  $http({
             method: 'GET',
@@ -137,7 +139,11 @@ console.log("rootdept");
 
         });
  $scope.currentPage = 1;
-  $scope.pageSize = 3;
+ $scope.pageSize = 3;
+ $scope.numtoadd = 3;
+ $scope.newDepts = function(num) {
+    return new Array(num);   
+}
 
  $scope.modifyDept = function (depID){
 

@@ -32,7 +32,7 @@ body {
  * Global add-ons
  */
 
-.sub-header {
+.sub-header { 
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;
 }
@@ -44,6 +44,7 @@ body {
 .navbar-fixed-top {
   border: 0;
   font-size:130%;
+
 }
 
 /*
@@ -53,9 +54,11 @@ body {
 /* Hide for mobile, show later */
 .sidebar {
   display: none;
+  margin-top:-6px;
 }
 @media (min-width: 768px) {
   .sidebar {
+    margin-top:-6px;
     position: fixed;
     top: 51px;
     bottom: 0;
