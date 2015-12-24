@@ -53,9 +53,23 @@ var deparmentSchema = mongoose.Schema({
 },{ collection : 'department' });
 var departmentCol = mongoose.model('department', deparmentSchema);
 
+
+//Class Schema
+var classSchema = mongoose.Schema({
+    name: String,
+    department: String,
+    prefix: String,
+    suffix: Number
+},{ collection : 'class' });
+classSchema.index({ prefix: 1, suffix: 1}, { unique: true });
+var classCol = mongoose.model('class', classSchema);
+
+
+
 module.exports = {
     root: rootCol,
     advisor: advisorCol,
     student: studentCol,
-    department: departmentCol
+    department: departmentCol,
+    class: classCol
 };

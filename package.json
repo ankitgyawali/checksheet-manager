@@ -17,7 +17,8 @@
     "passport-local-mongoose": "^1.0.0",
     "serve-favicon": "^2.1.7",
     "angularjs-toaster": "~0.4.15",
-    "ng-admin": "~0.9.1"
+    "ng-admin": "~0.9.1",
+    "async": "~1.5.0"
   },
   "repository": {
     "type": "git",

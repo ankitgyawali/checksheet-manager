@@ -49,9 +49,11 @@
       <div class="row" >
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#" ng-click="templateURL='partials/rdept.html'">Departments <span class="sr-only">(current)</span></a></li>
+            <li ng-class="{active: templateURL=='partials/rdept.html'}"><a href="#" ng-click="templateURL='partials/rdept.html'">Departments </a></li>
 
-            <li><a href="#" ng-click="templateURL='partials/rclass.html'">Classes</a></li>
+            <li ng-class="{active: templateURL=='partials/rclass.html'}"><a href="#" ng-click="templateURL='partials/rclass.html'">Classes</a>
+            
+            </li>
 
           </ul>
 

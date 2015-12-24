@@ -5,17 +5,37 @@
        
             <div class="form-group row">
             <label for="search" style="font-size:120%" class="col-sm-3"><u>Name:</u></label>
-              <input type="string" ng-model="classID.name" autofocus>
+              <input type="string" ng-model="classID.name">
              </div>
+
+
             <div class="form-group row">
                  <label for="search" style="font-size:120%" class="col-sm-3"><u>Department:</u></label>
-              <input type="string" ng-model="classID.department">
-</div><div class="form-group row">
+                 <select ng-model="classID.department" style="width:300px">
+
+                   <option ng-repeat="dpt in dpts" ng-click="setprefix(dpt.id)">{{dpt.name}}</option>
+                 </select>
+              </div>
+              <!--     <select class="deptSelect" ng-model="classID.department" ng-options="dpt.name for dpt in dpts" style="width:300px" ng-init="classID.department">
+      </select> -->
+
+
+
+     
+<div class="form-group row">
 
      
 
-                 <label for="search" style="font-size:120%" class="col-sm-3"><u>Suffix:</u></label>
-              <input type="string" ng-model="classID.suffix">   <br>
+                 <label for="search" style="font-size:120%" class="col-sm-3"><u>Class Code:</u></label>
+
+                 <div class="col-sm-6 input-group">
+
+
+     <span class="input-group-addon" id="basic-addon1" ng-model="classID.prefix">{{classID.prefix}}</span>
+
+  <input type="number" class="form-control" ng-model="classID.suffix" aria-describedby="basic-addon1" max="700" min="0"> </div>
+
+              
 </div>
     </div>
         <div class="modal-footer">

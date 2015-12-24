@@ -2,8 +2,8 @@ var express = require('express'),
     router = express.Router(),
     passport = require('passport'),
     User = require('../models/user.js'),
-    expressSession = require('express-session');
-
+    expressSession = require('express-session'),
+    async = require('async');
 var models = require('../database.js');
 
 // rootCol.find({}, function(err, username) {
@@ -61,6 +61,47 @@ router.get('/departments', function(req, res) {
 
 
 
+
+
+// router.get('/classes', function(req, res) {
+//   var json = {}
+
+//   models.department.find({}, 'name id', function(err, dpts) {
+//     console.log(dpts); 
+//    // res.write(dpts); 
+//    json.dpts = dpts;
+//    // return res;
+//    models.class.find({}, function(err, courses) {
+//    json.courses=courses; 
+//    res.json(json);
+//   });
+//   }); 
+
+// });
+
+//ASYNC GET
+router.get('/classes', function(req, res) {
+  var json;
+  json = {};
+
+async.parallel({
+  courses: function(callback) {
+    return models.class.find({}, function(err, result) {
+      return callback(err, result);
+    });
+  },
+  dpts: function(callback) {
+    return models.department.find({}, 'name id', function(err, result) {
+      return callback(err, result);
+    });
+  }
+}, function(err, json) {
+  return res.json(json);
+});
+
+});
+
+
 router.post('/departments', function(req, res) {
 
   // console.log('req body usr: '+JSON.stringify(req.body.arraytoAdd));
@@ -104,6 +145,23 @@ router.put('/departments', function(req, res) {
   
 });
 
+router.put('/classes', function(req, res) {
+  console.log('new id req body: '+req.body.classID._id);
+
+  models.class.update({_id:req.body.classID._id}, req.body.classID, {upsert:true}, 
+    function(err, doc){
+    if (err) {
+     console.log("error because: "+ err + "&&& doc: "+doc)
+      return res.sendStatus(500);
+    }
+    else {
+    return res.sendStatus(200);
+  }
+});
+
+  
+});
+
 router.delete('/departments', function(req, res) {
 
   console.log("deleting department");
@@ -119,5 +177,22 @@ models.department.remove({ _id: req.body.deleteID }, function(err) {
 });
 
 });
+
+router.delete('/classes', function(req, res) {
+
+  console.log("deleting classes");
+  console.log (req);
+
+models.class.remove({ _id: req.body.deleteID }, function(err) {
+    if (err) {
+      console.log("error because: "+ err + "&&& doc: "+doc)
+      return res.sendStatus(500);
+    }
+    console.log("deleted: "+ req.body.deleteID)
+    return res.sendStatus(200);
+});
+
+});
+
 
 module.exports = router;

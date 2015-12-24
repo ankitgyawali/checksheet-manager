@@ -127,9 +127,8 @@ angular.module('smApp').controller('rootClassController',
         }).success(function(data, status, headers, config) {
             // this callback will be called asynchronously
             // when the response is available
-             $scope.courses = data;
-
-
+             $scope.courses = data.courses;
+             $scope.dpts = data.dpts;
 
         })
         .error(function(data, status, headers, config) {
@@ -140,6 +139,59 @@ angular.module('smApp').controller('rootClassController',
  $scope.currentPage = 1;
  $scope.pageSize = 1;
  $scope.numtoadd = 1;
+
+
+
+ $scope.classestoAdd = [];
+ $scope.newClasses = function(num) {
+
+    return new Array(num);
+}
+$scope.newClassesprimitive = $scope.newClasses;
+
+$scope.setClassprefix = function(prefix,index){
+  $scope.classestoAdd[index].prefix = prefix;
+
+}
+
+
+$scope.delnewClasses = function(index) {
+  $scope.numtoadd = $scope.numtoadd - 1;
+   $scope.classestoAdd.splice(index,1);
+}
+
+ $scope.addClasses = function() {
+    console.log("array is: "+$scope.classestoAdd + 'or'+ JSON.stringify($scope.classestoAdd));
+     // $http({
+     //        method: 'POST',
+     //        url: '/classes',
+     //        // set the headers so angular passing info as form data (not request payload)
+     //        headers: {
+     //            'Content-Type': 'application/json'
+     //        },
+     //        data: {
+     //            arraytoAdd: $scope.classestoAdd
+     //        }
+
+     //    }).success(function(data, status, headers, config) {
+     //        // this callback will be called asynchronously
+     //        // when the response is available
+  
+     //         $scope.settemplateURL('partials/rclass.html');
+     //        notificationFactory.info("Successfully added classes. ");
+
+     //    })
+     //    .error(function(data, status, headers, config) {
+     //         console.log(" Not Doneee "+ status+data+headers+config);
+     //             notificationFactory.error("Error: Status Code "+status+". Contact admin if issue persists.")
+      
+     //    });
+    
+}
+
+
+
+
 
  $scope.modifyclass = function (course){
 
@@ -174,14 +226,13 @@ angular.module('smApp').controller('rootDeptController',
             // when the response is available
              $scope.departments = data;
 
-
-
         })
         .error(function(data, status, headers, config) {
              console.log(" Not Doneee "+ status+data+headers+config);
 
-
         });
+
+
  $scope.currentPage = 1;
  $scope.pageSize = 3;
  $scope.numtoadd = 1;
@@ -253,6 +304,11 @@ angular.module('smApp').controller('classModalController',
 
 $scope.classID = angular.copy(course);
 $scope.className = $scope.classID.name;
+$scope.classDep = $scope.classID.department;
+$scope.classprefix = $scope.classID.prefix;
+$scope.setprefix = function(prefix){
+  $scope.classID.prefix = prefix;
+}
 $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
@@ -342,6 +398,7 @@ angular.module('smApp').controller('deptModalController',
 
 $scope.newID = angular.copy(depID);
 $scope.depName = $scope.newID.name;
+
 
 $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');

@@ -11,4 +11,66 @@
 
 </div>
 
+
+<div class="col-sm-6 input-group" ng-show="showme">
+
+
+     <span class="input-group-addon" id="basic-addon1">Number of departments to add:</span>
+  <input type="number" class="form-control" ng-model="numtoadd" aria-describedby="basic-addon1" max="50" min="1">
+  
+	<span class="input-group-btn" id="basic-addon1">
+        <button class="btn btn-default" type="button" ng-click="showme=false">
+	<i class="fa fa-fw fa-cancel"></i>Cancel
+</button> </span>
+
+
 </div>
+
+<br><br>
+
+
+
+<form ng-submit="addClasses()">
+<table class="table table-bordered table-hover table-condensed" style="font-size:125%">
+    <thead>
+    <tr class="info">
+
+		<th><i class="fa fa-fw fa-list-ol"></i></th>
+        <th>Class Name</th>
+        <th>Class Department</th>
+        <th>Class Level(Suffix)</th>       
+		<th><i class="fa fa-fw fa-trash"></i></th>
+        </tr>
+  </thead>
+  <tbody>
+	<tr ng-repeat="i in newClasses(numtoadd) track by $index">
+
+		<td> {{$index+1}}) </td>
+        <td><input type="text" class="form-control" ng-model="classestoAdd[$index].name" placeholder="Class Name" required></td>
+
+        	<td>
+			<select ng-model="classestoAdd[$index].department" style="width:300px">
+
+                   <option ng-repeat="dpt in dpts" ng-click="setClassprefix(dpt.id,$parent.$index)">{{dpt.name}}</option>
+             </select> </td>
+        	
+
+        <td> 
+<div class="input-group">
+
+
+     <span class="input-group-addon" id="basic-addon1" ng-model="classestoAdd[$index].prefix">{{classestoAdd[$index].prefix}}</span>
+
+  <input type="number" class="form-control" ng-model="classestoAdd[$index].suffix" aria-describedby="basic-addon1" max="700" min="0"> </div>
+
+        </td>
+        
+        <td><button ng-click="delnewClasses($index)" ng-disabled="numtoadd==1"><i class="fa fa-fw fa-trash"></i></button></td>
+    </tr>
+</tbody></table>
+
+
+
+<button style="font-size:125%" type="submit" >
+	<i class="fa fa-fw fa-check"></i>Add all classes to database
+</button></form></div>
