@@ -97,7 +97,7 @@ angular.module('smApp').controller('rootController',
    function ($scope, $location, notificationFactory, AuthService,$cookies) {
 
 
-    $scope.templateURL = 'partials/addnewdepartment.html';
+    $scope.templateURL = 'partials/rdept.html';
      
        $scope.username = AuthService.getusername();
        $scope.usertype = AuthService.getusertype();
@@ -116,6 +116,50 @@ angular.module('smApp').controller('rootController',
 
 }]);
 
+angular.module('smApp').controller('rootClassController',
+  ['$scope', '$location', 'notificationFactory','$uibModal', '$http','AuthService',
+   function ($scope, $location, notificationFactory,$uibModal,$http, AuthService) {
+
+     $http({
+            method: 'GET',
+            url: '/classes'
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+             $scope.courses = data;
+
+
+
+        })
+        .error(function(data, status, headers, config) {
+             console.log(" Not Doneee "+ status+data+headers+config);
+
+
+        });
+ $scope.currentPage = 1;
+ $scope.pageSize = 1;
+ $scope.numtoadd = 1;
+
+ $scope.modifyclass = function (course){
+
+ var modalInstance = $uibModal.open({
+      templateUrl: 'partials/classModal.html',
+      controller: 'classModalController',
+      scope: $scope,
+      resolve: {
+        course: function () {
+          return course;
+        }
+      }
+    });
+
+
+};
+
+
+
+}]);
 
 angular.module('smApp').controller('rootDeptController',
   ['$scope', '$location', 'notificationFactory','$uibModal', '$http','AuthService',
@@ -200,6 +244,94 @@ $scope.delnewDepts = function(index) {
 
 
 };
+
+}]);
+
+angular.module('smApp').controller('classModalController',
+  ['$scope', '$filter','$uibModalInstance', 'course', '$http', 'notificationFactory', '$location',
+    function ($scope,$filter,$uibModalInstance, course,$http,notificationFactory,$location) {
+
+$scope.classID = angular.copy(course);
+$scope.className = $scope.classID.name;
+$scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+$scope.delete = function () {
+
+    $http({
+            method: 'DELETE',
+            url: '/classes',
+            // set the headers so angular passing info as form data (not request payload)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                deleteID: course._id
+            }
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+            console.log("deleted: "+course._id);
+            $uibModalInstance.dismiss('cancel');
+            //$location.url('/root/dashboard');
+            
+             if (status === 200) {
+       
+     $scope.courses.splice($scope.courses.indexOf(course),1);
+      notificationFactory.info("Successfully deleted: "+$scope.classID.name)
+            }
+
+        })
+        .error(function(data, status, headers, config) {
+
+        $uibModalInstance.dismiss('cancel');
+        notificationFactory.error("Error: Status Code "+status+". Contact admin if issue persists.")
+        });
+
+
+  };
+
+
+
+$scope.modify = function () {
+ // create a new instance of deferred
+
+
+    $http({
+            method: 'PUT',
+            url: '/classes',
+            // set the headers so angular passing info as form data (not request payload)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                classID: $scope.classID
+            }
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+            $uibModalInstance.dismiss('cancel');
+            //$location.url('/root/dashboard');
+            
+             if (status === 200) {
+                angular.copy($scope.classID,course);
+
+               notificationFactory.info("Successfully updated: "+$scope.classID.name)
+            }
+
+        })
+        .error(function(data, status, headers, config) {
+
+        $uibModalInstance.dismiss('cancel');
+        notificationFactory.error("Error: Status Code "+status+". Contact admin if issue persists.")
+        });
+
+
+
+  };
 
 }]);
 

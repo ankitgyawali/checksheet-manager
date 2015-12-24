@@ -1,0 +1,28 @@
+        <div class="modal-header">
+            <h4 class="modal-title">Modifying "{{className}}" department </h4>
+        </div> <form role="form" ng-submit="modify()">
+        <div class="modal-body">
+       
+            <div class="form-group row">
+            <label for="search" style="font-size:120%" class="col-sm-3"><u>Name:</u></label>
+              <input type="string" ng-model="classID.name" autofocus>
+             </div>
+            <div class="form-group row">
+                 <label for="search" style="font-size:120%" class="col-sm-3"><u>Department:</u></label>
+              <input type="string" ng-model="classID.department">
+</div><div class="form-group row">
+
+     
+
+                 <label for="search" style="font-size:120%" class="col-sm-3"><u>Suffix:</u></label>
+              <input type="string" ng-model="classID.suffix">   <br>
+</div>
+    </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="submit">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button> 
+            <div style="float:left">
+            <button class="btn btn-danger" type="button" ng-click="delete()"
+             confirm="WARNING: You are about to delete a class. This might affect other people's account. Are you sure?" confirm-title="Deleting {{className}}.." confirm-ok="Yes" confirm-cancel="No">Delete</button>
+                </div>
+        </div></form>

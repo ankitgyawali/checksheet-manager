@@ -9,7 +9,7 @@
 
 
 </div>
-   <div ng-include="addDept"></div>
+
 
 
 <b>Current Page: {{ currentPage }}</b> 
@@ -26,9 +26,9 @@
         </div>
 
 <br>
-<br>
-
-
+<br><span style="font-size:125%"><u><b>
+Department List</u>:<br></b>
+</span>
 <div class="table-responsive">
 
 <table class="table table-bordered table-hover table-condensed" style="font-size:125%">
@@ -44,7 +44,7 @@
         </tr>
   </thead>
   <tbody>
-    <tr dir-paginate="department in departments | filter:q | itemsPerPage: pageSize" current-page="currentPage">
+    <tr dir-paginate="department in departments | filter:q | itemsPerPage: pageSize" current-page="currentPage" pagination-id="depts">
         <td>{{department.id}}</td>
         <td>{{department.name}}</td>
         <td>{{department.office}}</td>
@@ -58,7 +58,7 @@
 <br><br>
 
 <div>
- <dir-pagination-controls boundary-links="true" template-url="partials/dirPagination.tpl.html"></dir-pagination-controls>
+ <dir-pagination-controls boundary-links="true" template-url="partials/dirPagination.tpl.html" pagination-id="depts"></dir-pagination-controls>
  </div
 
 </div>
