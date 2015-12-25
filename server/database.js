@@ -6,7 +6,10 @@ var db = mongoose.connection;
 //Root User Schema
 var rootSchema = mongoose.Schema({
     username: String,
-    password: String
+    password: String,
+    email: { type: String, unique: true },
+    firstname: String,
+    lastname: String
 },{ collection : 'root' });
 var rootCol = mongoose.model('root', rootSchema);
 

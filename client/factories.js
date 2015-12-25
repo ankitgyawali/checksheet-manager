@@ -131,10 +131,11 @@ function login(uname, upwd, utype) {
 
             if (status === 200) {
                 user = true;
-                console.log('datausername'+data.usertype)
-                $cookies.put('username', data.username);
+
+                $cookies.put('username', data.person.firstname);
                 $cookies.put('loggedin', 'true');
                 $cookies.put('usertype', data.usertype);
+
 
                  console.log('loggedin='+getusertype());
                 deferred.resolve();

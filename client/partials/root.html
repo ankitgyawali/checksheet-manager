@@ -49,17 +49,19 @@
       <div class="row" >
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li ng-class="{active: templateURL=='partials/rdept.html'}"><a href="#" ng-click="templateURL='partials/rdept.html'">Departments </a></li>
+            <li ng-class="{active: (templateURL=='partials/rdept.html' || templateURL=='partials/addnewdepartment.html')}"><a href="#" ng-click="templateURL='partials/rdept.html'">Departments </a></li>
 
-            <li ng-class="{active: templateURL=='partials/rclass.html'}"><a href="#" ng-click="templateURL='partials/rclass.html'">Classes</a>
+            <li ng-class="{active: (templateURL=='partials/rclass.html' || templateURL=='partials/addnewclass.html')}"><a href="#" ng-click="templateURL='partials/rclass.html'">Classes</a>
             
             </li>
 
           </ul>
 
           <ul class="nav nav-sidebar">
-            <li><a href="">Advisor List</a></li>
-            <li><a href="">Export Database</a></li>
+            <li ng-class="{active: (templateURL=='partials/newrootuser.html' || templateURL=='partials/registernewroot.html')}"><a href="#" ng-click="templateURL='partials/newrootuser.html'">Manage Other Root Users</a></li>
+            <li ng-class="{active: (templateURL=='partials/radvisor.html' || templateURL=='partials/xx.html')}"><a href="#" ng-click="templateURL='partials/radvisor.html'">Manage Advisors </a></li>
+            <li><a href="">Manage Students </a></li>
+
           </ul>
         </div>
 

@@ -84,3 +84,32 @@ get /root/dashboard
 	Root-> dashboard
 
 	add new department
+
+
+
+
+	root-> 	add department
+			add class
+			add root 	->  Show current root users but dont let modification
+							Generate password
+							Register root users Email
+			add advisors 
+
+			// Maybe extension but move to advisor when working on it
+			add checksheet
+			add student
+			match student ??
+
+
+Cannot modify name and email for security reasons but can modify other info 
+Root has name
+ advisor -> 
+ 			add checksheet 
+ 			add student
+			add student
+ 			match student
+
+advisor has added by:
+checksheet has created by:
+
+ student -> 

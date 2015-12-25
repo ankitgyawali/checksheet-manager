@@ -1,16 +1,13 @@
-<div ng-controller="rootDeptController">
+<div ng-controller="rootmanagerController">
 <br>
+
 <div class="page-header" style="font-size:120%"> 
-<a href="#" ng-click = "settemplateURL('partials/addnewdepartment.html')"> <i class="fa fa-fw fa-plus"></i> Add a new department </a>
+<a href="#" ng-click = "settemplateURL('partials/registernewroot.html')"> <i class="fa fa-fw fa-user-plus"></i> Register a new root user </a>
 &nbsp;&nbsp;&nbsp;
 <a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
 &nbsp;&nbsp;&nbsp;
 
-
-
 </div>
-
-
 
 <b>Current Page: {{ currentPage }}</b> 
 <br><br>		
@@ -27,7 +24,7 @@
 
 <br>
 <br><span style="font-size:125%"><u><b>
-Department List</u>:<br></b>
+Class List</u>:<br></b>
 </span>
 <div class="table-responsive">
 
@@ -36,20 +33,21 @@ Department List</u>:<br></b>
     <tr class="info">
 
 
-        <th>ID</th>
-        <th>Name</th>
-        <th>Office</th>
-        <th>Phone</th>        
-        <th> Modify </th>
+        <th>Class Code</th>
+        <th>Department</th>
+        <th>Name</th>       
+
+        <th>Modify</th>
         </tr>
   </thead>
   <tbody>
-    <tr dir-paginate="department in departments | filter:q | itemsPerPage: pageSize" current-page="currentPage" pagination-id="depts">
-        <td>{{department.id}}</td>
-        <td>{{department.name}}</td>
-        <td>{{department.office}}</td>
-        <td>{{department.phone}}</td>        
-        <td> <a href="#" ng-Click="modifyDept(department)"> Edit </a> </td>
+    <tr dir-paginate="course in courses | filter:q | itemsPerPage: pageSize" current-page="currentPage" pagination-id="classes">
+        <td>{{course.prefix}} {{course.suffix}}</td>
+        <td>{{course.department}}</td>
+        <td>{{course.name}}</td>
+
+       
+        <td> <a href="#" ng-Click="modifyclass(course)"> Edit </a> </td>
 
     </tr>
 </tbody>
@@ -57,12 +55,7 @@ Department List</u>:<br></b>
 </div>
 <br><br>
 
-<div>
- <dir-pagination-controls boundary-links="true" template-url="partials/dirPagination.tpl.html" pagination-id="depts"></dir-pagination-controls>
- </div
-
-</div>
-
+ <dir-pagination-controls boundary-links="true" template-url="partials/dirPagination.tpl.html" pagination-id="classes"></dir-pagination-controls>
 
 
 </div>

@@ -116,9 +116,16 @@ angular.module('smApp').controller('rootController',
 
 }]);
 
-angular.module('smApp').controller('rootClassController',
+angular.module('smApp').controller('rootmanagerController',
   ['$scope', '$location', 'notificationFactory','$uibModal', '$http','AuthService',
    function ($scope, $location, notificationFactory,$uibModal,$http, AuthService) {
+
+
+}]);
+
+angular.module('smApp').controller('rootClassController',
+  ['$scope', 'notificationFactory','$uibModal', '$http','AuthService',
+   function ($scope, notificationFactory,$uibModal,$http, AuthService) {
 
      $http({
             method: 'GET',
@@ -137,7 +144,7 @@ angular.module('smApp').controller('rootClassController',
 
         });
  $scope.currentPage = 1;
- $scope.pageSize = 1;
+ $scope.pageSize = 5;
  $scope.numtoadd = 1;
 
 
@@ -161,31 +168,31 @@ $scope.delnewClasses = function(index) {
 }
 
  $scope.addClasses = function() {
-    console.log("array is: "+$scope.classestoAdd + 'or'+ JSON.stringify($scope.classestoAdd));
-     // $http({
-     //        method: 'POST',
-     //        url: '/classes',
-     //        // set the headers so angular passing info as form data (not request payload)
-     //        headers: {
-     //            'Content-Type': 'application/json'
-     //        },
-     //        data: {
-     //            arraytoAdd: $scope.classestoAdd
-     //        }
 
-     //    }).success(function(data, status, headers, config) {
-     //        // this callback will be called asynchronously
-     //        // when the response is available
+     $http({
+            method: 'POST',
+            url: '/classes',
+            // set the headers so angular passing info as form data (not request payload)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                arraytoAdd: $scope.classestoAdd
+            }
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
   
-     //         $scope.settemplateURL('partials/rclass.html');
-     //        notificationFactory.info("Successfully added classes. ");
+             $scope.settemplateURL('partials/rclass.html');
+            notificationFactory.info("Successfully added classes. ");
 
-     //    })
-     //    .error(function(data, status, headers, config) {
-     //         console.log(" Not Doneee "+ status+data+headers+config);
-     //             notificationFactory.error("Error: Status Code "+status+". Contact admin if issue persists.")
+        })
+        .error(function(data, status, headers, config) {
+             console.log(" Not Doneee "+ status+data+headers+config);
+                 notificationFactory.error("Error: Status Code "+status+". Contact admin if issue persists.")
       
-     //    });
+        });
     
 }
 

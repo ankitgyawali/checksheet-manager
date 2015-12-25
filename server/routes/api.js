@@ -39,7 +39,7 @@ router.post('/login', function(req, res ) {
   req.session.username = person.username;
   req.session.usertype = req.body.type;
 
-   res.send({username:person.username,usertype:req.body.type,userid:person._id});
+   res.send({person:person,usertype:req.body.type});
   }
   else
   {
@@ -104,14 +104,6 @@ async.parallel({
 
 router.post('/departments', function(req, res) {
 
-  // console.log('req body usr: '+JSON.stringify(req.body.arraytoAdd));
-  // req.body.arraytoAdd.forEach( function (arrayItem)
-  // {
-  //   models.department.insert(arrayItem);
-  //   console.log('sucessfully inserted: '+JSON.stringify(arrayItem));
-  // });
-
-
 models.department.collection.insert(req.body.arraytoAdd, onInsert);
 
 function onInsert(err, docs) {
@@ -129,6 +121,23 @@ function onInsert(err, docs) {
 });
 
 
+router.post('/classes', function(req, res) {
+
+models.class.collection.insert(req.body.arraytoAdd, onInsert);
+
+function onInsert(err, docs) {
+    if (err) {
+        // TODO: handle error
+         console.log("error because: "+ err + "&&& doc: "+docs)
+      return res.sendStatus(500);
+    } else {
+        console.info('Classes were successfully added to database.', docs.length);
+         return res.sendStatus(200)
+    }
+}
+   
+
+});
 
 router.put('/departments', function(req, res) {
   console.log('new id req body: '+req.body.newID._id);
