@@ -30,8 +30,7 @@ Class List</u>:<br></b>
 <table class="table table-bordered table-hover table-condensed" style="font-size:125%">
     <thead>
     <tr class="info">
-
-
+        
         <th>Class Code</th>
         <th>Department</th>
         <th>Name</th>       
@@ -41,6 +40,7 @@ Class List</u>:<br></b>
   </thead>
   <tbody>
     <tr dir-paginate="course in courses | filter:q | itemsPerPage: pageSize" current-page="currentPage" pagination-id="classes">
+
         <td>{{course.prefix}} {{course.suffix}}</td>
         <td>{{course.department}}</td>
         <td>{{course.name}}</td>

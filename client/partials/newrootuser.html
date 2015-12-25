@@ -24,7 +24,7 @@
 
 <br>
 <br><span style="font-size:125%"><u><b>
-Class List</u>:<br></b>
+Root users List</u>:<br></b>
 </span>
 <div class="table-responsive">
 
@@ -32,23 +32,35 @@ Class List</u>:<br></b>
     <thead>
     <tr class="info">
 
+		
+        <th>Username</th>
+        <th>First Name</th>
+        <th>Last Name</th>       
 
-        <th>Class Code</th>
-        <th>Department</th>
-        <th>Name</th>       
-
-        <th>Modify</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Status</th>
         </tr>
   </thead>
   <tbody>
-    <tr dir-paginate="course in courses | filter:q | itemsPerPage: pageSize" current-page="currentPage" pagination-id="classes">
-        <td>{{course.prefix}} {{course.suffix}}</td>
-        <td>{{course.department}}</td>
-        <td>{{course.name}}</td>
+    <tr dir-paginate="root in roots | filter:q | itemsPerPage: pageSize" current-page="currentPage" pagination-id="classes">
+        <td>{{root.username}} </td>
+        <td>{{root.firstname}}</td>
+        <td>{{root.lastname}}</td>
+        <td>{{root.email}}</td>
+        <td>{{root.phone}}</td> 
+        <td>
+        <div ng-if="root.registered">
+    	<i class="fa fa-fw fa-check"></i> Verified
+		</div>
+		<div ng-if="!root.registered">
+    	<i class="fa fa-fw fa-times"></i> Unverified : <a href="#" ng-click="deleteroot(root._id,root.firstname,$index)" confirm="WARNING: You are about to delete an unverified root account. This root user will not be able to access the account. Are you sure you want to continue?" confirm-title="Deleting {{root.firstname}} {{root.lastname}}.." confirm-ok="Delete" confirm-cancel="No">Delete</a>
 
-       
-        <td> <a href="#" ng-Click="modifyclass(course)"> Edit </a> </td>
 
+
+
+		</div>
+</td>      
     </tr>
 </tbody>
 </table>

@@ -45,6 +45,7 @@ Department List</u>:<br></b>
   </thead>
   <tbody>
     <tr dir-paginate="department in departments | filter:q | itemsPerPage: pageSize" current-page="currentPage" pagination-id="depts">
+        
         <td>{{department.id}}</td>
         <td>{{department.name}}</td>
         <td>{{department.office}}</td>

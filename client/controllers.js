@@ -97,8 +97,8 @@ angular.module('smApp').controller('rootController',
    function ($scope, $location, notificationFactory, AuthService,$cookies) {
 
 
-    $scope.templateURL = 'partials/rdept.html';
-     
+    // $scope.templateURL = 'partials/rdept.html';
+      $scope.templateURL = 'partials/registernewroot.html';
        $scope.username = AuthService.getusername();
        $scope.usertype = AuthService.getusertype();
        $scope.lol = $cookies.get('loggedin');
@@ -120,6 +120,95 @@ angular.module('smApp').controller('rootmanagerController',
   ['$scope', '$location', 'notificationFactory','$uibModal', '$http','AuthService',
    function ($scope, $location, notificationFactory,$uibModal,$http, AuthService) {
 
+   $http({
+            method: 'GET',
+            url: '/roots'
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+             $scope.roots = data;
+
+
+        })
+        .error(function(data, status, headers, config) {
+             console.log(" Not Doneee "+ status+data+headers+config);
+
+
+        });
+ $scope.currentPage = 1;
+ $scope.pageSize = 5;
+
+$scope.newroot = {};
+$scope.newroot.registered = "false";
+  $scope.generatepwd = function (){
+     $scope.newroot.password = "";
+    var length = 8;
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for(var i = 0; i < length; i++) {
+        $scope.newroot.password += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+  console.log("addR: "+JSON.stringify($scope.newroot));
+ };
+
+ $scope.deleteroot = function(id,name,idx)
+ {
+  $http({
+            method: 'DELETE',
+            url: '/roots',
+            // set the headers so angular passing info as form data (not request payload)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                deleteID: id
+            }
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+               
+               $scope.roots.splice(idx,1);
+       $scope.settemplateURL('partials/newrootuser.html');    
+      notificationFactory.info("Successfully deleted: "+name)
+   
+
+        })
+        .error(function(data, status, headers, config) {
+          $scope.settemplateURL('partials/newrootuser.html');    
+        notificationFactory.error("Error: Status Code "+status+". Contact admin if issue persists.")
+        });
+
+ }
+
+ $scope.addRoots = function (){
+
+  $http({
+            method: 'POST',
+            url: '/roots',
+            // set the headers so angular passing info as form data (not request payload)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                arraytoAdd: $scope.newroot
+            }
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+  
+             $scope.settemplateURL('partials/newrootuser.html');
+            notificationFactory.info("Successfully added and emailed the root user! ");
+
+        })
+        .error(function(data, status, headers, config) {
+             console.log(" Not Doneee "+ status+data+headers+config);
+                 notificationFactory.error("Error: Status Code "+status+". Contact admin if issue persists.")
+      
+        });
+
+ };
 
 }]);
 
