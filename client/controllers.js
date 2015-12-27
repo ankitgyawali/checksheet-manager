@@ -139,7 +139,7 @@ if($scope.templateURL=="partials/radvisor.html"){
 
         });
       }
-     $scope.pageSize = AuthService.getPaginationSize();
+$scope.pageSize = AuthService.getPaginationSize();
  $scope.currentPage = 1;
 $scope.$watch('pageSize', function(val) {
 
@@ -147,11 +147,22 @@ $scope.$watch('pageSize', function(val) {
    });
 
  $scope.numtoadd = 1;
+
+
+
+
  $scope.arraytoAdd = [];
 
  $scope.newAdvisors = function(num) {
     return new Array(num);
 }
+
+ $scope.$watch('numtoadd', function(val) {
+
+$scope.arraytoAdd.length = val;
+
+   });
+
 
 $scope.generatepwd = function(){
  return AuthService.generatePassword();
@@ -257,7 +268,11 @@ $scope.$watch('pageSize', function(val) {
    });
 
  $scope.numtoadd = 1;
+ $scope.$watch('numtoadd', function(val) {
 
+$scope.arraytoAdd.length = val;
+
+   });
  $scope.arraytoAdd = [];
  $scope.newDepts = function(num) {
 
@@ -452,7 +467,11 @@ $scope.$watch('pageSize', function(val) {
    });
 
  $scope.numtoadd = 1;
+ $scope.$watch('numtoadd', function(val) {
 
+$scope.classestoAdd.length = val;
+
+   });
 
 
  $scope.classestoAdd = [];

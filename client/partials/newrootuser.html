@@ -51,7 +51,7 @@ Root users List</u>:<br></b>
         <td>{{root.phone}}</td> 
         <td>
         <div ng-if="root.registered">
-    	<i class="fa fa-fw fa-check"></i> Verified
+    	<i class="fa fa-fw fa-check"></i> Verified: <a href="#"> View Profile</a>
 		</div>
 		<div ng-if="!root.registered">
     	<i class="fa fa-fw fa-times"></i> Unverified : <a href="#" ng-click="deleteroot(root)" confirm="WARNING: You are about to delete an unverified root account. This root user will not be able to access the account. Are you sure you want to continue?" confirm-title="Deleting {{root.firstname}} {{root.lastname}}.." confirm-ok="Delete" confirm-cancel="No">Delete</a>
