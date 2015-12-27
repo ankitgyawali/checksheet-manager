@@ -112,4 +112,14 @@ Root has name
 advisor has added by:
 checksheet has created by:
 
- student -> 
+ student -> STUDENTS CURRENT TERM--------
+
+
+ ADVISOR -->
+
+ ADVISOR BY DEPARTMENT
+ ADD ADVISOR
+ VIEW ADVISOR PROFILE
+ UNIDENTIFIED DELETE
+
+ undefined student slot -> no students matched

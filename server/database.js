@@ -5,27 +5,30 @@ var db = mongoose.connection;
 
 //Root User Schema
 var rootSchema = mongoose.Schema({
-    username: String,
+    username: { type: String, unique: true },
     password: String,
     email: { type: String, unique: true },
     firstname: String,
-    lastname: String
+    lastname: String,
+    phone: String,
+    registered: Boolean
 },{ collection : 'root' });
 var rootCol = mongoose.model('root', rootSchema);
 
 
 //Advisor User Schema
 var advisorSchema = mongoose.Schema({
-    username: String,
+    username: { type: String, unique: true },
     password: String,
     email: String,
-    id: String,
+    id: { type: String, unique: true },
     firstname: String,
     lastname: String,
     type: String,
     department: String,
     office: String,
     phone: String,
+    registered: Boolean,
     advisee: [String]
 },{ collection : 'advisor' });
 var advisorCol = mongoose.model('advisor', advisorSchema);

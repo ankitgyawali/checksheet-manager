@@ -98,7 +98,7 @@ angular.module('smApp').controller('rootController',
 
 
     // $scope.templateURL = 'partials/rdept.html';
-      $scope.templateURL = 'partials/registernewroot.html';
+      $scope.templateURL = 'partials/radvisor.html';
        $scope.username = AuthService.getusername();
        $scope.usertype = AuthService.getusertype();
        $scope.lol = $cookies.get('loggedin');
@@ -116,10 +116,215 @@ angular.module('smApp').controller('rootController',
 
 }]);
 
+
+angular.module('smApp').controller('rootadvisorController',
+  ['$scope', '$location', 'notificationFactory','$uibModal', '$http','AuthService',
+   function ($scope, $location, notificationFactory,$uibModal,$http, AuthService) {
+
+if($scope.templateURL=="partials/radvisor.html"){
+  $http({
+            method: 'GET',
+            url: '/advisors'
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+             $scope.advisors = data;
+          
+
+        })
+        .error(function(data, status, headers, config) {
+             console.log(" Not Doneee "+ status+data+headers+config);
+
+
+        });
+      }
+     $scope.pageSize = AuthService.getPaginationSize();
+ $scope.currentPage = 1;
+$scope.$watch('pageSize', function(val) {
+
+  AuthService.setPaginationSize(val);
+   });
+
+ $scope.numtoadd = 1;
+ $scope.arraytoAdd = [];
+
+ $scope.newAdvisors = function(num) {
+    return new Array(num);
+}
+
+$scope.generatepwd = function(){
+ return AuthService.generatePassword();
+
+}
+
+$scope.deleteadvisor = function (advisor){
+console.log(advisor._id);
+$http({
+            method: 'DELETE',
+            url: '/advisors',
+            // set the headers so angular passing info as form data (not request payload)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                deleteID: advisor._id
+            }
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+
+               $scope.advisors.splice($scope.advisors.indexOf(advisor),1);
+   
+      notificationFactory.info("Successfully deleted the advisor");
+   
+
+        })
+        .error(function(data, status, headers, config) {
+     
+        notificationFactory.error("Error: Status Code "+status+". Contact admin if issue persists.")
+        });
+
+
+};
+
+$scope.delnewAdvisor = function(index) {
+
+
+  $scope.numtoadd = $scope.numtoadd - 1;
+   $scope.arraytoAdd.splice(index,1);
+};
+  
+$scope.addAdvisors = function (){
+
+    $http({
+            method: 'POST',
+            url: '/advisors',
+            // set the headers so angular passing info as form data (not request payload)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                arraytoAdd: $scope.arraytoAdd
+            }
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+  
+             $scope.settemplateURL('partials/radvisor.html');
+            notificationFactory.info("Successfully added advisors! ");
+
+        })
+        .error(function(data, status, headers, config) {
+             console.log(" Not Doneee "+ status+data+headers+config);
+             notificationFactory.error("Error: Status Code "+status+". Contact admin if issue persists.")
+      
+        });
+}
+
+}]);
+
+
+angular.module('smApp').controller('rootDeptController',
+  ['$scope', '$location', 'notificationFactory','$uibModal', '$http','AuthService',
+   function ($scope, $location, notificationFactory,$uibModal,$http, AuthService) {
+
+if($scope.templateURL=="partials/rdept.html"){
+ $http({
+            method: 'GET',
+            url: '/departments'
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+             $scope.departments = data;
+
+        })
+        .error(function(data, status, headers, config) {
+             console.log(" Not Doneee "+ status+data+headers+config);
+
+        });
+
+}
+ $scope.currentPage = 1;
+  $scope.pageSize = AuthService.getPaginationSize();
+
+$scope.$watch('pageSize', function(val) {
+
+  AuthService.setPaginationSize(val);
+   });
+
+ $scope.numtoadd = 1;
+
+ $scope.arraytoAdd = [];
+ $scope.newDepts = function(num) {
+
+    return new Array(num);
+}
+//This might be needed
+// $scope.newDeptsprimitive = $scope.newDepts;
+
+$scope.delnewDepts = function(index) {
+  $scope.numtoadd = $scope.numtoadd - 1;
+   $scope.arraytoAdd.splice(index,1);
+
+  
+}
+
+ $scope.addDepts = function() {
+    console.log("array is: "+$scope.arraytoAdd + 'or'+ JSON.stringify($scope.arraytoAdd));
+     $http({
+            method: 'POST',
+            url: '/departments',
+            // set the headers so angular passing info as form data (not request payload)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                arraytoAdd: $scope.arraytoAdd
+            }
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+  
+             $scope.settemplateURL('partials/rdept.html');
+            notificationFactory.info("Successfully added departments: ");
+
+        })
+        .error(function(data, status, headers, config) {
+             console.log(" Not Doneee "+ status+data+headers+config);
+                 notificationFactory.error("Error: Status Code "+status+". Contact admin if issue persists.")
+      
+        });
+    
+}
+
+ $scope.modifyDept = function (depID){
+
+ var modalInstance = $uibModal.open({
+      templateUrl: 'partials/deptModal.html',
+      controller: 'deptModalController',
+      scope: $scope,
+      resolve: {
+        depID: function () {
+          return depID;
+        }
+      }
+    });
+
+
+};
+
+}]);
+
 angular.module('smApp').controller('rootmanagerController',
   ['$scope', '$location', 'notificationFactory','$uibModal', '$http','AuthService',
    function ($scope, $location, notificationFactory,$uibModal,$http, AuthService) {
 
+if($scope.templateURL=="partials/newrootuser.html"){
    $http({
             method: 'GET',
             url: '/roots'
@@ -136,22 +341,26 @@ angular.module('smApp').controller('rootmanagerController',
 
 
         });
+      }
+ 
  $scope.currentPage = 1;
- $scope.pageSize = 5;
+ $scope.pageSize = AuthService.getPaginationSize();
+
+$scope.$watch('pageSize', function(val) {
+
+  AuthService.setPaginationSize(val);
+   });
+
 
 $scope.newroot = {};
 $scope.newroot.registered = "false";
   $scope.generatepwd = function (){
-     $scope.newroot.password = "";
-    var length = 8;
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for(var i = 0; i < length; i++) {
-        $scope.newroot.password += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
+  $scope.newroot.password = AuthService.generatePassword();
+    
   console.log("addR: "+JSON.stringify($scope.newroot));
  };
 
- $scope.deleteroot = function(id,name,idx)
+ $scope.deleteroot = function(root)
  {
   $http({
             method: 'DELETE',
@@ -161,16 +370,16 @@ $scope.newroot.registered = "false";
                 'Content-Type': 'application/json'
             },
             data: {
-                deleteID: id
+                deleteID: root._id
             }
 
         }).success(function(data, status, headers, config) {
             // this callback will be called asynchronously
             // when the response is available
-               
-               $scope.roots.splice(idx,1);
+               $scope.roots.splice($scope.roots.indexOf(root),1);
+
        $scope.settemplateURL('partials/newrootuser.html');    
-      notificationFactory.info("Successfully deleted: "+name)
+      notificationFactory.info("Successfully deleted: "+root.firstname)
    
 
         })
@@ -216,6 +425,7 @@ angular.module('smApp').controller('rootClassController',
   ['$scope', 'notificationFactory','$uibModal', '$http','AuthService',
    function ($scope, notificationFactory,$uibModal,$http, AuthService) {
 
+if($scope.templateURL=="partials/rclass.html"){
      $http({
             method: 'GET',
             url: '/classes'
@@ -225,15 +435,22 @@ angular.module('smApp').controller('rootClassController',
             // when the response is available
              $scope.courses = data.courses;
              $scope.dpts = data.dpts;
-
+              console.log("classes");
         })
         .error(function(data, status, headers, config) {
              console.log(" Not Doneee "+ status+data+headers+config);
 
 
         });
+      }
  $scope.currentPage = 1;
- $scope.pageSize = 5;
+  $scope.pageSize = AuthService.getPaginationSize();
+
+$scope.$watch('pageSize', function(val) {
+
+  AuthService.setPaginationSize(val);
+   });
+
  $scope.numtoadd = 1;
 
 
@@ -306,91 +523,6 @@ $scope.delnewClasses = function(index) {
 };
 
 
-
-}]);
-
-angular.module('smApp').controller('rootDeptController',
-  ['$scope', '$location', 'notificationFactory','$uibModal', '$http','AuthService',
-   function ($scope, $location, notificationFactory,$uibModal,$http, AuthService) {
-
- $http({
-            method: 'GET',
-            url: '/departments'
-
-        }).success(function(data, status, headers, config) {
-            // this callback will be called asynchronously
-            // when the response is available
-             $scope.departments = data;
-
-        })
-        .error(function(data, status, headers, config) {
-             console.log(" Not Doneee "+ status+data+headers+config);
-
-        });
-
-
- $scope.currentPage = 1;
- $scope.pageSize = 3;
- $scope.numtoadd = 1;
-
- $scope.arraytoAdd = [];
- $scope.newDepts = function(num) {
-
-    return new Array(num);
-}
-$scope.newDeptsprimitive = $scope.newDepts;
-
-$scope.delnewDepts = function(index) {
-  $scope.numtoadd = $scope.numtoadd - 1;
-   $scope.arraytoAdd.splice(index,1);
-
-  
-}
-
- $scope.addDepts = function() {
-    console.log("array is: "+$scope.arraytoAdd + 'or'+ JSON.stringify($scope.arraytoAdd));
-     $http({
-            method: 'POST',
-            url: '/departments',
-            // set the headers so angular passing info as form data (not request payload)
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: {
-                arraytoAdd: $scope.arraytoAdd
-            }
-
-        }).success(function(data, status, headers, config) {
-            // this callback will be called asynchronously
-            // when the response is available
-  
-             $scope.settemplateURL('partials/rdept.html');
-            notificationFactory.info("Successfully added departments: ");
-
-        })
-        .error(function(data, status, headers, config) {
-             console.log(" Not Doneee "+ status+data+headers+config);
-                 notificationFactory.error("Error: Status Code "+status+". Contact admin if issue persists.")
-      
-        });
-    
-}
-
- $scope.modifyDept = function (depID){
-
- var modalInstance = $uibModal.open({
-      templateUrl: 'partials/deptModal.html',
-      controller: 'deptModalController',
-      scope: $scope,
-      resolve: {
-        depID: function () {
-          return depID;
-        }
-      }
-    });
-
-
-};
 
 }]);
 

@@ -59,8 +59,21 @@ router.get('/departments', function(req, res) {
   }); 
 });
 
+router.get('/roots', function(req, res) {
 
+  models.root.find({},'-password' ,function(err, dpts) {
+    res.send(dpts); 
 
+  }); 
+});
+
+router.get('/advisors', function(req, res) {
+
+  models.advisor.find({},'-password' ,function(err, dpts) {
+    res.send(dpts); 
+
+  }); 
+});
 
 
 // router.get('/classes', function(req, res) {
@@ -116,9 +129,43 @@ function onInsert(err, docs) {
          return res.sendStatus(200)
     }
 }
-   
 
 });
+
+router.post('/roots', function(req, res) {
+
+models.root.collection.insert(req.body.arraytoAdd, onInsert);
+
+function onInsert(err, docs) {
+    if (err) {
+        // TODO: handle error
+         console.log("error because: "+ err + "&&& doc: "+docs)
+      return res.sendStatus(500);
+    } else {
+        console.info('%d potatoes were successfully stored.', docs.length);
+         return res.sendStatus(200)
+    }
+}
+
+});
+
+router.post('/advisors', function(req, res) {
+
+models.advisor.collection.insert(req.body.arraytoAdd, onInsert);
+
+function onInsert(err, docs) {
+    if (err) {
+        // TODO: handle error
+         console.log("error because: "+ err + "&&& doc: "+docs)
+      return res.sendStatus(500);
+    } else {
+        console.info('Advisors were successfully stored.', docs.length);
+         return res.sendStatus(200)
+    }
+}
+
+});
+
 
 
 router.post('/classes', function(req, res) {
@@ -186,6 +233,41 @@ models.department.remove({ _id: req.body.deleteID }, function(err) {
 });
 
 });
+
+router.delete('/roots', function(req, res) {
+
+  console.log("deleting root user");
+
+
+models.root.remove({ _id: req.body.deleteID }, function(err) {
+    if (err) {
+      console.log("error because: "+ err + "&&& doc: "+doc)
+      return res.sendStatus(500);
+    }
+    console.log("deleted: "+ req.body.deleteID)
+    return res.sendStatus(200);
+});
+
+});
+
+
+router.delete('/advisors', function(req, res) {
+
+  console.log("deleting advisr");
+
+
+models.advisor.remove({ _id: req.body.deleteID }, function(err) {
+    if (err) {
+      console.log("error because: "+ err + "&&& doc: "+doc)
+      return res.sendStatus(500);
+    }
+    console.log("deleted: "+ req.body.deleteID)
+    return res.sendStatus(200);
+});
+
+});
+
+
 
 router.delete('/classes', function(req, res) {
 

@@ -91,6 +91,8 @@ angular.module('smApp').factory('AuthService',
   function ($q, $timeout, $http, $cookies) {
 
 
+    var pageSize = 4;
+
     // return available functions for use in controllers
     return ({
       isLoggedIn: isLoggedIn,
@@ -98,14 +100,34 @@ angular.module('smApp').factory('AuthService',
       getusertype: getusertype,
       setusertype: setusertype,
       login: login,
-      logout: logout
+      logout: logout,
+      generatePassword: generatePassword,
+      getPaginationSize:getPaginationSize,
+      setPaginationSize:setPaginationSize,
+
     });
+
+
+    function getPaginationSize() {
+        return pageSize;
+    }
+    function setPaginationSize(num) {
+       pageSize = num;
+    }
 
     function isLoggedIn() {
         return $cookies.get('loggedin');
     }
 
-
+    function generatePassword() {
+        var temp = '';
+        var length = 8;
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for(var i = 0; i < length; i++) {
+        temp += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+        return temp;
+    }
 
 function login(uname, upwd, utype) {
 
