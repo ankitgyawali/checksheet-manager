@@ -70,6 +70,19 @@ var classSchema = mongoose.Schema({
 classSchema.index({ prefix: 1, suffix: 1}, { unique: true });
 var classCol = mongoose.model('class', classSchema);
 
+//Block Schema
+var blockSchema = mongoose.Schema({
+    name: String,
+    type: String,
+    credits: Number,
+    details: Object,
+    department: String,
+    createdby: String,
+    id: String
+},{ collection : 'block' });
+var blockCol = mongoose.model('block', classSchema);
+
+
 
 
 module.exports = {

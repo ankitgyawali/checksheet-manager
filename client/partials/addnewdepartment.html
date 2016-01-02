@@ -49,7 +49,7 @@
         <td><input type="text" class="form-control" ng-model="arraytoAdd[$index].name" placeholder="Department Name" required></td>
         <td> <input type="text" class="form-control" ng-model="arraytoAdd[$index].office" placeholder="Department Office" required></td>
         <td> <input class="form-control" ng-model="arraytoAdd[$index].phone" placeholder="Department Phone" required></td>
-        <td><button ng-click="delnewDepts($index)" ng-disabled="numtoadd==1"><i class="fa fa-fw fa-trash"></i></button></td>
+        <td><button type="button" ng-click="delnewDepts($index)" ng-disabled="numtoadd==1"><i class="fa fa-fw fa-trash"></i></button></td>
     </tr>
 </tbody></table>
 

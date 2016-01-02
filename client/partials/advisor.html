@@ -60,7 +60,8 @@
           <ul class="nav nav-sidebar">
             <li ng-class=""><a href="#" ng-click="templateURL=''">View Checksheets</a></li>
             <li ng-class=""><a href="#" ng-click="templateURL=''">Add Checksheets </a></li>
-
+            
+            <li ng-class="{active: (templateURL=='partials/checksheetblock.html')}"><a href="#" ng-click="templateURL='partials/checksheetblock.html'">Add Block </a></li>
         </ul>
          <ul class="nav nav-sidebar">
             <li><a href="">Set advising hours </a></li>
@@ -74,8 +75,7 @@
 
  <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
- 	 <div ng-include="templateURL"></div>
-          
+   <div ng-include="templateURL"></div>
 
 
       </div>

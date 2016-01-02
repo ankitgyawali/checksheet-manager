@@ -123,3 +123,30 @@ checksheet has created by:
  UNIDENTIFIED DELETE
 
  undefined student slot -> no students matched
+
+
+ checksheet->
+
+ Name:String
+ ID:string
+ Type:string
+ PartsID:string
+
+
+ parts->
+ 	Name:String
+ 	totalcredit:Number
+ 	numberofblocks:Number
+ 	blockid
+
+
+
+block-> 
+Name:String
+type:String (Required/Elective/Competency)
+credits:Number
+details: Array of JSONs {
+	Title:String
+	Description:String
+	Rules: 0 or actual rules such as prefix == suffix ++ 
+}

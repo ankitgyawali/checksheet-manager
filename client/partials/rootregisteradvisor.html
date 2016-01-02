@@ -71,8 +71,16 @@
 </div>
 
 <div class="row">
-  <div class="col-sm-2">    <label style="font-size:125%"><b>Department:</b> </label> </div><div class="col-sm-4"> 
-    <input type="text" size="50" ng-model="arraytoAdd[0].department" required></div>
+  <div class="col-sm-2">    <label style="font-size:125%"><b>Department:</b> </label> </div>
+  <div class="col-sm-4" style="font-size:125%"> 
+
+      <select ng-model="arraytoAdd[0].department" style="width:300px" required>
+                   <option ng-repeat="dpt in dpts" >{{dpt.name}}</option>
+             </select> 
+   
+  </div>
+
+
 </div>
 
 <div class="row">
@@ -109,10 +117,13 @@
          <input class="form-control" type="hidden" ng-model="arraytoAdd[$index].password" ng-init="arraytoAdd[$index].password=generatepwd()" required></td>
         <td> <input class="form-control" ng-model="arraytoAdd[$index].email" placeholder="Email" required></td>
         <td> <input class="form-control" ng-model="arraytoAdd[$index].phone" placeholder="Phone" required></td>
-        <td> <input class="form-control" ng-model="arraytoAdd[$index].office" placeholder="Department" required></td>
-        <td> <input class="form-control" ng-model="arraytoAdd[$index].department" placeholder="Office" required>
+        <td>     <select ng-model="arraytoAdd[$index].department" style="width:150px" required>
+                   <option ng-repeat="dpt in dpts" >{{dpt.name}}</option>
+             </select> 
+        </td>
+        <td> <input class="form-control" ng-model="arraytoAdd[$index].office" placeholder="Office" required>
           <input type="hidden" size="50"  ng-init="false" ng-model="arraytoAdd[$index].registered" ></td>
-        <td><button ng-click="delnewAdvisor(arraytoAdd[$index])"><i class="fa fa-fw fa-trash"></i></button></td>
+        <td><button type="button" ng-click="delnewAdvisor($index)"><i class="fa fa-fw fa-trash"></i></button></td>
     </tr>
 </tbody></table>
 

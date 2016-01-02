@@ -59,6 +59,17 @@ router.get('/departments', function(req, res) {
   }); 
 });
 
+router.get('/departmentnames', function(req, res) {
+
+  models.department.find({}, 'name id', function(err, dpts) {
+    res.send(dpts); 
+
+  }); 
+});
+
+
+
+
 router.get('/roots', function(req, res) {
 
   models.root.find({},'-password' ,function(err, dpts) {
