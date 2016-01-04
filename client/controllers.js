@@ -70,6 +70,7 @@ angular.module('smApp').controller('advisorController', ['$scope', '$location', 
         $scope.templateURL = 'partials/checksheetblock.html';
         //Get username and type at parent scope
         $scope.username = AuthService.getusername();
+        $scope.lastname = AuthService.getlastname()
         $scope.usertype = AuthService.getusertype();
         //Method to modify templateURL 
         $scope.settemplateURL = function(temp) {
@@ -87,9 +88,30 @@ angular.module('smApp').controller('advisorController', ['$scope', '$location', 
 ]);
 
 //Main Root Controller that handles root dashboard
-angular.module('smApp').controller('blockController', ['$scope', '$location', 'notificationFactory', 'AuthService', '$cookies',
-    function($scope, $location, notificationFactory, AuthService, $cookies) {
+angular.module('smApp').controller('blockController', ['$scope', '$http','$location', 'notificationFactory', 'AuthService', '$cookies',
+    function($scope, $http, $location, notificationFactory, AuthService, $cookies) {
+        $scope.block = {};
+        $scope.block.slots = 1;
+        $scope.block.department = "Checksheet: General Education"; 
+        $scope.block.type = "Required";
+        $scope.buildBlock = function (){
+            console.log(JSON.stringify($scope.block));
+        };
+        $scope.fullname = $scope.username + " " + $scope.lastname;
+        $http({
+                        method: 'GET',
+                        url: '/departmentnames'
 
+                    }).success(function(data, status, headers, config) {
+                        // this callback will be called asynchronously
+                        // when the response is available
+                        $scope.dpts = data;
+                        // console.log(JSON.stringify($scope.dpts));
+
+                    })
+                    .error(function(data, status, headers, config) {
+                        notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
+                    });
 
 
     }

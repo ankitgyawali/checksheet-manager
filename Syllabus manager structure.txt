@@ -150,3 +150,12 @@ details: Array of JSONs {
 	Description:String
 	Rules: 0 or actual rules such as prefix == suffix ++ 
 }
+
+
+detail object -> {
+	
+	title:String,
+	subtitle:String,
+	description:String,
+	prerequisiteRule:Object -> prerequisiteRule -> { Array of courses, AND OR logice   }
+}
