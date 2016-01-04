@@ -15,12 +15,15 @@
 
 
 
+<div ng-show="divshow">
+
 
 <div class="panel panel-default">
   <div class="panel-body" style="font-size:125%">
      Checksheets blocks are representation of similar types of checksheets slots. You can combine multiple blocks to build a checksheet. Blocks can be reused on multiple checksheet. Refer to the documentation for more information.
   </div>
 </div>
+
 <form name="blockcreator" style="font-size:90%;" ng-submit="buildBlock()" >
 <div class="container" style="line-height:30px;">
 <!--     name: String,   id: String, credits: Number,  type: String,
@@ -102,4 +105,52 @@
 </button></form></div>
 
 
+<div ng-show="divshow">
+  <div class="panel panel-default">
+  <div class="panel-body" style="font-size:125%">
+     Fill out the required information to create a checksheet block. Note that the order in which slot information is filled will be the order in which the block is rendered in checksheet.
+  </div>
+</div>
+<div class="container" style="line-height:30px;">
+   <div class="row" ng-repeat="slot in block.details track by $index">
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title"><b>Slot #{{$index+1}}</b></h3>
+  </div>
+  <div class="panel-body" >
 
+       <div class="row">
+  <div class="col-sm-6" >
+    <label for="email" style="font-size:125%">Title:</label>
+    <input type="text" class="form-control">
+  </div>
+  <div class="col-sm-6">
+    <label for="pwd"  style="font-size:125%">Sub-title (optional):</label>
+    <input type="password" class="form-control">
+  </div>
+  </div>
+
+      <div class="row">
+  <div class="col-sm-8" >
+    <label for="email" style="font-size:125%">Slot Description:</label>
+    <input type="text" class="form-control">
+  </div>
+  <div class="col-sm-2">
+    <label for="pwd"  style="font-size:125%">Enforce Rule:</label>
+    <input type="password" class="form-control">
+  </div>
+
+   <div class="col-sm-2">
+    <label for="pwd"  style="font-size:125%">Rule(optional):</label>
+    <input type="password" class="form-control">
+  </div>
+
+  </div>
+
+  </div>
+</div>
+
+   </div>
+<button type="button" ng-click="addSlot()">Add one more slot</button>
+  </div>
+</div>
