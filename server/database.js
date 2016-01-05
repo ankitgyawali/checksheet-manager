@@ -74,16 +74,16 @@ var classCol = mongoose.model('class', classSchema);
 var blockSchema = mongoose.Schema({
     name: String,
     type: String,
-    credits: Number,
-    details: Object,
+    slots: Number,
+    details: Array,
     department: String,
-    createdby: String,
+    creator: String,
+    creatorID:String,
     id: String
 },{ collection : 'block' });
 var blockCol = mongoose.model('block', classSchema);
 
-
-
+ 
 
 module.exports = {
     root: rootCol,

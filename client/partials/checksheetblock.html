@@ -72,7 +72,7 @@
       <select ng-model="block.type" ng-init="block.type='Required'" style="width:300px" required>
                    <option>Required</option>
                    <option>Electives</option>
-                   <option>Concomitant/Competencies</option>
+                   <option value="competencies">Concomitant/Competencies</option>
              </select> 
    
   </div></div>
@@ -94,7 +94,7 @@
 
 <div class="row">
   <div class="col-sm-2">    <label style="font-size:125%"><b>Created by:</b> </label> </div><div class="col-sm-4"> 
-    <input type="text" size="50" ng-model="fullname" readonly></div>
+    <input type="text" size="50" ng-model="block.creator" readonly></div>
 </div>
 
 <br><br>
@@ -137,9 +137,12 @@
   </div>  </div>
 </div>
   <div class="panel-footer">
-  <div class="row">
 
-   <div class="col-sm-10" ng-show="block.type=='Required'" ng-init="block.details[$index].rule='None'">
+
+  <div class="row page-header">
+
+   
+   <div class="col-sm-12" ng-show="block.type=='Required' || block.type=='competencies'" ng-init="block.details[$index].rule='None'">
     <label  style="font-size:125%">Enforce a slot rule (optional):</label>
     <select ng-model="block.details[$index].rule">
       <option>None</option>
@@ -148,7 +151,38 @@
       <option ng-value="103">Require targeted class code or upper level class with same prefix</option>
     </select>
   </div>
-  <div class="col-sm-10" ng-show="block.type=='Electives'">
+
+  
+  <div class="col-sm-6" ng-show="block.details[$index].rule=='101' || block.details[$index].rule=='103' ">
+
+    <label  style="font-size:125%" >Class Prefix:</label>
+    <select ng-model="block.details[$index].ruleconstraint.prefix" ng-options="dpt.id as dpt.id for dpt in dpts"  ng-init="block.details[$index].ruleconstraint.prefix='None'" required>
+      
+    </select>
+    &nbsp;&nbsp;&nbsp;
+
+     <label  style="font-size:125%">Class Suffix:</label>
+    <select ng-model="block.details[$index].ruleconstraint.suffix" ng-options="course.suffix as course.suffix for course in courses | filter:{prefix:block.details[$index].ruleconstraint.prefix}" required>
+      
+    </select>
+  </div>
+    <div class="col-sm-6" ng-show="block.details[$index].rule=='102'">
+     
+     <label  style="font-size:125%" >Class Prefix:</label>
+    <select ng-model="block.details[$index].ruleconstraint.prefix" ng-options="dpt.id as dpt.id for dpt in dpts"  ng-init="block.details[$index].ruleconstraint.prefix='None'" required>
+      <option></option>
+
+    </select>
+
+    </div>
+  <!--     <div ng-repeat="course in courses | filter:{prefix:'POL'}">
+      {{course.prefix}} {{course.suffix}}
+    </div> -->
+
+
+  
+  
+  <div class="col-sm-12" ng-show="block.type=='Electives'">
     <label  style="font-size:125%">Enforce a slot rule (optional):</label>
     <select ng-model="block.details[$index].rule" ng-init="block.details[$index].rule='None'">
       <option>None</option>
@@ -156,11 +190,10 @@
       <option ng-value="202">Select class options for current slot only</option>
     </select>
   </div>
-  <div class="col-sm-2" ng-show="block.type=='Electives'">
-    <a href="#"> Pick classes</a>
+
+
   </div>
-  </div>
-   <div class="row"><div class="col-sm-10">
+   <div class="row page-header"><div class="col-sm-12">
     <label style="font-size:125%">Enforce pre-requisite requirement (optional):</label>
     <select ng-model="block.details[$index].prerequisite" ng-init="block.details[$index].prerequisite='None'">
       <option>None</option>
@@ -170,7 +203,47 @@
     </select>
 
    </div>
+
+
+  <div class="col-sm-4" ng-show="block.details[$index].prerequisite!='None'">
+ 
+    <label  style="font-size:125%" >Class Prefix:</label>
+    <select ng-model="block.details[$index].prereqconstraint.prefix" ng-options="dpt.id as dpt.id for dpt in dpts"  ng-init="block.details[$index].prereqconstraint.prefix='None'" required>
+      
+    </select>
+    &nbsp;&nbsp;&nbsp;
+
+     <label  style="font-size:125%">Class Suffix:</label>
+    <select ng-model="block.details[$index].prereqconstraint.suffix" ng-options="course.suffix as course.suffix for course in courses | filter:{prefix:block.details[$index].prereqconstraint.prefix}" required>
+      
+    </select>
   </div>
+  <div class="col-sm-2" ng-show="block.details[$index].prerequisite=='1002'"> AND </div>
+  <div class="col-sm-2" ng-show="block.details[$index].prerequisite=='1003'"> OR </div>
+    <div class="col-sm-4" ng-show="block.details[$index].prerequisite=='1002' || block.details[$index].prerequisite=='1003'">
+ 
+    <label  style="font-size:125%" >Class Prefix:</label>
+    <select ng-model="block.details[$index].prereqconstraint.prefix2" ng-options="dpt.id as dpt.id for dpt in dpts"  ng-init="block.details[$index].prereqconstraint.prefix2='None'" required>
+      
+    </select>
+    &nbsp;&nbsp;&nbsp;
+
+     <label  style="font-size:125%">Class Suffix:</label>
+    <select ng-model="block.details[$index].prereqconstraint.suffix2" ng-options="course.suffix as course.suffix for course in courses | filter:{prefix:block.details[$index].prereqconstraint.prefix}" required>
+      
+    </select>
+  </div>
+
+  </div>
+<div class="row">
+        <div class="col-sm-12">
+    <label  style="font-size:125%">Slot provides credits (classes  are accounted for in other part of checksheet):</label>
+    <select ng-model="block.details[$index].hascredit" ng-init="block.details[$index].hascredit='True'">
+      <option>True</option>
+      <option>False</option>
+    </select>
+  </div></div>
+
 
   </div>
 </div>

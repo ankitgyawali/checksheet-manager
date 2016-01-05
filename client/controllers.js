@@ -61,8 +61,8 @@ angular.module('smApp').controller('loginController', ['$scope', '$location', 'n
 
 
 //Main Root Controller that handles root dashboard
-angular.module('smApp').controller('advisorController', ['$scope', '$location', 'notificationFactory', 'AuthService', '$cookies',
-    function($scope, $location, notificationFactory, AuthService, $cookies) {
+angular.module('smApp').controller('advisorController', ['$scope', '$http', '$location', 'notificationFactory', 'AuthService', '$cookies',
+    function($scope, $http, $location, notificationFactory, AuthService, $cookies) {
 
         //Instantiates templateURL for dashboard constant at parent scope so subsequent child
         //controllers can modify it
@@ -73,6 +73,21 @@ angular.module('smApp').controller('advisorController', ['$scope', '$location', 
         $scope.lastname = AuthService.getlastname()
         $scope.usertype = AuthService.getusertype();
         //Method to modify templateURL 
+               $http({
+                        method: 'GET',
+                        url: '/classes'
+
+                    }).success(function(data, status, headers, config) {
+                        // this callback will be called asynchronously
+                        // when the response is available
+                        $scope.dpts = data.dpts;
+                        $scope.courses = data.courses;
+                        //console.log(JSON.stringify($scope.courses | suffix:135));
+
+                    })
+                    .error(function(data, status, headers, config) {
+                        notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
+                    });
         $scope.settemplateURL = function(temp) {
             $scope.templateURL = temp;
         };
@@ -93,8 +108,11 @@ angular.module('smApp').controller('blockController', ['$scope', '$http','$locat
         $scope.block = {};
         $scope.block.slots = 1;
     
-     
-         $scope.block.details = new Array($scope.block.slots);   
+        $scope.block.creator = $scope.username + " " + $scope.lastname;;
+        $scope.block.creatorID = AuthService.getuserid();
+
+        console.log($scope.block.creatorID);
+        $scope.block.details = new Array($scope.block.slots);   
         $scope.divshow = true;
         $scope.buildBlock = function (){
              $scope.divshow = false;
@@ -108,21 +126,8 @@ angular.module('smApp').controller('blockController', ['$scope', '$http','$locat
             $scope.block.details.length = $scope.block.details.length + 1;
             console.log(JSON.stringify($scope.block));
           };
-        $scope.fullname = $scope.username + " " + $scope.lastname;
-        $http({
-                        method: 'GET',
-                        url: '/departmentnames'
-
-                    }).success(function(data, status, headers, config) {
-                        // this callback will be called asynchronously
-                        // when the response is available
-                        $scope.dpts = data;
-                 
-
-                    })
-                    .error(function(data, status, headers, config) {
-                        notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
-                    });
+       
+ 
 
 
     }

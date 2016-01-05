@@ -159,3 +159,51 @@ detail object -> {
 	description:String,
 	prerequisiteRule:Object -> prerequisiteRule -> { Array of courses, AND OR logice   }
 }
+
+
+required rule ->
+ Store -> 
+Class code equals
+class prefix equals
+class code more than
+
+preq rule -> class code and class code
+			 class code or class code
+			 class code not class code
+
+elective rule ->
+		course options for one slot
+		course options for multiple block
+
+
+
+
+
+
+
+
+SLOT KO -> HASCREDIT, TITLE, SUBTITLE, DESCRIPTION
+
+
+
+
+		SLOT -> {
+
+    "rule":"101",
+    "ruleconstraint":{
+        "prefix":"CSC",
+        "suffix":135
+    },
+    "prerequisite":"1002",
+    "prereqconstraint":{
+        "prefix":"BIO",
+        "prefix2":"CSC",
+        "suffix":105,
+        "suffix2":105
+    },
+    "hascredit":"False",
+    "title":"ed",
+    "subtitle":"we",
+    "description":"as"
+
+}

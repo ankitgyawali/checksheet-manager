@@ -100,6 +100,7 @@ angular.module('smApp').factory('AuthService',
       getlastname:getlastname,
       getusertype: getusertype,
       setusertype: setusertype,
+      getuserid: getuserid,
       login: login,
       logout: logout,
       generatePassword: generatePassword,
@@ -118,6 +119,10 @@ angular.module('smApp').factory('AuthService',
 
     function isLoggedIn() {
         return $cookies.get('loggedin');
+    }
+
+     function getuserid() {
+        return $cookies.get('_id');
     }
 
     function generatePassword() {
@@ -159,6 +164,7 @@ function login(uname, upwd, utype) {
                 $cookies.put('lastname', data.person.lastname);
                 $cookies.put('loggedin', 'true');
                 $cookies.put('usertype', data.usertype);
+                $cookies.put('_id', data.person._id);
 
 
                  console.log('loggedin='+getusertype());
