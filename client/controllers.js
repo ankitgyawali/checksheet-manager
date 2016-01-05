@@ -92,8 +92,8 @@ angular.module('smApp').controller('blockController', ['$scope', '$http','$locat
     function($scope, $http, $location, notificationFactory, AuthService, $cookies) {
         $scope.block = {};
         $scope.block.slots = 1;
-        $scope.block.department = "Checksheet: General Education"; 
-        $scope.block.type = "Required";
+    
+     
          $scope.block.details = new Array($scope.block.slots);   
         $scope.divshow = true;
         $scope.buildBlock = function (){
@@ -103,8 +103,10 @@ angular.module('smApp').controller('blockController', ['$scope', '$http','$locat
             console.log(JSON.stringify($scope.block));
 
         };
+     
           $scope.addSlot = function (){
             $scope.block.details.length = $scope.block.details.length + 1;
+            console.log(JSON.stringify($scope.block));
           };
         $scope.fullname = $scope.username + " " + $scope.lastname;
         $http({
@@ -115,7 +117,7 @@ angular.module('smApp').controller('blockController', ['$scope', '$http','$locat
                         // this callback will be called asynchronously
                         // when the response is available
                         $scope.dpts = data;
-                        console.log(JSON.stringify($scope.dpts));
+                 
 
                     })
                     .error(function(data, status, headers, config) {

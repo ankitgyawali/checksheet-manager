@@ -54,10 +54,10 @@
                 <option></option>
              </select> 
  -->   
- <select  ng-model="block.department" style="width:300px" required>
- <option ng-selected="dpt.name == block.department" 
-        ng-repeat="dpt in dpts" >{{dpt.name}}</option>
+ <select  ng-model="block.department" ng-init="block.department='Checksheet: General Education'" style="width:300px" required>
+ <option ng-repeat="dpt in dpts" >{{dpt.name}}</option>
 </select>
+
   </div>
 
 
@@ -69,10 +69,10 @@
 
 
 
-      <select ng-model="block.type" style="width:300px" required>
-                   <option ng-selected="1">  Required</option>
-                   <option> Electives</option>
-                   <option> Concomitant/Competencies</option>
+      <select ng-model="block.type" ng-init="block.type='Required'" style="width:300px" required>
+                   <option>Required</option>
+                   <option>Electives</option>
+                   <option>Concomitant/Competencies</option>
              </select> 
    
   </div></div>
@@ -121,30 +121,55 @@
 
        <div class="row">
   <div class="col-sm-6" >
-    <label for="email" style="font-size:125%">Title:</label>
-    <input type="text" class="form-control">
+    <label style="font-size:125%">Title:</label>
+    <input type="text" class="form-control" ng-model="block.details[$index].title">
   </div>
   <div class="col-sm-6">
-    <label for="pwd"  style="font-size:125%">Sub-title (optional):</label>
-    <input type="password" class="form-control">
+    <label style="font-size:125%">Sub-title (optional):</label>
+    <input type="text" class="form-control" ng-model="block.details[$index].subtitle">
   </div>
   </div>
 
       <div class="row">
-  <div class="col-sm-8" >
-    <label for="email" style="font-size:125%">Slot Description:</label>
-    <input type="text" class="form-control">
-  </div>
-  <div class="col-sm-2">
-    <label for="pwd"  style="font-size:125%">Enforce Rule:</label>
-    <input type="password" class="form-control">
-  </div>
+  <div class="col-sm-12" >
+    <label style="font-size:125%">Slot Description:</label>
+    <input type="text" class="form-control" ng-model="block.details[$index].description">
+  </div>  </div>
+</div>
+  <div class="panel-footer">
+  <div class="row">
 
-   <div class="col-sm-2">
-    <label for="pwd"  style="font-size:125%">Rule(optional):</label>
-    <input type="password" class="form-control">
+   <div class="col-sm-10" ng-show="block.type=='Required'" ng-init="block.details[$index].rule='None'">
+    <label  style="font-size:125%">Enforce a slot rule (optional):</label>
+    <select ng-model="block.details[$index].rule">
+      <option>None</option>
+      <option ng-value="101">Require targeted class code</option>
+      <option ng-value="102">Require targeted class prefix</option>
+      <option ng-value="103">Require targeted class code or upper level class with same prefix</option>
+    </select>
   </div>
+  <div class="col-sm-10" ng-show="block.type=='Electives'">
+    <label  style="font-size:125%">Enforce a slot rule (optional):</label>
+    <select ng-model="block.details[$index].rule" ng-init="block.details[$index].rule='None'">
+      <option>None</option>
+      <option ng-value="201">Select class options for whole block (all slots)</option>
+      <option ng-value="202">Select class options for current slot only</option>
+    </select>
+  </div>
+  <div class="col-sm-2" ng-show="block.type=='Electives'">
+    <a href="#"> Pick classes</a>
+  </div>
+  </div>
+   <div class="row"><div class="col-sm-10">
+    <label style="font-size:125%">Enforce pre-requisite requirement (optional):</label>
+    <select ng-model="block.details[$index].prerequisite" ng-init="block.details[$index].prerequisite='None'">
+      <option>None</option>
+      <option ng-value="1001">Single class required</option>
+      <option ng-value="1002">Two class required (Class#1 AND Class#2)</option>
+      <option ng-value="1003">One of two classes required (Class#1 OR Class#2)</option>
+    </select>
 
+   </div>
   </div>
 
   </div>

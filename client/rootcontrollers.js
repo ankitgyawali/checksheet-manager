@@ -40,7 +40,7 @@ angular.module('smApp').controller('rootadvisorController', ['$scope', '$locatio
                         // this callback will be called asynchronously
                         // when the response is available
                         $scope.dpts = data;
-                        console.log(JSON.stringify($scope.dpts));
+                  
 
                     })
                     .error(function(data, status, headers, config) {
