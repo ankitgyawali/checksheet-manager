@@ -15,8 +15,7 @@
 
 
 
-<div ng-show="divshow">
-
+<div ng-if="divshow">
 
 <div class="panel panel-default">
   <div class="panel-body" style="font-size:125%">
@@ -83,11 +82,7 @@
     <input type="number" size="5" min="1" max="40" ng-model="block.slots" required></div>
 
 </div>
-<div class="row">
-  <div class="col-sm-2">    <label style="font-size:125%"><b>Total Credits:</b> </label> </div><div class="col-sm-1"> 
-    <input type="number" size="5" ng-value="block.slots*3" readonly></div>
 
-</div>
 
 
 
@@ -102,26 +97,20 @@
 </div>
 <button style="font-size:125%" type="submit">
 	<i class="fa fa-fw fa-gears"></i> Start building block
-</button></form></div>
+</button></form>
+
+</div>
 
 
-<div ng-show="divshow">
-
-
-  
-
-
+<div ng-if="!divshow">
 
   <div class="panel panel-default">
   <div class="panel-body" style="font-size:125%">
      Fill out the required information to create a checksheet block. Note that the order in which slot information is filled will be the order in which the block is rendered in checksheet.
   </div>
-
-
-
 </div>
 
-  <div class="panel panel-default" ng-show="block.type=='Required'">
+  <div class="panel panel-default" ng-show="block.type=='Electives'">
   <div class="panel-body" style="font-size:125%">
     <div class="row page-header"><div class="col-sm-6">
        Add class options available for this block of electives:
@@ -133,7 +122,10 @@
 <!--     <select ng-options="dpt.id as dpt.id for dpt in dpts" required>
       
     </select> -->
-     <select ng-model="tempPrefix" ng-options="dpt.id as dpt.id for dpt in dpts" required> </select>
+     <select ng-model="tempPrefix" ng-options="dpt.id as dpt.id for dpt in dpts" 
+      ng-init="tempPrefix=dpts[0].id" required> 
+  <option></option>
+    </select>
     &nbsp;&nbsp;&nbsp;
 
      <label  style="font-size:100%">Suffix:</label>
@@ -159,20 +151,11 @@
      </div>
   </div>
   </div>
-  </div>
-
-
-
-</div>
-
-
-
-   
-
+ 
 
 <div class="container" style="line-height:30px;">
-   <div class="row" ng-repeat="slot in block.details track by $index">
-<div class="panel panel-default">
+   <div class="row" style="" ng-repeat="slot in block.details track by $index">
+<div class="panel panel-info">
   <div class="panel-heading">
     <h3 class="panel-title"><b>Slot #{{$index+1}}</b></h3>
   </div>
@@ -195,24 +178,26 @@
     <input type="text" class="form-control" ng-model="block.details[$index].description">
   </div>  </div>
 </div>
-  <div class="panel-footer">
 
+  <div class="panel-footer">
 
   <div class="row page-header">
 
-   
-   <div class="col-sm-12" ng-show="block.type=='Required' || block.type=='competencies'" ng-init="block.details[$index].rule='None'">
+   <div class="col-sm-12" ng-if="block.type=='Required' || block.type=='competencies'" ng-init="block.details[$index].rule='None'">
     <label  style="font-size:125%">Enforce a slot rule (optional):</label>
-    <select ng-model="block.details[$index].rule">
-      <option>None</option>
+        <select ng-model="block.details[$index].rule" ng-init="block.details[$index].rule='None'" required>
+      <option >None</option>
       <option ng-value="101">Require targeted class code</option>
       <option ng-value="102">Require targeted class prefix</option>
       <option ng-value="103">Require targeted class code or upper level class with same prefix</option>
-    </select>
+             </select> 
+
+
+
   </div>
 
   
-  <div class="col-sm-6" ng-show="block.details[$index].rule=='101' || block.details[$index].rule=='103' ">
+  <div class="col-sm-6" ng-if="block.details[$index].rule=='101' || block.details[$index].rule=='103' ">
 
     <label  style="font-size:125%" >Class Prefix:</label>
     <select ng-model="block.details[$index].ruleconstraint.prefix" ng-options="dpt.id as dpt.id for dpt in dpts"  ng-init="block.details[$index].ruleconstraint.prefix='None'" required>
@@ -225,7 +210,7 @@
       
     </select>
   </div>
-    <div class="col-sm-6" ng-show="block.details[$index].rule=='102'">
+    <div class="col-sm-6" ng-if="block.details[$index].rule=='102'">
      
      <label  style="font-size:125%" >Class Prefix:</label>
     <select ng-model="block.details[$index].ruleconstraint.prefix" ng-options="dpt.id as dpt.id for dpt in dpts"  ng-init="block.details[$index].ruleconstraint.prefix='None'" required>
@@ -241,13 +226,8 @@
 
   
   
-  <div class="col-sm-12" ng-show="block.type=='Electives'">
-    <label  style="font-size:125%">Enforce a slot rule (optional):</label>
-    <select ng-model="block.details[$index].rule" ng-init="block.details[$index].rule='None'">
-      <option>None</option>
-      <option ng-value="201">Select class options for whole block (all slots)</option>
-      <option ng-value="202">Select class options for current slot only</option>
-    </select>
+  <div class="col-sm-12" ng-if="block.type=='Electives'" style="font-size:125%">
+    Slot Rule: Choice of classes for students.
   </div>
 
 
@@ -255,7 +235,7 @@
    <div class="row page-header"><div class="col-sm-12">
     <label style="font-size:125%">Enforce pre-requisite requirement (optional):</label>
     <select ng-model="block.details[$index].prerequisite" ng-init="block.details[$index].prerequisite='None'">
-      <option>None</option>
+      <option ng-value="None">None</option>
       <option ng-value="1001">Single class required</option>
       <option ng-value="1002">Two class required (Class#1 AND Class#2)</option>
       <option ng-value="1003">One of two classes required (Class#1 OR Class#2)</option>
@@ -264,7 +244,7 @@
    </div>
 
 
-  <div class="col-sm-4" ng-show="block.details[$index].prerequisite!='None'">
+  <div class="col-sm-4" ng-if="block.details[$index].prerequisite!='None'">
  
     <label  style="font-size:125%" >Class Prefix:</label>
     <select ng-model="block.details[$index].prereqconstraint.prefix" ng-options="dpt.id as dpt.id for dpt in dpts"  ng-init="block.details[$index].prereqconstraint.prefix='None'" required>
@@ -279,7 +259,7 @@
   </div>
   <div class="col-sm-2" ng-show="block.details[$index].prerequisite=='1002'"> AND </div>
   <div class="col-sm-2" ng-show="block.details[$index].prerequisite=='1003'"> OR </div>
-    <div class="col-sm-4" ng-show="block.details[$index].prerequisite=='1002' || block.details[$index].prerequisite=='1003'">
+    <div class="col-sm-4" ng-if="block.details[$index].prerequisite=='1002' || block.details[$index].prerequisite=='1003'">
  
     <label  style="font-size:125%" >Class Prefix:</label>
     <select ng-model="block.details[$index].prereqconstraint.prefix2" ng-options="dpt.id as dpt.id for dpt in dpts"  ng-init="block.details[$index].prereqconstraint.prefix2='None'" required>
@@ -308,7 +288,10 @@
 </div>
 
    </div>
-   <button type="button" ng-click="submitSlot()">View slot</button>
+<button type="button" ng-click="submitSlot()">View slot</button>
 <button type="button" ng-click="addSlot()">Add one more slot</button>
+
+
+   
   </div>
 </div>
