@@ -106,26 +106,33 @@ angular.module('smApp').controller('advisorController', ['$scope', '$http', '$lo
 angular.module('smApp').controller('blockController', ['$scope', '$http','$location', 'notificationFactory', 'AuthService', '$cookies',
     function($scope, $http, $location, notificationFactory, AuthService, $cookies) {
         $scope.block = {};
-        $scope.block.slots = 1;
-        $scope.block.ok = [];
+        
+     
         $scope.block.creator = $scope.username + " " + $scope.lastname;;
         $scope.block.creatorID = AuthService.getuserid();
 
         $scope.removeoption = function (idx) {
-            $scope.block.ok.splice(idx,1)
+            $scope.block.electivechoices.splice(idx,1)
         }
-        $scope.block.details = new Array($scope.block.slots);   
-        $scope.divshow = true;
-        $scope.buildBlock = function (){
-             $scope.divshow = false;
-             $scope.block.details = new Array($scope.block.slots);   
-             console.log($scope.block.details);
-            console.log(JSON.stringify($scope.block));
-            if($scope.block.type=="Electives"){
-                $scope.block.details[0].rule = [];
-            }
 
+        $scope.block.details = [];
+
+        $scope.divshow = true;
+        $scope.buildBlock = function (num){
+             $scope.divshow = false;
+             $scope.block.details = new Array(num);   
+             $scope.block.electivechoices = [];
         };
+        $scope.$watch('block.details.length', function(val) {
+            console.log(val);
+             $scope.block.slot = val;
+        });
+
+       
+
+        $scope.removeslot = function (idx) {
+            $scope.block.details.splice(idx,1);
+        }
      
           $scope.addSlot = function (){
             $scope.block.details.length = $scope.block.details.length + 1;
@@ -133,31 +140,59 @@ angular.module('smApp').controller('blockController', ['$scope', '$http','$locat
           };
        
             $scope.addelectiveoption = function (p,s) {
-                $scope.block.ok.push({
+                $scope.block.electivechoices.push({
                     "prefix":p,
                     "suffix":s
                 });
-                console.log(JSON.stringify($scope.block.ok));
-                 console.log(JSON.stringify($scope.block.ok.length));
+                console.log(JSON.stringify($scope.block.electivechoices));
+                 console.log(JSON.stringify($scope.block.electivechoices.length));
             }
          $scope.submitSlot = function (){
           
             console.log("OLD:-> "+JSON.stringify($scope.block));
-
+            if ($scope.block.type != "Electives") {
+                delete $scope.block.electivechoices;
+            }
+            $scope.block.credits = 0;
               angular.forEach($scope.block.details,function(value,index){
-                if(value.rule=="None") { 
+                if(value.rule=="None" || angular.isUndefined(value.rule) || value.rule === null ) { 
                 delete value['rule'];
                 delete value['ruleconstraint'];
                  }
 
-                if(value.prerequisite=="None") {
+                 if(value.prerequisite=="None" || angular.isUndefined(value.prerequisite) || value.prerequisite === null ) { 
                 delete value['prerequisite'];
                 delete value['prereqconstraint'];
-
+                if(value.hascredit == "True"){  $scope.block.credits =  $scope.block.credits + 3; }
                 }
                 
+            
+
+
             });
-             console.log("NEW:-> "+JSON.stringify($scope.block));
+          
+                   $http({
+                    method: 'POST',
+                    url: '/blocks',
+                    // set the headers so angular passing info as form data (not request payload)
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        arraytoAdd: $scope.block
+                    }
+
+                }).success(function(data, status, headers, config) {
+                 //Template will be set to show new advisors once addadvisor has been completed
+                $scope.settemplateURL('partials/radvisor.html');
+               notificationFactory.info("Successfully added block to database! ");
+                })
+                .error(function(data, status, headers, config) {
+                    notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.")
+
+                });
+
+                       console.log("NEW:-> "+JSON.stringify($scope.block));
 
           };
 

@@ -79,9 +79,10 @@ var blockSchema = mongoose.Schema({
     department: String,
     creator: String,
     creatorID:String,
-    id: String
+    id: String,
+    credits: Number
 },{ collection : 'block' });
-var blockCol = mongoose.model('block', classSchema);
+var blockCol = mongoose.model('block', blockSchema);
 
  
 
@@ -90,5 +91,6 @@ module.exports = {
     advisor: advisorCol,
     student: studentCol,
     department: departmentCol,
-    class: classCol
+    class: classCol,
+    block: blockCol
 };

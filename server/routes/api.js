@@ -143,6 +143,24 @@ function onInsert(err, docs) {
 
 });
 
+router.post('/blocks', function(req, res) {
+
+models.block.collection.insert(req.body.arraytoAdd, onInsert);
+
+function onInsert(err, docs) {
+    if (err) {
+        // TODO: handle error
+      console.log("error because: "+ err + "&&& doc: "+docs)
+      return res.sendStatus(500);
+    } else {
+        console.info('%d potatoes were successfully stored.', docs.length);
+         return res.sendStatus(200)
+    }
+}
+
+});
+
+
 router.post('/roots', function(req, res) {
 
 models.root.collection.insert(req.body.arraytoAdd, onInsert);

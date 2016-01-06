@@ -5,6 +5,7 @@
 <a href="#"  ng-click="showme=true"> <i class="fa fa-fw fa-plus-circle"></i> Add multiple advisors </a> -->
 
 
+<a ng-if="!divshow" href="" ng-click="addSlot()"> <i class="fa fa-fw fa-plus"></i> Add one more slot </a>
 &nbsp;&nbsp;&nbsp;
 <a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
 &nbsp;&nbsp;&nbsp;
@@ -23,7 +24,7 @@
   </div>
 </div>
 
-<form name="blockcreator" style="font-size:90%;" ng-submit="buildBlock()" >
+<form name="blockcreator" style="font-size:90%;" ng-submit="buildBlock(numSlot)" >
 <div class="container" style="line-height:30px;">
 <!--     name: String,   id: String, credits: Number,  type: String,
    
@@ -79,7 +80,7 @@
 <div class="row">
 
   <div class="col-sm-2">    <label style="font-size:125%"><b>Number of slots:</b> </label> </div><div class="col-sm-1"> 
-    <input type="number" size="5" min="1" max="40" ng-model="block.slots" required></div>
+    <input type="number" size="5" min="1" max="40" ng-model="numSlot" ng-init="numSlot=1" required></div>
 
 </div>
 
@@ -103,14 +104,14 @@
 
 
 <div ng-if="!divshow">
-
+<span style="font-size:125%">Creating "{{block.name}}"<br> Number of slots: <b>{{block.slot}}</b> </span><br><br>
   <div class="panel panel-default">
   <div class="panel-body" style="font-size:125%">
      Fill out the required information to create a checksheet block. Note that the order in which slot information is filled will be the order in which the block is rendered in checksheet.
   </div>
 </div>
 
-  <div class="panel panel-default" ng-show="block.type=='Electives'">
+  <div class="panel panel-default" ng-if="block.type=='Electives'">
   <div class="panel-body" style="font-size:125%">
     <div class="row page-header"><div class="col-sm-6">
        Add class options available for this block of electives:
@@ -138,10 +139,10 @@
   </div></div>
   <div class="row col-sm-12">
 
-     <div ng-show="!block.ok.length">No classes added yet.</div>
-     <div class="row" ng-show="block.ok.length">
+     <div ng-show="!block.electivechoices.length">No classes added yet.</div>
+     <div class="row" ng-show="block.electivechoices.length">
    
-         <div class="col-sm-2" ng-repeat="class in block.ok track by $index">
+         <div class="col-sm-2" ng-repeat="class in block.electivechoices track by $index">
        <a type="button" class="close" ng-click="removeoption($index)" style="color:black;hover:disabled" disabled>{{class.prefix}} {{class.suffix}}
         <span aria-hidden="true" style="font-size: 20px">&times;</span>
        </a> </div>
@@ -157,7 +158,15 @@
    <div class="row" style="" ng-repeat="slot in block.details track by $index">
 <div class="panel panel-info">
   <div class="panel-heading">
-    <h3 class="panel-title"><b>Slot #{{$index+1}}</b></h3>
+    <h3 class="panel-title"><b>Slot #{{$index+1}}</b>
+
+    <span class="pull-right"><b><button type="button" ng-click="removeslot($index)" class="close" aria-hidden="false" ng-disabled="block.slot==1" >&times;</button> </b></span>
+
+  </h3>
+
+      
+
+
   </div>
   <div class="panel-body" >
 
@@ -268,7 +277,7 @@
     &nbsp;&nbsp;&nbsp;
 
      <label  style="font-size:125%">Class Suffix:</label>
-    <select ng-model="block.details[$index].prereqconstraint.suffix2" ng-options="course.suffix as course.suffix for course in courses | filter:{prefix:block.details[$index].prereqconstraint.prefix}" required>
+    <select ng-model="block.details[$index].prereqconstraint.suffix2" ng-options="course.suffix as course.suffix for course in courses | filter:{prefix:block.details[$index].prereqconstraint.prefix2}" required>
       
     </select>
   </div>
@@ -288,10 +297,14 @@
 </div>
 
    </div>
-<button type="button" ng-click="submitSlot()">View slot</button>
-<button type="button" ng-click="addSlot()">Add one more slot</button>
 
 
-   
+
+<button style="text-size:125%" type="button" ng-click="submitSlot()" confirm="WARNING: Are you sure you want to submit the block to database?" confirm-title="Submitting {{block.name}}.." confirm-ok="Submit" confirm-cancel="No">Submit Slot to database</button>
+
+
+
+
+
   </div>
 </div>
