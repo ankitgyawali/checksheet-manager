@@ -107,11 +107,13 @@ angular.module('smApp').controller('blockController', ['$scope', '$http','$locat
     function($scope, $http, $location, notificationFactory, AuthService, $cookies) {
         $scope.block = {};
         $scope.block.slots = 1;
-    
+        $scope.block.ok = [];
         $scope.block.creator = $scope.username + " " + $scope.lastname;;
         $scope.block.creatorID = AuthService.getuserid();
 
-        console.log($scope.block.creatorID);
+        $scope.removeoption = function (idx) {
+            $scope.block.ok.splice(idx,1)
+        }
         $scope.block.details = new Array($scope.block.slots);   
         $scope.divshow = true;
         $scope.buildBlock = function (){
@@ -119,16 +121,45 @@ angular.module('smApp').controller('blockController', ['$scope', '$http','$locat
              $scope.block.details = new Array($scope.block.slots);   
              console.log($scope.block.details);
             console.log(JSON.stringify($scope.block));
+            if($scope.block.type=="Electives"){
+                $scope.block.details[0].rule = [];
+            }
 
         };
      
           $scope.addSlot = function (){
             $scope.block.details.length = $scope.block.details.length + 1;
-            console.log(JSON.stringify($scope.block));
+          
           };
        
- 
+            $scope.addelectiveoption = function (p,s) {
+                $scope.block.ok.push({
+                    "prefix":p,
+                    "suffix":s
+                });
+                console.log(JSON.stringify($scope.block.ok));
+                 console.log(JSON.stringify($scope.block.ok.length));
+            }
+         $scope.submitSlot = function (){
+          
+            console.log("OLD:-> "+JSON.stringify($scope.block));
 
+              angular.forEach($scope.block.details,function(value,index){
+                if(value.rule=="None") { 
+                delete value['rule'];
+                delete value['ruleconstraint'];
+                 }
+
+                if(value.prerequisite=="None") {
+                delete value['prerequisite'];
+                delete value['prereqconstraint'];
+
+                }
+                
+            });
+             console.log("NEW:-> "+JSON.stringify($scope.block));
+
+          };
 
     }
 ]);

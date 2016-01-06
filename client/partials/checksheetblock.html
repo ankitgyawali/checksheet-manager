@@ -106,11 +106,70 @@
 
 
 <div ng-show="divshow">
+
+
+  
+
+
+
   <div class="panel panel-default">
   <div class="panel-body" style="font-size:125%">
      Fill out the required information to create a checksheet block. Note that the order in which slot information is filled will be the order in which the block is rendered in checksheet.
   </div>
+
+
+
 </div>
+
+  <div class="panel panel-default" ng-show="block.type=='Required'">
+  <div class="panel-body" style="font-size:125%">
+    <div class="row page-header"><div class="col-sm-6">
+       Add class options available for this block of electives:
+    </div>
+
+      <div class="col-sm-4">
+
+    <label  style="font-size:100%" >Class Prefix:</label>
+<!--     <select ng-options="dpt.id as dpt.id for dpt in dpts" required>
+      
+    </select> -->
+     <select ng-model="tempPrefix" ng-options="dpt.id as dpt.id for dpt in dpts" required> </select>
+    &nbsp;&nbsp;&nbsp;
+
+     <label  style="font-size:100%">Suffix:</label>
+    <select ng-options="course.suffix as course.suffix for course in courses | filter:{prefix:tempPrefix}" ng-model="tempSuffix"required>
+      
+    </select>
+  </div>
+  <div class="col-sm-2">
+    <button type="button" ng-click="addelectiveoption(tempPrefix,tempSuffix)">Add class</button>
+  </div></div>
+  <div class="row col-sm-12">
+
+     <div ng-show="!block.ok.length">No classes added yet.</div>
+     <div class="row" ng-show="block.ok.length">
+   
+         <div class="col-sm-2" ng-repeat="class in block.ok track by $index">
+       <a type="button" class="close" ng-click="removeoption($index)" style="color:black;hover:disabled" disabled>{{class.prefix}} {{class.suffix}}
+        <span aria-hidden="true" style="font-size: 20px">&times;</span>
+       </a> </div>
+
+
+      </div>
+     </div>
+  </div>
+  </div>
+  </div>
+
+
+
+</div>
+
+
+
+   
+
+
 <div class="container" style="line-height:30px;">
    <div class="row" ng-repeat="slot in block.details track by $index">
 <div class="panel panel-default">
@@ -249,6 +308,7 @@
 </div>
 
    </div>
+   <button type="button" ng-click="submitSlot()">View slot</button>
 <button type="button" ng-click="addSlot()">Add one more slot</button>
   </div>
 </div>
