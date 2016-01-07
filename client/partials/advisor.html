@@ -58,10 +58,10 @@
           </ul>
 
           <ul class="nav nav-sidebar">
-            <li ng-class=""><a href="#" ng-click="templateURL=''">View Checksheets</a></li>
-            <li ng-class=""><a href="#" ng-click="templateURL=''">Add Checksheets </a></li>
+            <li ng-class=""><a href="#" ng-click="templateURL==''">View Checksheets</a></li>
+            <li ng-class="{active: (templateURL=='partials/checksheetmaker.html')}"><a href="#" ng-click="templateURL='partials/checksheetmaker.html'">Add Checksheets </a></li>
             
-            <li ng-class="{active: (templateURL=='partials/checksheetblock.html' || templateURL=='partials/blockdetails.html')}"><a href="#" ng-click="templateURL='partials/checksheetblock.html'">Add Block </a></li>
+            <li ng-class="{active: (templateURL=='partials/checksheetblock.html')}"><a href="#" ng-click="templateURL='partials/checksheetblock.html'">Add Block </a></li>
         </ul>
          <ul class="nav nav-sidebar">
             <li><a href="">Set advising hours </a></li>

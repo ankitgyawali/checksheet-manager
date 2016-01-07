@@ -67,7 +67,9 @@ angular.module('smApp').controller('advisorController', ['$scope', '$http', '$lo
         //Instantiates templateURL for dashboard constant at parent scope so subsequent child
         //controllers can modify it
         // $scope.templateURL = 'partials/rdept.html';
-        $scope.templateURL = 'partials/checksheetblock.html';
+
+        //DEBUG: set advisor default page here
+        $scope.templateURL = 'partials/checksheetmaker.html';
         //Get username and type at parent scope
         $scope.username = AuthService.getusername();
         $scope.lastname = AuthService.getlastname()
@@ -102,7 +104,7 @@ angular.module('smApp').controller('advisorController', ['$scope', '$http', '$lo
     }
 ]);
 
-//Main Root Controller that handles root dashboard
+//Controller that handles block creation for checksheet
 angular.module('smApp').controller('blockController', ['$scope', '$http','$location', 'notificationFactory', 'AuthService', '$cookies',
     function($scope, $http, $location, notificationFactory, AuthService, $cookies) {
         $scope.block = {};
@@ -198,3 +200,15 @@ angular.module('smApp').controller('blockController', ['$scope', '$http','$locat
 
     }
 ]);
+
+
+
+//Controller designed to handle mixing of one or more checksheet block for the creation of a checksheet
+angular.module('smApp').controller('advisorchecksheetController', ['$scope', '$http','$location', 'notificationFactory', 'AuthService', '$cookies',
+    function($scope, $http, $location, notificationFactory, AuthService, $cookies) {
+
+
+  $scope.x = "Hxxx"
+
+        }
+        ]);

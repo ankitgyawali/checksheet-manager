@@ -80,6 +80,7 @@ var blockSchema = mongoose.Schema({
     creator: String,
     creatorID:String,
     id: String,
+    description: String,
     credits: Number
 },{ collection : 'block' });
 var blockCol = mongoose.model('block', blockSchema);
