@@ -1,4 +1,6 @@
-var smApp = angular.module('smApp', ['ngRoute','ngCookies','angularUtils.directives.dirPagination','ui.bootstrap','angular-confirm']);
+var smApp = angular.module('smApp', 
+  ['ngRoute','ngCookies','angularUtils.directives.dirPagination',
+  'ui.bootstrap','angular-confirm']);
 
 smApp.config(function ($routeProvider) {
   $routeProvider
@@ -95,3 +97,7 @@ smApp.run(['$rootScope', '$location', 'AuthService',
 
     
 }]);
+
+
+
+

@@ -110,7 +110,7 @@ angular.module('smApp').controller('blockController', ['$scope', '$http','$locat
         $scope.block = {};
         
      
-        $scope.block.creator = $scope.username + " " + $scope.lastname;;
+        $scope.block.creator = $scope.username + " " + $scope.lastname;
         $scope.block.creatorID = AuthService.getuserid();
 
         $scope.removeoption = function (idx) {
@@ -207,8 +207,17 @@ angular.module('smApp').controller('blockController', ['$scope', '$http','$locat
 angular.module('smApp').controller('advisorchecksheetController', ['$scope', '$http','$location', 'notificationFactory', 'AuthService', '$cookies',
     function($scope, $http, $location, notificationFactory, AuthService, $cookies) {
 
+        $scope.checksheet = {};
+        $scope.checksheet.creator = $scope.username + " " + $scope.lastname;
+        
+        $scope.checksheet.creatorID = AuthService.getuserid();
+      
+          $scope.divshow = true;
+        $scope.buildChecksheet = function (){
+             $scope.divshow = false;
+ 
+        };
 
-  $scope.x = "Hxxx"
+}
 
-        }
         ]);
