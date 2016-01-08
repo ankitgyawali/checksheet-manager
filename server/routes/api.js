@@ -59,6 +59,16 @@ router.get('/departments', function(req, res) {
   }); 
 });
 
+
+router.get('/blockdetails', function(req, res) {
+
+  models.block.find({}, '_id creator description slot department type name id credits', function(err, dpts) {
+    res.send(dpts); 
+
+  }); 
+});
+
+
 router.get('/departmentnames', function(req, res) {
 
   models.department.find({}, 'name id', function(err, dpts) {

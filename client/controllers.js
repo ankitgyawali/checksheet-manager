@@ -207,14 +207,33 @@ angular.module('smApp').controller('blockController', ['$scope', '$http','$locat
 angular.module('smApp').controller('advisorchecksheetController', ['$scope', '$http','$location', 'notificationFactory', 'AuthService', '$cookies',
     function($scope, $http, $location, notificationFactory, AuthService, $cookies) {
 
+             //Method to modify templateURL 
+               $http({
+                        method: 'GET',
+                        url: '/blockdetails'
+
+                    }).success(function(data, status, headers, config) {
+                        // this callback will be called asynchronously
+                        // when the response is available
+                        $scope.blockdetails = data;
+
+                        //console.log(JSON.stringify($scope.courses | suffix:135));
+
+                    })
+                    .error(function(data, status, headers, config) {
+                        notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
+                    });
+
+
         $scope.checksheet = {};
+        $scope.checksheet.blockid = [];
         $scope.checksheet.creator = $scope.username + " " + $scope.lastname;
-        
+        $scope.checksheet.credits = 0;
         $scope.checksheet.creatorID = AuthService.getuserid();
       
-          $scope.divshow = true;
+        $scope.divshow = true;
         $scope.buildChecksheet = function (){
-             $scope.divshow = false;
+        $scope.divshow = false;
  
         };
 

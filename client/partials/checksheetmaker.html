@@ -102,8 +102,8 @@
     <i class="fa fa-fw fa-gears"></i> Start building checksheet
 </button></form>
 </div>
-<div ng-if="!divshow">
-
+<div ng-if="divshow">
+      <span style="font-size:125%">Creating "{{checksheet.name}}"<br> Number of blocks in checksheet: <b>{{checksheet.blockid.length}}</b> <br> Total number of credits in checksheet: <b>{{checksheet.credits}}</b> </span><br><br>
         <div class="panel panel-default">
             <div class="panel-body" style="font-size:125%">
                 Pick one or more checksheet blocks for your checksheet. The checksheet will be populated with slots from the blocks. The order in which block is indexed during checksheet construction will be the order in which checksheet is rendered to advisors and students. Refer to documentation for more instructions.
@@ -111,5 +111,54 @@
             </div>
         </div>
 </div>
+
+
+    <div class="row page-header" style="font-size:125%">
+
+      Add a block on checksheet:<br><br>
+      <div class="col-sm-5"> Block category:
+      <select  ng-model="blockcategory" ng-init="blockcategory='None'" style="width:300px" required>
+        <option value="None">None</option>
+      <option ng-repeat="dpt in dpts" >{{dpt.name}}</option>
+      </select> </div>
+      <div class="col-sm-1"></div>
+
+
+
+      <div class="col-sm-5" ng-show="blockcategory!='None'">
+
+        Block Name: 
+      
+
+        <select ng-model="blockname" ng-init="blockname='None'"required>
+        <option value="None">None</option>
+        <option ng-repeat="blockdetail in blockdetails | filter:{department:blockcategory} track by $index" >{{blockdetail.name}}</option>
+      </select>
+      </div>
+    
+      
+    </div>
+
+    <br>
+    <div   class="page-header" style="font-size:125%" ng-if="blockname!='None' && blockcategory!='None'">
+       Block details: <br>
+ {{bloackname}} && 
+ {{blockcategory}}  ||
+
+ {{blockdetails[0].description}}
+
+
+     </div>
+      <div   style="font-size:125%" ng-if="blockname=='None' || blockcategory=='None' ">
+       Not a valid selection
+     </div>
+
+  <br>
+    
+    <button> Add block to checksheet</button> 
+
+  </div>
+
+
 
 </div> <!-- End of closetop controller div -->
