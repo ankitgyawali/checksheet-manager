@@ -163,7 +163,24 @@ function onInsert(err, docs) {
       console.log("error because: "+ err + "&&& doc: "+docs)
       return res.sendStatus(500);
     } else {
-        console.info('%d potatoes were successfully stored.', docs.length);
+
+         return res.sendStatus(200)
+    }
+}
+
+});
+
+router.post('/checksheets', function(req, res) {
+
+models.checksheet.collection.insert(req.body.arraytoAdd, onInsert);
+
+function onInsert(err, docs) {
+    if (err) {
+        // TODO: handle error
+      console.log("error because: "+ err + "&&& doc: "+docs)
+      return res.sendStatus(500);
+    } else {
+
          return res.sendStatus(200)
     }
 }

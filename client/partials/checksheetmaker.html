@@ -15,7 +15,7 @@
 
 
 
-    <div ng-if="divshow">
+    <div ng-show="divshow">
 
         <div class="panel panel-default">
             <div class="panel-body" style="font-size:125%">
@@ -102,21 +102,23 @@
     <i class="fa fa-fw fa-gears"></i> Start building checksheet
 </button></form>
 </div>
-<div ng-if="divshow">
-      <span style="font-size:125%">Creating "{{checksheet.name}}"<br> Number of blocks in checksheet: <b>{{checksheet.blockid.length}}</b> <br> Total number of credits in checksheet: <b>{{checksheet.credits}}</b> </span><br><br>
+<div ng-show="!divshow">
+   
         <div class="panel panel-default">
             <div class="panel-body" style="font-size:125%">
                 Pick one or more checksheet blocks for your checksheet. The checksheet will be populated with slots from the blocks. The order in which block is indexed during checksheet construction will be the order in which checksheet is rendered to advisors and students. Refer to documentation for more instructions.
 
             </div>
         </div>
-</div>
 
 
+  <div class="panel panel-default">  <div class="panel-body">
+    <div class="row col-sm-12" style="font-size:125%"> Add a block on checksheet:</div>
     <div class="row page-header" style="font-size:125%">
 
-      Add a block on checksheet:<br><br>
-      <div class="col-sm-5"> Block category:
+    
+      <div class="col-sm-4">   
+        Block category:<br>
       <select  ng-model="blockcategory" ng-init="blockcategory='None'" style="width:300px" required>
         <option value="None">None</option>
       <option ng-repeat="dpt in dpts" >{{dpt.name}}</option>
@@ -125,40 +127,79 @@
 
 
 
-      <div class="col-sm-5" ng-show="blockcategory!='None'">
+      <div class="col-sm-4" ng-show="blockcategory!='None'">
 
-        Block Name: 
+        Block Name:<br>
       
 
-        <select ng-model="blockname" ng-init="blockname='None'"required>
+        <select ng-model="blockdesc" ng-init="blockdesc='None'"required>
         <option value="None">None</option>
-        <option ng-repeat="blockdetail in blockdetails | filter:{department:blockcategory} track by $index" >{{blockdetail.name}}</option>
+        <option ng-repeat="blockdetail in blockdetails | filter:{department:blockcategory} " ng-value="blockdetail._id">{{blockdetail.name}}</option>
       </select>
       </div>
     
       
     </div>
 
-    <br>
-    <div   class="page-header" style="font-size:125%" ng-if="blockname!='None' && blockcategory!='None'">
-       Block details: <br>
- {{bloackname}} && 
- {{blockcategory}}  ||
+    <div class="page-header" style="font-size:125%" ng-show="blockdesc!='None' && blockcategory!='None'" ng-init="renderblockdetails(blockdesc)">
 
- {{blockdetails[0].description}}
+       Block Name: {{blockdetail.name}} <br>
+       Block Description: {{blockdetail.description}} <br>
+       Block Creator:{{blockdetail.creator}} <br>
+       Block Department: {{blockdetail.department}} <br>
+       Block Type: {{blockdetail.type}} <br>
+       Block Credits: {{blockdetail.credits}} <br>
+       Block Slots: {{blockdetail.slot}}
 
-
+    <br><br>
+     <button style="font-size:100%" ng-click="addtochecksheet(blockdetail)"><i class="fa fa-fw fa-file-text"></i> Add block to checksheet</button> 
      </div>
       <div   style="font-size:125%" ng-if="blockname=='None' || blockcategory=='None' ">
        Not a valid selection
      </div>
 
-  <br>
-    
-    <button> Add block to checksheet</button> 
+   </div>
+        </div>
+
+
+</div>
+
+
+<div ng-show="!divshow" class="container" style="font-size:125%">
+
+  <div class="panel panel-info">
+    <div class="panel-heading">Checksheet Information</div>
+    <div class="panel-body">
+      <div class="page-header">
+      Checksheet Name: {{checksheet.name}}
+      <br> Number of blocks in checksheet: {{checksheet.blockid.length}}
+      <br> Total number of credits contained in checksheet: {{checksheet.credits}}
+      </div>
+      Checksheet Structure:<br><br>
+
+      <div ng-repeat="block in tempblockid track by $index" >
+          <div class="row">
+            <div class="col-sm-1"></div>
+              <div style="border:1px solid black;border-radius: 10px;" class="col-sm-4">
+                Block #{{$index+1}}  <span class="pull-right"><b><button type="button" ng-click="removeblock($index)" style="color:black" class="close" aria-hidden="false" ng-disabled="checksheet.blockid.length==1" >&times;</button> </b></span>
+                <br>
+                Block Name: {{block.name}}<br>
+                Block ID: {{block.id}}<br>
+                Block Credit Weight: {{block.credits}}
+              </div>
+          </div>
+          <br>
+      </div>
+
+    </div>
+
+    <div class="panel-footer">
+
+      <button type="button" ng-click="submitChecksheet()" confirm="Are you sure you want to submit the checksheet prototype to database?" confirm-title="Submitting {{checksheet.name}}.." confirm-ok="Submit" confirm-cancel="No"><i class="fa fa-fw fa-plus"></i> Submit checksheet to database </button></div>
+ 
 
   </div>
 
-
+</div>
 
 </div> <!-- End of closetop controller div -->

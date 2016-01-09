@@ -227,11 +227,72 @@ angular.module('smApp').controller('advisorchecksheetController', ['$scope', '$h
 
         $scope.checksheet = {};
         $scope.checksheet.blockid = [];
+        $scope.tempblockid = [];
         $scope.checksheet.creator = $scope.username + " " + $scope.lastname;
         $scope.checksheet.credits = 0;
         $scope.checksheet.creatorID = AuthService.getuserid();
       
         $scope.divshow = true;
+
+        $scope.$watch('blockdesc', function(val) {
+        if($scope.blockdetails){
+        for(var i=0; i < $scope.blockdetails.length; i++)
+            {
+   
+                if ($scope.blockdetails[i]._id == val){
+                    $scope.blockdetail = $scope.blockdetails[i];
+                    break;
+                }
+            }
+        }
+        });
+
+        $scope.addtochecksheet = function(val){
+          for(var i=0; i < $scope.checksheet.blockid.length; i++)
+          {
+            if (val._id === $scope.checksheet.blockid[i]){
+            notificationFactory.error("Error: You cannot add same block on a checksheet twice!");
+            return;
+            }
+          }
+           $scope.checksheet.blockid.push(val._id);
+           $scope.checksheet.credits = $scope.checksheet.credits + val.credits;
+           $scope.tempblockid.push(val);
+           $scope.blockdesc='None';
+
+        }
+
+
+       $scope.removeblock = function(idx){
+        $scope.checksheet.credits = $scope.checksheet.credits - $scope.tempblockid[idx].credits;
+        $scope.checksheet.blockid.splice(idx,1);
+        $scope.tempblockid.splice(idx,1);
+
+       }
+
+       $scope.submitChecksheet = function(){
+            $http({
+                    method: 'POST',
+                    url: '/checksheets',
+                    // set the headers so angular passing info as form data (not request payload)
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        arraytoAdd: $scope.checksheet
+                    }
+
+                }).success(function(data, status, headers, config) {
+                 //Template will be set to show new advisors once addadvisor has been completed
+                $scope.settemplateURL('partials/radvisor.html');
+               notificationFactory.info("Successfully added checksheet to database! ");
+                })
+                .error(function(data, status, headers, config) {
+                    notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.")
+
+                });
+       }
+
         $scope.buildChecksheet = function (){
         $scope.divshow = false;
  

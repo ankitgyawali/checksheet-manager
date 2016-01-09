@@ -85,7 +85,20 @@ var blockSchema = mongoose.Schema({
 },{ collection : 'block' });
 var blockCol = mongoose.model('block', blockSchema);
 
- 
+
+ //Checksheet Schema
+var checksheetSchema = mongoose.Schema({
+    name: String,
+    creator: String,
+    creatorID:String,
+    blockid: Array,
+    department: String,
+    id: String,
+    description: String,
+    credits: Number,
+    type: String
+},{ collection : 'checksheet' });
+var checksheetCol = mongoose.model('checksheet', checksheetSchema);
 
 module.exports = {
     root: rootCol,
@@ -93,5 +106,6 @@ module.exports = {
     student: studentCol,
     department: departmentCol,
     class: classCol,
-    block: blockCol
+    block: blockCol,
+    checksheet: checksheetCol
 };
