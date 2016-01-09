@@ -60,6 +60,31 @@ router.get('/departments', function(req, res) {
 });
 
 
+router.get('/departments', function(req, res) {
+
+  models.department.find({}, function(err, dpts) {
+    res.send(dpts); 
+
+  }); 
+});
+
+router.get('/checksheets', function(req, res) {
+
+  models.checksheet.find({}, function(err, chks) {
+    res.send(chks); 
+
+  }); 
+});
+
+router.get('/blocks', function(req, res) {
+
+  models.block.find({}, function(err, chks) {
+    res.send(chks); 
+
+  }); 
+});
+
+
 router.get('/blockdetails', function(req, res) {
 
   models.block.find({}, '_id creator description slot department type name id credits', function(err, dpts) {
@@ -254,8 +279,28 @@ router.put('/departments', function(req, res) {
     return res.sendStatus(200);
 });
 
+
   
 });
+
+router.put('/checksheets', function(req, res) {
+  console.log('new id req body: '+req.body.newID._id);
+
+  models.checksheet.update({_id:req.body.newID._id}, req.body.newID, {upsert:true}, 
+    function(err, doc){
+    if (err) {
+     console.log("error because: "+ err + "&&& doc: "+doc)
+      return res.sendStatus(500);
+    }
+    else {
+    return res.sendStatus(200);
+  }
+});
+
+  
+});
+
+
 
 router.put('/classes', function(req, res) {
   console.log('new id req body: '+req.body.classID._id);

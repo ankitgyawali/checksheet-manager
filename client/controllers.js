@@ -206,6 +206,45 @@ angular.module('smApp').controller('blockController', ['$scope', '$http','$locat
 ]);
 
 //Controller designed to handle mixing of one or more checksheet block for the creation of a checksheet
+angular.module('smApp').controller('blockviewer', ['$scope', '$http','$uibModal', 'notificationFactory', 'AuthService', '$cookies',
+    function($scope, $http, $uibModal, notificationFactory, AuthService, $cookies) {
+
+          $http({
+                    method: 'GET',
+                    url: '/blocks'
+
+                }).success(function(data, status, headers, config) {
+                    // this callback will be called asynchronously
+                    // when the response is available
+                    $scope.blocks = data;
+
+                })
+                .error(function(data, status, headers, config) {
+                notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
+                });
+
+                $scope.currentPage = 1;
+                $scope.pageSize = AuthService.getPaginationSize();
+                 $scope.modifyBlock = function(blkID) {
+                var modalInstance = $uibModal.open({
+                templateUrl: 'partials/checksheetModal.html',
+                controller: 'checksheetModalController',
+                scope: $scope,
+                resolve: {
+                    blkID: function() {
+                        return blkID;
+                        }
+                    }
+                });
+            };
+
+
+
+  }
+]);
+
+
+//Controller designed to handle mixing of one or more checksheet block for the creation of a checksheet
 angular.module('smApp').controller('checksheetviewer', ['$scope', '$http','$uibModal', 'notificationFactory', 'AuthService', '$cookies',
     function($scope, $http, $uibModal, notificationFactory, AuthService, $cookies) {
 

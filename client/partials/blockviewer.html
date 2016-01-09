@@ -1,19 +1,27 @@
-<div ng-controller="checksheetviewer">
-<br>
+<div ng-controller="blockviewer">
+
+
+
 <div class="page-header" style="font-size:120%"> 
+<!-- <a href="#" ng-click = "settemplateURL('partials/radvisor.html')"> <i class="fa fa-fw fa-times"></i> Cancel registering advisor </a>&nbsp;&nbsp;&nbsp;
+<a href="#"  ng-click="showme=true"> <i class="fa fa-fw fa-plus-circle"></i> Add multiple advisors </a> -->
+
+
 
 <a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
 &nbsp;&nbsp;&nbsp;
 
-
-
 </div>
-<div class="panel panel-default" style="font-size:125%">
-  <div class="panel-body">
-    Checksheet block order are not modifiable at any time because of the students that might be linked to it. Create a new checksheet or contact root user/administrator for more information.  Alternatively, you can also refer to the documentation.
+
+
+
+
+
+<div class="panel panel-default">
+  <div class="panel-body" style="font-size:125%">
+    Block's slot rule can't be modified by advisor as it affects the checksheet prototypes associated with it and the students linked to it. However, block description and slot information are modifiable by advisors. Contact with root users/administrators for more information. Alternatively, you can also refer to the documentation.
   </div>
 </div>
-
 
 <b>Current Page: {{ currentPage }}</b> 
 <br><br>		
@@ -29,7 +37,7 @@
         </div>
 
 <br><br><span style="font-size:125%"><u><b>
-Checksheet List</u>:<br></b>
+Block List</u>:<br></b>
 </span>
 <div class="table-responsive">
 
@@ -45,22 +53,22 @@ Checksheet List</u>:<br></b>
         <th>Credits</th>
         <th>Type</th>
         <th>Description</th>
-        <th># of blocks</th>
+        <th># of Slots</th>
         <th>Modify</th>
         </tr>
   </thead>
   <tbody>
-    <tr dir-paginate="checksheet in checksheets | filter:q | itemsPerPage: pageSize" current-page="currentPage" pagination-id="depts">
+    <tr dir-paginate="block in blocks | filter:q | itemsPerPage: pageSize" current-page="currentPage" pagination-id="depts">
         
-        <td>{{checksheet.id}}</td>
-        <td>{{checksheet.name}}</td>
-        <td>{{checksheet.department}}</td>
-        <td>{{checksheet.creator}}</td>  
-        <td>{{checksheet.credits}}</td>  
-        <td>{{checksheet.type}}</td>  
-        <td>{{checksheet.description}}</td>
-         <td>{{checksheet.blockid.length}}</td>       
-        <td> <a href="#" ng-Click="modifyBlock(checksheet)"> Edit </a> </td>
+        <td>{{block.id}}</td>
+        <td>{{block.name}}</td>
+        <td>{{block.department}}</td>
+        <td>{{block.creator}}</td>  
+        <td>{{block.credits}}</td>  
+        <td>{{block.type}}</td>  
+        <td>{{block.description}}</td>
+        <td>{{block.details.length}}</td>      
+        <td><a href="#" ng-Click="modifyBlock(block)">Edit</a></td>
 
     </tr>
 </tbody>
@@ -70,16 +78,6 @@ Checksheet List</u>:<br></b>
 
 <div>
  <dir-pagination-controls boundary-links="true" template-url="partials/dirPagination.tpl.html" pagination-id="depts"></dir-pagination-controls>
- </div
-
-</div>
-
-
-
-
-
-
-
-
+ </div>
 
 </div>
