@@ -1,0 +1,79 @@
+<div ng-controller="checksheetviewer">
+<br>
+<div class="page-header" style="font-size:120%"> 
+
+<a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
+&nbsp;&nbsp;&nbsp;
+
+
+
+</div>
+
+
+
+<b>Current Page: {{ currentPage }}</b> 
+<br><br>		
+<div class="row">
+<div class="col-xs-4">
+              <label for="search" style="font-size:120%"><u>Search:</u></label>
+              <input ng-model="q" id="search" class="form-control" placeholder="Filter text">
+            </div>
+            <div class="col-xs-2">
+              <label for="search" style="font-size:120%"><u>Items per page:</u></label>
+              <input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+            </div>
+        </div>
+
+<br><br><span style="font-size:125%"><u><b>
+Checksheet List</u>:<br></b>
+</span>
+<div class="table-responsive">
+
+<table class="table table-bordered table-hover table-condensed" style="font-size:125%">
+    <thead>
+    <tr class="info">
+
+
+        <th>ID</th>
+        <th>Name</th>
+        <th>Department</th>
+        <th>Creator</th>        
+        <th>Credits</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Modify</th>
+        </tr>
+  </thead>
+  <tbody>
+    <tr dir-paginate="checksheet in checksheets | filter:q | itemsPerPage: pageSize" current-page="currentPage" pagination-id="depts">
+        
+        <td>{{checksheet.id}}</td>
+        <td>{{checksheet.name}}</td>
+        <td>{{checksheet.department}}</td>
+        <td>{{checksheet.creator}}</td>  
+        <td>{{checksheet.credits}}</td>  
+        <td>{{checksheet.type}}</td>  
+        <td>{{checksheet.description}}</td>        
+        <td> <a href="#" ng-Click="modifyChecksheet(checksheet)"> Edit </a> </td>
+
+    </tr>
+</tbody>
+</table>
+</div>
+<br><br>
+
+<div>
+ <dir-pagination-controls boundary-links="true" template-url="partials/dirPagination.tpl.html" pagination-id="depts"></dir-pagination-controls>
+ </div
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>

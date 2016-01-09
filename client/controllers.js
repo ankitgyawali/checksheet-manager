@@ -69,7 +69,7 @@ angular.module('smApp').controller('advisorController', ['$scope', '$http', '$lo
         // $scope.templateURL = 'partials/rdept.html';
 
         //DEBUG: set advisor default page here
-        $scope.templateURL = 'partials/checksheetmaker.html';
+        $scope.templateURL = 'partials/checksheetviewer.html';
         //Get username and type at parent scope
         $scope.username = AuthService.getusername();
         $scope.lastname = AuthService.getlastname()
@@ -204,6 +204,102 @@ angular.module('smApp').controller('blockController', ['$scope', '$http','$locat
 
     }
 ]);
+
+//Controller designed to handle mixing of one or more checksheet block for the creation of a checksheet
+angular.module('smApp').controller('checksheetviewer', ['$scope', '$http','$uibModal', 'notificationFactory', 'AuthService', '$cookies',
+    function($scope, $http, $uibModal, notificationFactory, AuthService, $cookies) {
+
+                $http({
+                    method: 'GET',
+                    url: '/checksheets'
+
+                }).success(function(data, status, headers, config) {
+                    // this callback will be called asynchronously
+                    // when the response is available
+                    $scope.checksheets = data;
+
+                })
+                .error(function(data, status, headers, config) {
+                notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
+                });
+
+                $scope.currentPage = 1;
+                $scope.pageSize = AuthService.getPaginationSize();
+                   $scope.modifyChecksheet = function(chksID) {
+                var modalInstance = $uibModal.open({
+                templateUrl: 'partials/checksheetModal.html',
+                controller: 'checksheetModalController',
+                scope: $scope,
+                resolve: {
+                    chksID: function() {
+                        return chksID;
+                    }
+                }
+            });
+
+
+        };
+
+
+
+
+    }
+]);
+
+
+
+//Controller for modal to modify department
+angular.module('smApp').controller('checksheetModalController',
+  ['$scope', '$filter','$uibModalInstance', 'chksID', '$http', 'notificationFactory', '$location',
+    function ($scope,$filter,$uibModalInstance, chksID,$http,notificationFactory,$location) {
+
+//Deep copy of department object. This is because angular assigns stuff by reference by default
+$scope.newID = angular.copy(chksID);
+$scope.chksName = $scope.newID.name;
+
+//Cancel modal for department
+$scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+
+// Modify department information on the database
+$scope.modify = function () {
+ // create a new instance of deferred
+    $http({
+            method: 'PUT',
+            url: '/checksheets',
+            // set the headers so angular passing info as form data (not request payload)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                newID: $scope.newID
+            }
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+            $uibModalInstance.dismiss('cancel');
+            //$location.url('/root/dashboard');
+            
+             if (status === 200) {
+                angular.copy($scope.newID,chksID);
+
+               notificationFactory.info("Successfully updated: "+$scope.newID.name)
+            }
+
+        })
+        .error(function(data, status, headers, config) {
+
+        $uibModalInstance.dismiss('cancel');
+        notificationFactory.error("Error: Status Code "+status+". Contact admin if issue persists.")
+        });
+  };
+
+}]);
+
+
 
 
 
