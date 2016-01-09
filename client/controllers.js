@@ -69,7 +69,7 @@ angular.module('smApp').controller('advisorController', ['$scope', '$http', '$lo
         // $scope.templateURL = 'partials/rdept.html';
 
         //DEBUG: set advisor default page here
-        $scope.templateURL = 'partials/checksheetviewer.html';
+        $scope.templateURL = 'partials/blockviewer.html';
         //Get username and type at parent scope
         $scope.username = AuthService.getusername();
         $scope.lastname = AuthService.getlastname()
@@ -222,69 +222,57 @@ angular.module('smApp').controller('blockviewer', ['$scope', '$http','$uibModal'
                 .error(function(data, status, headers, config) {
                 notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
                 });
-
+                $scope.divshow = true;
                 $scope.currentPage = 1;
                 $scope.pageSize = AuthService.getPaginationSize();
-                 $scope.modifyBlock = function(blkID) {
-                var modalInstance = $uibModal.open({
-                templateUrl: 'partials/checksheetModal.html',
-                controller: 'checksheetModalController',
-                scope: $scope,
-                resolve: {
-                    blkID: function() {
-                        return blkID;
-                        }
-                    }
-                });
-            };
+                $scope.cancelsub = function(){
+                    $scope.divshow = true;
+                }
+                $scope.modifyBlock = function(blkID) {
+                    $scope.divshow = false;
+                    $scope.currentBlock = blkID;
+                    //Deep copy of department object. This is because angular assigns stuff by reference by default
+                    $scope.newID = angular.copy(blkID);
+                    $scope.blkName = $scope.newID.name;
+                     };
+
+                $scope.submitmodifiedBlock = function(){
+                    
+                      $http({
+                    method: 'PUT',
+                    url: '/blocks',
+                     // set the headers so angular passing info as form data (not request payload)
+                     headers: {
+                     'Content-Type': 'application/json'
+                     },
+             data: {
+                newID: $scope.newID
+            }
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+            
+            
+             if (status === 200) {
+                angular.copy($scope.newID,$scope.currentBlock);
+
+               notificationFactory.info("Successfully updated: "+$scope.newID.name)
+                $scope.divshow = true;
+            }
+
+        })
+        .error(function(data, status, headers, config) {
+
+        notificationFactory.error("Error: Status Code "+status+". Contact admin if issue persists.")
+        });
+     }
+
 
 
 
   }
 ]);
-
-
-//Controller designed to handle mixing of one or more checksheet block for the creation of a checksheet
-angular.module('smApp').controller('checksheetviewer', ['$scope', '$http','$uibModal', 'notificationFactory', 'AuthService', '$cookies',
-    function($scope, $http, $uibModal, notificationFactory, AuthService, $cookies) {
-
-                $http({
-                    method: 'GET',
-                    url: '/checksheets'
-
-                }).success(function(data, status, headers, config) {
-                    // this callback will be called asynchronously
-                    // when the response is available
-                    $scope.checksheets = data;
-
-                })
-                .error(function(data, status, headers, config) {
-                notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
-                });
-
-                $scope.currentPage = 1;
-                $scope.pageSize = AuthService.getPaginationSize();
-                   $scope.modifyChecksheet = function(chksID) {
-                var modalInstance = $uibModal.open({
-                templateUrl: 'partials/checksheetModal.html',
-                controller: 'checksheetModalController',
-                scope: $scope,
-                resolve: {
-                    chksID: function() {
-                        return chksID;
-                    }
-                }
-            });
-
-
-        };
-
-
-
-
-    }
-]);
-
 
 
 //Controller for modal to modify department
@@ -337,6 +325,51 @@ $scope.modify = function () {
   };
 
 }]);
+
+
+
+//Controller designed to handle mixing of one or more checksheet block for the creation of a checksheet
+angular.module('smApp').controller('checksheetviewer', ['$scope', '$http','$uibModal', 'notificationFactory', 'AuthService', '$cookies',
+    function($scope, $http, $uibModal, notificationFactory, AuthService, $cookies) {
+
+                $http({
+                    method: 'GET',
+                    url: '/checksheets'
+
+                }).success(function(data, status, headers, config) {
+                    // this callback will be called asynchronously
+                    // when the response is available
+                    $scope.checksheets = data;
+
+                })
+                .error(function(data, status, headers, config) {
+                notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
+                });
+
+                $scope.currentPage = 1;
+                $scope.pageSize = AuthService.getPaginationSize();
+                   $scope.modifyChecksheet = function(chksID) {
+                var modalInstance = $uibModal.open({
+                templateUrl: 'partials/checksheetModal.html',
+                controller: 'checksheetModalController',
+                scope: $scope,
+                resolve: {
+                    chksID: function() {
+                        return chksID;
+                    }
+                }
+            });
+
+
+        };
+
+
+
+
+    }
+]);
+
+
 
 
 

@@ -39,7 +39,7 @@ var studentSchema = mongoose.Schema({
     username: String,
     password: String,
     email: String,
-    id: String,
+    id:  { type: String, unique: true },
     firstname: String,
     lastname: String,
     major: String,
@@ -79,7 +79,7 @@ var blockSchema = mongoose.Schema({
     department: String,
     creator: String,
     creatorID:String,
-    id: String,
+    id: { type: String, unique: true },
     description: String,
     credits: Number
 },{ collection : 'block' });
@@ -93,7 +93,7 @@ var checksheetSchema = mongoose.Schema({
     creatorID:String,
     blockid: Array,
     department: String,
-    id: String,
+    id:  { type: String, unique: true },
     description: String,
     credits: Number,
     type: String

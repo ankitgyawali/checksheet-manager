@@ -300,6 +300,22 @@ router.put('/checksheets', function(req, res) {
   
 });
 
+router.put('/blocks', function(req, res) {
+  console.log('new id req body: '+req.body.newID._id);
+
+  models.block.update({_id:req.body.newID._id}, req.body.newID, {upsert:true}, 
+    function(err, doc){
+    if (err) {
+     console.log("error because: "+ err + "&&& doc: "+doc)
+      return res.sendStatus(500);
+    }
+    else {
+    return res.sendStatus(200);
+  }
+});
+
+  
+});
 
 
 router.put('/classes', function(req, res) {

@@ -207,3 +207,24 @@ SLOT KO -> HASCREDIT, TITLE, SUBTITLE, DESCRIPTION
     "description":"as"
 
 }
+
+CHECKSHEET ->
+{
+    "_id" : ObjectId("569068e15cb2e31656eb8461"),
+    "blockid" : [ 
+        "568dab9b997ecfa9578e516c", 
+        "568dac99997ecfa9578e516d", 
+        "568dadc3997ecfa9578e516e", 
+        "568daf4a997ecfa9578e516f", 
+        "568db03e997ecfa9578e5170", 
+        "568db270997ecfa9578e5186"
+    ],
+    "creator" : "John Doe",
+    "credits" : 117,
+    "creatorID" : "567e9e982b1f2efa0e6d59ba",
+    "department" : "Computer Science",
+    "type" : "Full",
+    "name" : "Computer Science Checksheet",
+    "id" : "001223",
+    "description" : "A checksheet for computer science major."
+}
