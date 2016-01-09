@@ -233,8 +233,8 @@ angular.module('smApp').controller('rootDeptController', ['$scope', '$location',
 
         }
 
-        //Use agnualrUI bootstrap module to instiate a modal so user can modify a department
-        //This modal will contain its own controller and templateURL. depID - the department to update
+        //Use angularUI bootstrap module to instiate a modal so user can modify a department
+        //This modal contains its own controller and templateURL. depID - the department to update
         //is passed to this modal as argument
         $scope.modifyDept = function(depID) {
             var modalInstance = $uibModal.open({
@@ -254,10 +254,12 @@ angular.module('smApp').controller('rootDeptController', ['$scope', '$location',
     }
 ]);
 
+// Controller for root users to manage other root user
 angular.module('smApp').controller('rootmanagerController',
   ['$scope', '$location', 'notificationFactory','$uibModal', '$http','AuthService',
    function ($scope, $location, notificationFactory,$uibModal,$http, AuthService) {
 
+//Get root user data if default root page is loaded
 if($scope.templateURL=="partials/newrootuser.html"){
    $http({
             method: 'GET',
@@ -277,23 +279,28 @@ if($scope.templateURL=="partials/newrootuser.html"){
         });
       }
  
+ //Set default pagination page number to 1
  $scope.currentPage = 1;
  $scope.pageSize = AuthService.getPaginationSize();
 
+//Watch page size changes to set it safely in service so that value doesnt change on controller refresh
 $scope.$watch('pageSize', function(val) {
 
   AuthService.setPaginationSize(val);
    });
 
-
+//Declare root user json to bind to view data 
 $scope.newroot = {};
+
+//Set newroot users registered status to false by default so that they will be prompted
+// for password change on login
 $scope.newroot.registered = "false";
   $scope.generatepwd = function (){
   $scope.newroot.password = AuthService.generatePassword();
-    
-  console.log("addR: "+JSON.stringify($scope.newroot));
  };
 
+
+//Delete root user from database
  $scope.deleteroot = function(root)
  {
   $http({
@@ -324,6 +331,7 @@ $scope.newroot.registered = "false";
 
  }
 
+//Add root user to database
  $scope.addRoots = function (){
 
   $http({
@@ -355,11 +363,14 @@ $scope.newroot.registered = "false";
 
 }]);
 
+
+//Option for root user to perform parts of crud operation on class database
 angular.module('smApp').controller('rootClassController',
   ['$scope', 'notificationFactory','$uibModal', '$http','AuthService',
    function ($scope, notificationFactory,$uibModal,$http, AuthService) {
 
 
+    //Get classes on controller load to display information
      $http({
             method: 'GET',
             url: '/classes'
@@ -377,6 +388,7 @@ angular.module('smApp').controller('rootClassController',
 
         });
  
+ //Default current page set for pagination
  $scope.currentPage = 1;
   $scope.pageSize = AuthService.getPaginationSize();
 
@@ -385,34 +397,38 @@ $scope.$watch('pageSize', function(val) {
   AuthService.setPaginationSize(val);
    });
 
+//Set number of classes to add in view  by 1 as default
  $scope.numtoadd = 1;
+
+ //Watch number of classes to add and make changes to array 
  $scope.$watch('numtoadd', function(val) {
-
 $scope.classestoAdd.length = val;
+});
 
-   });
 
-
+//Initialize array to add classes
  $scope.classestoAdd = [];
- $scope.newClasses = function(num) {
 
+//Create new array according to number of classes to add
+$scope.newClasses = function(num) {
     return new Array(num);
 }
+
 $scope.newClassesprimitive = $scope.newClasses;
 
+//Set class prefix on the array
 $scope.setClassprefix = function(prefix,index){
   $scope.classestoAdd[index].prefix = prefix;
-
 }
 
-
+//Delete classes from the array
 $scope.delnewClasses = function(index) {
   $scope.numtoadd = $scope.numtoadd - 1;
    $scope.classestoAdd.splice(index,1);
 }
 
- $scope.addClasses = function() {
-
+// Add classes to the database on submit
+$scope.addClasses = function() {
      $http({
             method: 'POST',
             url: '/classes',
@@ -440,10 +456,7 @@ $scope.delnewClasses = function(index) {
     
 }
 
-
-
-
-
+//Function to make modification to class, opens a new modal with new controller
  $scope.modifyclass = function (course){
 
  var modalInstance = $uibModal.open({
@@ -457,30 +470,35 @@ $scope.delnewClasses = function(index) {
       }
     });
 
-
 };
-
-
 
 }]);
 
+//Controller for modal box to modify class
 angular.module('smApp').controller('classModalController',
   ['$scope', '$filter','$uibModalInstance', 'course', '$http', 'notificationFactory', '$location',
     function ($scope,$filter,$uibModalInstance, course,$http,notificationFactory,$location) {
 
+//Deep copy for class
 $scope.classID = angular.copy(course);
+
+//Copy default names, department, prefix so that the binded data won't be affected
 $scope.className = $scope.classID.name;
 $scope.classDep = $scope.classID.department;
 $scope.classprefix = $scope.classID.prefix;
+
+//Set prefix on database
 $scope.setprefix = function(prefix){
   $scope.classID.prefix = prefix;
 }
+
+//Function to cancel modal
 $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
 
+//Delete classes from database
 $scope.delete = function () {
-
     $http({
             method: 'DELETE',
             url: '/classes',
@@ -516,11 +534,9 @@ $scope.delete = function () {
   };
 
 
-
+//Modify classes on the database
 $scope.modify = function () {
  // create a new instance of deferred
-
-
     $http({
             method: 'PUT',
             url: '/classes',
@@ -557,21 +573,22 @@ $scope.modify = function () {
 
 }]);
 
+//Controller for modal to modify department
 angular.module('smApp').controller('deptModalController',
   ['$scope', '$filter','$uibModalInstance', 'depID', '$http', 'notificationFactory', '$location',
     function ($scope,$filter,$uibModalInstance, depID,$http,notificationFactory,$location) {
 
-
+//Deep copy of department object. This is because angular assigns stuff by reference by default
 $scope.newID = angular.copy(depID);
 $scope.depName = $scope.newID.name;
 
-
+//Cancel modal for department
 $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
 
-  $scope.delete = function () {
-
+//Delete department from database
+$scope.delete = function () {
     $http({
             method: 'DELETE',
             url: '/departments',
@@ -607,11 +624,9 @@ $scope.cancel = function () {
   };
 
 
-
+// Modify department information on the database
 $scope.modify = function () {
  // create a new instance of deferred
-
-
     $http({
             method: 'PUT',
             url: '/departments',
@@ -641,25 +656,21 @@ $scope.modify = function () {
         $uibModalInstance.dismiss('cancel');
         notificationFactory.error("Error: Status Code "+status+". Contact admin if issue persists.")
         });
-
-
-
   };
 
 }]);
 
 
 
-
+// Student controller that handles student dashboard and student operation
 angular.module('smApp').controller('studentController',
   ['$scope', '$location', 'notificationFactory', 'AuthService','$cookies', 
    function ($scope, $location, notificationFactory, AuthService,$cookies) {
 
-
-      console.log("dashboard check: "+AuthService.isLoggedIn());
-       $scope.username = AuthService.getusername();
-       $scope.usertype = AuthService.getusertype();
-       $scope.lol = $cookies.get('loggedin');
+    console.log("dashboard check: "+AuthService.isLoggedIn());
+    $scope.username = AuthService.getusername();
+    $scope.usertype = AuthService.getusertype();
+    $scope.lol = $cookies.get('loggedin');
 
     $scope.logout = function (){
     AuthService.logout();

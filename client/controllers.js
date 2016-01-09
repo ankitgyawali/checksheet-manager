@@ -107,41 +107,48 @@ angular.module('smApp').controller('advisorController', ['$scope', '$http', '$lo
 //Controller that handles block creation for checksheet
 angular.module('smApp').controller('blockController', ['$scope', '$http','$location', 'notificationFactory', 'AuthService', '$cookies',
     function($scope, $http, $location, notificationFactory, AuthService, $cookies) {
-        $scope.block = {};
         
-     
+        //Default block json declared to to be added to the database
+        $scope.block = {};
         $scope.block.creator = $scope.username + " " + $scope.lastname;
         $scope.block.creatorID = AuthService.getuserid();
 
+        //Splice elective option from array
         $scope.removeoption = function (idx) {
             $scope.block.electivechoices.splice(idx,1)
         }
 
+        //Array intialized to hold block details so that it can be bound to view
         $scope.block.details = [];
-
+        //Default variables initialized to show changes in view
         $scope.divshow = true;
+
+        //Build block function that creates array according to given number
         $scope.buildBlock = function (num){
              $scope.divshow = false;
              $scope.block.details = new Array(num);   
              $scope.block.electivechoices = [];
         };
+
+        //Watch for change in length of block details
         $scope.$watch('block.details.length', function(val) {
             console.log(val);
              $scope.block.slot = val;
         });
 
-       
-
+        //Remove slot form block array
         $scope.removeslot = function (idx) {
             $scope.block.details.splice(idx,1);
         }
      
-          $scope.addSlot = function (){
+        //Add slot to block array
+        $scope.addSlot = function (){
             $scope.block.details.length = $scope.block.details.length + 1;
           
           };
-       
-            $scope.addelectiveoption = function (p,s) {
+        
+        //Add elective to block's elective choices       
+       $scope.addelectiveoption = function (p,s) {
                 $scope.block.electivechoices.push({
                     "prefix":p,
                     "suffix":s
@@ -149,10 +156,13 @@ angular.module('smApp').controller('blockController', ['$scope', '$http','$locat
                 console.log(JSON.stringify($scope.block.electivechoices));
                  console.log(JSON.stringify($scope.block.electivechoices.length));
             }
+
+        //Adds slots to the blocks and submits it to the database
          $scope.submitSlot = function (){
           
-            console.log("OLD:-> "+JSON.stringify($scope.block));
-            if ($scope.block.type != "Electives") {
+        //Block json object is trimmed and made fit before submitting it to database by
+        //changing structure according to block type and removing unnecessary attributes
+        if ($scope.block.type != "Electives") {
                 delete $scope.block.electivechoices;
             }
             $scope.block.credits = 0;
@@ -167,13 +177,10 @@ angular.module('smApp').controller('blockController', ['$scope', '$http','$locat
                 delete value['prereqconstraint'];
                 if(value.hascredit == "True"){  $scope.block.credits =  $scope.block.credits + 3; }
                 }
-                
-            
-
-
             });
           
-                   $http({
+            //Add blocks to the database
+            $http({
                     method: 'POST',
                     url: '/blocks',
                     // set the headers so angular passing info as form data (not request payload)
@@ -193,9 +200,6 @@ angular.module('smApp').controller('blockController', ['$scope', '$http','$locat
                     notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.")
 
                 });
-
-                       console.log("NEW:-> "+JSON.stringify($scope.block));
-
           };
 
     }
@@ -224,21 +228,21 @@ angular.module('smApp').controller('advisorchecksheetController', ['$scope', '$h
                         notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
                     });
 
-
+        //Initialize checksheet json type and arrays to hold checksheet information
         $scope.checksheet = {};
         $scope.checksheet.blockid = [];
         $scope.tempblockid = [];
+        //Default checksheet attributes
         $scope.checksheet.creator = $scope.username + " " + $scope.lastname;
         $scope.checksheet.credits = 0;
-        $scope.checksheet.creatorID = AuthService.getuserid();
-      
+        $scope.checksheet.creatorID = AuthService.getuserid();      
         $scope.divshow = true;
 
+        //Watch for changes in bloc description
         $scope.$watch('blockdesc', function(val) {
         if($scope.blockdetails){
         for(var i=0; i < $scope.blockdetails.length; i++)
             {
-   
                 if ($scope.blockdetails[i]._id == val){
                     $scope.blockdetail = $scope.blockdetails[i];
                     break;
@@ -247,7 +251,9 @@ angular.module('smApp').controller('advisorchecksheetController', ['$scope', '$h
         }
         });
 
+        //Add block to checksheet database
         $scope.addtochecksheet = function(val){
+        // Loop through checksheet to unsure block has not been repeated twice
           for(var i=0; i < $scope.checksheet.blockid.length; i++)
           {
             if (val._id === $scope.checksheet.blockid[i]){
@@ -259,17 +265,16 @@ angular.module('smApp').controller('advisorchecksheetController', ['$scope', '$h
            $scope.checksheet.credits = $scope.checksheet.credits + val.credits;
            $scope.tempblockid.push(val);
            $scope.blockdesc='None';
-
         }
 
-
+        //Remove block from checksheet
        $scope.removeblock = function(idx){
         $scope.checksheet.credits = $scope.checksheet.credits - $scope.tempblockid[idx].credits;
         $scope.checksheet.blockid.splice(idx,1);
         $scope.tempblockid.splice(idx,1);
-
        }
 
+       //Submit checksheet to the checksheet database
        $scope.submitChecksheet = function(){
             $http({
                     method: 'POST',
@@ -288,16 +293,13 @@ angular.module('smApp').controller('advisorchecksheetController', ['$scope', '$h
                notificationFactory.info("Successfully added checksheet to database! ");
                 })
                 .error(function(data, status, headers, config) {
-                    notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.")
+                notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.")
 
                 });
        }
 
         $scope.buildChecksheet = function (){
         $scope.divshow = false;
- 
         };
-
-}
-
-        ]);
+    }
+]);
