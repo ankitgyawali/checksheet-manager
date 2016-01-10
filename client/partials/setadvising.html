@@ -1,0 +1,50 @@
+<div ng-controller="setadvisingcontroller">
+
+
+
+<div class="page-header" style="font-size:120%"> 
+<!-- <a href="#" ng-click = "settemplateURL('partials/radvisor.html')"> <i class="fa fa-fw fa-times"></i> Cancel registering advisor </a>&nbsp;&nbsp;&nbsp;
+<a href="#"  ng-click="showme=true"> <i class="fa fa-fw fa-plus-circle"></i> Add multiple advisors </a> -->
+
+
+
+<a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
+&nbsp;&nbsp;&nbsp;
+
+</div>
+
+
+<div class="panel panel-default">
+  <div class="panel-body" style="font-size:125%">
+    Advising appointment times can be set in the interval of certain time limits. Note that if you make changes to your advising appointment times after you broadcast it to your students, you will be responsible for notifying them the changed times. Refer to the documentation for more information.
+  </div>
+</div>
+
+<div style="font-size:125%">
+	
+Allocate advising time slots for a week:<br>
+<br>
+<div class="row">
+<div class="col-xs-3">
+              <label style="font-size:100%"><u>Day:</u> &nbsp;&nbsp;</label>
+              <select>
+              	<option value="S">Sunday</option>
+              	<option value="M">Monday</option>
+              	<option value="T">Tuesday</option>
+              	<option value="W">Wednesday</option>
+              	<option value="TH">Thursday</option>
+              	<option value="F">Friday</option>
+              	<option value="SA">Saturday</option>
+              </select>
+</div>
+<div class="col-xs-3">
+	<label for="timediff" style="font-size:100%"><u>Time:</u> &nbsp;&nbsp;</label>
+{{v.Dt | date:'medium'}}
+</div>
+
+</div>
+
+</div>
+
+
+</div>

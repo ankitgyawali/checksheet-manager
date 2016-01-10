@@ -69,7 +69,7 @@ angular.module('smApp').controller('advisorController', ['$scope', '$http', '$lo
         // $scope.templateURL = 'partials/rdept.html';
 
         //DEBUG: set advisor default page here
-        $scope.templateURL = 'partials/blockviewer.html';
+        $scope.templateURL = 'partials/setadvising.html';
         //Get username and type at parent scope
         $scope.username = AuthService.getusername();
         $scope.lastname = AuthService.getlastname()
@@ -373,7 +373,14 @@ angular.module('smApp').controller('checksheetviewer', ['$scope', '$http','$uibM
 
 
 
+//Controller designed to handle mixing of one or more checksheet block for the creation of a checksheet
+angular.module('smApp').controller('setadvisingcontroller', ['$scope', '$http','$location', 'notificationFactory', 'AuthService', '$cookies',
+    function($scope, $http, $location, notificationFactory, AuthService, $cookies) {
 
+      $scope.v.Dt = Date.now();
+
+  }
+]);
 
 //Controller designed to handle mixing of one or more checksheet block for the creation of a checksheet
 angular.module('smApp').controller('advisorchecksheetController', ['$scope', '$http','$location', 'notificationFactory', 'AuthService', '$cookies',
