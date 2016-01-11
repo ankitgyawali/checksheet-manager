@@ -377,7 +377,12 @@ angular.module('smApp').controller('checksheetviewer', ['$scope', '$http','$uibM
 angular.module('smApp').controller('setadvisingcontroller', ['$scope', '$http','$location', 'notificationFactory', 'AuthService', '$cookies',
     function($scope, $http, $location, notificationFactory, AuthService, $cookies) {
 
-      $scope.v.Dt = Date.now();
+     $scope.appointmentTimes = {};
+     $scope.appointmentTimes.times = {};
+
+
+
+
 
   }
 ]);

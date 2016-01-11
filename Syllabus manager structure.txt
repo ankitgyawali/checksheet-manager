@@ -238,9 +238,11 @@ time slot:
 
     timeslot.enabled = yes
     timeslot.appointmenttime = 10/15/20min
-    timeslot.times = {
-    s:yeti dekhi yeti }
+    timeslot.time[0] = {
+      }
+    timeslot.takentime[0] = { date; time, date tim
 
+    }
 
 
     advisor broadcasts json time--
