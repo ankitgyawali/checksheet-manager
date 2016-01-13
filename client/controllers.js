@@ -377,11 +377,91 @@ angular.module('smApp').controller('checksheetviewer', ['$scope', '$http','$uibM
 angular.module('smApp').controller('setadvisingcontroller', ['$scope', '$http','$location', 'notificationFactory', 'AuthService', '$cookies',
     function($scope, $http, $location, notificationFactory, AuthService, $cookies) {
 
-     $scope.appointmentTimes = {};
-     $scope.appointmentTimes.times = {};
+    //Global appointment length constant
+     $scope.appointmentLength = 15;
 
+     $scope.appointmentTimes = {
+        S : new Array(24*60/($scope.appointmentLength)),
+        M :new Array(24*60/($scope.appointmentLength)),
+        T : new Array(24*60/($scope.appointmentLength)),
+        W : new Array(24*60/($scope.appointmentLength)),
+        TH : new Array(24*60/($scope.appointmentLength)),
+        F : new Array(24*60/($scope.appointmentLength)),
+        SA : new Array(24*60/($scope.appointmentLength))
+     };
 
+     $scope.timeMinAMPM = "PM";
+     $scope.timeMaxAMPM = "PM";
+  
+     $scope.timediff = 0;
+     // $scope.appointmentTimes.length='15';
+     // $scope.timeMinMin = '00';
+     $scope.setMinAMPM = function(time){
+       $scope.timeMinAMPM = time;        
+     }
+     $scope.setMaxAMPM = function(time){
+       $scope.timeMaxAMPM = time;        
+     }
+     
+     $scope.addAppt = function()
+     {
+        $scope.oneSlot = {};
 
+        if($scope.timeMinAMPM=="PM"){
+            $scope.oneSlot.minHR = parseInt($scope.timeMinHr) + 12;
+        } else {
+            $scope.oneSlot.minHR = parseInt($scope.timeMinHr);
+        }
+        if($scope.timeMaxAMPM=="PM"){
+            $scope.oneSlot.maxHR = parseInt($scope.timeMaxHr) + 12;
+
+        } else {
+             $scope.oneSlot.maxHR = parseInt($scope.timeMaxHr);
+    
+        }
+        if ($scope.oneSlot.maxHR >= $scope.oneSlot.minHR){
+        $scope.oneSlot.timediff =  $scope.oneSlot.maxHR - $scope.oneSlot.minHR;
+
+        }
+        else
+         {
+        $scope.oneSlot.timediff = 24- ($scope.oneSlot.minHR - $scope.oneSlot.maxHR) ;
+         }
+         if ($scope.timeMinMin=='30'){ 
+             if ($scope.oneSlot.maxHR == $scope.oneSlot.minHR) {  $scope.oneSlot.timediff = '24'; }
+            $scope.oneSlot.timediff = $scope.oneSlot.timediff - 0.5 }
+        if ($scope.timeMaxMin=='30'){ 
+              if ($scope.oneSlot.maxHR == $scope.oneSlot.minHR) {  
+
+                // $scope.timediff = '0.5';
+                 }
+            $scope.oneSlot.timediff = $scope.oneSlot.timediff + 0.5 }
+
+            $scope.oneSlot.maxMIN = $scope.timeMaxMin;
+            $scope.oneSlot.minMin = $scope.timeMinMin;
+        
+
+            
+
+           if ($scope.oneSlot.timediff >= 10 )
+           {
+            notificationFactory.error("You can't have more than 10 hours of appointment session at once!");
+            console.log($scope.oneSlot.maxHR);
+             console.log($scope.oneSlot.minHR);
+           }
+           else if ($scope.oneSlot.timediff == 0 ){
+            notificationFactory.error("Minimum appointment time slot to be opened is 30 min. Try again.");
+           }
+           else
+           {
+             console.log($scope.oneSlot.maxHR);
+             console.log($scope.oneSlot.minHR);
+             console.log($scope.appointmentTimes);
+             
+           }
+          
+
+     }
 
 
   }

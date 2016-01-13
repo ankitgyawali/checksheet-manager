@@ -244,5 +244,29 @@ time slot:
 
     }
 
+appointmentTimes = json
+appointmentTimes.sunday = []
 
     advisor broadcasts json time--
+
+
+130 to 2
+
+    230 to 3
+
+1100 1200 
+
+1200 tio 12
+
+ 2 to 5
+
+ 1 to 6
+
+2000 to 4000 old  3000
+
+
+3000 to 4000 new  5000
+
+1000 => 2000 ||
+
+

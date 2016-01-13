@@ -21,13 +21,15 @@
 </div>
 
 <div style="font-size:125%">
-	
-Allocate advising time slots for a week:<br>
+
+  <br>
+<u>Allocate advising time slots for a week:</u><br>
+
 <br>
 <div class="row">
 <div class="col-xs-3">
               <label style="font-size:100%"><u>Day:</u> &nbsp;&nbsp;</label>
-              <select>
+              <select ng-model="timeDay" ng-init="timeDay='S'">
               	<option value="S">Sunday</option>
               	<option value="M">Monday</option>
               	<option value="T">Tuesday</option>
@@ -41,7 +43,7 @@ Allocate advising time slots for a week:<br>
 <div class="col-xs-4">
 
        From<br>
-       <select>
+       <select ng-model="timeMinHr" ng-init="timeMinHr='1'">
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
@@ -56,21 +58,20 @@ Allocate advising time slots for a week:<br>
                 <option>12</option>
       </select>
       :
-      <select>
+      <select ng-model="timeMinMin" ng-init="timeMinMin='00'" >
                 <option>00</option>
-                <option>15</option>
                 <option>30</option>
-                <option>60</option>
       </select>
-      <button type="button">PM</button>
 
+      <button type="button" ng-if="timeMinAMPM=='PM'" ng-click="setMinAMPM('AM')">PM</button>
+      <button type="button"  ng-if="timeMinAMPM=='AM'" ng-click="setMinAMPM('PM')">AM</button>
 </div>
 
 
 
 <div class="col-xs-4">
 To <br>
-   <select>
+   <select ng-model="timeMaxHr" ng-init="timeMaxHr='1'">
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
@@ -85,36 +86,49 @@ To <br>
                 <option>12</option>
       </select>
       :
-      <select>
+      <select ng-model="timeMaxMin" ng-init="timeMaxMin='00'" >
                 <option>00</option>
-                <option>15</option>
                 <option>30</option>
-                <option>60</option>
       </select>
-      <button type="button">PM</button>
+      <button type="button" ng-if="timeMaxAMPM=='PM'" ng-click="setMaxAMPM('AM')">PM</button>
+      <button type="button"  ng-if="timeMaxAMPM=='AM'" ng-click="setMaxAMPM('PM')">AM</button>
 
 
 </div>
 </div>
-  <br> <br>  <button>  Add appointment time </button> <br><br>
-
+  <br> <br>  <button ng-click="addAppt()">Add appointment time</button> <br><br>
+Time difference is {{oneSlot.timediff}}
+  
+<div class="row">
+<div class="col-sm-6">
   <div class="panel panel-default">
   <div class="panel-body" style="font-size:100%">
-  <b><u>Appointment Information:</u></b><br><br>
+  <b><u>New Appointment Schedule Summary:</u></b><br><br>
   Maximum Number of appointments possible per week: <br>
-  Appointment time length:
-  <select ng-model="appointmentTimes.length" ng-init="appointmentTimes.length='15'">
-    <option value="15">15 min</option>
-    <option value="20">20 min</option>
-    <option value="30">30 min</option>
-  </select>
+Appointment time length: <br>
 
 
 
   </div></div>
 
 
+</div>
 
+<div class="col-sm-6">
+  <div class="panel panel-default">
+  <div class="panel-body" style="font-size:100%">
+  <b><u>Current Appointment Schedule Summary:</u></b><br><br>
+  Maximum Number of appointments possible per week: <br>
+  Appointment time length:<br>
+  Number of appointments:
+
+  </div></div>
+
+
+</div>
+
+
+</div>
 <div class="row">
   <div class="col-sm-12"><br><br>
   <button type="button"> Reset & Submit Appointment times to database</button>

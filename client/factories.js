@@ -86,6 +86,16 @@ angular.module('smApp').factory('notificationFactory', function () {
     };
 });
 
+angular.module('smApp').factory('TimeService',
+  ['$q', '$timeout', '$http', '$cookies',
+  function ($q, $timeout, $http, $cookies) {
+
+
+
+}
+
+]);
+
 angular.module('smApp').factory('AuthService',
   ['$q', '$timeout', '$http', '$cookies',
   function ($q, $timeout, $http, $cookies) {
