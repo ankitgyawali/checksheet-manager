@@ -403,6 +403,16 @@ angular.module('smApp').controller('setadvisingcontroller', ['$scope', '$http','
        $scope.timeMaxAMPM = time;        
      }
      
+     $scope.hourtoIndex = function(hour,minutes){
+        // console.log("hour:"+hour);
+        // console.log("hour:"+minutes);
+        return (((hour-1)*4) + (minutes/15));
+     }
+
+     $scope.indexTohour = function(index){
+        return [((Math.floor(index/4))+1),((index%4)*15)];
+     }
+
      $scope.addAppt = function()
      {
         $scope.oneSlot = {};
@@ -419,6 +429,8 @@ angular.module('smApp').controller('setadvisingcontroller', ['$scope', '$http','
              $scope.oneSlot.maxHR = parseInt($scope.timeMaxHr);
     
         }
+
+
         if ($scope.oneSlot.maxHR >= $scope.oneSlot.minHR){
         $scope.oneSlot.timediff =  $scope.oneSlot.maxHR - $scope.oneSlot.minHR;
 
@@ -437,13 +449,15 @@ angular.module('smApp').controller('setadvisingcontroller', ['$scope', '$http','
                  }
             $scope.oneSlot.timediff = $scope.oneSlot.timediff + 0.5 }
 
-            $scope.oneSlot.maxMIN = $scope.timeMaxMin;
-            $scope.oneSlot.minMin = $scope.timeMinMin;
+            $scope.oneSlot.maxMin = parseInt($scope.timeMaxMin);
+            $scope.oneSlot.minMin = parseInt($scope.timeMinMin);
         
+
+   
 
             
 
-           if ($scope.oneSlot.timediff >= 10 )
+           if ($scope.oneSlot.timediff >= 24 )
            {
             notificationFactory.error("You can't have more than 10 hours of appointment session at once!");
             console.log($scope.oneSlot.maxHR);
@@ -454,12 +468,37 @@ angular.module('smApp').controller('setadvisingcontroller', ['$scope', '$http','
            }
            else
            {
-             console.log($scope.oneSlot.maxHR);
-             console.log($scope.oneSlot.minHR);
-             console.log($scope.appointmentTimes);
+            if (($scope.hourtoIndex($scope.oneSlot.minHR,$scope.oneSlot.minMin)) > ($scope.hourtoIndex($scope.oneSlot.maxHR,$scope.oneSlot.maxMin)))
+            {
+                console.log("opposite");
+                for (i = ($scope.hourtoIndex($scope.oneSlot.minHR,$scope.oneSlot.minMin));
+                 
+
+                 i < $scope.appointmentTimes[$scope.timeDay].length; i++) 
+                    {
+                          console.log('This is i :'+i);
+                    $scope.appointmentTimes[$scope.timeDay][i] = "true";
+                    }
+
+                for (i = 0; i < ($scope.hourtoIndex($scope.oneSlot.maxHR,$scope.oneSlot.maxMin)); i++) 
+                    {
+                          console.log('This is i :'+i);
+                      $scope.appointmentTimes[$scope.timeDay][i] = "true";
+                    }
+            
+            }
+               else{
+               console.log('this is i start:'+($scope.hourtoIndex($scope.oneSlot.minHR,$scope.oneSlot.minMin)));
+                    console.log('while i is less than:'+($scope.hourtoIndex($scope.oneSlot.maxHR,$scope.oneSlot.maxMin)));
+                    for (i = ($scope.hourtoIndex($scope.oneSlot.minHR,$scope.oneSlot.minMin)); i < ($scope.hourtoIndex($scope.oneSlot.maxHR,$scope.oneSlot.maxMin)) ; i++)
+                    {
+                    console.log('This is i :'+i);
+                    $scope.appointmentTimes[$scope.timeDay][i] = "true";
+                    }
+               }
              
            }
-          
+          console.log(JSON.stringify($scope.appointmentTimes[$scope.timeDay]));
 
      }
 

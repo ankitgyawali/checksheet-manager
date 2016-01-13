@@ -60,7 +60,9 @@
       :
       <select ng-model="timeMinMin" ng-init="timeMinMin='00'" >
                 <option>00</option>
+                <option>15</option>
                 <option>30</option>
+                <option>45</option>
       </select>
 
       <button type="button" ng-if="timeMinAMPM=='PM'" ng-click="setMinAMPM('AM')">PM</button>
@@ -88,7 +90,9 @@ To <br>
       :
       <select ng-model="timeMaxMin" ng-init="timeMaxMin='00'" >
                 <option>00</option>
+                <option>15</option>
                 <option>30</option>
+                <option>45</option>
       </select>
       <button type="button" ng-if="timeMaxAMPM=='PM'" ng-click="setMaxAMPM('AM')">PM</button>
       <button type="button"  ng-if="timeMaxAMPM=='AM'" ng-click="setMaxAMPM('PM')">AM</button>
