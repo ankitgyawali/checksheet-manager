@@ -60,9 +60,7 @@
       :
       <select ng-model="timeMinMin" ng-init="timeMinMin='00'" >
                 <option>00</option>
-                <option>15</option>
                 <option>30</option>
-                <option>45</option>
       </select>
 
       <button type="button" ng-if="timeMinAMPM=='PM'" ng-click="setMinAMPM('AM')">PM</button>
@@ -90,9 +88,7 @@ To <br>
       :
       <select ng-model="timeMaxMin" ng-init="timeMaxMin='00'" >
                 <option>00</option>
-                <option>15</option>
                 <option>30</option>
-                <option>45</option>
       </select>
       <button type="button" ng-if="timeMaxAMPM=='PM'" ng-click="setMaxAMPM('AM')">PM</button>
       <button type="button"  ng-if="timeMaxAMPM=='AM'" ng-click="setMaxAMPM('PM')">AM</button>
@@ -101,15 +97,40 @@ To <br>
 </div>
 </div>
   <br> <br>  <button ng-click="addAppt()">Add appointment time</button> <br><br>
-Time difference is {{oneSlot.timediff}}
-  
+<span style="font-size:85%"> Time conflicts are handled gracefully. Overlapping times will be shown "as-is" on your appointment schedule summary below. Your actual schedule can be viewed from "view advising appointments" tab once you submit your schedule. </span>
 <div class="row">
 <div class="col-sm-6">
   <div class="panel panel-default">
   <div class="panel-body" style="font-size:100%">
   <b><u>New Appointment Schedule Summary:</u></b><br><br>
-  Maximum Number of appointments possible per week: <br>
-Appointment time length: <br>
+  
+  Maximum # of appointments possible per week: <b>{{newTimes.maxAppts}}</b><br>
+Appointment time length: 15 min <br><br>
+<u>Newly created appointment hours:</u><br><br>
+<div class="container row">
+<b>Sunday:</b> <ul><li ng-repeat="timeslot in newTimes.S track by $index"> {{timeslot}}</li></ul>
+
+</div>
+<div class="container row">
+<b>Monday:</b> <ul><li ng-repeat="timeslot in newTimes.M track by $index"> {{timeslot}}</li>
+</div>
+<div class="container row">
+<b>Tuesday:</b> <ul><li ng-repeat="timeslot in newTimes.T track by $index"> {{timeslot}}</li>
+
+</div>
+<div class="container row">
+<b>Wednesday:</b> <ul><li ng-repeat="timeslot in newTimes.W track by $index"> {{timeslot}}</li>
+</div>
+<div class="container row">
+<b>Thursday:</b> <ul><li ng-repeat="timeslot in newTimes.TH track by $index"> {{timeslot}}</li>
+ </div>
+<div class="container row">
+<b>Friday:</b> <ul><li ng-repeat="timeslot in newTimes.F track by $index"> {{timeslot}}</li>
+</div>
+<div class="container row">
+<b>Saturday:</b><ul><li ng-repeat="timeslot in newTimes.SA track by $index"> {{timeslot}}</li>
+</div>
+
 
 
 
@@ -123,8 +144,8 @@ Appointment time length: <br>
   <div class="panel-body" style="font-size:100%">
   <b><u>Current Appointment Schedule Summary:</u></b><br><br>
   Maximum Number of appointments possible per week: <br>
-  Appointment time length:<br>
-  Number of appointments:
+  Appointment time length: 15 min<br>
+  View my current schedule:
 
   </div></div>
 
@@ -135,7 +156,7 @@ Appointment time length: <br>
 </div>
 <div class="row">
   <div class="col-sm-12"><br><br>
-  <button type="button"> Reset & Submit Appointment times to database</button>
+  <button type="button" ng-click="submitAppointments()"> Reset & Submit Appointment times to database</button>
 <br>
 <span style="font-size:85%"> Warning: This will reset all of your current appointments with your students.</span>
   </div>

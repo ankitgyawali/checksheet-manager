@@ -267,6 +267,28 @@ function onInsert(err, docs) {
 
 });
 
+
+
+
+
+router.post('/appointmenttimes', function(req, res) {
+  console.log('new id req body: '+req.body._id);
+   console.log('new id req body: '+req.body.appointmentTimes);
+
+
+  models.advisor.update({_id:req.body._id}, {appointmentTimes:req.body.appointmentTimes}, {upsert:true}, 
+    function(err, doc){
+    if (err) {
+     console.log("error because: "+ err + "&&& doc: "+doc)
+      return res.sendStatus(500);
+    }
+    return res.sendStatus(200);
+});
+
+
+  
+});
+
 router.put('/departments', function(req, res) {
   console.log('new id req body: '+req.body.newID._id);
 

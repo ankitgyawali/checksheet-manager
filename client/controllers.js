@@ -69,7 +69,7 @@ angular.module('smApp').controller('advisorController', ['$scope', '$http', '$lo
         // $scope.templateURL = 'partials/rdept.html';
 
         //DEBUG: set advisor default page here
-        $scope.templateURL = 'partials/setadvising.html';
+        $scope.templateURL = 'partials/advisoraddstudents.html';
         //Get username and type at parent scope
         $scope.username = AuthService.getusername();
         $scope.lastname = AuthService.getlastname()
@@ -390,6 +390,20 @@ angular.module('smApp').controller('setadvisingcontroller', ['$scope', '$http','
         SA : new Array(24*60/($scope.appointmentLength))
      };
 
+
+    $scope.newTimes = {
+        S : new Array(),
+        M :new Array(),
+        T : new Array(),
+        W : new Array(),
+        TH : new Array(),
+        F : new Array(),
+        SA : new Array()
+     };
+
+     $scope.totalTime = {};
+      $scope.newTimes.maxAppts = 0;
+
      $scope.timeMinAMPM = "PM";
      $scope.timeMaxAMPM = "PM";
   
@@ -415,8 +429,13 @@ angular.module('smApp').controller('setadvisingcontroller', ['$scope', '$http','
 
      $scope.addAppt = function()
      {
-        $scope.oneSlot = {};
 
+      
+
+
+        $scope.oneSlot = {};
+         $scope.arraySlot = {};
+         $scope.arraySlot.state = 'true'; 
         if($scope.timeMinAMPM=="PM"){
             $scope.oneSlot.minHR = parseInt($scope.timeMinHr) + 12;
         } else {
@@ -453,8 +472,8 @@ angular.module('smApp').controller('setadvisingcontroller', ['$scope', '$http','
             $scope.oneSlot.minMin = parseInt($scope.timeMinMin);
         
 
-   
 
+ 
             
 
            if ($scope.oneSlot.timediff >= 24 )
@@ -468,22 +487,22 @@ angular.module('smApp').controller('setadvisingcontroller', ['$scope', '$http','
            }
            else
            {
+            notificationFactory.success("Appointment schedule modified! Submit when ready.");
+            $scope.newTimes[$scope.timeDay].push($scope.timeMinHr+" : "+ $scope.timeMinMin +""+$scope.timeMinAMPM+" to "+$scope.timeMaxHr+" : "+ $scope.timeMaxMin+""+ $scope.timeMaxAMPM);
             if (($scope.hourtoIndex($scope.oneSlot.minHR,$scope.oneSlot.minMin)) > ($scope.hourtoIndex($scope.oneSlot.maxHR,$scope.oneSlot.maxMin)))
             {
                 console.log("opposite");
                 for (i = ($scope.hourtoIndex($scope.oneSlot.minHR,$scope.oneSlot.minMin));
-                 
-
                  i < $scope.appointmentTimes[$scope.timeDay].length; i++) 
                     {
-                          console.log('This is i :'+i);
-                    $scope.appointmentTimes[$scope.timeDay][i] = "true";
+                    console.log('This is i :'+i);
+                    $scope.appointmentTimes[$scope.timeDay][i] = $scope.arraySlot;
                     }
 
                 for (i = 0; i < ($scope.hourtoIndex($scope.oneSlot.maxHR,$scope.oneSlot.maxMin)); i++) 
                     {
-                          console.log('This is i :'+i);
-                      $scope.appointmentTimes[$scope.timeDay][i] = "true";
+                    console.log('This is i :'+i);
+                    $scope.appointmentTimes[$scope.timeDay][i] = $scope.arraySlot;
                     }
             
             }
@@ -493,13 +512,59 @@ angular.module('smApp').controller('setadvisingcontroller', ['$scope', '$http','
                     for (i = ($scope.hourtoIndex($scope.oneSlot.minHR,$scope.oneSlot.minMin)); i < ($scope.hourtoIndex($scope.oneSlot.maxHR,$scope.oneSlot.maxMin)) ; i++)
                     {
                     console.log('This is i :'+i);
-                    $scope.appointmentTimes[$scope.timeDay][i] = "true";
+                    $scope.appointmentTimes[$scope.timeDay][i] = $scope.arraySlot;
                     }
                }
-             
-           }
-          console.log(JSON.stringify($scope.appointmentTimes[$scope.timeDay]));
+               $scope.totalTime[$scope.timeDay] = 0;
+                    angular.forEach($scope.appointmentTimes[$scope.timeDay],function(value,index){
+                if(value.state) { 
+                    $scope.totalTime[$scope.timeDay] = $scope.totalTime[$scope.timeDay] + 1;
+                 }
+         
+            });
 
+
+            $scope.newTimes.maxAppts = 0;
+
+            console.log(JSON.stringify($scope.totalTime));
+
+           for (var key in $scope.totalTime) {
+                if ($scope.totalTime.hasOwnProperty(key)) {
+                 $scope.newTimes.maxAppts = $scope.newTimes.maxAppts+  $scope.totalTime[key];
+                     }
+                }
+             
+            }
+
+          $scope.dayAdded =  $scope.timeDay;
+
+
+     }
+
+     $scope.submitAppointments =  function(){
+
+           $http({
+                    method: 'POST',
+                    url: '/appointmenttimes',
+                    // set the headers so angular passing info as form data (not request payload)
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        appointmentTimes: $scope.appointmentTimes,
+                        _id: AuthService.getuserid()
+                    }
+
+                }).success(function(data, status, headers, config) {
+                 //Template will be set to show new advisors once addadvisor has been completed
+                $scope.settemplateURL('partials/viewadvising.html');
+               notificationFactory.info("Successfully added appointment times! ");
+                })
+                .error(function(data, status, headers, config) {
+                    notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.")
+
+                });
+        console.log(AuthService.getuserid());
      }
 
 
