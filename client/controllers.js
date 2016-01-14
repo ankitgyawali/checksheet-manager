@@ -571,6 +571,85 @@ angular.module('smApp').controller('setadvisingcontroller', ['$scope', '$http','
   }
 ]);
 
+
+//Controller designed to handle mixing of one or more checksheet block for the creation of a checksheet
+angular.module('smApp').controller('addnewstudentController', ['$scope', '$http','$location', 'notificationFactory', 'AuthService', '$cookies',
+    function($scope, $http, $location, notificationFactory, AuthService, $cookies) {
+
+
+//Method to modify templateURL 
+               $http({
+                        method: 'GET',
+                        url: '/checksheetsinfo'
+
+                    }).success(function(data, status, headers, config) {
+                        // this callback will be called asynchronously
+                        // when the response is available
+                        $scope.checksheets = data;
+                        $scope.studentchecksheet = $scope.checksheets[0];
+                        $scope.student.department = $scope.dpts[1].name;
+                        //console.log(JSON.stringify($scope.courses | suffix:135));
+
+                    })
+                    .error(function(data, status, headers, config) {
+                        notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
+                    });
+
+
+ $scope.generatepwd = function() {
+
+            return AuthService.generatePassword();
+        }
+
+
+
+
+$scope.addnewStudent = function(){
+   
+   if(!$scope.studentchecksheet){
+     notificationFactory.error("Error: Choose a valid checksheet prototype");
+    return;
+   }
+   else{
+    $scope.student.checksheetprotoid = [];
+    $scope.student.advisor = [];
+    $scope.student.advisor[0]= AuthService.getuserid();
+    $scope.student.checksheetprotoid[0]  = $scope.studentchecksheet._id;
+    console.log(JSON.stringify($scope.student));
+     $http({
+                    method: 'POST',
+                    url: '/students',
+                    // set the headers so angular passing info as form data (not request payload)
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        arraytoAdd: $scope.student
+                    }
+
+                }).success(function(data, status, headers, config) {
+                //Set template to revert back to displaying department so that user can view/update newly added department
+                $scope.settemplateURL('partials/viewstudents.html');
+                notificationFactory.info("Successfully added students: ");
+
+                })
+                .error(function(data, status, headers, config) {
+                    console.log(" Not Doneee " + status + data + headers + config);
+                    notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.")
+
+                });
+   }
+}
+
+
+
+
+
+}
+
+]);
+
+
 //Controller designed to handle mixing of one or more checksheet block for the creation of a checksheet
 angular.module('smApp').controller('advisorchecksheetController', ['$scope', '$http','$location', 'notificationFactory', 'AuthService', '$cookies',
     function($scope, $http, $location, notificationFactory, AuthService, $cookies) {

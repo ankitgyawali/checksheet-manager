@@ -59,6 +59,16 @@ router.get('/departments', function(req, res) {
   }); 
 });
 
+router.get('/checksheetsinfo', function(req, res) {
+
+  models.checksheet.find({},'_id credits id department name type description', function(err, dpts) {
+    res.send(dpts); 
+
+  }); 
+});
+
+
+
 
 router.get('/departments', function(req, res) {
 
@@ -159,6 +169,29 @@ async.parallel({
 });
 
 });
+
+
+
+
+router.post('/students', function(req, res) {
+
+models.student.collection.insert(req.body.arraytoAdd, onInsert);
+
+function onInsert(err, docs) {
+    if (err) {
+        // TODO: handle error
+         console.log("error because: "+ err + "&&& doc: "+docs)
+      return res.sendStatus(500);
+    } else {
+        console.info('%d potatoes were successfully stored.', docs.length);
+         return res.sendStatus(200)
+    }
+}
+
+});
+
+
+
 
 
 router.post('/departments', function(req, res) {

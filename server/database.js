@@ -30,7 +30,7 @@ var advisorSchema = mongoose.Schema({
     phone: String,
     registered: Boolean,
     appointmentTimes: Object,
-    advisee: [String]
+    advisee: Array
 },{ collection : 'advisor' });
 var advisorCol = mongoose.model('advisor', advisorSchema);
 
@@ -43,9 +43,11 @@ var studentSchema = mongoose.Schema({
     id:  { type: String, unique: true },
     firstname: String,
     lastname: String,
-    major: String,
-    checksheetprotoid: String,
-    classstatus: [String]
+    department: String,
+    checksheetprotoid: Array,
+    classstatus: Object,
+    advisor: Array,
+    registered: Boolean
 },{ collection : 'student' });
 var studentCol = mongoose.model('student', studentSchema);
 

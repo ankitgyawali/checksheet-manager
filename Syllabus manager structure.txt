@@ -270,3 +270,25 @@ appointmentTimes.sunday = []
 1000 => 2000 ||
 
 
+
+advisor can instantiate new student as long as credits are over 110
+
+advisor can have multiple ststudent id
+
+
+advisor can add student by id number but only for partial credit checksheet
+
+
+advisor can un-match student, with option of deleting his student account
+
+
+
+student will always have one advisor and one checksheet
+
+but he can get added by id and will be notified if he has new advisor  and new checksheet
+second checksheet is not required to fill
+
+
+student can have his own personal checksheet like record (SLOTS)  <- not necessary
+
+student can h
