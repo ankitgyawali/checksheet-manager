@@ -148,10 +148,55 @@ router.get('/advisors', function(req, res) {
 
 // });
 
+router.post('/findstudentbyid', function(req, res) {
+
+var json = {};
+
+models.student.findOne({'id':req.body.studentid},'-password', function (err, student) {
+  if (err) {
+     console.log('something wrong');
+     return res.sendStatus(500);
+   }
+  if (student){
+
+    json.student = student;
+    console.log(json.student.advisor)
+    models.advisor.find({'_id': { $in: json.student.advisor } }, 'id department firstname lastname _id office phone email' ,function(err, docs){
+    if(err){
+    return res.sendStatus(500);
+    }
+    else{
+    json.advisor = docs;
+      models.checksheet.find({'_id': { $in: json.student.checksheetprotoid } }, 'id credits name department description type' ,function(err, docs){
+      if(err){
+        return res.sendStatus(500);
+      }
+      else{
+        json.checksheet = docs;
+      return res.json(json);
+      }
+      });
+
+  
+    } 
+
+    });
+
+  }
+  else
+  {
+   return res.sendStatus(500);
+  }
+
+})
+  
+});
+
+
+
 //ASYNC GET
 router.get('/classes', function(req, res) {
-  var json;
-  json = {};
+  var json = {};
 
 async.parallel({
   courses: function(callback) {
@@ -171,9 +216,7 @@ async.parallel({
 });
 
 
-
-
-router.post('/students', function(req, res) {
+router.post('/newstudents', function(req, res) {
 
 models.student.collection.insert(req.body.arraytoAdd, onInsert);
 
@@ -183,11 +226,45 @@ function onInsert(err, docs) {
          console.log("error because: "+ err + "&&& doc: "+docs)
       return res.sendStatus(500);
     } else {
-        console.info('%d potatoes were successfully stored.', docs.length);
-         return res.sendStatus(200)
+
+  models.advisor.update({_id: req.body.arraytoAdd.advisor[0] },
+         {$push: { 'advisee' : docs.ops[0]._id }},{upsert:true}, function(err, data) { 
+          });
+         return res.sendStatus(200);
     }
 }
 
+});
+
+
+router.put('/updatecurrentstudent', function(req, res) {
+
+
+  models.student.update({_id: req.body.update._id },
+         {$addToSet: { 'advisor' : req.body.update.advisor, 'checksheetprotoid':req.body.update.checksheetprotoid  }},{upsert:true}, 
+         function(err, data) { 
+          if (err){
+             console.log("1");
+          return res.sendStatus(500);
+
+          }
+          else{
+            models.advisor.update({_id: req.body.update.advisor },
+         {$addToSet: { 'advisee' : req.body.update._id }},{upsert:true}, function(err, data) { 
+           if(err){
+             console.log("2");
+            return res.sendStatus(500);
+           }
+           else
+           {
+             console.log("3");
+            return res.sendStatus(200);
+           }
+          });
+          }
+          });
+
+  
 });
 
 
@@ -322,6 +399,9 @@ router.post('/appointmenttimes', function(req, res) {
   
 });
 
+
+
+
 router.put('/departments', function(req, res) {
   console.log('new id req body: '+req.body.newID._id);
 
@@ -337,6 +417,9 @@ router.put('/departments', function(req, res) {
 
   
 });
+
+
+
 
 router.put('/checksheets', function(req, res) {
   console.log('new id req body: '+req.body.newID._id);

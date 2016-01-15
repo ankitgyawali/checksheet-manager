@@ -661,23 +661,3 @@ $scope.modify = function () {
 }]);
 
 
-
-// Student controller that handles student dashboard and student operation
-angular.module('smApp').controller('studentController',
-  ['$scope', '$location', 'notificationFactory', 'AuthService','$cookies', 
-   function ($scope, $location, notificationFactory, AuthService,$cookies) {
-
-    console.log("dashboard check: "+AuthService.isLoggedIn());
-    $scope.username = AuthService.getusername();
-    $scope.usertype = AuthService.getusertype();
-    $scope.lol = $cookies.get('loggedin');
-
-    $scope.logout = function (){
-    AuthService.logout();
-    notificationFactory.info("Logged out succesfully!")
-    $location.url('/login');
-     };
-
-
-
-}]);
