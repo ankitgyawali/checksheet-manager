@@ -1,5 +1,6 @@
 // dependencies
 var express = require('express'),
+ mongoose = require('mongoose'),
     logger = require('morgan'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
@@ -7,8 +8,8 @@ var express = require('express'),
     hash = require('bcrypt-nodejs'),
     path = require('path'),
     passport = require('passport'),
-    localStrategy = require('passport-local' ).Strategy,
-    mongoose = require('mongoose');
+    localStrategy = require('passport-local' ).Strategy;
+   
 
 
 // user schema/model

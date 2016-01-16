@@ -95,7 +95,7 @@ var checksheetSchema = mongoose.Schema({
     name: String,
     creator: String,
     creatorID:String,
-    blockid: Array,
+    blockid: [{ type: String, ref: 'block' }],
     department: String,
     id:  { type: String, unique: true },
     description: String,

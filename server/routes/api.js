@@ -51,15 +51,122 @@ router.post('/login', function(req, res ) {
 });
 
 
-router.post('/students', function(req, res) {
 
+ 
+
+
+
+
+router.post('/students', function(req, res) {
+  var json = {};
   models.student.findOne({'_id':req.body.studentid}, function(err, student) {
-    console.log(req.body.studentid);
-    console.log(student);
-    res.send(student); 
+    if(err)
+    {
+      res.sendStatus(500);
+    }
+    else
+    {
+
+    json.student = student;
+    
+      models.advisor.find({'_id': { $in: json.student.advisor } }, '-password -advisee' ,function(err, advisor){
+      if(err){
+        return res.sendStatus(500);
+      }
+      else{
+      json.advisor = advisor;
+
+
+
+      models.checksheet.find({'_id': { $in: json.student.checksheetprotoid } },function(err, checksheet){
+      if(err){
+        return res.sendStatus(500);
+      }
+      else{
+      json.checksheet = checksheet;
+   return res.json(json)
+
+      }
+      }).populate('blockid').exec(function(err, items) {
+          
+      });
+
+
+      }
+      });
+
+    }
+   
 
   }); 
 });
+
+
+
+
+
+
+// router.post('/students', function(req, res) {
+//   var json = {};
+//   models.student.findOne({'_id':req.body.studentid}, function(err, student) {
+//     if(err)
+//     {
+//       res.sendStatus(500);
+//     }
+//     else
+//     {
+
+//     json.student = student;
+    
+//       models.advisor.find({'_id': { $in: json.student.advisor } }, '-password -advisee' ,function(err, advisor){
+//       if(err){
+//         return res.sendStatus(500);
+//       }
+//       else{
+//       json.advisor = advisor;
+
+
+//       models.checksheet.find({'_id': { $in: json.student.checksheetprotoid } },function(err, checksheet){
+//       if(err){
+//         return res.sendStatus(500);
+//       }
+//       else{
+//       json.checksheet = checksheet;
+
+//       json.block = [];
+
+
+//       for (var i = 0;i<json.checksheet.length;i++){
+
+//       models.block.find({'_id': { $in: json.checksheet[i].blockid } },function(err, block){
+//       if(err){
+//         return res.sendStatus(500);
+//       }
+//       else{
+//       console.log('ok:'+i);
+//       json.block.push(block);
+//       }
+//       });
+
+
+//       }
+
+//       console.log('jsonblock= '+ json.block);
+//       return res.json(json);
+
+
+//       }
+//       });
+
+
+//       }
+//       });
+
+//     }
+   
+
+//   }); 
+// });
 
 
 

@@ -96,8 +96,12 @@ angular.module('smApp').controller('studentController',
                         // this callback will be called asynchronously
                         // when the response is available
 
-                        $scope.student = data;
-                        console.log($scope.student.registered);
+                        $scope.student = data.student;
+                        $scope.advisor = data.advisor;
+                        $scope.checksheet = data.checksheet;
+                
+                         console.log(JSON.stringify($scope.checksheet));
+                  
                         if(!$scope.student.registered){
                             notificationFactory.warning("First time login detected. Change your password and choose presonal settings to proceed.");
                             $scope.templateURL = "partials/studentsettings.html"
