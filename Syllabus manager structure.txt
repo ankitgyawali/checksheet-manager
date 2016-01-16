@@ -292,3 +292,42 @@ second checksheet is not required to fill
 student can have his own personal checksheet like record (SLOTS)  <- not necessary
 
 student can h
+
+---
+
+
+
+student ->>>
+
+
+
+
+
+
+set advising appointment
+
+view checksheet
+
+fill checksheet
+
+add classes
+change curent semester
+
+create your own checksheet
+
+
+
+student logs in ->
+
+get his information minus password
+
+get his advisor information minus password plus advising appointments
+
+get checksheet information(s)
+
+
+get department(s)
+
+get class(s)
+
+get block information(s)

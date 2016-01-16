@@ -187,9 +187,10 @@ See checksheet info</button>
 
 <br><br>
 <div class="col-sm-1"></div>
-<button type="button"  style="font-size:125%" ng-click="updatestudent()"><i class="fa fa-plus"></i> Submit new checksheet to student</button>
-<button type="button" ng-click="divshow=!divshow" style="font-size:125%"><i class="fa fa-times"></i> Cancel</button>
+<button type="button"  style="font-size:125%" ng-click="updatestudent()" confirm="WARNING: You are about to match a new checksheet with a student. You will be added as one of his advisors and will be able to view his checksheets. Are you sure you want to continue?" confirm-title="Matching with an existing student.." confirm-ok="Yes" confirm-cancel="No"><i class="fa fa-plus"></i> Submit new checksheet to student</button>
+<button type="button" ng-click="divshow=!divshow" style="font-size:125%" ><i class="fa fa-times"></i> Cancel</button>
 </div>
+
 
 
 

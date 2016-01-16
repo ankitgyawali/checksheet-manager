@@ -64,20 +64,88 @@ angular.module('smApp').controller('loginController', ['$scope', '$location', 'n
 
 // Student controller that handles student dashboard and student operation
 angular.module('smApp').controller('studentController',
-  ['$scope', '$location', 'notificationFactory', 'AuthService','$cookies', 
-   function ($scope, $location, notificationFactory, AuthService,$cookies) {
+  ['$scope', '$location', 'notificationFactory', 'AuthService','$http', 
+   function ($scope, $location, notificationFactory, AuthService,$http) {
 
       //Instantiates templateURL for dashboard constant at parent scope so subsequent child
         //controllers can modify it
-        // $scope.templateURL = 'partials/rdept.html';
+        $scope.templateURL = 'partials/studentsummary.html';
         // $scope.templateURL = 'partials/student.html';
         //Get username and type at parent scope
         $scope.username = AuthService.getusername();
         $scope.usertype = AuthService.getusertype();
+        $scope.student_id =  AuthService.getuserid();
         //Method to modify templateURL 
         $scope.settemplateURL = function(temp) {
             $scope.templateURL = temp;
         };
+
+
+
+        $http({
+                        method: 'POST',
+                        url: '/students',
+                          headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        studentid: $scope.student_id
+                    }
+
+                    }).success(function(data, status, headers, config) {
+                        // this callback will be called asynchronously
+                        // when the response is available
+
+                        $scope.student = data;
+                        console.log($scope.student.registered);
+                        if(!$scope.student.registered){
+                            notificationFactory.warning("First time login detected. Change your password and choose presonal settings to proceed.");
+                            $scope.templateURL = "partials/studentsettings.html"
+                        }
+                        else{
+                             $scope.templateURL = "partials/studentsummary.html"
+                        }
+                    })
+                    .error(function(data, status, headers, config) {
+                        notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
+                    });
+
+
+
+         $http({
+                        method: 'GET',
+                        url: '/classes'
+
+                    }).success(function(data, status, headers, config) {
+                        // this callback will be called asynchronously
+                        // when the response is available
+                        $scope.dpts = data.dpts;
+                        $scope.courses = data.courses;
+
+                        //console.log(JSON.stringify($scope.courses | suffix:135));
+
+                    })
+                    .error(function(data, status, headers, config) {
+                        notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
+                    });
+
+
+         $scope.$watch('templateURL', function(val) {
+            if($scope.student){
+               if(!$scope.student.registered){
+                if($scope.templateURL != "partials/studentsettings.html")
+                {
+                notificationFactory.warning("Change your settings to proceed.");
+                }
+                            $scope.templateURL = "partials/studentsettings.html"
+                        }
+                        else{
+                             $scope.templateURL = val;
+                        }
+                }
+
+        });
+
 
         //Logout function that utilizes factory service 
         $scope.logout = function() {

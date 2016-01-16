@@ -51,6 +51,18 @@ router.post('/login', function(req, res ) {
 });
 
 
+router.post('/students', function(req, res) {
+
+  models.student.findOne({'_id':req.body.studentid}, function(err, student) {
+    console.log(req.body.studentid);
+    console.log(student);
+    res.send(student); 
+
+  }); 
+});
+
+
+
 router.get('/departments', function(req, res) {
 
   models.department.find({}, function(err, dpts) {
