@@ -97,10 +97,9 @@ angular.module('smApp').controller('studentController',
                         // when the response is available
 
                         $scope.student = data.student;
-                        $scope.advisor = data.advisor;
-                        $scope.checksheet = data.checksheet;
+                        $scope.advisors = data.advisor;
+                        $scope.checksheets = data.checksheet;
                 
-                         console.log(JSON.stringify($scope.checksheet));
                   
                         if(!$scope.student.registered){
                             notificationFactory.warning("First time login detected. Change your password and choose presonal settings to proceed.");
@@ -159,5 +158,40 @@ angular.module('smApp').controller('studentController',
         };
 
 
+
+}]);
+
+
+
+
+// Student controller that handles student dashboard and student operation
+angular.module('smApp').controller('studentsettingscontroller',
+  ['$scope', '$location', 'notificationFactory', 'AuthService','$http', 
+   function ($scope, $location, notificationFactory, AuthService,$http) {
+    $scope.setting = {};
+    $scope.updatestudentsettings = function () {
+        $scope.setting._id = $scope.student_id;
+        $scope.setting.password = $scope.studentnewpassword;
+        $scope.setting.registered = true;
+               $http({
+                        method: 'PUT',
+                        url: '/studentsetting',
+                          headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        setting: $scope.setting
+                    }
+
+                    }).success(function(data, status, headers, config) {
+                    notificationFactory.success("Settings update succesfully.");
+                    $scope.student.registered = "true"
+                    $scope.settemplateURL("partials/studentsummary.html");
+
+                    })
+                    .error(function(data, status, headers, config) {
+                        notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
+                    });
+    }
 
 }]);

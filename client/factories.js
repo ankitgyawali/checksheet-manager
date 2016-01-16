@@ -39,7 +39,7 @@ angular.module('smApp').factory('notificationFactory', function () {
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
       };
-            toastr.info(text,"Success");
+            toastr.info(text,"Info.");
         },
 
          warning: function (text) {
@@ -60,7 +60,7 @@ angular.module('smApp').factory('notificationFactory', function () {
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
       };
-            toastr.warning(text,"Success");
+            toastr.warning(text,"Caution");
         },
         error: function (text) {
     toastr.options = {

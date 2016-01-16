@@ -84,11 +84,10 @@ router.post('/students', function(req, res) {
       }
       else{
       json.checksheet = checksheet;
-   return res.json(json)
-
+      return res.json(json)
       }
       }).populate('blockid').exec(function(err, items) {
-          
+
       });
 
 
@@ -519,6 +518,21 @@ router.post('/appointmenttimes', function(req, res) {
 });
 
 
+router.put('/studentsetting', function(req, res) {
+  console.log('new id req body: '+req.body.setting._id);
+
+  models.student.update({_id:req.body.setting._id}, req.body.setting, {upsert:true}, 
+    function(err, doc){
+    if (err) {
+     console.log("error because: "+ err + "&&& doc: "+doc)
+      return res.sendStatus(500);
+    }
+    return res.sendStatus(200);
+});
+
+
+  
+});
 
 
 router.put('/departments', function(req, res) {
