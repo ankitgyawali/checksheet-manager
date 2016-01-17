@@ -64,12 +64,13 @@ angular.module('smApp').controller('loginController', ['$scope', '$location', 'n
 
 // Student controller that handles student dashboard and student operation
 angular.module('smApp').controller('studentController',
-  ['$scope', '$location', 'notificationFactory', 'AuthService','$http', 
-   function ($scope, $location, notificationFactory, AuthService,$http) {
+  ['$scope', '$routeParams','$location', 'notificationFactory', 'AuthService','$http', 
+   function ($scope, $routeParams,$location, notificationFactory, AuthService,$http) {
 
       //Instantiates templateURL for dashboard constant at parent scope so subsequent child
         //controllers can modify it
-        $scope.templateURL = 'partials/studentsummary.html';
+
+        $scope.templateURL = 'partials/studentmodifychecksheet.html';
         // $scope.templateURL = 'partials/student.html';
         //Get username and type at parent scope
         $scope.username = AuthService.getusername();
@@ -95,24 +96,26 @@ angular.module('smApp').controller('studentController',
                     }).success(function(data, status, headers, config) {
                         // this callback will be called asynchronously
                         // when the response is available
-
+                        $scope.data = data;
                         $scope.student = data.student;
                         $scope.advisors = data.advisor;
                         $scope.checksheets = data.checksheet;
                 
-                  
+                       
                         if(!$scope.student.registered){
-                            notificationFactory.warning("First time login detected. Change your password and choose presonal settings to proceed.");
+                            notificationFactory.warning("First time login detected. Change your password to proceed.");
                             $scope.templateURL = "partials/studentsettings.html"
                         }
                         else{
-                             $scope.templateURL = "partials/studentsummary.html"
+                             $scope.templateURL = "partials/studentmodifychecksheet.html"
                         }
                     })
                     .error(function(data, status, headers, config) {
                         notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
                     });
 
+
+      
 
 
          $http({
@@ -163,8 +166,39 @@ angular.module('smApp').controller('studentController',
 
 
 
+// Student controller that handles modification of student checksheet
+angular.module('smApp').controller('studentmodifychecksheetcontroller',
+  ['$scope', '$location', 'notificationFactory', 'AuthService','$http','$timeout', 
+   function ($scope, $location, notificationFactory, AuthService,$http,$timeout) {
 
-// Student controller that handles student dashboard and student operation
+
+
+
+$scope.$watch('data', function(val) {
+if($scope.student){
+if($scope.student.checksheetprotoid.length == '1'){
+$scope.divshow = true;
+$scope.checksheetinview = $scope.checksheets[0];
+}
+else
+{
+    $scope.divshow = false;
+} 
+}
+
+        });
+
+
+
+  $scope.setdivshowtrue = function(val){ 
+  $scope.checksheetinview = $scope.checksheets[val];
+  $scope.divshow = true; }
+ 
+
+}]);
+
+
+// Student controller that handles modification of student settings
 angular.module('smApp').controller('studentsettingscontroller',
   ['$scope', '$location', 'notificationFactory', 'AuthService','$http', 
    function ($scope, $location, notificationFactory, AuthService,$http) {

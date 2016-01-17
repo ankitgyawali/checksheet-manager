@@ -359,7 +359,7 @@ router.put('/updatecurrentstudent', function(req, res) {
 
 
   models.student.update({_id: req.body.update._id },
-         {$addToSet: { 'advisor' : req.body.update.advisor, 'checksheetprotoid':req.body.update.checksheetprotoid  }},{upsert:true}, 
+         {$push: { 'advisor' : req.body.update.advisor, 'checksheetprotoid':req.body.update.checksheetprotoid  }},{upsert:true}, 
          function(err, data) { 
           if (err){
              console.log("1");

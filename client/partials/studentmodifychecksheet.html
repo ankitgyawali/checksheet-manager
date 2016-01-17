@@ -1,1 +1,49 @@
-studentmodifychecksheet
+<div ng-controller="studentmodifychecksheetcontroller">
+
+
+<div  ng-if="student.checksheetprotoid.length>1 && !divshow">
+
+
+	<div class="panel panel-default container" style="font-size:125%">
+		
+		<br>
+		Multiple checksheets detected, choose a checksheet to continue<br><br>
+		<ul>
+		<li ng-repeat="checksheet in checksheets track by $index">
+				<a href="#" ng-model="checksheettoview" ng-click="setdivshowtrue($index)">{{checksheet.name}}</a>
+		</li>			
+
+		</ul> <br>
+	</div>
+
+
+</div>
+
+
+<div  ng-if="divshow || student.checksheetprotoid.length==1">
+
+<div class="row page-header">  <h3>{{checksheetinview.name}}</h3></div> <br>
+
+	<div class="panel panel-default row" style="font-size:125%" ng-repeat="block in checksheetinview.blockid">
+		   <div class="panel-heading">{{block.name}}</div>
+  
+  <div class="panel-body">
+	<div class="row">
+ 	
+  		<div class="col-sm-6" ng-repeat="slot in block.details" style="margin:5px 5px 5px px;border:1px solid grey;border-style: outset;"> <b>{{slot.title}} </b>  <br>
+  		 <span style="font-size:90%">{{slot.description}} </span><br></div>
+
+  	
+
+  	</div>
+  </div>
+
+
+
+	</div>
+
+
+</div>
+
+
+</div>
