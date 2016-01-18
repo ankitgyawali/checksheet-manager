@@ -173,8 +173,13 @@ angular.module('smApp').controller('slotnoteController',
 $scope.pid = pid;
 $scope.id = id;
 
+if($scope.checksheetdata[$scope.pid][$scope.id].note){
 $scope.tempNote = $scope.checksheetdata[$scope.pid][$scope.id].note;
-
+}
+else
+{
+    $scope.tempNote = '';
+}
 $scope.submitslotnote = function (){
 
 $scope.checksheetdata[$scope.pid][$scope.id]['note'] = $scope.tempNote;
@@ -199,6 +204,48 @@ $scope.id = id;
 $scope.slotedit = {}
 $scope.buttondisabled = true;
 
+//SET INITIAL SLOT MODAL VALUES FROM CHECKSHEET DATA HERE IF EXISTS???
+            // slot object-> TAKEN BOOLEAN
+            //                 Custom or from database BOOLEAN
+            //                 NOTE STRING
+            //                 CLASS -> PREFIX SUFFIX
+            //                 credits: if not equal to 3
+if($scope.checksheetdata[$scope.pid][$scope.id].note){
+    $scope.slotedit.note = angular.copy($scope.checksheetdata[$scope.pid][$scope.id].note);
+
+}
+else
+{
+    $scope.slotedit.note = '';
+}
+
+
+if($scope.checksheetdata[$scope.pid][$scope.id].credits){
+$scope.slotedit.credits = $scope.checksheetdata[$scope.pid][$scope.id].credits;
+}
+else
+{
+    $scope.slotedit.credits = 3;
+}
+
+if($scope.checksheetdata[$scope.pid][$scope.id].prefix){
+    console.log("done");
+$scope.slotedit.classprefix = $scope.checksheetdata[$scope.pid][$scope.id].prefix;
+$scope.slotedit.classsuffix = $scope.checksheetdata[$scope.pid][$scope.id].suffix;
+}
+else
+{
+    $scope.slotedit.credits = 3;
+}
+if($scope.checksheetdata[$scope.pid][$scope.id].manual === undefined){
+console.log("this");
+    $scope.slotedit.type = '0';
+}
+else
+{
+    console.log("xas"+ $scope.checksheetdata[$scope.pid][$scope.id].manual);
+    $scope.slotedit.type = '1';
+}
 $scope.greaterThan = function(prop, val){
     return function(item){
 
@@ -208,19 +255,52 @@ $scope.greaterThan = function(prop, val){
 
 $scope.locksubmits = function(){
     $scope.buttondisabled = !$scope.buttondisabled;
-}
-$scope.modifyslotdetails = function (){
 
+}
+
+$scope.$watch('slotedit.note', function(val) {
+
+console.log("Changed: "+val);
+
+ });
+
+$scope.$watch('slotedit.credits', function(val) {
+
+console.log("Changed: "+val);
+
+ });
+
+
+$scope.modifyslotdetails = function (){
 $scope.slotedit.taken = '1';
+console.log('slottempNote: '+$scope.slotedit.note);
+$scope.checksheetdata[$scope.pid][$scope.id].note = $scope.slotedit.note;
+$scope.checksheetdata[$scope.pid][$scope.id].prefix = $scope.slotedit.classprefix;
+$scope.checksheetdata[$scope.pid][$scope.id].suffix = $scope.slotedit.classsuffix;
+
+if($scope.slotedit.type == '1'){
+$scope.checksheetdata[$scope.pid][$scope.id].manual = "1";
+}
+
+if($scope.slotedit.credits != 3) {
+$scope.checksheetdata[$scope.pid][$scope.id].credits = $scope.slotedit.credits;
+}
+else
+{
+    delete $scope.checksheetdata[$scope.pid][$scope.id].credits;
+
+}
+
 $uibModalInstance.dismiss('cancel');
-console.log("checksheetdata: "+JSON.stringify($scope.checksheetdata));
+
+
+
 
 }
 
 $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
-    console.log("checksheetdata: "+JSON.stringify($scope.checksheetdata));
-      console.log("slotedittaken: "+JSON.stringify($scope.slotedit.taken));
+
   };
 
 
@@ -231,7 +311,13 @@ angular.module('smApp').controller('studentmodifychecksheetcontroller',
   ['$scope', '$location', 'notificationFactory', 'AuthService','$http','$uibModal', 
    function ($scope, $location, notificationFactory, AuthService,$http,$uibModal) {
 
+$scope.test = function () {
+    console.log('--------------------------------------');
+    console.log(JSON.stringify($scope.checksheetdata));
 
+console.log('---------------------------------');
+ 
+}
  $scope.modifySlot = function(pid,id) {
     console.log(pid);
                 var modalInstance = $uibModal.open({
@@ -275,13 +361,7 @@ angular.module('smApp').controller('studentmodifychecksheetcontroller',
 
 
 
-$scope.test = function () {
-    console.log('--------------------------------------');
-    console.log(JSON.stringify($scope.checksheetinview));
-        console.log(JSON.stringify($scope.checksheetinviewindex));
-console.log('---------------------------------');
- 
-}
+
 
 $scope.$watch('data', function(val) {
 if($scope.student){
@@ -302,11 +382,44 @@ else
 }
  });
 
+$scope.$watch('checksheetdata', function(newVal, oldVal) {
+if(oldVal ===undefined){
+if($scope.student.checksheetdata[$scope.checksheetinviewindex])
+    //view index is valid sckip this for now
+// if(!$scope.student.checksheetdata[$scope.checksheetinviewindex].length)
+{
+    console.log("ok");
+    console.log($scope.student.checksheetdata[$scope.checksheetinviewindex]);
+$scope.checksheetdata = $scope.student.checksheetdata[$scope.checksheetinviewindex];
+
+ // console.log('x'+$scope.student.checksheetprotoid.blockid.length);
+
+} else { 
+
+$scope.checksheetdata = new Array($scope.checksheets[$scope.checksheetinviewindex].blockid.length)
+console.log(JSON.stringify($scope.checksheets[$scope.checksheetinviewindex].blockid));
+
+console.log($scope.checksheetdata);
+ angular.forEach($scope.checksheets[$scope.checksheetinviewindex].blockid,function(value,index){
+               $scope.checksheetdata[index] = new Array(value.details.length);
+
+                for (i = 0;i < value.details.length; i++) 
+                    {
+                    $scope.checksheetdata[index][i] = {};
+                    }
+              
+            });
+
+console.log($scope.checksheetdata);
+
+} }
+
+
+});
 
 
 
 $scope.$watch('checksheetinviewindex', function(newVal, oldVal) {
-
 if(newVal != oldVal){
 if($scope.student.checksheetdata[$scope.checksheetinviewindex])
     //view index is valid sckip this for now

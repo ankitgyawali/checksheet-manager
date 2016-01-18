@@ -99,5 +99,3 @@ smApp.run(['$rootScope', '$location', 'AuthService',
 }]);
 
 
-
-

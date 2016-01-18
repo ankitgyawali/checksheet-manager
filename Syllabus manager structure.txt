@@ -369,6 +369,13 @@ checksheet data = arary
             delete data
 
 
+            slot object-> TAKEN BOOLEAN
+                            Custom or from database BOOLEAN
+                            NOTE STRING
+                            CLASS -> PREFIX SUFFIX
+                            credits: if not equal to 3
+
+
             rule codes:
 
 

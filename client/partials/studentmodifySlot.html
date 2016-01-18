@@ -36,11 +36,13 @@
                 <div ng-if="checksheetinview.blockid[pid].details[id].rule=='101'">
                     You are required to take <b> "{{checksheetinview.blockid[pid].details[id].ruleconstraint.prefix}} {{checksheetinview.blockid[pid].details[id].ruleconstraint.suffix}}"</b> for this slot. Please verify.
                     <br>  <input type="checkbox" ng-model="locksubmit" ng-click="locksubmits()"> I have taken, {{checksheetinview.blockid[pid].details[id].ruleconstraint.prefix}} {{checksheetinview.blockid[pid].details[id].ruleconstraint.suffix}} <br><br>
+                    <input type="hidden" ng-model="slotedit.classprefix" ng-init="slotedit.classprefix=checksheetinview.blockid[pid].details[id].ruleconstraint.prefix">
+                    <input type="hidden" ng-model="slotedit.classsuffix" ng-init="slotedit.classsuffix=checksheetinview.blockid[pid].details[id].ruleconstraint.suffix">
                     <div class="row">
                         <div class="col-sm-3">
                       How many credits is the class worth:</div> 
                          <div class="col-sm-4">
-                       <input type="number" ng-model="slotedit.credits" length="75" ng-maximum="6" ng-minimum="1" ng-model="slotedit.credits" ng-init="slotedit.credits=3" required>
+                       <input type="number" ng-model="slotedit.credits" length="75" ng-maximum="6" ng-minimum="1" ng-model="slotedit.credits" required>
                    </div>
                       </div> 
                       <div class="row">
@@ -55,16 +57,16 @@
                 <div ng-if="checksheetinview.blockid[pid].details[id].rule=='102'">
                    You are required to take class with prefix<b> "{{checksheetinview.blockid[pid].details[id].ruleconstraint.prefix}}"</b> for this slot.<br>
                    Choose a class to fulfill the requirement: <b> {{checksheetinview.blockid[pid].details[id].ruleconstraint.prefix}} </b>
-                     <select ng-options="course.suffix as course.suffix for course in courses | filter:{prefix:checksheetinview.blockid[pid].details[id].ruleconstraint.prefix}" ng-model="slotedit.classsuffix" ng-init="slotedit.classsuffix='None'"required></select>
-
-                     <div ng-if="slotedit.classsuffix!='None'">
+                     <select ng-options="course.suffix as course.suffix for course in courses | filter:{prefix:checksheetinview.blockid[pid].details[id].ruleconstraint.prefix}" ng-model="slotedit.classsuffix" required></select>
+                    <input type="hidden" ng-model="slotedit.classprefix" ng-init="slotedit.classprefix=checksheetinview.blockid[pid].details[id].ruleconstraint.prefix">
+                     <div ng-if="slotedit.classsuffix!==undefined">
 
                          <input type="checkbox" ng-model="locksubmit" ng-click="locksubmits()"> I have taken, {{checksheetinview.blockid[pid].details[id].ruleconstraint.prefix}} {{slotedit.classsuffix}} <br><br>
                     <div class="row">
                         <div class="col-sm-3">
                       How many credits is the class worth:</div> 
                          <div class="col-sm-4">
-                       <input type="number" ng-model="slotedit.credits" length="75" ng-maximum="6" ng-minimum="1" ng-model="slotedit.credits" ng-init="slotedit.credits=3" required>
+                       <input type="number" ng-model="slotedit.credits" length="75" ng-maximum="6" ng-minimum="1" ng-model="slotedit.credits" required>
                    </div>
                       </div> 
                       <div class="row">
@@ -86,16 +88,16 @@
 
 
 
-                   <select ng-options="course.suffix as course.suffix for course in courses | filter:{prefix:checksheetinview.blockid[pid].details[id].ruleconstraint.prefix}  | filter: greaterThan('suffix', checksheetinview.blockid[pid].details[id].ruleconstraint.suffix)" ng-model="slotedit.classsuffix" ng-init="slotedit.classsuffix='None'"required></select>
-
-                     <div ng-if="slotedit.classsuffix!='None'">
+                   <select ng-options="course.suffix as course.suffix for course in courses | filter:{prefix:checksheetinview.blockid[pid].details[id].ruleconstraint.prefix}  | filter: greaterThan('suffix', checksheetinview.blockid[pid].details[id].ruleconstraint.suffix)" ng-model="slotedit.classsuffix" ngRequired="1" required></select>
+                    <input type="hidden" ng-model="slotedit.classprefix" ng-init="slotedit.classprefix=checksheetinview.blockid[pid].details[id].ruleconstraint.prefix">
+                     <div ng-if="slotedit.classsuffix!==undefined">
 
                          <input type="checkbox" ng-model="locksubmit" ng-click="locksubmits()"> I have taken, {{checksheetinview.blockid[pid].details[id].ruleconstraint.prefix}} {{slotedit.classsuffix}} <br><br>
                     <div class="row">
                         <div class="col-sm-3">
                       How many credits is the class worth:</div> 
                          <div class="col-sm-4">
-                       <input type="number" ng-model="slotedit.credits" length="75" ng-maximum="6" ng-minimum="1" ng-model="slotedit.credits" ng-init="slotedit.credits=3" required>
+                       <input type="number" ng-model="slotedit.credits" length="75" ng-maximum="6" ng-minimum="1" ng-model="slotedit.credits" required>
                    </div>
                       </div> 
                       <div class="row">
@@ -112,29 +114,30 @@
                 <div ng-if="!(checksheetinview.blockid[pid].details[id].rule)">
                     This slot does not have any rules enforced. Pick a class from the following list of classes. <br>
                     You can also enter the class code manually if you were unable to find your class from the database.<br>
-                    <b>Choose</b> class code from database or enter class code manually: <label style="font-size:105%"><input type="radio" ng-model="slotedit.type" value="0" ng-init="slotedit.type=0">Database</label>
+                    <b>Choose</b> class code from database or enter class code manually: <label style="font-size:105%"><input type="radio" ng-model="slotedit.type" value="0" >Database</label>
                      <label style="font-size:105%"><input type="radio" ng-model="slotedit.type" value="1">Manual</label>
                     <br>
-                    <div ng-if="slotedit.type==0">
+                    <div ng-if="slotedit.type=='0'">
                     <b>Class Code:</b> 
-                    Prefix: <select ng-options="course.prefix as course.prefix for course in courses | unique: 'prefix'" ng-model="slotedit.classprefix" ng-init="slotedit.classprefix='None'"required></select>
+                    Prefix: <select ng-options="course.prefix as course.prefix for course in courses | unique: 'prefix'" ng-model="slotedit.classprefix" required></select>
 
-                    Suffix:  <select ng-options="course.suffix as course.suffix for course in courses | filter:{prefix:slotedit.classprefix}" ng-model="slotedit.classsuffix" ng-init="slotedit.classsuffix='None'"required></select>
+                    Suffix:  <select ng-options="course.suffix as course.suffix for course in courses | filter:{prefix:slotedit.classprefix}" ng-model="slotedit.classsuffix" required></select>
                     </div>
-                    <div ng-if="slotedit.type==1">
+                    <div ng-if="slotedit.type=='1'">
                         Enter class code manually: 
-                        <label style="font-size:105%">Class Prefix:<input size="5" style="height:125%" type="text"  ng-model="slotedit.classprefix" ng-init="slotedit.classprefix=''" pattern="[A-Za-z]{3}" title="Three lettered class prefix." required></label>
+                        <label style="font-size:105%">Class Prefix:<input size="3" style="height:125%;" type="text"  ng-model="slotedit.classprefix" pattern="[A-Za-z]{3}" title="Three lettered class prefix." ng-change="slotedit.classprefix=(slotedit.classprefix|uppercase)" maxlength="3" required></label>
                         &nbsp;&nbsp;
-                         <label style="font-size:105%">Class Suffix:<input size="5" type="text"  ng-model="slotedit.classsuffix" ng-init="slotedit.classsuffix=''" pattern="[0-9]{3}" title="Three numbered class suffix." required></label>
+                         <label style="font-size:105%">Class Suffix:<input size="5" type="text"  ng-model="slotedit.classsuffix" pattern="[0-9]{3}" title="Three numbered class suffix." maxlength="3" required></label>
+                         <input type="hidden" ng-model="slotedit.manual" ng-init="slotedit.manual='true'">
                     </div>
-                    <div ng-if="slotedit.classsuffix!='None'">
+                    <div ng-if="slotedit.classsuffix!==undefined">
 
                     <input type="checkbox" ng-model="locksubmit" ng-click="locksubmits()"> I have taken, {{slotedit.classprefix}} {{slotedit.classsuffix}} <br><br>
                     <div class="row">
                         <div class="col-sm-3">
                       How many credits is the class worth:</div> 
                          <div class="col-sm-4">
-                       <input type="number" ng-model="slotedit.credits" length="75" ng-maximum="6" ng-minimum="1" ng-model="slotedit.credits" ng-init="slotedit.credits=3" required>
+                       <input type="number" ng-model="slotedit.credits" length="75" ng-maximum="6" ng-minimum="1" ng-model="slotedit.credits" required>
                    </div>
                       </div> 
                       <div class="row">
