@@ -1,0 +1,25 @@
+        <div class="modal-header">
+            <h4 class="modal-title">Modifying slot: "{{checksheetinview.blockid[pid].details[id].title}}" </h4>
+        </div> 
+        <form role="form" ng-submit="modifyslotdetails()">
+        <div class="modal-body" style="font-size:100%">
+       
+            <div class="form-group row">
+                <div class="container col-sm-4">Status:
+                <select ng-if="checksheetdata[pid][id].taken=='true'">
+                    <option>Taken</option>
+                </select>
+                <select ng-if="!(checksheetdata[pid][id].taken=='true')" ng-model="slotedit.taken">
+                    <option ng-selected="1" ng-value="0" selected>Not Taken</option>
+                    <option value="1">Taken</option>
+                </select>
+
+                 
+                </div>
+
+    </div> </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="submit">Submit</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button> 
+
+        </div></form>

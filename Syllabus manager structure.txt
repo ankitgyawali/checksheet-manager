@@ -356,3 +356,33 @@ checksheetinfo:
 
 
 checksheet -> slot 
+
+
+checksheet data = arary 
+
+
+            full-> boolean
+            manual -> boolean
+            note -> something
+            credits ->
+            taken ->???
+            delete data
+
+
+            rule codes:
+
+
+
+      <option ng-value="101">Require targeted class code</option>
+      <option ng-value="102">Require targeted class prefix</option>
+      <option ng-value="103">Require targeted class code or upper level class with same prefix</option>
+
+
+
+
+<option ng-value="None">None</option>
+      <option ng-value="1001">Single class required</option>
+      <option ng-value="1002">Two class required (Class#1 AND Class#2)</option>
+      <option ng-value="1003">One of two classes required (Class#1 OR Class#2)</option>
+
+

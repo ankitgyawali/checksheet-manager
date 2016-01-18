@@ -101,7 +101,7 @@ angular.module('smApp').controller('studentController',
                         $scope.advisors = data.advisor;
                         $scope.checksheets = data.checksheet;
                 
-                       
+   
                         if(!$scope.student.registered){
                             notificationFactory.warning("First time login detected. Change your password to proceed.");
                             $scope.templateURL = "partials/studentsettings.html"
@@ -164,34 +164,172 @@ angular.module('smApp').controller('studentController',
 
 }]);
 
+angular.module('smApp').controller('slotnoteController',
+  ['$scope', '$location', 'notificationFactory', 'AuthService','$http','$uibModalInstance','pid','id', 
+   function ($scope, $location, notificationFactory, AuthService,$http,$uibModalInstance,pid,id) {
 
+
+
+$scope.pid = pid;
+$scope.id = id;
+
+$scope.tempNote = $scope.checksheetdata[$scope.pid][$scope.id].note;
+
+$scope.submitslotnote = function (){
+
+$scope.checksheetdata[$scope.pid][$scope.id]['note'] = $scope.tempNote;
+console.log("checksheetdata: "+JSON.stringify($scope.checksheetdata));
+$uibModalInstance.dismiss('cancel');
+
+}
+$scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+
+}]);
+
+
+angular.module('smApp').controller('modifyslotController',
+  ['$scope', '$location', 'notificationFactory', 'AuthService','$http','$uibModalInstance','pid','id', 
+   function ($scope, $location, notificationFactory, AuthService,$http,$uibModalInstance,pid,id) {
+
+$scope.pid = pid;
+$scope.id = id;
+$scope.slotedit = {}
+$scope.modifyslotdetails = function (){
+
+
+$uibModalInstance.dismiss('cancel');
+console.log("checksheetdata: "+JSON.stringify($scope.checksheetdata));
+
+}
+
+$scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+    console.log("checksheetdata: "+JSON.stringify($scope.checksheetdata));
+      console.log("checksheetdata: "+JSON.stringify($scope.slotedit.taken));
+  };
+
+
+}]);
 
 // Student controller that handles modification of student checksheet
 angular.module('smApp').controller('studentmodifychecksheetcontroller',
-  ['$scope', '$location', 'notificationFactory', 'AuthService','$http','$timeout', 
-   function ($scope, $location, notificationFactory, AuthService,$http,$timeout) {
+  ['$scope', '$location', 'notificationFactory', 'AuthService','$http','$uibModal', 
+   function ($scope, $location, notificationFactory, AuthService,$http,$uibModal) {
+
+
+ $scope.modifySlot = function(pid,id) {
+    console.log(pid);
+                var modalInstance = $uibModal.open({
+                templateUrl: 'partials/studentmodifySlot.html',
+                controller: 'modifyslotController',
+                scope: $scope,
+                resolve: {
+                    pid: function() {
+                        return pid;
+                    },
+                    id: function() {
+                        return id;
+                    }
+                }
+            });
+
+
+        };
+
+
+ $scope.addSlotNote = function(pid,id) {
+    console.log(pid);
+                var modalInstance = $uibModal.open({
+                templateUrl: 'partials/studentmodifyslotnote.html',
+                controller: 'slotnoteController',
+                scope: $scope,
+                resolve: {
+                    pid: function() {
+                        return pid;
+                    },
+                    id: function() {
+                        return id;
+                    }
+                }
+            });
+
+
+        };
 
 
 
+
+$scope.test = function () {
+    console.log('--------------------------------------');
+    console.log(JSON.stringify($scope.checksheetdata));
+console.log('---------------------------------');
+ 
+}
 
 $scope.$watch('data', function(val) {
 if($scope.student){
+
+
 if($scope.student.checksheetprotoid.length == '1'){
 $scope.divshow = true;
 $scope.checksheetinview = $scope.checksheets[0];
+$scope.checksheetinviewindex = 0;
 }
 else
 {
     $scope.divshow = false;
-} 
 }
 
-        });
 
 
+}
+ });
+
+
+
+
+$scope.$watch('checksheetinviewindex', function(newVal, oldVal) {
+
+if(newVal != oldVal){
+if($scope.student.checksheetdata[$scope.checksheetinviewindex])
+    //view index is valid sckip this for now
+// if(!$scope.student.checksheetdata[$scope.checksheetinviewindex].length)
+{
+    console.log("ok");
+    console.log($scope.student.checksheetdata[$scope.checksheetinviewindex]);
+$scope.checksheetdata = $scope.student.checksheetdata[$scope.checksheetinviewindex];
+
+ // console.log('x'+$scope.student.checksheetprotoid.blockid.length);
+
+} else { 
+
+$scope.checksheetdata = new Array($scope.checksheets[$scope.checksheetinviewindex].blockid.length)
+console.log(JSON.stringify($scope.checksheets[$scope.checksheetinviewindex].blockid));
+
+console.log($scope.checksheetdata);
+ angular.forEach($scope.checksheets[$scope.checksheetinviewindex].blockid,function(value,index){
+               $scope.checksheetdata[index] = new Array(value.details.length);
+
+                for (i = 0;i < value.details.length; i++) 
+                    {
+                    $scope.checksheetdata[index][i] = {};
+                    }
+              
+            });
+
+console.log($scope.checksheetdata);
+
+} }
+
+
+});
 
   $scope.setdivshowtrue = function(val){ 
   $scope.checksheetinview = $scope.checksheets[val];
+  $scope.checksheetinviewindex = val;
   $scope.divshow = true; }
  
 

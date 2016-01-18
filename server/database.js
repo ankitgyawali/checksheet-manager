@@ -45,7 +45,8 @@ var studentSchema = mongoose.Schema({
     lastname: String,
     department: String,
     checksheetprotoid: Array,
-    classstatus: Object,
+    checksheetdata: Array,
+    classestaken: Array,
     settings: Object,
     advisor: Array,
     registered: Boolean
