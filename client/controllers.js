@@ -197,9 +197,21 @@ angular.module('smApp').controller('modifyslotController',
 $scope.pid = pid;
 $scope.id = id;
 $scope.slotedit = {}
+$scope.buttondisabled = true;
+
+$scope.greaterThan = function(prop, val){
+    return function(item){
+
+      return item[prop] >= val;
+    }
+}
+
+$scope.locksubmits = function(){
+    $scope.buttondisabled = !$scope.buttondisabled;
+}
 $scope.modifyslotdetails = function (){
 
-
+$scope.slotedit.taken = '1';
 $uibModalInstance.dismiss('cancel');
 console.log("checksheetdata: "+JSON.stringify($scope.checksheetdata));
 
@@ -208,7 +220,7 @@ console.log("checksheetdata: "+JSON.stringify($scope.checksheetdata));
 $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
     console.log("checksheetdata: "+JSON.stringify($scope.checksheetdata));
-      console.log("checksheetdata: "+JSON.stringify($scope.slotedit.taken));
+      console.log("slotedittaken: "+JSON.stringify($scope.slotedit.taken));
   };
 
 
@@ -226,6 +238,7 @@ angular.module('smApp').controller('studentmodifychecksheetcontroller',
                 templateUrl: 'partials/studentmodifySlot.html',
                 controller: 'modifyslotController',
                 scope: $scope,
+                size: 'lg',
                 resolve: {
                     pid: function() {
                         return pid;
@@ -264,7 +277,8 @@ angular.module('smApp').controller('studentmodifychecksheetcontroller',
 
 $scope.test = function () {
     console.log('--------------------------------------');
-    console.log(JSON.stringify($scope.checksheetdata));
+    console.log(JSON.stringify($scope.checksheetinview));
+        console.log(JSON.stringify($scope.checksheetinviewindex));
 console.log('---------------------------------');
  
 }
