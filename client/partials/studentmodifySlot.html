@@ -38,13 +38,20 @@
                     <br>  <input type="checkbox" ng-model="locksubmit" ng-click="locksubmits()"> I have taken, {{checksheetinview.blockid[pid].details[id].ruleconstraint.prefix}} {{checksheetinview.blockid[pid].details[id].ruleconstraint.suffix}} <br><br>
                     <input type="hidden" ng-model="slotedit.classprefix" ng-init="slotedit.classprefix=checksheetinview.blockid[pid].details[id].ruleconstraint.prefix">
                     <input type="hidden" ng-model="slotedit.classsuffix" ng-init="slotedit.classsuffix=checksheetinview.blockid[pid].details[id].ruleconstraint.suffix">
-                    <div class="row">
+                      <div class="row" ng-if="checksheetinview.blockid[pid].details[id].hascredit=='True'">
                         <div class="col-sm-3">
                       How many credits is the class worth:</div> 
                          <div class="col-sm-4">
                        <input type="number" ng-model="slotedit.credits" length="75" ng-maximum="6" ng-minimum="1" ng-model="slotedit.credits" required>
                    </div>
-                      </div> 
+                      </div>
+                    <div class="row" ng-if="checksheetinview.blockid[pid].details[id].hascredit=='False'">
+                        <div class="col-sm-3">
+                      This slot does not provide any credit.</div> 
+                         <div class="col-sm-4">
+                       <input type="hidden" ng-model="slotedit.credits" ng-init="slotedit.credits=0">
+                   </div>
+                      </div>
                       <div class="row">
                         <div class="col-sm-3">
                     When was the class taken:  
@@ -62,13 +69,20 @@
                      <div ng-if="slotedit.classsuffix!==undefined">
 
                          <input type="checkbox" ng-model="locksubmit" ng-click="locksubmits()"> I have taken, {{checksheetinview.blockid[pid].details[id].ruleconstraint.prefix}} {{slotedit.classsuffix}} <br><br>
-                    <div class="row">
+                      <div class="row" ng-if="checksheetinview.blockid[pid].details[id].hascredit=='True'">
                         <div class="col-sm-3">
                       How many credits is the class worth:</div> 
                          <div class="col-sm-4">
                        <input type="number" ng-model="slotedit.credits" length="75" ng-maximum="6" ng-minimum="1" ng-model="slotedit.credits" required>
                    </div>
-                      </div> 
+                      </div>
+                    <div class="row" ng-if="checksheetinview.blockid[pid].details[id].hascredit=='False'">
+                        <div class="col-sm-3">
+                      This slot does not provide any credit.</div> 
+                         <div class="col-sm-4">
+                       <input type="hidden" ng-model="slotedit.credits" ng-init="slotedit.credits=0">
+                   </div>
+                      </div>
                       <div class="row">
                         <div class="col-sm-3">
                     When was the class taken:  
@@ -93,13 +107,20 @@
                      <div ng-if="slotedit.classsuffix!==undefined">
 
                          <input type="checkbox" ng-model="locksubmit" ng-click="locksubmits()"> I have taken, {{checksheetinview.blockid[pid].details[id].ruleconstraint.prefix}} {{slotedit.classsuffix}} <br><br>
-                    <div class="row">
+                    <div class="row" ng-if="checksheetinview.blockid[pid].details[id].hascredit=='True'">
                         <div class="col-sm-3">
                       How many credits is the class worth:</div> 
                          <div class="col-sm-4">
                        <input type="number" ng-model="slotedit.credits" length="75" ng-maximum="6" ng-minimum="1" ng-model="slotedit.credits" required>
                    </div>
-                      </div> 
+                      </div>
+                    <div class="row" ng-if="checksheetinview.blockid[pid].details[id].hascredit=='False'">
+                        <div class="col-sm-3">
+                      This slot does not provide any credit.</div> 
+                         <div class="col-sm-4">
+                       <input type="hidden" ng-model="slotedit.credits" ng-init="slotedit.credits=0">
+                   </div>
+                      </div>
                       <div class="row">
                         <div class="col-sm-3">
                     When was the class taken:  
@@ -133,13 +154,20 @@
                     <div ng-if="slotedit.classsuffix!==undefined">
 
                     <input type="checkbox" ng-model="locksubmit" ng-click="locksubmits()"> I have taken, {{slotedit.classprefix}} {{slotedit.classsuffix}} <br><br>
-                    <div class="row">
+                    <div class="row" ng-if="checksheetinview.blockid[pid].details[id].hascredit=='True'">
                         <div class="col-sm-3">
                       How many credits is the class worth:</div> 
                          <div class="col-sm-4">
                        <input type="number" ng-model="slotedit.credits" length="75" ng-maximum="6" ng-minimum="1" ng-model="slotedit.credits" required>
                    </div>
-                      </div> 
+                      </div>
+                    <div class="row" ng-if="checksheetinview.blockid[pid].details[id].hascredit=='False'">
+                        <div class="col-sm-3">
+                      This slot does not provide any credit.</div> 
+                         <div class="col-sm-4">
+                       <input type="hidden" ng-model="slotedit.credits" ng-init="slotedit.credits=0">
+                   </div>
+                      </div>
                       <div class="row">
                         <div class="col-sm-3">
                     When was the class taken:  
@@ -160,7 +188,9 @@
     <div class="col-sm-8">
 <div class="panel panel-default">
   <div class="panel-body" style="font-size:100%">
-   Pre-requisite rule detected! You need to have taken <b>{{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix}}</b> to fill this slot.
+   Pre-requisite rule detected! You need to have taken <b>{{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix}}</b> to fill this slot.<br>
+   <span style="color:red;font-size:85%" ng-if="checkpreq">Error! you haven't taken  {{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix}}. Contact your advisor if you think this was an error.</span>
+   <span style="color:green;font-size:85%" ng-if="!checkpreq">Slot requirements fullfilled. You can continue.</span>
    </div>
 </div>
 </div>
@@ -174,7 +204,9 @@
     <div class="col-sm-8">
 <div class="panel panel-default">
   <div class="panel-body" style="font-size:100%">
-   Pre-requisite rule detected! You need to have taken <b>{{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix}}</b> AND <b>{{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix2}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix2}}</b> to fill this slot.
+   Pre-requisite rule detected! You need to have taken <b>{{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix}}</b> AND <b>{{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix2}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix2}}</b> to fill this slot.<br>
+   <span style="color:red;font-size:85%" ng-if="checkpreq">Error! you haven't taken  {{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix}}. Contact your advisor if you think this was an error.</span>
+   <span style="color:green;font-size:85%" ng-if="!checkpreq">Slot requirements fullfilled. You can continue.</span>
  </div>
 </div>
 </div>
@@ -186,7 +218,9 @@
     <div class="col-sm-8">
 <div class="panel panel-default">
   <div class="panel-body" style="font-size:100%">
-   Pre-requisite rule detected! You need to have taken <b>{{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix}}</b> OR <b>{{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix2}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix2}}</b> to fill this slot.
+   Pre-requisite rule detected! You need to have taken <b>{{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix}}</b> OR <b>{{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix2}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix2}}</b> to fill this slot.<br>
+   <span style="color:red;font-size:85%" ng-if="checkpreq">Error! you haven't taken  {{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix}}. Contact your advisor if you think this was an error.</span>
+   <span style="color:green;font-size:85%" ng-if="!checkpreq">Slot requirements fullfilled. You can continue.</span>
 </div>
 </div>
 </div>

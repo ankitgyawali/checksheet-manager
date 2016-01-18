@@ -258,44 +258,80 @@ $scope.greaterThan = function(prop, val){
 
 $scope.checkpreq = true;
 
+if(!($scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prerequisite)){
+    $scope.checkpreq = false;
+    }
+else if($scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prerequisite == '1001') {
+    for (i = 0;i<$scope.checksheetdata.length; i++) {
+    for (j = 0;j<$scope.checksheetdata[i].length; j++) {
+    console.log("this: "+$scope.checksheetdata[i][j].prefix+" versus "+$scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.prefix);
+    console.log("this: "+$scope.checksheetdata[i][j].suffix+" versus "+$scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.suffix);
+    if (($scope.checksheetdata[i][j].prefix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.prefix) && ($scope.checksheetdata[i][j].suffix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.suffix)) {
+    console.log("found a match!");
+    $scope.checkpreq = false;
+    break;break;break;break;
+        }   //if statement
+    }  //for j
+    } //for j
+    
+    } //else if 
+      // <option ng-value="1002">Two class required (Class#1 AND Class#2)</option>
+      // <option ng-value="1003">One of two classes required (Class#1 OR Class#2)</option>
+    else if($scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prerequisite == '1002') {
+    for (i = 0;i<$scope.checksheetdata.length; i++) {
+    for (j = 0;j<$scope.checksheetdata[i].length; j++) {
+    console.log("this: "+$scope.checksheetdata[i][j].prefix+" versus "+$scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.prefix);
+    console.log("this: "+$scope.checksheetdata[i][j].suffix+" versus "+$scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.suffix);
+    if (($scope.checksheetdata[i][j].prefix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.prefix) && ($scope.checksheetdata[i][j].suffix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.suffix)) {
+            for (k = 0;k<$scope.checksheetdata.length; k++) {
+            for (l = 0;l<$scope.checksheetdata[k].length; l++) {
+            console.log("this: "+$scope.checksheetdata[k][l].prefix+" versus "+$scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.prefix2);
+            console.log("this: "+$scope.checksheetdata[k][l].suffix+" versus "+$scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.suffix2);
+            if (($scope.checksheetdata[k][l].prefix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.prefix2) && ($scope.checksheetdata[k][l].suffix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.suffix2)) {
+            console.log("found a match!");
+            $scope.checkpreq = false;
+            break;break;break;break;break;break;
+                }   //if statement
+            }  //for j
+            } //for j
+
+        }   //if statement
+    }  //for j
+    } //for j
+    }
+    else{
+        for (i = 0;i<$scope.checksheetdata.length; i++) {
+        for (j = 0;j<$scope.checksheetdata[i].length; j++) {
+        console.log("this: "+$scope.checksheetdata[i][j].prefix+" versus "+$scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.prefix);
+        console.log("this: "+$scope.checksheetdata[i][j].suffix+" versus "+$scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.suffix);
+        if ((($scope.checksheetdata[i][j].prefix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.prefix) && ($scope.checksheetdata[i][j].suffix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.suffix)) ||
+        (($scope.checksheetdata[i][j].prefix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.prefix2) && ($scope.checksheetdata[i][j].suffix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.suffix2))) {
+        console.log("found a match!");
+        $scope.checkpreq = false;
+        break;break;break;break;
+            }   //if statement
+        }  //for j
+        } //for j
+    }
+
 
 $scope.locksubmits = function(){
     console.log("pid:"+$scope.pid)
     console.log("id:"+$scope.id)
-    if(!($scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prerequisite)){
-            $scope.checkpreq = false;
-    }
-    else if($scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prerequisite == '1001') {
-        
-    }
-    else if($scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prerequisite == '1002') {
-
-    }
-    else{
-
-    }
     $scope.buttondisabled = !$scope.buttondisabled
+ 
+    
 }
 
 
 
 
-$scope.$watch('slotedit.note', function(val) {
 
-console.log("Changed: "+val);
-
- });
-
-$scope.$watch('slotedit.credits', function(val) {
-
-console.log("Changed: "+val);
-
- });
 
 
 $scope.modifyslotdetails = function (){
 $scope.slotedit.taken = '1';
-console.log('slottempNote: '+$scope.slotedit.note);
+
 $scope.checksheetdata[$scope.pid][$scope.id].note = $scope.slotedit.note;
 $scope.checksheetdata[$scope.pid][$scope.id].prefix = $scope.slotedit.classprefix;
 $scope.checksheetdata[$scope.pid][$scope.id].suffix = $scope.slotedit.classsuffix;
@@ -307,6 +343,7 @@ else
 {
 delete $scope.checksheetdata[$scope.pid][$scope.id].manual;
 }
+
 if($scope.slotedit.credits != 3) {
 $scope.checksheetdata[$scope.pid][$scope.id].credits = $scope.slotedit.credits;
 }
@@ -314,7 +351,11 @@ else
 {
 delete $scope.checksheetdata[$scope.pid][$scope.id].credits;
 }
+
 $uibModalInstance.dismiss('cancel');
+console.log('slottempNote: '+$scope.checksheetdata[$scope.pid][$scope.id].suffix===undefined);
+console.log('slottempNote: '+$scope.checksheetdata[$scope.pid][$scope.id].suffix!==undefined);
+
 }
 
 $scope.cancel = function () {
@@ -329,6 +370,12 @@ $scope.cancel = function () {
 angular.module('smApp').controller('studentmodifychecksheetcontroller',
   ['$scope', '$location', 'notificationFactory', 'AuthService','$http','$uibModal', 
    function ($scope, $location, notificationFactory, AuthService,$http,$uibModal) {
+
+
+
+$scope.isFilled = function(pid,id){
+return ($scope.checksheetdata[pid][id].suffix===undefined);
+}
 
 $scope.test = function () {
     console.log('--------------------------------------');
@@ -403,36 +450,30 @@ else
  });
 
 $scope.$watch('checksheetdata', function(newVal, oldVal) {
-if(oldVal ===undefined){
+if(oldVal===undefined){
 if($scope.student.checksheetdata[$scope.checksheetinviewindex])
     //view index is valid sckip this for now
 // if(!$scope.student.checksheetdata[$scope.checksheetinviewindex].length)
 {
-    console.log("ok");
-    console.log($scope.student.checksheetdata[$scope.checksheetinviewindex]);
+console.log("ok");
+console.log($scope.student.checksheetdata[$scope.checksheetinviewindex]);
 $scope.checksheetdata = $scope.student.checksheetdata[$scope.checksheetinviewindex];
-
  // console.log('x'+$scope.student.checksheetprotoid.blockid.length);
-
-} else { 
-
+}else{
 $scope.checksheetdata = new Array($scope.checksheets[$scope.checksheetinviewindex].blockid.length)
 console.log(JSON.stringify($scope.checksheets[$scope.checksheetinviewindex].blockid));
-
 console.log($scope.checksheetdata);
- angular.forEach($scope.checksheets[$scope.checksheetinviewindex].blockid,function(value,index){
-               $scope.checksheetdata[index] = new Array(value.details.length);
-
-                for (i = 0;i < value.details.length; i++) 
+angular.forEach($scope.checksheets[$scope.checksheetinviewindex].blockid,function(value,index){
+$scope.checksheetdata[index] = new Array(value.details.length);
+    for (i = 0;i < value.details.length; i++) 
                     {
                     $scope.checksheetdata[index][i] = {};
                     }
               
             });
-
 console.log($scope.checksheetdata);
-
-} }
+} 
+}
 
 
 });
