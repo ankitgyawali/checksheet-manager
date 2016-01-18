@@ -153,23 +153,57 @@
 
 
                 </div>
+<br>
 <div ng-if="checksheetinview.blockid[pid].details[id].prerequisite=='1001'">
 
-    Preq 1001
+     <div class="row">
+    <div class="col-sm-8">
+<div class="panel panel-default">
+  <div class="panel-body" style="font-size:100%">
+   Pre-requisite rule detected! You need to have taken <b>{{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix}}</b> to fill this slot.
+   </div>
+</div>
+</div>
+</div>
 </div>
 
+
+
 <div ng-if="checksheetinview.blockid[pid].details[id].prerequisite=='1002'">
-    Preq 1002
+     <div class="row">
+    <div class="col-sm-8">
+<div class="panel panel-default">
+  <div class="panel-body" style="font-size:100%">
+   Pre-requisite rule detected! You need to have taken <b>{{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix}}</b> AND <b>{{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix2}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix2}}</b> to fill this slot.
+ </div>
+</div>
+</div>
+</div>
 </div>
 
 <div ng-if="checksheetinview.blockid[pid].details[id].prerequisite=='1003'">
-    Preq 1003
+      <div class="row">
+    <div class="col-sm-8">
+<div class="panel panel-default">
+  <div class="panel-body" style="font-size:100%">
+   Pre-requisite rule detected! You need to have taken <b>{{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix}}</b> OR <b>{{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix2}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix2}}</b> to fill this slot.
+</div>
+</div>
+</div>
+</div>
 </div>
 
 <div ng-if="!(checksheetinview.blockid[pid].details[id].prerequisite)">
-    No preq
+ <div class="row">
+    <div class="col-sm-8">
+<div class="panel panel-default">
+  <div class="panel-body" style="font-size:100%">
+   No class prequisite rules enforced.
+  </div>
 </div>
-
+</div>
+</div>
+</div>
                  
                 </div>
 
@@ -177,7 +211,7 @@
 
 </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" type="submit" ng-disabled="buttondisabled">Submit</button>
+            <button class="btn btn-primary" type="submit" ng-disabled="buttondisabled || checkpreq">Submit</button>
             <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button> 
 
         </div></form>

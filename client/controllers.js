@@ -204,6 +204,9 @@ $scope.id = id;
 $scope.slotedit = {}
 $scope.buttondisabled = true;
 
+
+
+
 //SET INITIAL SLOT MODAL VALUES FROM CHECKSHEET DATA HERE IF EXISTS???
             // slot object-> TAKEN BOOLEAN
             //                 Custom or from database BOOLEAN
@@ -253,10 +256,29 @@ $scope.greaterThan = function(prop, val){
     }
 }
 
-$scope.locksubmits = function(){
-    $scope.buttondisabled = !$scope.buttondisabled;
+$scope.checkpreq = true;
 
+
+$scope.locksubmits = function(){
+    console.log("pid:"+$scope.pid)
+    console.log("id:"+$scope.id)
+    if(!($scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prerequisite)){
+            $scope.checkpreq = false;
+    }
+    else if($scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prerequisite == '1001') {
+        
+    }
+    else if($scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prerequisite == '1002') {
+
+    }
+    else{
+
+    }
+    $scope.buttondisabled = !$scope.buttondisabled
 }
+
+
+
 
 $scope.$watch('slotedit.note', function(val) {
 
@@ -281,21 +303,18 @@ $scope.checksheetdata[$scope.pid][$scope.id].suffix = $scope.slotedit.classsuffi
 if($scope.slotedit.type == '1'){
 $scope.checksheetdata[$scope.pid][$scope.id].manual = "1";
 }
-
+else
+{
+delete $scope.checksheetdata[$scope.pid][$scope.id].manual;
+}
 if($scope.slotedit.credits != 3) {
 $scope.checksheetdata[$scope.pid][$scope.id].credits = $scope.slotedit.credits;
 }
 else
 {
-    delete $scope.checksheetdata[$scope.pid][$scope.id].credits;
-
+delete $scope.checksheetdata[$scope.pid][$scope.id].credits;
 }
-
 $uibModalInstance.dismiss('cancel');
-
-
-
-
 }
 
 $scope.cancel = function () {
@@ -314,7 +333,8 @@ angular.module('smApp').controller('studentmodifychecksheetcontroller',
 $scope.test = function () {
     console.log('--------------------------------------');
     console.log(JSON.stringify($scope.checksheetdata));
-
+    console.log('--------------------------------------');
+ console.log(JSON.stringify($scope.checksheetinview));
 console.log('---------------------------------');
  
 }
