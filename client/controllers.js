@@ -97,11 +97,12 @@ angular.module('smApp').controller('studentController',
                         // this callback will be called asynchronously
                         // when the response is available
                         $scope.data = data;
+                        console.log('data: '+JSON.stringify(data));
                         $scope.student = data.student;
+                        $scope.checksheets = data.checksheet
                         $scope.advisors = data.advisor;
-                        $scope.checksheets = data.checksheet;
-                
-   
+                        $scope.checksheetdata = data.student.checksheetdata[0];
+                        
                         if(!$scope.student.registered){
                             notificationFactory.warning("First time login detected. Change your password to proceed.");
                             $scope.templateURL = "partials/studentsettings.html"
@@ -359,6 +360,7 @@ console.log('slottempNote: '+$scope.checksheetdata[$scope.pid][$scope.id].suffix
 }
 
 $scope.cancel = function () {
+    console.log('type: '+$scope.checksheetinview.blockid[$scope.pid].details);
     $uibModalInstance.dismiss('cancel');
 
   };
@@ -373,16 +375,86 @@ angular.module('smApp').controller('studentmodifychecksheetcontroller',
 
 
 
+$scope.$watch('checksheetinview', function(newval,oldval) {
+
+if(newval!=oldval){
+
+$scope.checksheetdata = $scope.student.checksheetdata[newval];
+}
+
+ });
+
+
+$scope.$watch('data', function(val) {
+if($scope.student){
+
+
+if($scope.student.checksheetprotoid.length == '1'){
+$scope.divshow = true;
+$scope.checksheetinview = $scope.checksheets[0];
+$scope.checksheetinviewindex = 0;
+$scope.checksheetdata = $scope.student.checksheetdata[0];
+}
+else
+{
+    $scope.divshow = false;
+}
+
+
+
+}
+ });
+
+
+
+
 $scope.isFilled = function(pid,id){
 return ($scope.checksheetdata[pid][id].suffix===undefined);
 }
 
-$scope.test = function () {
-    console.log('--------------------------------------');
-    console.log(JSON.stringify($scope.checksheetdata));
-    console.log('--------------------------------------');
- console.log(JSON.stringify($scope.checksheetinview));
-console.log('---------------------------------');
+$scope.submitchecksheetdata = function () {
+
+    for (i = 0;i<$scope.checksheetdata.length; i++) {
+    for (j = 0;j<$scope.checksheetdata[i].length; j++) {
+
+        if ($scope.checksheetdata[i][j].manual) {
+        console.log("found: "+JSON.stringify($scope.courses));
+        console.log("found: "+JSON.stringify($scope.checksheetdata[i][j]));
+                for (k = 0;k<$scope.courses.length; k++) {
+
+                if(($scope.checksheetdata[i][j].prefix==$scope.courses[k].prefix)&& ($scope.checksheetdata[i][j].suffix==$scope.courses[k].suffix)){
+                delete $scope.checksheetdata[i][j].manual;
+                break;
+                }
+
+                } // for  k loop end
+
+            }   //if statement
+    }  //for j
+    } //for i
+
+     $http({
+                    method: 'POST',
+                    url: '/checksheetdata',
+                    // set the headers so angular passing info as form data (not request payload)
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        checksheetdata: $scope.checksheetdata,
+                        checksheetinviewindex: $scope.checksheetinviewindex,
+                        _id: AuthService.getuserid()
+                    }
+
+                }).success(function(data, status, headers, config) {
+                 //Template will be set to show new advisors once addadvisor has been completed
+                $scope.settemplateURL('partials/viewadvising.html');
+               notificationFactory.info("Successfully added checksheet data! ");
+                })
+                .error(function(data, status, headers, config) {
+                notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.")
+
+                });
  
 }
  $scope.modifySlot = function(pid,id) {
@@ -426,94 +498,6 @@ console.log('---------------------------------');
         };
 
 
-
-
-
-
-$scope.$watch('data', function(val) {
-if($scope.student){
-
-
-if($scope.student.checksheetprotoid.length == '1'){
-$scope.divshow = true;
-$scope.checksheetinview = $scope.checksheets[0];
-$scope.checksheetinviewindex = 0;
-}
-else
-{
-    $scope.divshow = false;
-}
-
-
-
-}
- });
-
-$scope.$watch('checksheetdata', function(newVal, oldVal) {
-if(oldVal===undefined){
-if($scope.student.checksheetdata[$scope.checksheetinviewindex])
-    //view index is valid sckip this for now
-// if(!$scope.student.checksheetdata[$scope.checksheetinviewindex].length)
-{
-console.log("ok");
-console.log($scope.student.checksheetdata[$scope.checksheetinviewindex]);
-$scope.checksheetdata = $scope.student.checksheetdata[$scope.checksheetinviewindex];
- // console.log('x'+$scope.student.checksheetprotoid.blockid.length);
-}else{
-$scope.checksheetdata = new Array($scope.checksheets[$scope.checksheetinviewindex].blockid.length)
-console.log(JSON.stringify($scope.checksheets[$scope.checksheetinviewindex].blockid));
-console.log($scope.checksheetdata);
-angular.forEach($scope.checksheets[$scope.checksheetinviewindex].blockid,function(value,index){
-$scope.checksheetdata[index] = new Array(value.details.length);
-    for (i = 0;i < value.details.length; i++) 
-                    {
-                    $scope.checksheetdata[index][i] = {};
-                    }
-              
-            });
-console.log($scope.checksheetdata);
-} 
-}
-
-
-});
-
-
-
-$scope.$watch('checksheetinviewindex', function(newVal, oldVal) {
-if(newVal != oldVal){
-if($scope.student.checksheetdata[$scope.checksheetinviewindex])
-    //view index is valid sckip this for now
-// if(!$scope.student.checksheetdata[$scope.checksheetinviewindex].length)
-{
-    console.log("ok");
-    console.log($scope.student.checksheetdata[$scope.checksheetinviewindex]);
-$scope.checksheetdata = $scope.student.checksheetdata[$scope.checksheetinviewindex];
-
- // console.log('x'+$scope.student.checksheetprotoid.blockid.length);
-
-} else { 
-
-$scope.checksheetdata = new Array($scope.checksheets[$scope.checksheetinviewindex].blockid.length)
-console.log(JSON.stringify($scope.checksheets[$scope.checksheetinviewindex].blockid));
-
-console.log($scope.checksheetdata);
- angular.forEach($scope.checksheets[$scope.checksheetinviewindex].blockid,function(value,index){
-               $scope.checksheetdata[index] = new Array(value.details.length);
-
-                for (i = 0;i < value.details.length; i++) 
-                    {
-                    $scope.checksheetdata[index][i] = {};
-                    }
-              
-            });
-
-console.log($scope.checksheetdata);
-
-} }
-
-
-});
 
   $scope.setdivshowtrue = function(val){ 
   $scope.checksheetinview = $scope.checksheets[val];

@@ -16,7 +16,8 @@ smApp.config(function ($routeProvider) {
     })
        .when('/student/dashboard', {
       templateUrl: 'partials/student.html',
-      controller: 'studentController'
+      controller: 'studentController',
+      
     })
         .when('/advisor/dashboard', {
       templateUrl: 'partials/advisor.html',

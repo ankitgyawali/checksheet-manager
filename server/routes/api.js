@@ -334,7 +334,26 @@ async.parallel({
 });
 
 
+
 router.post('/newstudents', function(req, res) {
+
+
+models.checksheet.findOne({ '_id':req.body.arraytoAdd.checksheetprotoid },'blockid' , function (err, checksheet) {
+req.body.arraytoAdd.checksheetdata = new Array();
+req.body.arraytoAdd.checksheetdata[0] = new Array(checksheet.blockid.length);
+console.log(req.body.arraytoAdd.checksheetdata[0]);
+
+models.block.find({'_id': { $in: checksheet.blockid } },'slot').lean().exec(function(err, blocks) {
+for (var i=0;i < checksheet.blockid.length;i++)
+{
+
+req.body.arraytoAdd.checksheetdata[0][i] = new Array(parseInt(blocks[i].slot));
+    for (j = 0;j < blocks[i].slot; j++){
+      req.body.arraytoAdd.checksheetdata[0][i][j] = {};
+    } 
+}
+
+console.log(req.body.arraytoAdd.checksheetdata[0]);
 
 models.student.collection.insert(req.body.arraytoAdd, onInsert);
 
@@ -354,12 +373,34 @@ function onInsert(err, docs) {
 
 });
 
+});
+
+});
+
 
 router.put('/updatecurrentstudent', function(req, res) {
 
 
+models.checksheet.findOne({ '_id':req.body.update.checksheetprotoid },'blockid' , function (err, checksheet) {
+req.body.update.checksheetdata = new Array();
+req.body.update.checksheetdata = new Array(checksheet.blockid.length);
+console.log(req.body.update.checksheetdata);
+
+models.block.find({'_id': { $in: checksheet.blockid } },'slot').lean().exec(function(err, blocks) {
+for (var i=0;i < checksheet.blockid.length;i++)
+{
+
+req.body.update.checksheetdata[i] = new Array(parseInt(blocks[i].slot));
+    for (j = 0;j < blocks[i].slot; j++){
+      req.body.update.checksheetdata[i][j] = {};
+    } 
+}
+
+console.log(req.body.update.checksheetdata);
+
+
   models.student.update({_id: req.body.update._id },
-         {$push: { 'advisor' : req.body.update.advisor, 'checksheetprotoid':req.body.update.checksheetprotoid  }},{upsert:true}, 
+         {$push: { 'advisor' : req.body.update.advisor, 'checksheetprotoid':req.body.update.checksheetprotoid, 'checksheetdata':req.body.update.checksheetdata  }},{upsert:true}, 
          function(err, data) { 
           if (err){
              console.log("1");
@@ -382,7 +423,38 @@ router.put('/updatecurrentstudent', function(req, res) {
           }
           });
 
+
+});
+
+});
+
+
+
+
   
+});
+
+
+
+
+
+router.post('/checksheetdata', function(req, res) {
+
+var myIndex = {}; 
+
+myIndex['checksheetdata.' + req.body.checksheetinviewindex] = req.body.checksheetdata;
+
+ models.student.update({_id: req.body._id },
+         {$set: myIndex}).exec(function(err, items) {
+
+      });
+          
+          
+
+console.log(req.body._id);
+console.log(req.body.checksheetdata);
+console.log(req.body.checksheetinviewindex);
+     return res.sendStatus(200);
 });
 
 

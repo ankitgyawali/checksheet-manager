@@ -27,10 +27,14 @@
 <div class="row page-header">  <h3>{{checksheetinview.name}}</h3></div> <br>
 <div class="panel panel-default">
   <div class="panel-body" style="font-size:125%">
-  	<button ng-click="test()">Test</button>
-     You are about to make modifications to checksheet. <b>Note that the changes are not saved until you submit your checksheet to database from bottom of this page.</b> Manaual modification of checksheet slots is generally unadvised unless absolutely necessary. Refer to documentation for more information. 
+     You are about to make modifications to checksheet. <b>Note that the changes are not saved until you submit your checksheet to database.</b> Manaual modification of checksheet slots is generally unadvised unless absolutely necessary. Refer to documentation for more information. 
   </div>
 </div>
+<button style="font-size:135%" ng-click="submitchecksheetdata()" confirm="WARNING: You are about to update your checksheet information. Are you sure?" confirm-ok="Yes" confirm-cancel="No" confirm-title="Updating {{checksheetinview.name}}.."><i class="fa fa-floppy-o"></i> Save and submit to database</button><br><br>
+
+
+
+
 	<div class="panel panel-default row" style="font-size:125%" ng-repeat="block in checksheetinview.blockid track by $index">
 		   <div class="panel-heading">{{block.name}} </div> 
 		   <div class="container" ng-if="block.type=='Electives'"><b> Electives Choices: </b><br>
@@ -84,6 +88,10 @@
 
 
 	</div>
+<button style="font-size:135%" ng-click="submitchecksheetdata()" confirm="WARNING: You are about to update your checksheet information. Are you sure?" confirm-ok="Yes" confirm-cancel="No" confirm-title="Updating {{checksheetinview.name}}.."><i class="fa fa-floppy-o"></i> Save and submit to database</button><br>
+
+
+
 
 
 </div>
