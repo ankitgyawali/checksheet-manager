@@ -71,7 +71,9 @@
 
 
 <div class="col-sm-1">
-	<span style="color:"><i class="fa fa-trash" uib-tooltip='Delete slot settings'></i></span>
+	<span>
+
+		<a href="#" ng-click='deleteSlotDetails($parent.$index,$index)' confirm="WARNING: You are about to delete your checksheet slot information. Are you sure?" confirm-ok="Yes" confirm-cancel="No" confirm-title="Deleting slot information for {{checksheetdata[$parent.$index][$index].title}}.."><i class="fa fa-trash" uib-tooltip='Delete slot settings'></i></a></span>
 </div>
 
 

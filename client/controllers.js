@@ -177,13 +177,21 @@ else
 {
     $scope.tempNote = '';
 }
+
 $scope.submitslotnote = function (){
 
-$scope.checksheetdata[$scope.pid][$scope.id]['note'] = $scope.tempNote;
-console.log("checksheetdata: "+JSON.stringify($scope.checksheetdata));
-$uibModalInstance.dismiss('cancel');
+if(angular.isUndefinedOrNull($scope.checksheetdata[$scope.pid][$scope.id])){
+$scope.checksheetdata[$scope.pid][$scope.id] = {}
+$scope.checksheetdata[$scope.pid][$scope.id].note = $scope.tempNote;
 
 }
+else{
+$scope.checksheetdata[$scope.pid][$scope.id].note = $scope.tempNote;  
+}
+$uibModalInstance.dismiss('cancel');
+}
+
+
 $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
@@ -212,24 +220,35 @@ if(angular.isUndefinedOrNull($scope.checksheetdata[$scope.pid][$scope.id])){
 
 $scope.slotedit.credits = 3;
 $scope.slotedit.note = '';
+$scope.slotedit.type = '0';
 }
 else
 {
 
 $scope.slotedit.classprefix = $scope.checksheetdata[$scope.pid][$scope.id].prefix;
 $scope.slotedit.classsuffix = $scope.checksheetdata[$scope.pid][$scope.id].suffix;
-$scope.slotedit.credits = $scope.checksheetdata[$scope.pid][$scope.id].credits;
+
 $scope.slotedit.note = angular.copy($scope.checksheetdata[$scope.pid][$scope.id].note);
 
-if($scope.checksheetdata[$scope.pid][$scope.id].manual === undefined){
-console.log("this");
-    $scope.slotedit.type = '0';
+$scope.slotedit.credits = $scope.checksheetdata[$scope.pid][$scope.id].credits;
+
+if(($scope.checksheetdata[$scope.pid][$scope.id].credits === undefined)){
+$scope.slotedit.credits = 3;
 }
 else
 {
-    console.log("xas"+ $scope.checksheetdata[$scope.pid][$scope.id].manual);
-    $scope.slotedit.type = '1';
+    $scope.slotedit.credits = $scope.checksheetdata[$scope.pid][$scope.id].credits;
 }
+
+
+
+if(!($scope.checksheetdata[$scope.pid][$scope.id].manual === undefined)){
+$scope.slotedit.type = '1';
+}
+else{
+    $scope.slotedit.type = '0';
+}
+
 
 }
 
@@ -238,7 +257,6 @@ else
 
 $scope.greaterThan = function(prop, val){
     return function(item){
-
       return item[prop] >= val;
     }
 }
@@ -251,6 +269,8 @@ if(!($scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prerequisite
 else if($scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prerequisite == '1001') {
     for (i = 0;i<$scope.checksheetdata.length; i++) {
     for (j = 0;j<$scope.checksheetdata[i].length; j++) {
+    if(!(angular.isUndefinedOrNull($scope.checksheetdata[i][j]))){
+    if(!(angular.isUndefinedOrNull($scope.checksheetdata[i][j].suffix))){
     console.log("this: "+$scope.checksheetdata[i][j].prefix+" versus "+$scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.prefix);
     console.log("this: "+$scope.checksheetdata[i][j].suffix+" versus "+$scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.suffix);
     if (($scope.checksheetdata[i][j].prefix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.prefix) && ($scope.checksheetdata[i][j].suffix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.suffix)) {
@@ -258,6 +278,9 @@ else if($scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prerequis
     $scope.checkpreq = false;
     break;break;break;break;
         }   //if statement
+    }//if outer
+    }
+
     }  //for j
     } //for j
     
@@ -267,36 +290,39 @@ else if($scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prerequis
     else if($scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prerequisite == '1002') {
     for (i = 0;i<$scope.checksheetdata.length; i++) {
     for (j = 0;j<$scope.checksheetdata[i].length; j++) {
-    console.log("this: "+$scope.checksheetdata[i][j].prefix+" versus "+$scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.prefix);
-    console.log("this: "+$scope.checksheetdata[i][j].suffix+" versus "+$scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.suffix);
+    if(!(angular.isUndefinedOrNull($scope.checksheetdata[i][j]))){
+    if(!(angular.isUndefinedOrNull($scope.checksheetdata[i][j].suffix))){
     if (($scope.checksheetdata[i][j].prefix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.prefix) && ($scope.checksheetdata[i][j].suffix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.suffix)) {
             for (k = 0;k<$scope.checksheetdata.length; k++) {
             for (l = 0;l<$scope.checksheetdata[k].length; l++) {
-            console.log("this: "+$scope.checksheetdata[k][l].prefix+" versus "+$scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.prefix2);
-            console.log("this: "+$scope.checksheetdata[k][l].suffix+" versus "+$scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.suffix2);
-            if (($scope.checksheetdata[k][l].prefix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.prefix2) && ($scope.checksheetdata[k][l].suffix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.suffix2)) {
+            if(!(angular.isUndefinedOrNull($scope.checksheetdata[k][l]))){
+                if(!(angular.isUndefinedOrNull($scope.checksheetdata[k][l].suffix))){
+              if (($scope.checksheetdata[k][l].prefix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.prefix2) && ($scope.checksheetdata[k][l].suffix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.suffix2)) {
             console.log("found a match!");
             $scope.checkpreq = false;
             break;break;break;break;break;break;
                 }   //if statement
+            }}//inner ifs
             }  //for j
             } //for j
 
         }   //if statement
+    }}//outer ifs
     }  //for j
     } //for j
     }
     else{
         for (i = 0;i<$scope.checksheetdata.length; i++) {
         for (j = 0;j<$scope.checksheetdata[i].length; j++) {
-        console.log("this: "+$scope.checksheetdata[i][j].prefix+" versus "+$scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.prefix);
-        console.log("this: "+$scope.checksheetdata[i][j].suffix+" versus "+$scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.suffix);
-        if ((($scope.checksheetdata[i][j].prefix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.prefix) && ($scope.checksheetdata[i][j].suffix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.suffix)) ||
+        if(!(angular.isUndefinedOrNull($scope.checksheetdata[i][j]))){
+    if(!(angular.isUndefinedOrNull($scope.checksheetdata[i][j].suffix))){
+       if ((($scope.checksheetdata[i][j].prefix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.prefix) && ($scope.checksheetdata[i][j].suffix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.suffix)) ||
         (($scope.checksheetdata[i][j].prefix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.prefix2) && ($scope.checksheetdata[i][j].suffix == $scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prereqconstraint.suffix2))) {
         console.log("found a match!");
         $scope.checkpreq = false;
         break;break;break;break;
             }   //if statement
+        }}//ifs
         }  //for j
         } //for j
     }
@@ -312,17 +338,21 @@ $scope.locksubmits = function(){
 
 
 
-
-
-
-
 $scope.modifyslotdetails = function (){
 $scope.slotedit.taken = '1';
+if(!(angular.isUndefinedOrNull($scope.checksheetdata[$scope.pid][$scope.id]))){
 
 $scope.checksheetdata[$scope.pid][$scope.id].note = $scope.slotedit.note;
 $scope.checksheetdata[$scope.pid][$scope.id].prefix = $scope.slotedit.classprefix;
 $scope.checksheetdata[$scope.pid][$scope.id].suffix = $scope.slotedit.classsuffix;
+}
+else{
+    $scope.checksheetdata[$scope.pid][$scope.id] ={};
+$scope.checksheetdata[$scope.pid][$scope.id].note = $scope.slotedit.note;
+$scope.checksheetdata[$scope.pid][$scope.id].prefix = $scope.slotedit.classprefix;
+$scope.checksheetdata[$scope.pid][$scope.id].suffix = $scope.slotedit.classsuffix;
 
+}
 if($scope.slotedit.type == '1'){
 $scope.checksheetdata[$scope.pid][$scope.id].manual = "1";
 }
@@ -386,18 +416,21 @@ angular.module('smApp').controller('studentmodifychecksheetcontroller',
                     $scope.checksheetdata = $scope.student.checksheetdata[$scope.checksheetinviewindex];
                     $scope.divshow = '1'; 
                     console.log(JSON.stringify($scope.checksheetdata));
-
-                  
-
-
                     }
 
   $scope.isFilled = function(pid,id){
-                    console.log("ok= "+JSON.stringify($scope.checksheetdata));
-                    console.log('pid'+pid);
-                    console.log('id'+id);
-                    // return ($scope.checksheetdata[pid][id].suffix===undefined);
-                   return (angular.isUndefinedOrNull($scope.checksheetdata[pid][id]));
+
+    if(angular.isUndefinedOrNull($scope.checksheetdata[pid][id])){
+        return true;
+    }
+    else{
+         if(angular.isUndefinedOrNull($scope.checksheetdata[pid][id].prefix))
+         {
+            return true;
+         }
+         return false;
+    }
+   
  }
 
 
@@ -444,9 +477,15 @@ $scope.submitchecksheetdata = function () {
     } //for i 
 }
 
+$scope.deleteSlotDetails = function(pid,id){
+
+$scope.checksheetdata[pid][id] = null;
+$scope.checksheetdata[pid][id] = {};
+
+}
 
  $scope.modifySlot = function(pid,id) {
-    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxx');
+
                 var modalInstance = $uibModal.open({
                 templateUrl: 'partials/studentmodifySlot.html',
                 controller: 'modifyslotController',
