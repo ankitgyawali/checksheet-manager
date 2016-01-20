@@ -170,7 +170,7 @@ angular.module('smApp').controller('slotnoteController',
 $scope.pid = pid;
 $scope.id = id;
 
-if($scope.checksheetdata[$scope.pid][$scope.id].note){
+if(!($scope.checksheetdata[$scope.pid][$scope.id]===null)){
 $scope.tempNote = $scope.checksheetdata[$scope.pid][$scope.id].note;
 }
 else
@@ -208,33 +208,19 @@ $scope.buttondisabled = true;
             //                 NOTE STRING
             //                 CLASS -> PREFIX SUFFIX
             //                 credits: if not equal to 3
-if($scope.checksheetdata[$scope.pid][$scope.id].note){
-    $scope.slotedit.note = angular.copy($scope.checksheetdata[$scope.pid][$scope.id].note);
+if(angular.isUndefinedOrNull($scope.checksheetdata[$scope.pid][$scope.id])){
 
+$scope.slotedit.credits = 3;
+$scope.slotedit.note = '';
 }
 else
 {
-    $scope.slotedit.note = '';
-}
 
-
-if($scope.checksheetdata[$scope.pid][$scope.id].credits){
-$scope.slotedit.credits = $scope.checksheetdata[$scope.pid][$scope.id].credits;
-}
-else
-{
-    $scope.slotedit.credits = 3;
-}
-
-if($scope.checksheetdata[$scope.pid][$scope.id].prefix){
-    console.log("done");
 $scope.slotedit.classprefix = $scope.checksheetdata[$scope.pid][$scope.id].prefix;
 $scope.slotedit.classsuffix = $scope.checksheetdata[$scope.pid][$scope.id].suffix;
-}
-else
-{
-    $scope.slotedit.credits = 3;
-}
+$scope.slotedit.credits = $scope.checksheetdata[$scope.pid][$scope.id].credits;
+$scope.slotedit.note = angular.copy($scope.checksheetdata[$scope.pid][$scope.id].note);
+
 if($scope.checksheetdata[$scope.pid][$scope.id].manual === undefined){
 console.log("this");
     $scope.slotedit.type = '0';
@@ -244,6 +230,12 @@ else
     console.log("xas"+ $scope.checksheetdata[$scope.pid][$scope.id].manual);
     $scope.slotedit.type = '1';
 }
+
+}
+
+
+
+
 $scope.greaterThan = function(prop, val){
     return function(item){
 
@@ -371,59 +363,64 @@ angular.module('smApp').controller('studentmodifychecksheetcontroller',
    function ($scope, $location, notificationFactory, AuthService,$http,$uibModal) {
 
 
+      // if($scope.student.checksheetprotoid.length == '1'){
+      //                      $scope.divshow = true;
+      //                       $scope.checksheetinview = $scope.checksheets[0];
+      //                       $scope.checksheetinviewindex = 0;
+      //                       console.log('chkss:'+JSON.stringify($scope.student.checksheets));
+      //                       console.log('set:'+JSON.stringify($scope.student.checksheetdata));
+      //                       $scope.checksheetdata = $scope.student.checksheetdata[0];
+      //                   }
+      //                   else{
+      //                       $scope.divshow = false;
+      //                   }
 
-        $http({
-                        method: 'POST',
-                        url: '/students',
-                          headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    data: {
-                        studentid: $scope.student_id
+
+
+
+                    $scope.divshow = '0'; 
+                    $scope.setdivshowtrue = function(val){ 
+                    $scope.checksheetinview = $scope.checksheets[val];
+                    $scope.checksheetinviewindex = val;
+                    console.log('x'+JSON.stringify($scope.student.checksheetdata[$scope.checksheetinviewindex]));
+                    $scope.checksheetdata = $scope.student.checksheetdata[$scope.checksheetinviewindex];
+                    $scope.divshow = '1'; 
+                    console.log(JSON.stringify($scope.checksheetdata));
+
+                  
+
+
                     }
 
-                    }).success(function(data, status, headers, config) {
-                        // this callback will be called asynchronously
-                        // when the response is available
-                        $scope.student = data.student;
-                        $scope.checksheets = data.checksheet
-                        $scope.advisors = data.advisor;
-                        if($scope.student.checksheetprotoid.length == '1'){
-                           $scope.divshow = true;
-                            $scope.checksheetinview = $scope.checksheets[0];
-                            $scope.checksheetinviewindex = 0;
-                            console.log('chkss:'+JSON.stringify($scope.student.checksheets));
-                            console.log('set:'+JSON.stringify($scope.student.checksheetdata));
-                            $scope.checksheetdata = $scope.student.checksheetdata[0];
-                        }
-                        else{
-                            $scope.divshow = false;
-                        }
-                    })
-                    .error(function(data, status, headers, config) {
-                        notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
-                    });
+  $scope.isFilled = function(pid,id){
+                    console.log("ok= "+JSON.stringify($scope.checksheetdata));
+                    console.log('pid'+pid);
+                    console.log('id'+id);
+                    // return ($scope.checksheetdata[pid][id].suffix===undefined);
+                   return (angular.isUndefinedOrNull($scope.checksheetdata[pid][id]));
+ }
+
+
+           
+                        
+
+// //Watch for changes in bloc description
+// $scope.$watch('divshow', function(newVal, oldVal) {
+// if($scope.blockdetails){
+//     for(var i=0; i < $scope.blockdetails.length; i++)
+//     {
+//     if ($scope.blockdetails[i]._id == val){
+//     $scope.blockdetail = $scope.blockdetails[i];
+//         break;
+//     }
+//     }
+// }
+// });
 
 
 
 
 
-
-$scope.setdivshowtrue = function(val){ 
-  $scope.checksheetinview = $scope.checksheets[val];
-  $scope.checksheetinviewindex = val;
-  $scope.checksheetdata = $scope.student.checksheetdata[$scope.checksheetinviewindex];
-
-  console.log(JSON.stringify($scope.checksheetdata));
-  $scope.divshow = true; 
-}
-
-
-
-$scope.isFilled = function(pid,id){
-    console.log("ok= "+JSON.stringify($scope.checksheetdata));
-return ($scope.checksheetdata[pid][id].suffix===undefined);
-}
 
 $scope.submitchecksheetdata = function () {
 
@@ -449,7 +446,7 @@ $scope.submitchecksheetdata = function () {
 
 
  $scope.modifySlot = function(pid,id) {
-    console.log(pid);
+    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxx');
                 var modalInstance = $uibModal.open({
                 templateUrl: 'partials/studentmodifySlot.html',
                 controller: 'modifyslotController',

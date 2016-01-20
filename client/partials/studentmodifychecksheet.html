@@ -1,13 +1,13 @@
 <div ng-controller="studentmodifychecksheetcontroller">
 
 
-<div  ng-if="student.checksheetprotoid.length>1 && !divshow">
+<div  ng-if="divshow!='1'">
 
 
 	<div class="panel panel-default container" style="font-size:125%">
 		
 		<br>
-		Multiple checksheets detected, choose a checksheet to continue<br><br>
+		Choose a checksheet to continue<br><br>
 		<ul>
 		<li ng-repeat="checksheet in checksheets track by $index">
 				<a href="#" ng-model="checksheettoview" ng-click="setdivshowtrue($index)">{{checksheet.name}}</a>
@@ -20,7 +20,7 @@
 </div>
 
 
-<div  ng-if="divshow || student.checksheetprotoid.length==1">
+<div  ng-if="divshow=='1'">
 
 
 
