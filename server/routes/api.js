@@ -334,26 +334,37 @@ async.parallel({
 });
 
 
+router.post('/getchecksheetjson', function(req, res) {
 
-router.post('/newstudents', function(req, res) {
+console.log(req.body.checksheetid);
+models.checksheet.findOne({ '_id':req.body.checksheetid },'blockid' , function (err, checksheet) {
 
+res.checksheetdata = new Array(checksheet.blockid.length);
 
-models.checksheet.findOne({ '_id':req.body.arraytoAdd.checksheetprotoid },'blockid' , function (err, checksheet) {
-req.body.arraytoAdd.checksheetdata = new Array();
-req.body.arraytoAdd.checksheetdata[0] = new Array(checksheet.blockid.length);
-console.log(req.body.arraytoAdd.checksheetdata[0]);
 
 models.block.find({'_id': { $in: checksheet.blockid } },'slot').lean().exec(function(err, blocks) {
 for (var i=0;i < checksheet.blockid.length;i++)
 {
-
-req.body.arraytoAdd.checksheetdata[0][i] = new Array(parseInt(blocks[i].slot));
-    for (j = 0;j < blocks[i].slot; j++){
-      req.body.arraytoAdd.checksheetdata[0][i][j] = {};
-    } 
+res.checksheetdata[i] = blocks[i].slot;
 }
 
-console.log(req.body.arraytoAdd.checksheetdata[0]);
+
+ res.send(res.checksheetdata);
+
+
+});
+
+});
+
+});
+
+
+
+
+router.post('/newstudents', function(req, res) {
+
+
+
 
 models.student.collection.insert(req.body.arraytoAdd, onInsert);
 
@@ -371,9 +382,6 @@ function onInsert(err, docs) {
     }
 }
 
-});
-
-});
 
 });
 
@@ -381,25 +389,10 @@ function onInsert(err, docs) {
 router.put('/updatecurrentstudent', function(req, res) {
 
 
-models.checksheet.findOne({ '_id':req.body.update.checksheetprotoid },'blockid' , function (err, checksheet) {
-req.body.update.checksheetdata = new Array();
-req.body.update.checksheetdata = new Array(checksheet.blockid.length);
-console.log(req.body.update.checksheetdata);
-
-models.block.find({'_id': { $in: checksheet.blockid } },'slot').lean().exec(function(err, blocks) {
-for (var i=0;i < checksheet.blockid.length;i++)
-{
-
-req.body.update.checksheetdata[i] = new Array(parseInt(blocks[i].slot));
-    for (j = 0;j < blocks[i].slot; j++){
-      req.body.update.checksheetdata[i][j] = {};
-    } 
-}
-
-console.log(req.body.update.checksheetdata);
+console.log('New'+req.body.update.checksheetdata);
 
 
-  models.student.update({_id: req.body.update._id },
+models.student.update({_id: req.body.update._id },
          {$push: { 'advisor' : req.body.update.advisor, 'checksheetprotoid':req.body.update.checksheetprotoid, 'checksheetdata':req.body.update.checksheetdata  }},{upsert:true}, 
          function(err, data) { 
           if (err){
@@ -422,13 +415,6 @@ console.log(req.body.update.checksheetdata);
           });
           }
           });
-
-
-});
-
-});
-
-
 
 
   

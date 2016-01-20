@@ -96,13 +96,9 @@ angular.module('smApp').controller('studentController',
                     }).success(function(data, status, headers, config) {
                         // this callback will be called asynchronously
                         // when the response is available
-                        $scope.data = data;
-                        console.log('data: '+JSON.stringify(data));
                         $scope.student = data.student;
                         $scope.checksheets = data.checksheet
                         $scope.advisors = data.advisor;
-                        $scope.checksheetdata = data.student.checksheetdata[0];
-                        
                         if(!$scope.student.registered){
                             notificationFactory.warning("First time login detected. Change your password to proceed.");
                             $scope.templateURL = "partials/studentsettings.html"
@@ -204,8 +200,6 @@ $scope.pid = pid;
 $scope.id = id;
 $scope.slotedit = {}
 $scope.buttondisabled = true;
-
-
 
 
 //SET INITIAL SLOT MODAL VALUES FROM CHECKSHEET DATA HERE IF EXISTS???
@@ -368,6 +362,9 @@ $scope.cancel = function () {
 
 }]);
 
+
+
+
 // Student controller that handles modification of student checksheet
 angular.module('smApp').controller('studentmodifychecksheetcontroller',
   ['$scope', '$location', 'notificationFactory', 'AuthService','$http','$uibModal', 
@@ -375,40 +372,56 @@ angular.module('smApp').controller('studentmodifychecksheetcontroller',
 
 
 
-$scope.$watch('checksheetinview', function(newval,oldval) {
+        $http({
+                        method: 'POST',
+                        url: '/students',
+                          headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        studentid: $scope.student_id
+                    }
 
-if(newval!=oldval){
+                    }).success(function(data, status, headers, config) {
+                        // this callback will be called asynchronously
+                        // when the response is available
+                        $scope.student = data.student;
+                        $scope.checksheets = data.checksheet
+                        $scope.advisors = data.advisor;
+                        if($scope.student.checksheetprotoid.length == '1'){
+                           $scope.divshow = true;
+                            $scope.checksheetinview = $scope.checksheets[0];
+                            $scope.checksheetinviewindex = 0;
+                            console.log('chkss:'+JSON.stringify($scope.student.checksheets));
+                            console.log('set:'+JSON.stringify($scope.student.checksheetdata));
+                            $scope.checksheetdata = $scope.student.checksheetdata[0];
+                        }
+                        else{
+                            $scope.divshow = false;
+                        }
+                    })
+                    .error(function(data, status, headers, config) {
+                        notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
+                    });
 
-$scope.checksheetdata = $scope.student.checksheetdata[newval];
+
+
+
+
+
+$scope.setdivshowtrue = function(val){ 
+  $scope.checksheetinview = $scope.checksheets[val];
+  $scope.checksheetinviewindex = val;
+  $scope.checksheetdata = $scope.student.checksheetdata[$scope.checksheetinviewindex];
+
+  console.log(JSON.stringify($scope.checksheetdata));
+  $scope.divshow = true; 
 }
-
- });
-
-
-$scope.$watch('data', function(val) {
-if($scope.student){
-
-
-if($scope.student.checksheetprotoid.length == '1'){
-$scope.divshow = true;
-$scope.checksheetinview = $scope.checksheets[0];
-$scope.checksheetinviewindex = 0;
-$scope.checksheetdata = $scope.student.checksheetdata[0];
-}
-else
-{
-    $scope.divshow = false;
-}
-
-
-
-}
- });
-
 
 
 
 $scope.isFilled = function(pid,id){
+    console.log("ok= "+JSON.stringify($scope.checksheetdata));
 return ($scope.checksheetdata[pid][id].suffix===undefined);
 }
 
@@ -431,32 +444,10 @@ $scope.submitchecksheetdata = function () {
 
             }   //if statement
     }  //for j
-    } //for i
-
-     $http({
-                    method: 'POST',
-                    url: '/checksheetdata',
-                    // set the headers so angular passing info as form data (not request payload)
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    data: {
-                        checksheetdata: $scope.checksheetdata,
-                        checksheetinviewindex: $scope.checksheetinviewindex,
-                        _id: AuthService.getuserid()
-                    }
-
-                }).success(function(data, status, headers, config) {
-                 //Template will be set to show new advisors once addadvisor has been completed
-                $scope.settemplateURL('partials/viewadvising.html');
-               notificationFactory.info("Successfully added checksheet data! ");
-                })
-                .error(function(data, status, headers, config) {
-                notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.")
-
-                });
- 
+    } //for i 
 }
+
+
  $scope.modifySlot = function(pid,id) {
     console.log(pid);
                 var modalInstance = $uibModal.open({
@@ -499,10 +490,6 @@ $scope.submitchecksheetdata = function () {
 
 
 
-  $scope.setdivshowtrue = function(val){ 
-  $scope.checksheetinview = $scope.checksheets[val];
-  $scope.checksheetinviewindex = val;
-  $scope.divshow = true; }
  
 
 }]);

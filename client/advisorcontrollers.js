@@ -554,8 +554,33 @@ $scope.addnewStudent = function(){
     $scope.student.advisor = [];
     $scope.student.advisor[0]= AuthService.getuserid();
     $scope.student.checksheetprotoid[0]  = $scope.studentchecksheet._id;
-    console.log(JSON.stringify($scope.student));
-     $http({
+    console.log(JSON.stringify($scope.studentchecksheet._id));
+         $http({
+                    method: 'POST',
+                    url: '/getchecksheetjson',
+                    // set the headers so angular passing info as form data (not request payload)
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        checksheetid: $scope.studentchecksheet._id
+                    }
+
+                }).success(function(data, status, headers, config) {
+                //Set template to revert back to displaying department so that user can view/update newly added department
+                $scope.chksdata = data;
+
+                for(i=0;i<$scope.chksdata.length;i++){
+                   $scope.chksdata[i] = new Array($scope.chksdata[i]);
+                  for(j=0;j<$scope.chksdata[i].length;j++){
+                   $scope.chksdata[i][j] = {};
+                  }
+                }
+
+                console.log('x'+JSON.stringify($scope.chksdata));
+                $scope.student.checksheetdata = [];
+                $scope.student.checksheetdata[0] = $scope.chksdata;
+                       $http({
                     method: 'POST',
                     url: '/newstudents',
                     // set the headers so angular passing info as form data (not request payload)
@@ -577,6 +602,16 @@ $scope.addnewStudent = function(){
                     notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.")
 
                 });
+
+                })
+                .error(function(data, status, headers, config) {
+                    console.log(" Not Doneee " + status + data + headers + config);
+                    notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.")
+
+                });
+
+
+
 
 
    }
@@ -601,10 +636,6 @@ angular.module('smApp').controller('addexistingstudentController', ['$scope', '$
                     }).success(function(data, status, headers, config) {
                         // this callback will be called asynchronously
                         // when the response is available
-
-                   
-
-
                         $scope.checksheets = data;
                         $scope.checksheetid = $scope.checksheets[0];
                         $scope.chksdepartment = $scope.dpts[1].name;
@@ -625,7 +656,32 @@ angular.module('smApp').controller('addexistingstudentController', ['$scope', '$
             $scope.update.advisor = AuthService.getuserid();
             console.log(JSON.stringify($scope.update));
 
+
                $http({
+                    method: 'POST',
+                    url: '/getchecksheetjson',
+                    // set the headers so angular passing info as form data (not request payload)
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        checksheetid: $scope.checksheetid._id
+                    }
+
+                }).success(function(data, status, headers, config) {
+                //Set template to revert back to displaying department so that user can view/update newly added department
+                $scope.chksdata = data;
+
+                for(i=0;i<$scope.chksdata.length;i++){
+                   $scope.chksdata[i] = new Array($scope.chksdata[i]);
+                  for(j=0;j<$scope.chksdata[i].length;j++){
+                   $scope.chksdata[i][j] = {};
+                  }
+                }
+
+                console.log('x'+JSON.stringify($scope.chksdata));
+                $scope.update.checksheetdata = $scope.chksdata;
+                          $http({
                     method: 'PUT',
                     url: '/updatecurrentstudent',
                     // set the headers so angular passing info as form data (not request payload)
@@ -645,6 +701,15 @@ angular.module('smApp').controller('addexistingstudentController', ['$scope', '$
                 notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.")
 
                 });
+
+                })
+                .error(function(data, status, headers, config) {
+                    console.log(" Not Doneee " + status + data + headers + config);
+                    notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.")
+
+                });
+
+           
 
 
         };
