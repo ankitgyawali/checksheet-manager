@@ -44,11 +44,12 @@
   <div class="panel-body">
 	<div class="row">
  	
-  		<div class="col-sm-6" ng-repeat="slot in block.details" style="border:1px solid grey;border-style: outset;"> <u><b> {{$parent.$index+1}}.{{$index+1}}: {{slot.title}} </b></u>  <span style="color:red" class="pull-right" ng-show="isFilled($parent.$index,$index)"><i class="fa fa-times" uib-tooltip='Slot is not filled'></i></span>
+  		<div class="col-sm-6" ng-repeat="slot in block.details" style="border:1px solid grey;border-style: outset;"> <u><b> {{$parent.$index+1}}.{{$index+1}}: {{slot.title}}</b></u>   <span ng-if="slot.subtitle" style="font-size:75%">({{slot.subtitle}})</span> <span style="color:red" class="pull-right" ng-show="isFilled($parent.$index,$index)"><i class="fa fa-times" uib-tooltip='Slot is not filled'></i></span>
 
 
   			<span style="color:green" class="pull-right" ng-show="!isFilled($parent.$index,$index)"><i class="fa fa-check" uib-tooltip='Slot is filled'></i></span>
 
+  			
   			<br>
   		 <span style="font-size:90%">{{slot.description}} </span>
 <hr>
@@ -62,7 +63,7 @@
 	<span><a href="#" ng-click='modifySlot($parent.$index,$index)'><i class="fa fa-pencil-square" uib-tooltip='Change slot status'></i></a></span>
 </div>
 <div class="col-sm-1">
-	<span><i class="fa fa-info-circle" uib-tooltip='View slot information'></i></span>
+	<span><a href="#" ng-click='viewSlotInfo($parent.$index,$index)'><i class="fa fa-info-circle" uib-tooltip='View slot information'></i></a></span>
 </div>
 
 <div class="col-sm-1">
@@ -73,7 +74,7 @@
 <div class="col-sm-1">
 	<span>
 
-		<a href="#" ng-click='deleteSlotDetails($parent.$index,$index)' confirm="WARNING: You are about to delete your checksheet slot information. Are you sure?" confirm-ok="Yes" confirm-cancel="No" confirm-title="Deleting slot information for {{checksheetdata[$parent.$index][$index].title}}.."><i class="fa fa-trash" uib-tooltip='Delete slot settings'></i></a></span>
+		<a href="#" ng-click='deleteSlotDetails($parent.$index,$index)' confirm="WARNING: You are about to delete your checksheet slot information. Are you sure?" confirm-ok="Yes" confirm-cancel="No" confirm-title="Deleting slot information for '{{slot.title}}'.."><i class="fa fa-trash" uib-tooltip='Delete slot settings'></i></a></span>
 </div>
 
 

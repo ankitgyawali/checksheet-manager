@@ -161,6 +161,22 @@ angular.module('smApp').controller('studentController',
 
 }]);
 
+
+angular.module('smApp').controller('viewSlotInfoController',
+  ['$scope', '$location', 'notificationFactory', 'AuthService','$http','$uibModalInstance','pid','id', 
+   function ($scope, $location, notificationFactory, AuthService,$http,$uibModalInstance,pid,id) {
+
+$scope.pid = pid;
+$scope.id = id;
+
+$scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+
+
+}]);
+
 angular.module('smApp').controller('slotnoteController',
   ['$scope', '$location', 'notificationFactory', 'AuthService','$http','$uibModalInstance','pid','id', 
    function ($scope, $location, notificationFactory, AuthService,$http,$uibModalInstance,pid,id) {
@@ -459,7 +475,7 @@ $scope.submitchecksheetdata = function () {
 
     for (i = 0;i<$scope.checksheetdata.length; i++) {
     for (j = 0;j<$scope.checksheetdata[i].length; j++) {
-
+        if (!angular.isUndefinedOrNull($scope.checksheetdata[i][j])) {
         if ($scope.checksheetdata[i][j].manual) {
         console.log("found: "+JSON.stringify($scope.courses));
         console.log("found: "+JSON.stringify($scope.checksheetdata[i][j]));
@@ -473,14 +489,68 @@ $scope.submitchecksheetdata = function () {
                 } // for  k loop end
 
             }   //if statement
+        }//outer if
     }  //for j
     } //for i 
+    console.log(JSON.stringify($scope.checksheetdata));
+
+
+// myIndex['checksheetdata.' + req.body.checksheetinviewindex] = req.body.checksheetdata;
+
+//  models.student.update({_id: req.body._id },
+         // {$set: myIndex}).exec(function(err, items) {
+       $http({
+                        method: 'POST',
+                        url: '/checksheetdata',
+                          headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        _id: AuthService.getuserid(),
+                        checksheetinviewindex: $scope.checksheetinviewindex,
+                        checksheetdata: $scope.checksheetdata
+                    }
+
+                    }).success(function(data, status, headers, config) {
+                        // this callback will be called asynchronously
+                        // when the response is available
+
+                            notificationFactory.success("Checksheetdata updated!");
+                            $scope.templateURL = "partials/studentsettings.html"
+
+                    })
+                    .error(function(data, status, headers, config) {
+                        notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
+                    });
+
+
+//LINE NUMBER 427    
+// router.post('/', function(req, res) {
+
 }
 
 $scope.deleteSlotDetails = function(pid,id){
 
 $scope.checksheetdata[pid][id] = null;
 $scope.checksheetdata[pid][id] = {};
+
+}
+
+$scope.viewSlotInfo = function(pid,id){
+            var modalInstance = $uibModal.open({
+                templateUrl: 'partials/viewSlotInfo.html',
+                controller: 'viewSlotInfoController',
+                scope: $scope,
+                size: 'lg',
+                resolve: {
+                    pid: function() {
+                        return pid;
+                    },
+                    id: function() {
+                        return id;
+                    }
+                }
+            });
 
 }
 

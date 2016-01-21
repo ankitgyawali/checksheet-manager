@@ -3,15 +3,16 @@
         </div> 
         <form role="form" ng-submit="modifyslotdetails()">
         <div class="modal-body" style="font-size:105%">
-       {{checksheetinview.blockid[pid].details[id]}}
+
             <div class="form-group row">
                 <div class="container col-sm-4">Status:
-                <select ng-if="checksheetdata[pid][id].taken=='true'">
-                    <option>Taken</option>
+                <select ng-if="!(checksheetdata[pid][id].suffix)" ng-model="slotedit.taken" >
+                    <option ng-selected="1" ng-value="11" value="1">Not Taken</option>
+                    <option ng-value="1" value="1" selected>Taken</option>
                 </select>
-                <select ng-if="!(checksheetdata[pid][id].taken=='true')" ng-model="slotedit.taken" ng-init="slotedit.taken=1">
-                    <option ng-selected="1" ng-value="1" value="1" selected>Not Taken</option>
-                    <option ng-value="11">Taken</option>
+                <select ng-if="(checksheetdata[pid][id].suffix)" ng-model="slotedit.taken" ng-init="slotedit.taken=1">
+                    <option ng-selected="1" ng-value="1" value="1" selected>Taken</option>
+                    <option ng-value="11">Not Taken</option>
                 </select>
 
                  
