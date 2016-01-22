@@ -1,0 +1,55 @@
+<div ng-controller="studentadvisingappointmentController"><br><b>
+Advisor appointment times</b>
+<br><br>
+<button> << Previous Week </button>
+<button> This Week </button>
+<button> Next Week >> </button>
+<button ng-click="debug()"> CONSOLE LOG !@#!@#!@ </button>
+ <br><br>
+
+
+  <div class="table-responsive table-bordered">          
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Times</th>
+        <th>Sunday</th>
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+        <th>Saturday</th>
+      </tr>
+    </thead>
+    <tbody>
+<tr ng-repeat="(key, value) in data">
+  <td> {{key}} </td> <td> {{ value[0] }} </td>
+</tr>
+    </tbody>
+  </table>
+  </div>
+
+
+  <br> <br> <br> <br>
+ {{xx}}
+<br>
+ {{date | date:'MMMM dd, yyyy'}}
+<br>
+ Request advising.Request advising.
+
+{{advisors[0].appointmentTimes}}
+
+
+<table>
+	<tr ng-repeat="(key, value) in advisors[0].appointmentTimes">
+	<td>
+		
+		{{value}}
+	</td> </tr>
+
+</table>
+
+
+controllerjs line 106
+
+</div>

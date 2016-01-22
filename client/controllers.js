@@ -61,7 +61,6 @@ angular.module('smApp').controller('loginController', ['$scope', '$location', 'n
 
 
 
-
 // Student controller that handles student dashboard and student operation
 angular.module('smApp').controller('studentController',
   ['$scope', '$routeParams','$location', 'notificationFactory', 'AuthService','$http', 
@@ -104,7 +103,8 @@ angular.module('smApp').controller('studentController',
                             $scope.templateURL = "partials/studentsettings.html"
                         }
                         else{
-                             $scope.templateURL = "partials/studentmodifychecksheet.html"
+                             // $scope.settemplateURL("partials/studentrequestadvising.html");
+                             $scope.templateURL = "partials/studentrequestadvising.html"
                         }
                     })
                     .error(function(data, status, headers, config) {
@@ -162,6 +162,26 @@ angular.module('smApp').controller('studentController',
 }]);
 
 
+
+// Student controller that handles student dashboard and student operation
+angular.module('smApp').controller('studentadvisingappointmentController',
+  ['$scope', '$routeParams','$location', 'notificationFactory', 'AuthService','$http', 
+   function ($scope, $routeParams,$location, notificationFactory, AuthService,$http) {
+
+$scope.date = new Date();
+$scope.newdate = $scope.date.setDate($scope.date.getDate() - 41);
+
+$scope.debug = function()
+{
+console.log('appttimes: '+JSON.stringify($scope.advisors[0].appointmentTimes));
+}
+
+
+    }
+]);
+
+
+
 angular.module('smApp').controller('viewSlotInfoController',
   ['$scope', '$location', 'notificationFactory', 'AuthService','$http','$uibModalInstance','pid','id', 
    function ($scope, $location, notificationFactory, AuthService,$http,$uibModalInstance,pid,id) {
@@ -214,6 +234,10 @@ $scope.cancel = function () {
 
 
 }]);
+
+
+
+
 
 
 angular.module('smApp').controller('modifyslotController',
@@ -403,10 +427,43 @@ $scope.cancel = function () {
 
 
 
+
+
 // Student controller that handles modification of student checksheet
 angular.module('smApp').controller('studentmodifychecksheetcontroller',
-  ['$scope', '$location', 'notificationFactory', 'AuthService','$http','$uibModal', 
-   function ($scope, $location, notificationFactory, AuthService,$http,$uibModal) {
+  ['$scope', '$location', 'notificationFactory', 'AuthService','$http','$uibModal','$confirm', 
+   function ($scope, $location, notificationFactory, AuthService,$http,$uibModal,$confirm) {
+
+
+$scope.submitcounter = 0;
+
+//Watch for changes in bloc description
+$scope.$watch('templateURL', function(newVal, oldVal) {
+
+if(oldVal=="partials/studentmodifychecksheet.html" &&  newVal!="partials/studentmodifychecksheet.html" && $scope.divshow=='1' && $scope.submitcounter=='0'){
+  
+
+  $confirm({text: 'You are about to go to a different tab. Did you want to save the changes on your checksheet?', title: 'Save changes to checksheet', ok: 'Save changes', cancel: 'No'})
+        .then(function() {
+          $scope.submitchecksheetdata();
+        });
+
+
+
+       // var modalInstance = $uibModal.open({
+       //          templateUrl: 'partials/confirmstudentmodifytemplatechange.html',
+       //          controller: 'confirmstudentmodifytemplatechangeController',
+       //          scope: $scope,
+       //          resolve: {
+         
+       //              }
+                
+       //      });
+
+
+}
+
+});
 
 
       // if($scope.student.checksheetprotoid.length == '1'){
@@ -453,18 +510,7 @@ angular.module('smApp').controller('studentmodifychecksheetcontroller',
            
                         
 
-// //Watch for changes in bloc description
-// $scope.$watch('divshow', function(newVal, oldVal) {
-// if($scope.blockdetails){
-//     for(var i=0; i < $scope.blockdetails.length; i++)
-//     {
-//     if ($scope.blockdetails[i]._id == val){
-//     $scope.blockdetail = $scope.blockdetails[i];
-//         break;
-//     }
-//     }
-// }
-// });
+
 
 
 
@@ -472,7 +518,7 @@ angular.module('smApp').controller('studentmodifychecksheetcontroller',
 
 
 $scope.submitchecksheetdata = function () {
-
+$scope.submitcounter = 1;
     for (i = 0;i<$scope.checksheetdata.length; i++) {
     for (j = 0;j<$scope.checksheetdata[i].length; j++) {
         if (!angular.isUndefinedOrNull($scope.checksheetdata[i][j])) {
@@ -515,8 +561,8 @@ $scope.submitchecksheetdata = function () {
                         // this callback will be called asynchronously
                         // when the response is available
 
-                            notificationFactory.success("Checksheetdata updated!");
-                            $scope.templateURL = "partials/studentsettings.html"
+                    notificationFactory.success("Checksheetdata updated!");
+                    $scope.settemplateURL("partials/studentviewchecksheet.html");
 
                     })
                     .error(function(data, status, headers, config) {
@@ -535,6 +581,11 @@ $scope.checksheetdata[pid][id] = null;
 $scope.checksheetdata[pid][id] = {};
 
 }
+
+
+
+
+
 
 $scope.viewSlotInfo = function(pid,id){
             var modalInstance = $uibModal.open({
