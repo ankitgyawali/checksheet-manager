@@ -162,7 +162,6 @@ angular.module('smApp').controller('studentController',
 }]);
 
 
-
 // Student controller that handles student dashboard and student operation
 angular.module('smApp').controller('studentadvisingappointmentController',
   ['$scope', '$routeParams','$location', 'notificationFactory', 'AuthService','$http', 
@@ -176,10 +175,37 @@ $scope.converInt = function(idx){
 }
 
 
-
-
-
 $scope.divshow = '0'; 
+
+ // var d = new Date();
+ // d.setDate(d.getDate()-5);
+
+$scope.today = new Date().getDay();
+$scope.lastweekBegin = new Date();
+
+//8 instead of  7 cuz 1 is being added later
+$scope.lastweekBegin = new Date($scope.lastweekBegin.setDate($scope.lastweekBegin.getDate() - (8+ ($scope.today))));
+// $scope.dateArray = new Array(4);
+$scope.dateArray = new Array(4);
+$scope.dateArray[0] = new Array(7);
+$scope.dateArray[1] = new Array(7);
+$scope.dateArray[2] = new Array(7);
+$scope.dateArray[3] = new Array(7);
+
+
+for (var a = 0; a < 4; a++) {
+for (var b = 0; b < 7; b++) {
+
+$scope.dateArray[a][b] =($scope.lastweekBegin);
+$scope.lastweekBegin = new Date($scope.lastweekBegin.setDate($scope.lastweekBegin.getDate() +1));
+
+}
+}
+
+
+
+
+console.log('from here : '+ JSON.stringify($scope.dateArray));
 
 // //TODO: UNCOMMENT BELOW TWO LINE WHEN DONE??
 // $scope.advisortoview = 0;
@@ -187,6 +213,8 @@ $scope.divshow = '0';
 
 
 $scope.setdivshowtrue = function(val){
+
+// $scope.advisors[$scope.advisortoview].appointmentTimes
 
 // Should be this if you were a good programmer
 // $scope.advisortimes = new Array($scope.advisors[val].appointmentTimes.length/4); 
@@ -197,11 +225,7 @@ $scope.checkdayempty = new Array(false,false,false,false,false,false,false);
 $scope.advisortoview = val;
 $scope.divshow = '1'; 
 
-
-
 for (var i = 0; i < 24; i++) {
-
-
 
 $scope.advisortimes[i] = new Array();
 
@@ -239,9 +263,6 @@ $scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['SA'][(i*4)]);
 $scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['SA'][(i*4)+1]);
 $scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['SA'][(i*4)+2]);
 $scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['SA'][(i*4)+3]);
-
-
-
 }
 // console.log(JSON.stringify($scope.advisortimes));
 // console.table($scope.advisortimes);
@@ -280,10 +301,7 @@ $scope.indextotime = function(idx){
 
 
 
-$scope.debug = function()
-{
-console.log('appttimes: '+JSON.stringify($scope.advisors[0].appointmentTimes));
-}
+
 
 
     }

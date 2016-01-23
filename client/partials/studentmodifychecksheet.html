@@ -1,5 +1,20 @@
 <div ng-controller="studentmodifychecksheetcontroller">
+ <div class="page-header" style="font-size:120%">
+        <!-- <a href="#" ng-click = "settemplateURL('partials/radvisor.html')"> <i class="fa fa-fw fa-times"></i> Cancel registering advisor </a>&nbsp;&nbsp;&nbsp;
+<a href="#"  ng-click="showme=true"> <i class="fa fa-fw fa-plus-circle"></i> Add multiple advisors </a> -->
 
+
+        &nbsp;&nbsp;&nbsp;
+        <a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
+        &nbsp;&nbsp;&nbsp;
+
+    </div>
+
+<div class="panel panel-default">
+  <div class="panel-body" style="font-size:125%">
+     You are about to make modifications to checksheet. <b>Note that the changes are not saved until you submit your checksheet to database.</b> Manaual modification of checksheet slots is generally unadvised unless absolutely necessary. Refer to documentation for more information. 
+  </div>
+</div>
 
 <div  ng-if="divshow!='1'">
 
@@ -25,11 +40,7 @@
 
 
 <div class="row page-header">  <h3>{{checksheetinview.name}}</h3></div> <br>
-<div class="panel panel-default">
-  <div class="panel-body" style="font-size:125%">
-     You are about to make modifications to checksheet. <b>Note that the changes are not saved until you submit your checksheet to database.</b> Manaual modification of checksheet slots is generally unadvised unless absolutely necessary. Refer to documentation for more information. 
-  </div>
-</div>
+
 <button style="font-size:135%" ng-click="submitchecksheetdata()" confirm="WARNING: You are about to update your checksheet information. Are you sure?" confirm-ok="Yes" confirm-cancel="No" confirm-title="Updating {{checksheetinview.name}}.."><i class="fa fa-floppy-o"></i> Save and submit to database</button><br><br>
 
 

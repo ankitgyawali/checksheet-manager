@@ -1,5 +1,22 @@
 <div ng-controller="studentadvisingappointmentController">
 
+    <div class="page-header" style="font-size:120%">
+        <!-- <a href="#" ng-click = "settemplateURL('partials/radvisor.html')"> <i class="fa fa-fw fa-times"></i> Cancel registering advisor </a>&nbsp;&nbsp;&nbsp;
+<a href="#"  ng-click="showme=true"> <i class="fa fa-fw fa-plus-circle"></i> Add multiple advisors </a> -->
+
+
+        &nbsp;&nbsp;&nbsp;
+        <a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
+        &nbsp;&nbsp;&nbsp;
+
+    </div>
+
+<div class="panel panel-default">
+  <div class="panel-body" style="font-size:125%">
+    Advising appointment times can be set in the interval of certain time limits. After setting up an advisement slot, submit the appointment request to the database so that your advisor is aware of your appointment request.
+  </div>
+</div>
+
 
 	<div  ng-if="divshow!='1'">
 
@@ -20,28 +37,56 @@
 </div>
 
 <div  ng-if="divshow=='1'">
-<br><b>
-Advisor appointment times</b>
-<br><br>
-<button> << Previous Week </button>
-<button> This Week </button>
-<button> Next Week >> </button>
+<br>
+
+    <div class="btn-group">
+        <label class="btn btn-primary" ng-model="dayindex" uib-btn-radio="'0'"><< Previous Week</label>
+        <label class="btn btn-primary" ng-model="dayindex" uib-btn-radio="'1'"  ng-init="dayindex='1'">Current Week</label>
+        <label class="btn btn-primary" ng-model="dayindex" uib-btn-radio="'2'">Next Week >></label>
+         <label class="btn btn-primary" ng-model="dayindex" uib-btn-radio="'3'" >Week After >> >></label>
+    </div>
+    <div>
+
 <button ng-click="debug()"> CONSOLE LOG !@#!@#!@ </button>
  <br><br>
+<div class="panel panel-default">
+  <div class="panel-body" style="font-size:125%">
+ <div class="row container">
 
+ 	 	<div class="col-sm-2" style="font-size:125%"> <u>
+			<b>Color Codes:<b></u>
+ 	</div>
+
+	<div class="col-sm-2 appointment_green"> 
+			Slot available
+ 	</div>
+
+ 	<div class="col-sm-2 appointment_yellow"> 
+			Slot taken 
+ 	</div>
+
+ 	<div class="col-sm-2 appointment_red"> 
+			Slot Unavailable
+ 	</div>
+ 	</div> 	</div>
+ 
+
+ 
+ </div>
+ <br><br>
+<b><u>
+Advisor appointment times</u></b> <br><br>
 
   <div class="table">          
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th>Times</th>
-        <th>Sunday</th>
-        <th>Monday</th>
-        <th>Tuesday</th>
-        <th>Wednesday</th>
-        <th>Thursday</th>
-        <th>Friday</th>
-        <th>Saturday</th>
+      	<th>Times</th>
+        <th ng-repeat="dateday in dateArray[dayindex]">
+     	{{dateday | date:'MMMM dd, yyyy'}} <br>
+     	({{dateday | date:'EEEE'}}) <br>
+     </th>
+
       </tr>
     </thead>
     <tbody>
