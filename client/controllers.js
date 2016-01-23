@@ -171,6 +171,115 @@ angular.module('smApp').controller('studentadvisingappointmentController',
 $scope.date = new Date();
 $scope.newdate = $scope.date.setDate($scope.date.getDate() - 41);
 
+$scope.converInt = function(idx){
+    return (Math.floor(idx/4)+1);
+}
+
+
+
+
+
+$scope.divshow = '0'; 
+
+// //TODO: UNCOMMENT BELOW TWO LINE WHEN DONE??
+// $scope.advisortoview = 0;
+// $scope.divshow = '1';
+
+
+$scope.setdivshowtrue = function(val){
+
+// Should be this if you were a good programmer
+// $scope.advisortimes = new Array($scope.advisors[val].appointmentTimes.length/4); 
+$scope.advisortimes = new Array(24);
+$scope.checkdayempty = new Array(false,false,false,false,false,false,false);
+
+// $scope.advisortimes = $scope.advisors[val].appointmentTimes;
+$scope.advisortoview = val;
+$scope.divshow = '1'; 
+
+
+
+for (var i = 0; i < 24; i++) {
+
+
+
+$scope.advisortimes[i] = new Array();
+
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['S'][(i*4)]);
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['S'][(i*4)+1]);
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['S'][(i*4)+2]);
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['S'][(i*4)+3]);
+
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['M'][(i*4)]);
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['M'][(i*4)+1]);
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['M'][(i*4)+2]);
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['M'][(i*4)+3]);
+
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['T'][(i*4)]);
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['T'][(i*4)+1]);
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['T'][(i*4)+2]);
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['T'][(i*4)+3]);
+
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['W'][(i*4)]);
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['W'][(i*4)+1]);
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['W'][(i*4)+2]);
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['W'][(i*4)+3]);
+
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['TH'][(i*4)]);
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['TH'][(i*4)+1]);
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['TH'][(i*4)+2]);
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['TH'][(i*4)+3]);
+
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['F'][(i*4)]);
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['F'][(i*4)+1]);
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['F'][(i*4)+2]);
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['F'][(i*4)+3]);
+
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['SA'][(i*4)]);
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['SA'][(i*4)+1]);
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['SA'][(i*4)+2]);
+$scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['SA'][(i*4)+3]);
+
+
+
+}
+// console.log(JSON.stringify($scope.advisortimes));
+// console.table($scope.advisortimes);
+// console.log($scope.advisortimes.length);
+
+ console.log('xx: '+JSON.stringify($scope.checkdayempty));
+
+
+}
+
+
+
+$scope.apptslotclick = function(hourinDay,timeSlotandDay){
+console.log('houridDay: '+hourinDay);
+console.log('timeSlotandDay: '+timeSlotandDay);
+}
+
+$scope.indextotime = function(idx){
+
+    if(idx==0 || idx==24){
+    return '12 AM';    
+    }
+    else if(idx ==12){
+    return '12 PM';      
+    }
+    else if(idx <12){
+    return idx + ' AM';       
+    }
+    else
+    {
+    return idx%12 + ' PM';   
+    }
+
+}
+
+
+
+
 $scope.debug = function()
 {
 console.log('appttimes: '+JSON.stringify($scope.advisors[0].appointmentTimes));

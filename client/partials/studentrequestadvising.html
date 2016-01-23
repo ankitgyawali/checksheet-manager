@@ -1,4 +1,26 @@
-<div ng-controller="studentadvisingappointmentController"><br><b>
+<div ng-controller="studentadvisingappointmentController">
+
+
+	<div  ng-if="divshow!='1'">
+
+
+	<div class="panel panel-default container" style="font-size:125%">
+		
+		<br>
+		Choose advisor to schedule appointment with continue<br><br>
+		<ul>
+		<li ng-repeat="advisor in advisors track by $index">
+				<a href="#" ng-model="advisortoview" ng-click="setdivshowtrue($index)">{{advisor.firstname}} {{advisor.lastname}}</a>
+		</li>			
+
+		</ul> <br>
+	</div>
+
+
+</div>
+
+<div  ng-if="divshow=='1'">
+<br><b>
 Advisor appointment times</b>
 <br><br>
 <button> << Previous Week </button>
@@ -8,22 +30,123 @@ Advisor appointment times</b>
  <br><br>
 
 
-  <div class="table-responsive table-bordered">          
-  <table class="table">
+  <div class="table">          
+  <table class="table table-bordered">
     <thead>
       <tr>
         <th>Times</th>
         <th>Sunday</th>
         <th>Monday</th>
         <th>Tuesday</th>
+        <th>Wednesday</th>
         <th>Thursday</th>
         <th>Friday</th>
         <th>Saturday</th>
       </tr>
     </thead>
     <tbody>
-<tr ng-repeat="(key, value) in data">
-  <td> {{key}} </td> <td> {{ value[0] }} </td>
+
+
+<!--     	<tr ng-repeat="(key, value) in advisors[0].appointmentTimes"> -->
+<tr ng-repeat="hour in advisortimes track by $index">
+<!--   <td> <span ng-bind="integerdivValue" ng-init="integerdivValue=converInt($index)">{{$integerdivValue}}</span> : {{($index%4)*15}} </td>  -->
+	<td>{{indextotime($index+1)}} to {{indextotime($index+2)}}</td>
+ <td class="row">
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[0] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'0')">{{ indextotime($index+1) | limitTo:2 }}:00 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:15 </div>
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[1] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'1')">{{ indextotime($index+1) | limitTo:2 }}:15 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:30 </div>
+
+
+ 	<div style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[2] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'2')">{{ indextotime($index+1) | limitTo:2 }}:30 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:45 </div>	
+
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[3] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'3')">{{ indextotime($index+1) | limitTo:2 }}:45 <br>to<br> {{ indextotime($index+2) | limitTo:2 }}:00 </div>
+
+ </td>
+
+ <td class="row">
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[4] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'4')">{{ indextotime($index+1) | limitTo:2 }}:00 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:15 </div>
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[5] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'5')">{{ indextotime($index+1) | limitTo:2 }}:15 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:30 </div>
+
+
+ 	<div style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[6] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'6')">{{ indextotime($index+1) | limitTo:2 }}:30 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:45 </div>	
+
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[7] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'7')">{{ indextotime($index+1) | limitTo:2 }}:45 <br>to<br> {{ indextotime($index+2) | limitTo:2 }}:00 </div>
+
+ </td>
+  <td class="row">
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[8] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'8')">{{ indextotime($index+1) | limitTo:2 }}:00 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:15 </div>
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[9] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'9')">{{ indextotime($index+1) | limitTo:2 }}:15 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:30 </div>
+
+
+ 	<div style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[10] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'10')">{{ indextotime($index+1) | limitTo:2 }}:30 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:45 </div>	
+
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[11] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'11')">{{ indextotime($index+1) | limitTo:2 }}:45 <br>to<br> {{ indextotime($index+2) | limitTo:2 }}:00 </div>
+
+ </td>
+  <td class="row">
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[12] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'12')">{{ indextotime($index+1) | limitTo:2 }}:00 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:15 </div>
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[13] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'13')">{{ indextotime($index+1) | limitTo:2 }}:15 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:30 </div>
+
+
+ 	<div style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[14] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'14')">{{ indextotime($index+1) | limitTo:2 }}:30 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:45 </div>	
+
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[15] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'15')">{{ indextotime($index+1) | limitTo:2 }}:45 <br>to<br> {{ indextotime($index+2) | limitTo:2 }}:00 </div>
+
+ </td>
+  <td class="row">
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[16] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'16')">{{ indextotime($index+1) | limitTo:2 }}:00 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:15 </div>
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[17] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'17')">{{ indextotime($index+1) | limitTo:2 }}:15 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:30 </div>
+
+
+ 	<div style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[18] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'18')">{{ indextotime($index+1) | limitTo:2 }}:30 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:45 </div>	
+
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[19] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'19')">{{ indextotime($index+1) | limitTo:2 }}:45 <br>to<br> {{ indextotime($index+2) | limitTo:2 }}:00 </div>
+
+ </td>
+  <td class="row">
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[20] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'20')">{{ indextotime($index+1) | limitTo:2 }}:00 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:15 </div>
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[21] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'21')">{{ indextotime($index+1) | limitTo:2 }}:15 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:30 </div>
+
+
+ 	<div style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[22] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'22')">{{ indextotime($index+1) | limitTo:2 }}:30 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:45 </div>	
+
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[23] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'23')">{{ indextotime($index+1) | limitTo:2 }}:45 <br>to<br> {{ indextotime($index+2) | limitTo:2 }}:00 </div>
+
+ </td>
+  <td class="row">
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[24] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'24')">{{ indextotime($index+1) | limitTo:2 }}:00 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:15 </div>
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[25] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'25')">{{ indextotime($index+1) | limitTo:2 }}:15 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:30 </div>
+
+
+ 	<div style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[26] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'26')">{{ indextotime($index+1) | limitTo:2 }}:30 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:45 </div>	
+
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[27] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'27')">{{ indextotime($index+1) | limitTo:2 }}:45 <br>to<br> {{ indextotime($index+2) | limitTo:2 }}:00 </div>
+
+ </td>
+
+
+
+
 </tr>
     </tbody>
   </table>
@@ -35,21 +158,7 @@ Advisor appointment times</b>
 <br>
  {{date | date:'MMMM dd, yyyy'}}
 <br>
- Request advising.Request advising.
-
-{{advisors[0].appointmentTimes}}
 
 
-<table>
-	<tr ng-repeat="(key, value) in advisors[0].appointmentTimes">
-	<td>
-		
-		{{value}}
-	</td> </tr>
-
-</table>
-
-
-controllerjs line 106
-
+</div>
 </div>
