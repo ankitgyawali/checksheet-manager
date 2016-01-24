@@ -24,7 +24,7 @@
 	<div class="panel panel-default container" style="font-size:125%">
 		
 		<br>
-		Choose advisor to schedule appointment with continue<br><br>
+		Choose advisor to schedule appointment with to continue<br><br>
 		<ul>
 		<li ng-repeat="advisor in advisors track by $index">
 				<a href="#" ng-model="advisortoview" ng-click="setdivshowtrue($index)">{{advisor.firstname}} {{advisor.lastname}}</a>
@@ -47,7 +47,7 @@
     </div>
     <div>
 
-<button ng-click="debug()"> CONSOLE LOG !@#!@#!@ </button>
+
  <br><br>
 <div class="panel panel-default">
   <div class="panel-body" style="font-size:125%">
@@ -83,8 +83,14 @@ Advisor appointment times</u></b> <br><br>
       <tr>
       	<th>Times</th>
         <th ng-repeat="dateday in dateArray[dayindex]">
+        		<div style="background-color:black;color:white;border:1px solid black;text-align: center;border-radius:5px" ng-if="dateday.getDate()==todayfullDay.getDate() && dateday.getMonth()==todayfullDay.getMonth()"> TODAY </div>
+        		
      	{{dateday | date:'MMMM dd, yyyy'}} <br>
      	({{dateday | date:'EEEE'}}) <br>
+
+
+
+     
      </th>
 
       </tr>

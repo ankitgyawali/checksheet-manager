@@ -164,8 +164,8 @@ angular.module('smApp').controller('studentController',
 
 // Student controller that handles student dashboard and student operation
 angular.module('smApp').controller('studentadvisingappointmentController',
-  ['$scope', '$routeParams','$location', 'notificationFactory', 'AuthService','$http', 
-   function ($scope, $routeParams,$location, notificationFactory, AuthService,$http) {
+  ['$scope', '$routeParams','$location', 'notificationFactory', 'AuthService','$http','$uibModal', 
+   function ($scope, $routeParams,$location, notificationFactory, AuthService,$http,$uibModal) {
 
 $scope.date = new Date();
 $scope.newdate = $scope.date.setDate($scope.date.getDate() - 41);
@@ -179,9 +179,10 @@ $scope.divshow = '0';
 
  // var d = new Date();
  // d.setDate(d.getDate()-5);
-
+$scope.todayfullDay = new Date();
 $scope.today = new Date().getDay();
 $scope.lastweekBegin = new Date();
+
 
 //8 instead of  7 cuz 1 is being added later
 $scope.lastweekBegin = new Date($scope.lastweekBegin.setDate($scope.lastweekBegin.getDate() - (8+ ($scope.today))));
@@ -274,12 +275,6 @@ $scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['SA'][(i*4)+3]
 }
 
 
-
-$scope.apptslotclick = function(hourinDay,timeSlotandDay){
-console.log('houridDay: '+hourinDay);
-console.log('timeSlotandDay: '+timeSlotandDay);
-}
-
 $scope.indextotime = function(idx){
 
     if(idx==0 || idx==24){
@@ -299,13 +294,82 @@ $scope.indextotime = function(idx){
 }
 
 
+$scope.apptslotclick = function(hourinDay,timeSlotandDay){
+          var modalInstance = $uibModal.open({
+                templateUrl: 'partials/apptmakermodal.html',
+                controller: 'apptmakerController',
+                scope: $scope,
+                resolve: {
+                    hourinDay: function() {
+                        return hourinDay;
+                    },
+                    timeSlotandDay: function() {
+                        return timeSlotandDay;
+                    }
+                }
+            });
+
+}
+
+
+ }]);
+
+
+angular.module('smApp').controller('apptmakerController',
+  ['$scope', '$location', 'notificationFactory', 'AuthService','$http','$uibModalInstance','hourinDay','timeSlotandDay', 
+   function ($scope, $location, notificationFactory, AuthService,$http,$uibModalInstance,hourinDay,timeSlotandDay) {
+
+$scope.buttondisabled = true;
+
+$scope.unlockSubmit = function(){
+
+    $scope.buttondisabled = !$scope.buttondisabled
+}
 
 
 
+$scope.submitappointmentrequest = function(){
+    console.log('ok');
+    $uibModalInstance.dismiss('cancel');
+}
 
 
+$scope.hourinDay = hourinDay;
+$scope.timeSlotandDay = timeSlotandDay;
+// console.log(JSON.stringify($scope.advisortimes));
+$scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+$scope.indextodayarray = function(a,b){
+    return ((parseInt(a)*4)+(Math.floor(b%4)));
+}
+  $scope.indextoday = function(idx){
+    $scope.switchindex = (Math.floor(idx/4));
+
+console.log($scope.switchindex)
+    switch($scope.switchindex) {
+    case 0:
+        return 'S';
+    case 1:
+        return 'M';
+    case 2:
+        return 'T';
+    case 3:
+        return 'W';
+    case 4:
+        return 'TH';
+    case 5:
+        return 'F';
+    case 6:
+        return 'SA';
     }
-]);
+
+  }
+
+ }]);
+
+
 
 
 
@@ -496,8 +560,7 @@ else if($scope.checksheetinview.blockid[$scope.pid].details[$scope.id].prerequis
 
 
 $scope.locksubmits = function(){
-    console.log("pid:"+$scope.pid)
-    console.log("id:"+$scope.id)
+
     $scope.buttondisabled = !$scope.buttondisabled
  
     
