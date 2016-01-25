@@ -1,3 +1,20 @@
+$scope.advisors[$scope.advisortoview].appointmentTimes[day][index].note.push($scope.appointmentEdit.note);
+$scope.advisors[$scope.advisortoview].appointmentTimes[day][index].studentid.push(AuthService.getuserid());
+$scope.advisors[$scope.advisortoview].appointmentTimes[day][index].appointmentRequestTime.push($scope.todayfullDay);
+$scope.advisors[$scope.advisortoview].appointmentTimes[day][index].appointmentDate.push($scope.dateday);
+
+
+
+
+
+
+note
+studentid
+appointmentRequestTime
+appointmentDate
+
+
+
 Collection -> Document
 
 ##
