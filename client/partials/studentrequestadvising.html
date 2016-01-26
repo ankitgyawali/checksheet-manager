@@ -104,96 +104,102 @@ Advisor appointment times</u></b> <br><br>
 	<td>{{indextotime($index+1)}} to {{indextotime($index+2)}}</td>
  <td class="row">
 
- 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[0].state=='true' ? (findifSlotTaken(dateArray[dayindex][0])=='1' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'0',dateArray[dayindex][0])"> 
-   {{findifSlotTaken(dateArray[dayindex][0])}}
-    {{ indextotime($index+1) | limitTo:2 }}:00 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:15 </div>
-
- 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[0].state=='true' ? (findifSlotTaken(dateArray[dayindex][0])=='1' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'1',dateArray[dayindex][0])">{{ indextotime($index+1) | limitTo:2 }}:15 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:30 </div>
+ 	<div style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[0].state=='true' ? ((findifSlotTaken(dateArray[dayindex][0],hour[0].appointmentDate,$index,'0'))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'0',dateArray[dayindex][0],findifSlotTaken(dateArray[dayindex][0],hour[0].appointmentDate,$index,'0'))"> 
 
 
- 	<div style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[2] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'2',dateArray[dayindex][0])">{{ indextotime($index+1) | limitTo:2 }}:30 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:45 </div>	
 
+  {{ indextotime($index+1) | limitTo:2 }}:00 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:15 </div>
 
- 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[3] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'3',dateArray[dayindex][0])">{{ indextotime($index+1) | limitTo:2 }}:45 <br>to<br> {{ indextotime($index+2) | limitTo:2 }}:00 </div>
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[1].state=='true' ? ((findifSlotTaken(dateArray[dayindex][0],hour[1].appointmentDate,$index,'1'))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'1',dateArray[dayindex][0],findifSlotTaken(dateArray[dayindex][0],hour[1].appointmentDate,$index,'1'))">
+
+    {{ indextotime($index+1) | limitTo:2 }}:15 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:30 </div>
+
+ 	<div style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[2].state=='true' ? ((findifSlotTaken(dateArray[dayindex][0],hour[2].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'2',dateArray[dayindex][0],findifSlotTaken(dateArray[dayindex][0],hour[2].appointmentDate))">
+    {{ indextotime($index+1) | limitTo:2 }}:30 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:45 </div>	
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[3].state=='true' ? ((findifSlotTaken(dateArray[dayindex][0],hour[3].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'3',dateArray[dayindex][0],findifSlotTaken(dateArray[dayindex][0],hour[3].appointmentDate))">
+
+    {{ indextotime($index+1) | limitTo:2 }}:45 <br>to<br> {{ indextotime($index+2) | limitTo:2 }}:00 </div>
 
  </td>
 
  <td class="row">
 
- 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[4] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'4',dateArray[dayindex][1])">{{ indextotime($index+1) | limitTo:2 }}:00 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:15 </div>
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[4].state=='true' ? ((findifSlotTaken(dateArray[dayindex][1],hour[4].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'4',dateArray[dayindex][1],findifSlotTaken(dateArray[dayindex][1],hour[4].appointmentDate))">
 
- 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[5] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'5',dateArray[dayindex][1])">{{ indextotime($index+1) | limitTo:2 }}:15 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:30 </div>
+    {{ indextotime($index+1) | limitTo:2 }}:00 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:15 </div>
 
-
- 	<div style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[6] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'6',dateArray[dayindex][1])">{{ indextotime($index+1) | limitTo:2 }}:30 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:45 </div>	
-
-
- 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[7] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'7',dateArray[dayindex][1])">{{ indextotime($index+1) | limitTo:2 }}:45 <br>to<br> {{ indextotime($index+2) | limitTo:2 }}:00 </div>
-
- </td>
-  <td class="row">
-
- 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[8] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'8',dateArray[dayindex][2])">{{ indextotime($index+1) | limitTo:2 }}:00 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:15 </div>
-
- 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[9] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'9',dateArray[dayindex][2])">{{ indextotime($index+1) | limitTo:2 }}:15 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:30 </div>
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[5].state=='true' ? ((findifSlotTaken(dateArray[dayindex][1],hour[5].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'5',dateArray[dayindex][1],findifSlotTaken(dateArray[dayindex][1],hour[5].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:15 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:30 </div>
 
 
- 	<div style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[10] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'10',dateArray[dayindex][2])">{{ indextotime($index+1) | limitTo:2 }}:30 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:45 </div>	
+ 	<div style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[6].state=='true' ? ((findifSlotTaken(dateArray[dayindex][1],hour[6].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'6',dateArray[dayindex][1],findifSlotTaken(dateArray[dayindex][1],hour[6].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:30 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:45 </div>	
 
 
- 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[11] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'11',dateArray[dayindex][2])">{{ indextotime($index+1) | limitTo:2 }}:45 <br>to<br> {{ indextotime($index+2) | limitTo:2 }}:00 </div>
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[7].state=='true' ? ((findifSlotTaken(dateArray[dayindex][1],hour[7].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'7',dateArray[dayindex][1],findifSlotTaken(dateArray[dayindex][1],hour[7].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:45 <br>to<br> {{ indextotime($index+2) | limitTo:2 }}:00 </div>
 
  </td>
   <td class="row">
 
- 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[12] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'12',dateArray[dayindex][3])">{{ indextotime($index+1) | limitTo:2 }}:00 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:15 </div>
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[8].state=='true' ? ((findifSlotTaken(dateArray[dayindex][2],hour[8].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'8',dateArray[dayindex][2],findifSlotTaken(dateArray[dayindex][2],hour[8].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:00 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:15 </div>
 
- 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[13] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'13',dateArray[dayindex][3])">{{ indextotime($index+1) | limitTo:2 }}:15 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:30 </div>
-
-
- 	<div style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[14] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'14',dateArray[dayindex][3])">{{ indextotime($index+1) | limitTo:2 }}:30 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:45 </div>	
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[9].state=='true' ? ((findifSlotTaken(dateArray[dayindex][2],hour[9].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'9',dateArray[dayindex][2],findifSlotTaken(dateArray[dayindex][2],hour[9].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:15 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:30 </div>
 
 
- 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[15] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'15',dateArray[dayindex][3])">{{ indextotime($index+1) | limitTo:2 }}:45 <br>to<br> {{ indextotime($index+2) | limitTo:2 }}:00 </div>
-
- </td>
-  <td class="row">
-
- 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[16] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'16',dateArray[dayindex][4])">{{ indextotime($index+1) | limitTo:2 }}:00 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:15 </div>
-
- 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[17] ? 'appointment_green' : 'appointment_red'"  ng-click="apptslotclick($index,'17',dateArray[dayindex][4])">{{ indextotime($index+1) | limitTo:2 }}:15 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:30 </div>
+ 	<div style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[10].state=='true' ? ((findifSlotTaken(dateArray[dayindex][2],hour[10].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'10',dateArray[dayindex][2],findifSlotTaken(dateArray[dayindex][2],hour[10].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:30 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:45 </div>	
 
 
- 	<div style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[18] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'18',dateArray[dayindex][4])">{{ indextotime($index+1) | limitTo:2 }}:30 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:45 </div>	
-
-
- 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[19] ? 'appointment_green' : 'appointment_red'"  ng-click="apptslotclick($index,'19',dateArray[dayindex][4])">{{ indextotime($index+1) | limitTo:2 }}:45 <br>to<br> {{ indextotime($index+2) | limitTo:2 }}:00 </div>
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[11].state=='true' ? ((findifSlotTaken(dateArray[dayindex][2],hour[11].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'11',dateArray[dayindex][2],findifSlotTaken(dateArray[dayindex][2],hour[11].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:45 <br>to<br> {{ indextotime($index+2) | limitTo:2 }}:00 </div>
 
  </td>
   <td class="row">
 
- 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[20] ? 'appointment_green' : 'appointment_red'"  ng-click="apptslotclick($index,'20',dateArray[dayindex][5])">{{ indextotime($index+1) | limitTo:2 }}:00 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:15 </div>
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[12].state=='true' ? ((findifSlotTaken(dateArray[dayindex][3],hour[12].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'12',dateArray[dayindex][3],findifSlotTaken(dateArray[dayindex][3],hour[12].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:00 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:15 </div>
 
- 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[21] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'21',dateArray[dayindex][5])">{{ indextotime($index+1) | limitTo:2 }}:15 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:30 </div>
-
-
- 	<div style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[22] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'22',dateArray[dayindex][5])">{{ indextotime($index+1) | limitTo:2 }}:30 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:45 </div>	
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[13].state=='true' ? ((findifSlotTaken(dateArray[dayindex][3],hour[13].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'13',dateArray[dayindex][3],findifSlotTaken(dateArray[dayindex][3],hour[13].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:15 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:30 </div>
 
 
- 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[23] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'23',dateArray[dayindex][5])">{{ indextotime($index+1) | limitTo:2 }}:45 <br>to<br> {{ indextotime($index+2) | limitTo:2 }}:00 </div>
+ 	<div style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[14].state=='true' ? ((findifSlotTaken(dateArray[dayindex][3],hour[14].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'14',dateArray[dayindex][3],findifSlotTaken(dateArray[dayindex][3],hour[14].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:30 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:45 </div>	
+
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[15].state=='true' ? ((findifSlotTaken(dateArray[dayindex][3],hour[15].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'15',dateArray[dayindex][3],findifSlotTaken(dateArray[dayindex][3],hour[15].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:45 <br>to<br> {{ indextotime($index+2) | limitTo:2 }}:00 </div>
 
  </td>
   <td class="row">
 
- 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[24] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'24',dateArray[dayindex][6])">{{ indextotime($index+1) | limitTo:2 }}:00 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:15 </div>
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[16].state=='true' ? ((findifSlotTaken(dateArray[dayindex][4],hour[16].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'16',dateArray[dayindex][4],findifSlotTaken(dateArray[dayindex][4],hour[16].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:00 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:15 </div>
 
- 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[25] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'25',dateArray[dayindex][6])">{{ indextotime($index+1) | limitTo:2 }}:15 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:30 </div>
-
-
- 	<div style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[26] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'26',dateArray[dayindex][6])">{{ indextotime($index+1) | limitTo:2 }}:30 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:45 </div>	
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[17].state=='true' ? ((findifSlotTaken(dateArray[dayindex][4],hour[17].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'"  ng-click="apptslotclick($index,'17',dateArray[dayindex][4],findifSlotTaken(dateArray[dayindex][4],hour[17].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:15 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:30 </div>
 
 
- 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[27] ? 'appointment_green' : 'appointment_red'" ng-click="apptslotclick($index,'27',dateArray[dayindex][6])">{{ indextotime($index+1) | limitTo:2 }}:45 <br>to<br> {{ indextotime($index+2) | limitTo:2 }}:00 </div>
+ 	<div style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[18].state=='true' ? ((findifSlotTaken(dateArray[dayindex][4],hour[18].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'18',dateArray[dayindex][4],findifSlotTaken(dateArray[dayindex][4],hour[18].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:30 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:45 </div>	
+
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[19].state=='true' ? ((findifSlotTaken(dateArray[dayindex][4],hour[19].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'"  ng-click="apptslotclick($index,'19',dateArray[dayindex][4],findifSlotTaken(dateArray[dayindex][4],hour[19].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:45 <br>to<br> {{ indextotime($index+2) | limitTo:2 }}:00 </div>
+
+ </td>
+  <td class="row">
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[20].state=='true' ? ((findifSlotTaken(dateArray[dayindex][5],hour[20].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'"  ng-click="apptslotclick($index,'20',dateArray[dayindex][5],findifSlotTaken(dateArray[dayindex][5],hour[20].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:00 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:15 </div>
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[21].state=='true' ? ((findifSlotTaken(dateArray[dayindex][5],hour[21].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'21',dateArray[dayindex][5],findifSlotTaken(dateArray[dayindex][5],hour[21].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:15 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:30 </div>
+
+
+ 	<div style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[22].state=='true' ? ((findifSlotTaken(dateArray[dayindex][5],hour[22].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'22',dateArray[dayindex][5],findifSlotTaken(dateArray[dayindex][5],hour[22].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:30 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:45 </div>	
+
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[23].state=='true' ? ((findifSlotTaken(dateArray[dayindex][5],hour[23].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'23',dateArray[dayindex][5],findifSlotTaken(dateArray[dayindex][5],hour[23].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:45 <br>to<br> {{ indextotime($index+2) | limitTo:2 }}:00 </div>
+
+ </td>
+  <td class="row">
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[24].state=='true' ? ((findifSlotTaken(dateArray[dayindex][6],hour[24].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'24',dateArray[dayindex][6],findifSlotTaken(dateArray[dayindex][6],hour[24].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:00 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:15 </div>
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[25].state=='true' ? ((findifSlotTaken(dateArray[dayindex][6],hour[25].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'25',dateArray[dayindex][6],findifSlotTaken(dateArray[dayindex][6],hour[25].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:15 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:30 </div>
+
+
+ 	<div style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[26].state=='true' ? ((findifSlotTaken(dateArray[dayindex][6],hour[26].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'26',dateArray[dayindex][6],findifSlotTaken(dateArray[dayindex][6],hour[26].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:30 <br>to<br> {{ indextotime($index+1) | limitTo:2 }}:45 </div>	
+
+
+ 	<div  style="border:1px solid black;cursor:pointer;" class="col-sm-6" ng-class="hour[27].state=='true' ? ((findifSlotTaken(dateArray[dayindex][6],hour[27].appointmentDate))!='0' ? 'appointment_yellow' : 'appointment_green') : 'appointment_red'" ng-click="apptslotclick($index,'27',dateArray[dayindex][6],findifSlotTaken(dateArray[dayindex][6],hour[27].appointmentDate))">{{ indextotime($index+1) | limitTo:2 }}:45 <br>to<br> {{ indextotime($index+2) | limitTo:2 }}:00 </div>
 
  </td>
 

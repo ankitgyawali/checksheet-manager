@@ -210,28 +210,46 @@ $scope.lastweekBegin = new Date($scope.lastweekBegin.setDate($scope.lastweekBegi
 }
 
 // This might need change
-$scope.findifSlotTaken = function(datetocheck){
+$scope.findifSlotTaken = function(datetocheck,hour,a,b){
+$scope.green = 0;
+  if(angular.isUndefinedOrNull(hour)) {
+    console.log('this is for primary undefined: '+a + ' and '+ b );
+console.log('yes hour is :  '+hour);
+   $scope.green = 0; }
+
+else
+{
+for(j=0;j<hour.length;j++){
+  if((datetocheck.getDate() == new Date(hour[j]).getDate()) && (datetocheck.getMonth()) == new Date(hour[j]).getMonth()){
+    console.log('this is for: '+a + ' and '+ b ); 
+    console.log('first day: ' + new Date(hour[j]).getDate() + 'second day: ' +datetocheck.getDate()+ 'first month: '+new Date(hour[j]).getMonth()+'second month: '+datetocheck.getMonth())
+    console.log('MATCHED');  
+    return '1';
+} // Main if else  
+
+}
+
+// console.log(datetocheck.getDate() + ' vs '+ new Date(hour[j]).getDate());
+// console.log(datetocheck.getMonth() + ' vs '+ new Date(hour[j]).getMonth());
+// console.log(datetocheck.getDate()==new Date(hour[j]).getDate());
+// console.log(datetocheck.getMonth()==new Date(hour[j]).getMonth());
+// console.log('first day: ' + new Date(hour[0]).getDate() + 'second day: ' +datetocheck.getDate()+ 'first month: '+new Date(hour[0]).getMonth()+'second month: '+datetocheck.getMonth())
+//      console.log('UNMATCHED');  
+// console.log('return in else outside for each -->this is for: '+a + ' and '+ b );
+   // return '0';
+}
+$scope.green  = $scope.green * 2;
+// console.log('this is for everything fails: '+a + ' and '+ b );
+// console.log('scope green  '+a + ' and '+ $scope.green );
+// console.log(' unmatched date cuz: '+ datetocheck.getDate() + ' and '+ new Date(hour[0]).getDate());
+// console.log('unmatched day cuz: '+ datetocheck.getMonth() + ' and '+ new Date(hour[0]).getMonth());
+// console.log( datetocheck.getDate() == new Date(hour[0]).getDate());
+// console.log( datetocheck.getMonth() == new Date(hour[0]).getMonth());
+// console.log('final:' + ((datetocheck.getDate() == new Date(hour[0]).getDate()) && (datetocheck.getMonth()) == new Date(hour[0]).getMonth()));
 
 
-    for (var i = 0; i < 24; i++) {
-            for (var j = 0; j < 28; j++) {
-            if(!(angular.isUndefinedOrNull($scope.advisortimes[i][j])) && !(angular.isUndefinedOrNull($scope.advisortimes[i][j].appointmentDate))) {
 
-            angular.forEach($scope.advisortimes[i][j].appointmentDate,function(value,index){
-            
-             if((datetocheck.getDate() == new Date(value).getDate()) && (datetocheck.getMonth()) == new Date(value).getMonth()){
-                console.log('first day: ' + new Date(value).getDate() + 'second day: ' +datetocheck.getDate()+ 'first month: '+new Date(value).getMonth()+'second month: '+datetocheck.getMonth())
-                return '1';
-            } // Main if else 
-
-
-            }); // For each appointment date
-                   
-            } // If slot is defined
-            } // For j
-        } //For i 
-
-return '-1';
+return $scope.green;
 }
 
 // //TODO: UNCOMMENT BELOW TWO LINE WHEN DONE??
@@ -241,7 +259,9 @@ return '-1';
 
 //Val to check if student can submit an appointment slot
 $scope.studentcanSubmit = '1';
-
+$scope.setstudentsubmit = function(val){
+  $scope.studentcanSubmit  = val;
+};
 
 $scope.setdivshowtrue = function(val){
 
@@ -269,7 +289,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)]
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)].studentid))){
 if($scope.advisors[val].appointmentTimes['S'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+   $scope.setstudentsubmit('0'); 
 }
 } }
 
@@ -278,7 +298,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+1].studentid))){
 if($scope.advisors[val].appointmentTimes['S'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+     $scope.setstudentsubmit('0'); 
 }
 } }
 
@@ -286,7 +306,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+2].studentid))){
 if($scope.advisors[val].appointmentTimes['S'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+     $scope.setstudentsubmit('0'); 
 }
 } }
 
@@ -294,7 +314,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+3].studentid))){
 if($scope.advisors[val].appointmentTimes['S'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+      $scope.setstudentsubmit('0'); 
 }
 } }
 
@@ -309,7 +329,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['M'][(i*4)]
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['M'][(i*4)].studentid))){
 if($scope.advisors[val].appointmentTimes['M'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+    $scope.setstudentsubmit('0'); 
 }
 } }
 
@@ -318,7 +338,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['M'][(i*4)+
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['M'][(i*4)+1].studentid))){
 if($scope.advisors[val].appointmentTimes['M'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+    $scope.setstudentsubmit('0'); 
 }
 } }
 
@@ -326,7 +346,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['M'][(i*4)+
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['M'][(i*4)+2].studentid))){
 if($scope.advisors[val].appointmentTimes['M'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+   $scope.setstudentsubmit('0');  
 }
 } }
 
@@ -334,7 +354,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['M'][(i*4)+
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['M'][(i*4)+3].studentid))){
 if($scope.advisors[val].appointmentTimes['M'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+     $scope.setstudentsubmit('0'); 
 }
 } }
 
@@ -347,7 +367,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['T'][(i*4)]
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['T'][(i*4)].studentid))){
 if($scope.advisors[val].appointmentTimes['T'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+    $scope.setstudentsubmit('0'); 
 }
 } }
 
@@ -356,7 +376,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['T'][(i*4)+
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['T'][(i*4)+1].studentid))){
 if($scope.advisors[val].appointmentTimes['T'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+   $scope.setstudentsubmit('0');  
 }
 } }
 
@@ -364,7 +384,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['T'][(i*4)+
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['T'][(i*4)+2].studentid))){
 if($scope.advisors[val].appointmentTimes['T'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+   $scope.setstudentsubmit('0'); 
 }
 } }
 
@@ -372,7 +392,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['T'][(i*4)+
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['T'][(i*4)+3].studentid))){
 if($scope.advisors[val].appointmentTimes['T'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+   $scope.setstudentsubmit('0'); 
 }
 } }
 
@@ -386,7 +406,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['W'][(i*4)]
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['W'][(i*4)].studentid))){
 if($scope.advisors[val].appointmentTimes['W'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+     $scope.setstudentsubmit('0'); 
 }
 } }
 
@@ -395,7 +415,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['W'][(i*4)+
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['W'][(i*4)+1].studentid))){
 if($scope.advisors[val].appointmentTimes['W'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+     $scope.setstudentsubmit('0'); 
 }
 } }
 
@@ -403,7 +423,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['W'][(i*4)+
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['W'][(i*4)+2].studentid))){
 if($scope.advisors[val].appointmentTimes['W'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+   $scope.setstudentsubmit('0');  
 }
 } }
 
@@ -411,7 +431,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['W'][(i*4)+
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['W'][(i*4)+3].studentid))){
 if($scope.advisors[val].appointmentTimes['W'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+   $scope.setstudentsubmit('0');  
 }
 } }
 
@@ -424,7 +444,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['TH'][(i*4)
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['TH'][(i*4)].studentid))){
 if($scope.advisors[val].appointmentTimes['TH'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+   $scope.setstudentsubmit('0'); 
 }
 } }
 
@@ -433,7 +453,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['TH'][(i*4)
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['TH'][(i*4)+1].studentid))){
 if($scope.advisors[val].appointmentTimes['TH'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+   $scope.setstudentsubmit('0');  
 }
 } }
 
@@ -441,7 +461,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['TH'][(i*4)
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['TH'][(i*4)+2].studentid))){
 if($scope.advisors[val].appointmentTimes['TH'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+    $scope.setstudentsubmit('0'); 
 }
 } }
 
@@ -449,7 +469,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['TH'][(i*4)
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['TH'][(i*4)+3].studentid))){
 if($scope.advisors[val].appointmentTimes['TH'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+   $scope.setstudentsubmit('0'); 
 }
 } }
 
@@ -463,7 +483,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)]
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)].studentid))){
 if($scope.advisors[val].appointmentTimes['S'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+   $scope.setstudentsubmit('0'); 
 }
 } }
 
@@ -472,7 +492,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+1].studentid))){
 if($scope.advisors[val].appointmentTimes['S'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+   $scope.setstudentsubmit('0');  
 }
 } }
 
@@ -480,7 +500,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+2].studentid))){
 if($scope.advisors[val].appointmentTimes['S'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+   $scope.setstudentsubmit('0'); 
 }
 } }
 
@@ -488,7 +508,7 @@ if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+3].studentid))){
 if($scope.advisors[val].appointmentTimes['S'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.studentcanSubmit = '0'; 
+   $scope.setstudentsubmit('0'); 
 }
 } }
 
@@ -524,7 +544,7 @@ $scope.indextotime = function(idx){
 }
 
 
-$scope.apptslotclick = function(hourinDay,timeSlotandDay,dateday){
+$scope.apptslotclick = function(hourinDay,timeSlotandDay,dateday,slotclass){
 
           var modalInstance = $uibModal.open({
                 templateUrl: 'partials/apptmakermodal.html',
@@ -539,6 +559,9 @@ $scope.apptslotclick = function(hourinDay,timeSlotandDay,dateday){
                     },
                     dateday: function() {
                         return dateday;
+                    },
+                    slotclass: function() {
+                        return slotclass;
                     }
 
                 }
@@ -577,14 +600,19 @@ $scope.submitAppointmentrequest = function(){
 
 
 angular.module('smApp').controller('apptmakerController',
-  ['$scope', '$location', 'notificationFactory', 'AuthService','$http','$uibModalInstance','hourinDay','timeSlotandDay','dateday', 
-   function ($scope, $location, notificationFactory, AuthService,$http,$uibModalInstance,hourinDay,timeSlotandDay,dateday) {
+  ['$scope', '$location', 'notificationFactory', 'AuthService','$http','$uibModalInstance','hourinDay','timeSlotandDay','dateday','slotclass', 
+   function ($scope, $location, notificationFactory, AuthService,$http,$uibModalInstance,hourinDay,timeSlotandDay,dateday,slotclass) {
 
 $scope.hourinDay = hourinDay;
 $scope.timeSlotandDay = timeSlotandDay;
 $scope.dateday = dateday;
 $scope.appointmentEdit = {};
 $scope.buttondisabled = true;
+$scope.slotclass = slotclass;
+console.log('hour in day + ');
+console.log();
+console.log();
+
 
 $scope.unlockSubmit = function(){
 
@@ -595,7 +623,7 @@ $scope.unlockSubmit = function(){
 
 
 $scope.submitappointmentrequest = function(day,index,hourinDay,timeSlotandDay){
-
+   $scope.setstudentsubmit('0'); 
 console.log('slot B44:'+$scope.findifSlotTaken($scope.dateday));
 
 if(angular.isUndefinedOrNull($scope.advisors[$scope.advisortoview].appointmentTimes[day][index].note)){
@@ -630,7 +658,7 @@ $scope.advisors[$scope.advisortoview].appointmentTimes[day][index].appointmentDa
 // $scope.advisors[$scope.advisortoview].appointmentTimes[day][index].note.push($scope.appointmentNote);
 // $scope.advisortimes[hourinDay][timeSlotandDay].note.push($scope.appointmentNote);
 $uibModalInstance.dismiss('cancel');
-$scope.studentcanSubmit = '0'; 
+   $scope.setstudentsubmit('0'); 
 
 console.log('slot should be taken now:'+$scope.findifSlotTaken($scope.dateday));
 

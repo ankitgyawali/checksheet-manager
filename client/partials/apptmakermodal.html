@@ -1,10 +1,53 @@
- <div ng-if="advisortimes[hourinDay][timeSlotandDay].state=='true'">
+  <div ng-if="advisortimes[hourinDay][timeSlotandDay].state=='true' && slotclass!='0'">
+        <div class="modal-header">
+            <h4 class="modal-title">Appointment slot already taken.. </h4>
+        </div> 
+
+        
+        <div class="modal-body">
+
+          This appointment slot has already been reserved.
+
+  </div>
+        <div class="modal-footer">
+         
+
+            <button class="btn btn-warning" type="button" ng-click="cancel()">OK</button> 
+
+        </div>
+</div>
+
+   <div ng-if="advisortimes[hourinDay][timeSlotandDay].state=='true' && slotclass=='0' && studentcanSubmit=='0'">
+        <div class="modal-header">
+            <h4 class="modal-title">Appointment request already made </h4>
+        </div> 
+
+        
+        <div class="modal-body">
+
+          You have already made an appointment. You can make a new appointment 10 days after your current appointment.
+
+  </div>
+        <div class="modal-footer">
+         
+
+            <button class="btn btn-warning" type="button" ng-click="cancel()">OK</button> 
+
+        </div>
+</div>
+
+
+
+
+
+   <div ng-if="advisortimes[hourinDay][timeSlotandDay].state=='true' && slotclass=='0' && studentcanSubmit=='1'">
         <div class="modal-header">
             <h4 class="modal-title">Reserving appointment slot.. </h4>
         </div> 
 
         <div class="modal-body">
-       
+     
+
             <div class="form-group row">
 <!--           {{hourinDay}}  or {{timeSlotandDay}}
           this is  GREEEN   <br>
