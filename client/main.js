@@ -1,6 +1,6 @@
 var smApp = angular.module('smApp', 
   ['ngRoute','ngCookies','angularUtils.directives.dirPagination',
-  'ui.bootstrap','angular.filter','angular-confirm','passwordModule']);
+  'ui.bootstrap','angular.filter','angular-confirm','passwordModule','nvd3']);
 
 smApp.config(function ($routeProvider) {
   $routeProvider

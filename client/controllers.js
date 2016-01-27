@@ -69,7 +69,7 @@ angular.module('smApp').controller('studentController',
       //Instantiates templateURL for dashboard constant at parent scope so subsequent child
         //controllers can modify it
 
-        $scope.templateURL = 'partials/studentviewchecksheet.html';
+        $scope.templateURL = 'partials/studentsummary.html';
         // $scope.templateURL = 'partials/student.html';
         //Get username and type at parent scope
         $scope.username = AuthService.getusername();
@@ -104,7 +104,7 @@ angular.module('smApp').controller('studentController',
                         }
                         else{
                              // $scope.settemplateURL("partials/studentrequestadvising.html");
-                             $scope.templateURL = "partials/studentviewchecksheet.html"
+                             $scope.templateURL = "partials/studentsummary.html"
                         }
                     })
                     .error(function(data, status, headers, config) {
@@ -160,6 +160,51 @@ angular.module('smApp').controller('studentController',
 
 
 }]);
+
+
+
+
+// Student controller that handles student dashboard and student operation
+angular.module('smApp').controller('studentsummarycontroller',
+  ['$scope', '$routeParams','$location', 'notificationFactory', 'AuthService','$http','$uibModal', 
+   function ($scope, $routeParams,$location, notificationFactory, AuthService,$http,$uibModal) {
+
+
+  $scope.options = {
+            chart: {
+                type: 'pieChart',
+                height: 500,
+                x: function(d){return d.key;},
+                y: function(d){return d.y;},
+                showLabels: true,
+                duration: 500,
+                labelThreshold: 0.01,
+                labelSunbeamLayout: true,
+                legend: {
+                    margin: {
+                        top: 5,
+                        right: 35,
+                        bottom: 5,
+                        left: 0
+                    }
+                }
+            }
+        };
+
+        $scope.data = [
+            {
+                key: "One",
+                y: 5
+            },
+            {
+                key: "Two",
+                y: 5
+            }
+        ];
+
+
+}]);
+
 
 
 // Student controller that handles student dashboard and student operation
@@ -959,6 +1004,7 @@ $scope.cancel = function () {
 
 
 
+
 angular.module('smApp').controller('modifyslotController',
   ['$scope', '$location', 'notificationFactory', 'AuthService','$http','$uibModalInstance','pid','id', 
    function ($scope, $location, notificationFactory, AuthService,$http,$uibModalInstance,pid,id) {
@@ -1142,13 +1188,18 @@ $scope.cancel = function () {
 
 }]);
 
+
+
+
 // Student controller that handles modification of student checksheet
 angular.module('smApp').controller('studentviewchecksheetcontroller',
   ['$scope', '$location', 'notificationFactory', 'AuthService','$http','$uibModal','$confirm', 
    function ($scope, $location, notificationFactory, AuthService,$http,$uibModal,$confirm) {
 
 
-
+$scope.printchecksheet = function(){
+    console.log("print checksheet.");
+}
 
                     $scope.divshow = '0'; 
                     $scope.setdivshowtrue = function(val){ 
@@ -1174,7 +1225,7 @@ angular.module('smApp').controller('studentviewchecksheetcontroller',
     }
    
  }
- 
+
 
 }]);
 
