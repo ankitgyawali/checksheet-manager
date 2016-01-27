@@ -69,7 +69,7 @@ angular.module('smApp').controller('studentController',
       //Instantiates templateURL for dashboard constant at parent scope so subsequent child
         //controllers can modify it
 
-        $scope.templateURL = 'partials/studentmodifychecksheet.html';
+        $scope.templateURL = 'partials/studentviewchecksheet.html';
         // $scope.templateURL = 'partials/student.html';
         //Get username and type at parent scope
         $scope.username = AuthService.getusername();
@@ -104,7 +104,7 @@ angular.module('smApp').controller('studentController',
                         }
                         else{
                              // $scope.settemplateURL("partials/studentrequestadvising.html");
-                             $scope.templateURL = "partials/studentrequestadvising.html"
+                             $scope.templateURL = "partials/studentviewchecksheet.html"
                         }
                     })
                     .error(function(data, status, headers, config) {
@@ -213,17 +213,17 @@ $scope.lastweekBegin = new Date($scope.lastweekBegin.setDate($scope.lastweekBegi
 $scope.findifSlotTaken = function(datetocheck,hour,a,b){
 $scope.green = 0;
   if(angular.isUndefinedOrNull(hour)) {
-    console.log('this is for primary undefined: '+a + ' and '+ b );
-console.log('yes hour is :  '+hour);
+//     console.log('this is for primary undefined: '+a + ' and '+ b );
+// console.log('yes hour is :  '+hour);
    $scope.green = 0; }
 
 else
 {
 for(j=0;j<hour.length;j++){
   if((datetocheck.getDate() == new Date(hour[j]).getDate()) && (datetocheck.getMonth()) == new Date(hour[j]).getMonth()){
-    console.log('this is for: '+a + ' and '+ b ); 
-    console.log('first day: ' + new Date(hour[j]).getDate() + 'second day: ' +datetocheck.getDate()+ 'first month: '+new Date(hour[j]).getMonth()+'second month: '+datetocheck.getMonth())
-    console.log('MATCHED');  
+    // console.log('this is for: '+a + ' and '+ b ); 
+    // console.log('first day: ' + new Date(hour[j]).getDate() + 'second day: ' +datetocheck.getDate()+ 'first month: '+new Date(hour[j]).getMonth()+'second month: '+datetocheck.getMonth())
+    // console.log('MATCHED');  
     return '1';
 } // Main if else  
 
@@ -256,7 +256,23 @@ return $scope.green;
 // $scope.advisortoview = 0;
 // $scope.divshow = '1';
 
+//Val to check if student can submit an appointment slot
+$scope.studentsaveSubmit = '0';
+$scope.setstudentsaveSubmit = function(val){
+  $scope.studentsaveSubmit  = val;
+};
 
+
+//Watch for changes in bloc description
+$scope.$watch('templateURL', function(newVal, oldVal) {
+if(oldVal=="partials/studentrequestadvising.html" &&  newVal!="partials/studentrequestadvising.html" && $scope.studentsaveSubmit=='1'){
+  $confirm({text: 'You are about to go to a different tab. Did you want to save the changes on your checksheet?', title: 'Save changes to checksheet', ok: 'Save changes', cancel: 'No'})
+        .then(function() {
+          $scope.submitAppointmentrequest();
+        });
+
+}
+});
 //Val to check if student can submit an appointment slot
 $scope.studentcanSubmit = '1';
 $scope.setstudentsubmit = function(val){
@@ -271,7 +287,7 @@ $scope.setdivshowtrue = function(val){
 // $scope.advisortimes = new Array($scope.advisors[val].appointmentTimes.length/4); 
 $scope.advisortimes = new Array(24);
 
-
+$scope.currentstudentdata = {};
 // $scope.advisortimes = $scope.advisors[val].appointmentTimes;
 $scope.advisortoview = val;
 $scope.divshow = '1'; 
@@ -288,33 +304,55 @@ $scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['S'][(i*4)+3])
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)])))
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)].studentid))){
-if($scope.advisors[val].appointmentTimes['S'][(i*4)].studentid == AuthService.getuserid()){
+for(var x=0;x<$scope.advisors[val].appointmentTimes['S'][(i*4)].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['S'][(i*4)].studentid[x] == AuthService.getuserid()){
    $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['S'][(i*4)].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['S'][(i*4)].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['S'][(i*4)].appointmentRequestTime[x];
 }
+}
+
+
 } }
 
 
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+1])))
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+1].studentid))){
-if($scope.advisors[val].appointmentTimes['S'][(i*4)].studentid == AuthService.getuserid()){
-     $scope.setstudentsubmit('0'); 
+for(var x=0;x<$scope.advisors[val].appointmentTimes['S'][(i*4)+1].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['S'][(i*4)+1].studentid[x] == AuthService.getuserid()){
+   $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['S'][(i*4)+1].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['S'][(i*4)+1].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['S'][(i*4)+1].appointmentRequestTime[x];
+}
 }
 } }
 
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+2])))
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+2].studentid))){
-if($scope.advisors[val].appointmentTimes['S'][(i*4)].studentid == AuthService.getuserid()){
-     $scope.setstudentsubmit('0'); 
+for(var x=0;x<$scope.advisors[val].appointmentTimes['S'][(i*4)+2].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['S'][(i*4)+2].studentid[x] == AuthService.getuserid()){
+   $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['S'][(i*4)+2].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['S'][(i*4)+2].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['S'][(i*4)+2].appointmentRequestTime[x];
+}
 }
 } }
 
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+3])))
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+3].studentid))){
-if($scope.advisors[val].appointmentTimes['S'][(i*4)].studentid == AuthService.getuserid()){
-      $scope.setstudentsubmit('0'); 
+for(var x=0;x<$scope.advisors[val].appointmentTimes['S'][(i*4)+3].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['S'][(i*4)+3].studentid[x] == AuthService.getuserid()){
+   $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['S'][(i*4)+3].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['S'][(i*4)+3].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['S'][(i*4)+3].appointmentRequestTime[x];
+}
 }
 } }
 
@@ -328,8 +366,13 @@ $scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['M'][(i*4)+3])
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['M'][(i*4)])))
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['M'][(i*4)].studentid))){
-if($scope.advisors[val].appointmentTimes['M'][(i*4)].studentid == AuthService.getuserid()){
-    $scope.setstudentsubmit('0'); 
+for(var x=0;x<$scope.advisors[val].appointmentTimes['M'][(i*4)].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['M'][(i*4)].studentid[x] == AuthService.getuserid()){
+   $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['M'][(i*4)].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['M'][(i*4)].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['M'][(i*4)].appointmentRequestTime[x];
+}
 }
 } }
 
@@ -337,24 +380,39 @@ if($scope.advisors[val].appointmentTimes['M'][(i*4)].studentid == AuthService.ge
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['M'][(i*4)+1])))
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['M'][(i*4)+1].studentid))){
-if($scope.advisors[val].appointmentTimes['M'][(i*4)].studentid == AuthService.getuserid()){
-    $scope.setstudentsubmit('0'); 
+for(var x=0;x<$scope.advisors[val].appointmentTimes['M'][(i*4)+1].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['M'][(i*4)+1].studentid[x] == AuthService.getuserid()){
+   $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['M'][(i*4)+1].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['M'][(i*4)+1].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['M'][(i*4)+1].appointmentRequestTime[x];
+}
 }
 } }
 
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['M'][(i*4)+2])))
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['M'][(i*4)+2].studentid))){
-if($scope.advisors[val].appointmentTimes['M'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.setstudentsubmit('0');  
+for(var x=0;x<$scope.advisors[val].appointmentTimes['M'][(i*4)+2].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['M'][(i*4)+2].studentid[x] == AuthService.getuserid()){
+   $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['M'][(i*4)+2].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['M'][(i*4)+2].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['M'][(i*4)+2].appointmentRequestTime[x];
+}
 }
 } }
 
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['M'][(i*4)+3])))
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['M'][(i*4)+3].studentid))){
-if($scope.advisors[val].appointmentTimes['M'][(i*4)].studentid == AuthService.getuserid()){
-     $scope.setstudentsubmit('0'); 
+for(var x=0;x<$scope.advisors[val].appointmentTimes['M'][(i*4)+3].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['M'][(i*4)+3].studentid[x] == AuthService.getuserid()){
+   $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['M'][(i*4)+3].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['M'][(i*4)+3].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['M'][(i*4)+3].appointmentRequestTime[x];
+}
 }
 } }
 
@@ -366,8 +424,13 @@ $scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['T'][(i*4)+3])
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['T'][(i*4)])))
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['T'][(i*4)].studentid))){
-if($scope.advisors[val].appointmentTimes['T'][(i*4)].studentid == AuthService.getuserid()){
-    $scope.setstudentsubmit('0'); 
+for(var x=0;x<$scope.advisors[val].appointmentTimes['T'][(i*4)].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['T'][(i*4)].studentid[x] == AuthService.getuserid()){
+   $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['T'][(i*4)].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['T'][(i*4)].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['T'][(i*4)].appointmentRequestTime[x];
+}
 }
 } }
 
@@ -375,24 +438,39 @@ if($scope.advisors[val].appointmentTimes['T'][(i*4)].studentid == AuthService.ge
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['T'][(i*4)+1])))
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['T'][(i*4)+1].studentid))){
-if($scope.advisors[val].appointmentTimes['T'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.setstudentsubmit('0');  
+for(var x=0;x<$scope.advisors[val].appointmentTimes['T'][(i*4)+1].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['T'][(i*4)+1].studentid[x] == AuthService.getuserid()){
+   $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['T'][(i*4)+1].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['T'][(i*4)+1].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['T'][(i*4)+1].appointmentRequestTime[x];
+}
 }
 } }
 
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['T'][(i*4)+2])))
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['T'][(i*4)+2].studentid))){
-if($scope.advisors[val].appointmentTimes['T'][(i*4)].studentid == AuthService.getuserid()){
+for(var x=0;x<$scope.advisors[val].appointmentTimes['T'][(i*4)+2].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['T'][(i*4)+2].studentid[x] == AuthService.getuserid()){
    $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['T'][(i*4)+2].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['T'][(i*4)+2].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['T'][(i*4)+2].appointmentRequestTime[x];
+}
 }
 } }
 
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['T'][(i*4)+3])))
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['T'][(i*4)+3].studentid))){
-if($scope.advisors[val].appointmentTimes['T'][(i*4)].studentid == AuthService.getuserid()){
+for(var x=0;x<$scope.advisors[val].appointmentTimes['T'][(i*4)+3].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['T'][(i*4)+3].studentid[x] == AuthService.getuserid()){
    $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['T'][(i*4)+3].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['T'][(i*4)+3].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['T'][(i*4)+3].appointmentRequestTime[x];
+}
 }
 } }
 
@@ -405,8 +483,13 @@ $scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['W'][(i*4)+3])
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['W'][(i*4)])))
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['W'][(i*4)].studentid))){
-if($scope.advisors[val].appointmentTimes['W'][(i*4)].studentid == AuthService.getuserid()){
-     $scope.setstudentsubmit('0'); 
+for(var x=0;x<$scope.advisors[val].appointmentTimes['W'][(i*4)].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['W'][(i*4)].studentid[x] == AuthService.getuserid()){
+   $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['W'][(i*4)].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['W'][(i*4)].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['W'][(i*4)].appointmentRequestTime[x];
+}
 }
 } }
 
@@ -414,24 +497,39 @@ if($scope.advisors[val].appointmentTimes['W'][(i*4)].studentid == AuthService.ge
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['W'][(i*4)+1])))
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['W'][(i*4)+1].studentid))){
-if($scope.advisors[val].appointmentTimes['W'][(i*4)].studentid == AuthService.getuserid()){
-     $scope.setstudentsubmit('0'); 
+for(var x=0;x<$scope.advisors[val].appointmentTimes['W'][(i*4)+1].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['W'][(i*4)+1].studentid[x] == AuthService.getuserid()){
+   $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['W'][(i*4)+1].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['W'][(i*4)+1].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['W'][(i*4)+1].appointmentRequestTime[x];
+}
 }
 } }
 
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['W'][(i*4)+2])))
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['W'][(i*4)+2].studentid))){
-if($scope.advisors[val].appointmentTimes['W'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.setstudentsubmit('0');  
+for(var x=0;x<$scope.advisors[val].appointmentTimes['W'][(i*4)+2].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['W'][(i*4)+2].studentid[x] == AuthService.getuserid()){
+   $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['W'][(i*4)+2].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['W'][(i*4)+2].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['W'][(i*4)+2].appointmentRequestTime[x];
+}
 }
 } }
 
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['W'][(i*4)+3])))
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['W'][(i*4)+3].studentid))){
-if($scope.advisors[val].appointmentTimes['W'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.setstudentsubmit('0');  
+for(var x=0;x<$scope.advisors[val].appointmentTimes['W'][(i*4)+3].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['W'][(i*4)+3].studentid[x] == AuthService.getuserid()){
+   $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['W'][(i*4)+3].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['W'][(i*4)+3].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['W'][(i*4)+3].appointmentRequestTime[x];
+}
 }
 } }
 
@@ -443,8 +541,13 @@ $scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['TH'][(i*4)+3]
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['TH'][(i*4)])))
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['TH'][(i*4)].studentid))){
-if($scope.advisors[val].appointmentTimes['TH'][(i*4)].studentid == AuthService.getuserid()){
+for(var x=0;x<$scope.advisors[val].appointmentTimes['TH'][(i*4)].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['TH'][(i*4)].studentid[x] == AuthService.getuserid()){
    $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['TH'][(i*4)].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['TH'][(i*4)].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['TH'][(i*4)].appointmentRequestTime[x];
+}
 }
 } }
 
@@ -452,24 +555,39 @@ if($scope.advisors[val].appointmentTimes['TH'][(i*4)].studentid == AuthService.g
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['TH'][(i*4)+1])))
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['TH'][(i*4)+1].studentid))){
-if($scope.advisors[val].appointmentTimes['TH'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.setstudentsubmit('0');  
+for(var x=0;x<$scope.advisors[val].appointmentTimes['TH'][(i*4)+1].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['TH'][(i*4)+1].studentid[x] == AuthService.getuserid()){
+   $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['TH'][(i*4)+1].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['TH'][(i*4)+1].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['TH'][(i*4)+1].appointmentRequestTime[x];
+}
 }
 } }
 
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['TH'][(i*4)+2])))
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['TH'][(i*4)+2].studentid))){
-if($scope.advisors[val].appointmentTimes['TH'][(i*4)].studentid == AuthService.getuserid()){
-    $scope.setstudentsubmit('0'); 
+for(var x=0;x<$scope.advisors[val].appointmentTimes['TH'][(i*4)+2].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['TH'][(i*4)+2].studentid[x] == AuthService.getuserid()){
+   $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['TH'][(i*4)+2].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['TH'][(i*4)+2].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['TH'][(i*4)+2].appointmentRequestTime[x];
+}
 }
 } }
 
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['TH'][(i*4)+3])))
 {
 if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['TH'][(i*4)+3].studentid))){
-if($scope.advisors[val].appointmentTimes['TH'][(i*4)].studentid == AuthService.getuserid()){
+for(var x=0;x<$scope.advisors[val].appointmentTimes['TH'][(i*4)+3].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['TH'][(i*4)+3].studentid[x] == AuthService.getuserid()){
    $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['TH'][(i*4)+3].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['TH'][(i*4)+3].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['TH'][(i*4)+3].appointmentRequestTime[x];
+}
 }
 } }
 
@@ -479,36 +597,56 @@ $scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['F'][(i*4)+1])
 $scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['F'][(i*4)+2]);
 $scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['F'][(i*4)+3]);
 
-if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)])))
+if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['F'][(i*4)])))
 {
-if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)].studentid))){
-if($scope.advisors[val].appointmentTimes['S'][(i*4)].studentid == AuthService.getuserid()){
+if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['F'][(i*4)].studentid))){
+for(var x=0;x<$scope.advisors[val].appointmentTimes['F'][(i*4)].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['F'][(i*4)].studentid[x] == AuthService.getuserid()){
    $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['F'][(i*4)].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['F'][(i*4)].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['F'][(i*4)].appointmentRequestTime[x];
+}
 }
 } }
 
 
-if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+1])))
+if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['F'][(i*4)+1])))
 {
-if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+1].studentid))){
-if($scope.advisors[val].appointmentTimes['S'][(i*4)].studentid == AuthService.getuserid()){
-   $scope.setstudentsubmit('0');  
+if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['F'][(i*4)+1].studentid))){
+for(var x=0;x<$scope.advisors[val].appointmentTimes['F'][(i*4)+1].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['F'][(i*4)+1].studentid[x] == AuthService.getuserid()){
+   $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['F'][(i*4)+1].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['F'][(i*4)+1].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['F'][(i*4)+1].appointmentRequestTime[x];
+}
 }
 } }
 
-if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+2])))
+if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['F'][(i*4)+2])))
 {
-if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+2].studentid))){
-if($scope.advisors[val].appointmentTimes['S'][(i*4)].studentid == AuthService.getuserid()){
+if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['F'][(i*4)+2].studentid))){
+for(var x=0;x<$scope.advisors[val].appointmentTimes['F'][(i*4)+2].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['F'][(i*4)+2].studentid[x] == AuthService.getuserid()){
    $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['F'][(i*4)+2].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['F'][(i*4)+2].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['F'][(i*4)+2].appointmentRequestTime[x];
+}
 }
 } }
 
-if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+3])))
+if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['F'][(i*4)+3])))
 {
-if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['S'][(i*4)+3].studentid))){
-if($scope.advisors[val].appointmentTimes['S'][(i*4)].studentid == AuthService.getuserid()){
+if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['F'][(i*4)+3].studentid))){
+for(var x=0;x<$scope.advisors[val].appointmentTimes['F'][(i*4)+3].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['F'][(i*4)+3].studentid[x] == AuthService.getuserid()){
    $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['F'][(i*4)+3].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['F'][(i*4)+3].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['F'][(i*4)+3].appointmentRequestTime[x];
+}
 }
 } }
 
@@ -517,6 +655,60 @@ $scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['SA'][(i*4)]);
 $scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['SA'][(i*4)+1]);
 $scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['SA'][(i*4)+2]);
 $scope.advisortimes[i].push($scope.advisors[val].appointmentTimes['SA'][(i*4)+3]);
+
+if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['SA'][(i*4)])))
+{
+if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['SA'][(i*4)].studentid))){
+for(var x=0;x<$scope.advisors[val].appointmentTimes['SA'][(i*4)].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['SA'][(i*4)].studentid[x] == AuthService.getuserid()){
+   $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['SA'][(i*4)].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['SA'][(i*4)].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['SA'][(i*4)].appointmentRequestTime[x];
+}
+}
+} }
+
+
+if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['SA'][(i*4)+1])))
+{
+if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['SA'][(i*4)+1].studentid))){
+for(var x=0;x<$scope.advisors[val].appointmentTimes['SA'][(i*4)+1].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['SA'][(i*4)+1].studentid[x] == AuthService.getuserid()){
+   $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['SA'][(i*4)+1].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['SA'][(i*4)+1].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['SA'][(i*4)+1].appointmentRequestTime[x];
+}
+}
+} }
+
+if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['SA'][(i*4)+2])))
+{
+if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['SA'][(i*4)+2].studentid))){
+for(var x=0;x<$scope.advisors[val].appointmentTimes['SA'][(i*4)+2].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['SA'][(i*4)+2].studentid[x] == AuthService.getuserid()){
+   $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['SA'][(i*4)+2].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['SA'][(i*4)+2].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['SA'][(i*4)+2].appointmentRequestTime[x];
+}
+}
+} }
+
+if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['SA'][(i*4)+3])))
+{
+if(!(angular.isUndefinedOrNull($scope.advisors[val].appointmentTimes['SA'][(i*4)+3].studentid))){
+for(var x=0;x<$scope.advisors[val].appointmentTimes['SA'][(i*4)+3].studentid.length;x++){
+if($scope.advisors[val].appointmentTimes['SA'][(i*4)+3].studentid[x] == AuthService.getuserid()){
+   $scope.setstudentsubmit('0'); 
+   $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['SA'][(i*4)+3].appointmentDate[x];
+   $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['SA'][(i*4)+3].note[x];
+    $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['SA'][(i*4)+3].appointmentRequestTime[x];
+}
+}
+} }
+
 }
 // console.log(JSON.stringify($scope.advisortimes));
 // console.table($scope.advisortimes);
@@ -572,8 +764,8 @@ $scope.apptslotclick = function(hourinDay,timeSlotandDay,dateday,slotclass){
 
 $scope.submitAppointmentrequest = function(){
       //Add blocks to the database
-      console.log('this is : '+ $scope.advisors[$scope.advisortoview]._id);
-      console.log('this is : '+ $scope.advisors[$scope.advisortoview]);
+      $scope.studentsaveSubmit = '1';
+
             $http({
                     method: 'POST',
                     url: '/requestappointment',
@@ -588,6 +780,7 @@ $scope.submitAppointmentrequest = function(){
 
                 }).success(function(data, status, headers, config) {
                  //Template will be set to show new advisors once addadvisor has been completed
+               $scope.settemplateURL('partials/studentsummary.html');
                notificationFactory.info("Successfully made appointment request! ");
                 })
                 .error(function(data, status, headers, config) {
@@ -624,6 +817,7 @@ $scope.unlockSubmit = function(){
 
 $scope.submitappointmentrequest = function(day,index,hourinDay,timeSlotandDay){
    $scope.setstudentsubmit('0'); 
+   $scope.studentsaveSubmit('1');
 console.log('slot B44:'+$scope.findifSlotTaken($scope.dateday));
 
 if(angular.isUndefinedOrNull($scope.advisors[$scope.advisortoview].appointmentTimes[day][index].note)){
@@ -658,7 +852,7 @@ $scope.advisors[$scope.advisortoview].appointmentTimes[day][index].appointmentDa
 // $scope.advisors[$scope.advisortoview].appointmentTimes[day][index].note.push($scope.appointmentNote);
 // $scope.advisortimes[hourinDay][timeSlotandDay].note.push($scope.appointmentNote);
 $uibModalInstance.dismiss('cancel');
-   $scope.setstudentsubmit('0'); 
+$scope.setstudentsubmit('0'); 
 
 console.log('slot should be taken now:'+$scope.findifSlotTaken($scope.dateday));
 
@@ -758,6 +952,7 @@ $scope.cancel = function () {
 
 
 }]);
+
 
 
 
@@ -947,8 +1142,41 @@ $scope.cancel = function () {
 
 }]);
 
+// Student controller that handles modification of student checksheet
+angular.module('smApp').controller('studentviewchecksheetcontroller',
+  ['$scope', '$location', 'notificationFactory', 'AuthService','$http','$uibModal','$confirm', 
+   function ($scope, $location, notificationFactory, AuthService,$http,$uibModal,$confirm) {
 
 
+
+
+                    $scope.divshow = '0'; 
+                    $scope.setdivshowtrue = function(val){ 
+                    $scope.checksheetinview = $scope.checksheets[val];
+                    $scope.checksheetinviewindex = val;
+                    console.log('x'+JSON.stringify($scope.student.checksheetdata[$scope.checksheetinviewindex]));
+                    $scope.checksheetdata = $scope.student.checksheetdata[$scope.checksheetinviewindex];
+                    $scope.divshow = '1'; 
+                    console.log(JSON.stringify($scope.checksheetdata));
+                    }
+
+  $scope.isFilled = function(pid,id){
+
+    if(angular.isUndefinedOrNull($scope.checksheetdata[pid][id])){
+        return true;
+    }
+    else{
+         if(angular.isUndefinedOrNull($scope.checksheetdata[pid][id].prefix))
+         {
+            return true;
+         }
+         return false;
+    }
+   
+ }
+ 
+
+}]);
 
 
 
@@ -970,20 +1198,6 @@ if(oldVal=="partials/studentmodifychecksheet.html" &&  newVal!="partials/student
         .then(function() {
           $scope.submitchecksheetdata();
         });
-
-
-
-       // var modalInstance = $uibModal.open({
-       //          templateUrl: 'partials/confirmstudentmodifytemplatechange.html',
-       //          controller: 'confirmstudentmodifytemplatechangeController',
-       //          scope: $scope,
-       //          resolve: {
-         
-       //              }
-                
-       //      });
-
-
 }
 
 });
@@ -1028,17 +1242,6 @@ if(oldVal=="partials/studentmodifychecksheet.html" &&  newVal!="partials/student
     }
    
  }
-
-
-           
-                        
-
-
-
-
-
-
-
 
 $scope.submitchecksheetdata = function () {
 $scope.submitcounter = 1;

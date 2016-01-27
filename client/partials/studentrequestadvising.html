@@ -38,16 +38,35 @@
 
 <div  ng-if="divshow=='1'">
 <br>
+<!-- > -->
+<div class="container" ng-if="studentcanSubmit=='0'">
+
+  <div class="panel panel-info">
+    <div class="panel-heading" style="font-size:125%">Current appointment request details</div>
+    <div class="panel-body" style="font-size:125%">
+     Appointment Status:   &nbsp;<span style="color:green"><i class="fa fa-check" uib-tooltip='Slot is filled'></i></span> (Requested) <br>
+     Appointment Scheduled for: <b>{{currentstudentdata.appointmentDate  | date:'MMMM dd, yyyy (EEEE)'}}</b><br>
+     Appointment Request Time: {{currentstudentdata.appointmentRequestTime  | date:'MMMM dd, yyyy'}} at {{currentstudentdata.appointmentRequestTime  | date:'hh:mm a (EEEE)'}}
+
+<!--           {{dateday | date:'MMMM dd, yyyy'}} <br>
+      ({{dateday | date:'EEEE'}}) <br>
+ -->
+
+    </div>
+  </div>
+</div><br>
 
     <div class="btn-group">
-        <label class="btn btn-primary" ng-model="dayindex" uib-btn-radio="'0'"><< Previous Week</label>
+<!--       <button class="btn btn-primary" ng-click="dayindex=((dayindex-1)%4)" ng-disabled="dayindex=='0'"><<</button> -->
+        <label class="btn btn-primary" ng-model="dayindex" uib-btn-radio="'0'">Previous Week</label>
         <label class="btn btn-primary" ng-model="dayindex" uib-btn-radio="'1'"  ng-init="dayindex='1'">Current Week</label>
-        <label class="btn btn-primary" ng-model="dayindex" uib-btn-radio="'2'">Next Week >></label>
-         <label class="btn btn-primary" ng-model="dayindex" uib-btn-radio="'3'" >Week After >> >></label>
+        <label class="btn btn-primary" ng-model="dayindex" uib-btn-radio="'2'">Next Week</label>
+         <label class="btn btn-primary" ng-model="dayindex" uib-btn-radio="'3'" >Week After</label>
+     <!--      <button class="btn btn-primary" ng-click="dayindex=((dayindex+1)%4);console.log(dayindex)" ng-disabled="dayindex=='3'">>></button> -->
     </div>
     <div>
-
-<button type="button" ng-click="submitAppointmentrequest();"> Submit </button>
+<br>
+<button style="font-size:125%" ng-disabled="studentsaveSubmit=='0'" type="button" ng-click="submitAppointmentrequest();"><i class="fa fa-fw fa-envelope"></i> Submit a request appointment</button>
  <br><br>
 <div class="panel panel-default">
   <div class="panel-body" style="font-size:125%">
@@ -95,6 +114,24 @@ Advisor appointment times</u></b> <br><br>
 
       </tr>
     </thead>
+
+        <tfoot>
+      <tr>
+        <th>Times</th>
+        <th ng-repeat="dateday in dateArray[dayindex]">
+            <div style="background-color:black;color:white;border:1px solid black;text-align: center;border-radius:5px" ng-if="dateday.getDate()==todayfullDay.getDate() && dateday.getMonth()==todayfullDay.getMonth()"> TODAY </div>
+            
+      {{dateday | date:'MMMM dd, yyyy'}} <br>
+      ({{dateday | date:'EEEE'}}) <br>
+
+
+
+     
+     </th>
+
+      </tr>
+    </tfoot>
+
     <tbody>
 
 

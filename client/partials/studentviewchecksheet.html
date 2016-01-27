@@ -1,1 +1,144 @@
-student view checksheet
+<div ng-controller="studentviewchecksheetcontroller">
+ <div class="page-header" style="font-size:120%">
+        <!-- <a href="#" ng-click = "settemplateURL('partials/radvisor.html')"> <i class="fa fa-fw fa-times"></i> Cancel registering advisor </a>&nbsp;&nbsp;&nbsp;
+<a href="#"  ng-click="showme=true"> <i class="fa fa-fw fa-plus-circle"></i> Add multiple advisors </a> -->
+
+
+        &nbsp;&nbsp;&nbsp;
+        <a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
+        &nbsp;&nbsp;&nbsp;
+
+    </div>
+
+
+
+<div  ng-if="divshow!='1'">
+<div class="panel panel-default">
+  <div class="panel-body" style="font-size:125%">
+     You are about to view your checksheet. Checksheets can be downloaded as pdf. Click on modify checksheet tab to make changes to your checksheet. 
+  </div>
+</div>
+
+	<div class="panel panel-default container" style="font-size:125%">
+		
+		<br>
+		Choose a checksheet to continue<br><br>
+		<ul>
+		<li ng-repeat="checksheet in checksheets track by $index">
+				<a href="#" ng-model="checksheettoview" ng-click="setdivshowtrue($index)">{{checksheet.name}}</a>
+		</li>			
+
+		</ul> <br>
+	</div>
+
+
+</div>
+
+
+<div  ng-if="divshow=='1'">
+
+<div class="panel panel-default">
+  <div class="panel-body" style="font-size:125%">
+     It is recommended you print your checksheet before an advising appointment. 
+  </div>
+</div>
+
+<div class="row page-header">  <h3>{{checksheetinview.name}}</h3></div> <br>
+
+<button style="font-size:135%" ng-click="printchecksheet()" confirm="WARNING: About to export checksheet as pdf. Are you sure?" confirm-ok="Yes" confirm-cancel="No" confirm-title="Exporting checksheet as pdf.."><i class="fa fa-print"></i> Download your checksheet as pdf</button><br><br>
+
+
+
+
+	<div class="panel panel-default row" style="font-size:125%" ng-repeat="block in checksheetinview.blockid track by $index">
+		   <div class="panel-heading">{{block.name}} </div> 
+		   <div class="container" ng-if="block.type=='Electives'"><b> Electives Choices: </b><br>
+			<div class="col-sm-2" ng-repeat="class in block.electivechoices"> {{class.prefix}} {{class.suffix}}</div>
+		   </div>
+  
+  <div class="panel-body">
+	<div class="row">
+
+  		<div class="col-sm-6" ng-repeat="slot in block.details" style="border:1px solid grey;border-style: outset;"> <u><b> {{$parent.$index+1}}.{{$index+1}}: {{slot.title}}</b></u>   <span ng-if="slot.subtitle" style="font-size:75%">({{slot.subtitle}})</span> <span style="color:red" class="pull-right" ng-show="isFilled($parent.$index,$index)"><i class="fa fa-times" uib-tooltip='Slot is not filled'></i></span>
+
+
+  			<span style="color:green" class="pull-right" ng-show="!isFilled($parent.$index,$index)"><i class="fa fa-check" uib-tooltip='Slot is filled'></i></span>
+
+  			
+  			<br>
+  		 <span style="font-size:90%">{{slot.description}} </span>
+<br><br>
+  		 <div class="row" style="margin-bottom:0px"> 
+<!-- <input type="text" ng-model="checksheetdata[$parent.$index][$index].state"> -->
+
+<div class="col-sm-5" style="font-size:90%;">
+ <span><i class="fa fa-sticky-note-o"></i>
+&nbsp; Note: </span>  {{checksheetdata[$parent.$index][$index].note}}
+</div>
+
+</div>
+  	
+<hr>
+
+   <div class="row" style="font-size:80%">
+     
+            <div class="col-sm-9"  ng-show="checksheetinview.blockid[$parent.$index].details[$index].rule=='101'">
+                 <span><i class="fa fa-wrench"></i>
+			&nbsp; Slot Rule: </span> {{checksheetinview.blockid[$parent.$index].details[$index].ruleconstraint.prefix}} {{checksheetinview.blockid[$parent.$index].details[$index].ruleconstraint.suffix}} needed.
+
+            </div>
+             <div class="col-sm-9"  ng-show="checksheetinview.blockid[$parent.$index].details[$index].rule=='102'">
+                <span><i class="fa fa-wrench"></i>
+			&nbsp; Slot Rule: </span>  Class of prefix {{checksheetinview.blockid[$parent.$index].details[$index].ruleconstraint.prefix}} needed.<br>
+
+
+            </div>
+               <div class="col-sm-9"  ng-show="checksheetinview.blockid[$parent.$index].details[$index].rule=='103'">
+               <span><i class="fa fa-wrench"></i>
+			&nbsp; Slot Rule: </span>  Class prefix {{checksheetinview.blockid[$parent.$index].details[$index].ruleconstraint.prefix}} {{checksheetinview.blockid[$parent.$index].details[$index].ruleconstraint.suffix}} or more needed.
+
+            </div>
+
+<br>
+            </div>
+
+      <div class="row" style="font-size:80%">
+            <div class="col-sm-9"  ng-if="checksheetinview.blockid[$parent.$index].details[$index].prerequisite=='1001'">
+                <span><i class="fa fa-check-square-o"></i>
+			&nbsp; Slot Requirements: </span> "{{checksheetinview.blockid[$parent.$index].details[$index].prereqconstraint.prefix}} {{checksheetinview.blockid[$parent.$index].details[$index].prereqconstraint.suffix}}" needed to fill this slot.
+
+            </div>
+               <div class="col-sm-9"  ng-if="checksheetinview.blockid[$parent.$index].details[$index].prerequisite=='1002'">
+                 <span><i class="fa fa-check-square-o"></i>
+			&nbsp; Slot Requirements: </span> "{{checksheetinview.blockid[$parent.$index].details[$index].prereqconstraint.prefix}} {{checksheetinview.blockid[$parent.$index].details[$index].prereqconstraint.suffix}}" AND "{{checksheetinview.blockid[$parent.$index].details[$index].prereqconstraint.prefix2}} {{checksheetinview.blockid[$parent.$index].details[$index].prereqconstraint.suffix2}}" needed to fill this slot.
+
+            </div>
+               <div class="col-sm-9"  ng-if="checksheetinview.blockid[$parent.$index].details[$index].prerequisite=='1003'">
+                <span><i class="fa fa-check-square-o"></i>
+			&nbsp; Slot Requirements: </span> "{{checksheetinview.blockid[$parent.$index].details[$index].prereqconstraint.prefix}} {{checksheetinview.blockid[$parent.$index].details[$index].prereqconstraint.suffix}}" OR "{{checksheetinview.blockid[$parent.$index].details[$index].prereqconstraint.prefix2}} {{checksheetinview.blockid[$parent.$index].details[$index].prereqconstraint.suffix2}}" needed to fill this slot.
+
+            </div>
+
+
+
+            </div>
+
+
+  		</div>
+
+  	</div>
+  </div>
+
+
+
+	</div>
+<button style="font-size:135%" ng-click="submitchecksheetdata()" confirm="WARNING: You are about to update your checksheet information. Are you sure?" confirm-ok="Yes" confirm-cancel="No" confirm-title="Updating {{checksheetinview.name}}.."><i class="fa fa-floppy-o"></i> Save and submit to database</button><br>
+
+
+
+
+
+</div>
+
+
+</div>
