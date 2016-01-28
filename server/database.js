@@ -30,7 +30,8 @@ var advisorSchema = mongoose.Schema({
     phone: String,
     registered: Boolean,
     appointmentTimes: Object,
-    advisee: Array
+    advisee: Array,
+    announcement: String
 },{ collection : 'advisor' });
 var advisorCol = mongoose.model('advisor', advisorSchema);
 

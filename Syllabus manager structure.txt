@@ -1,3 +1,54 @@
+use for get /profile api:
+
+//Root User Schema
+var rootSchema = mongoose.Schema({
+    username: { type: String, unique: true },
+    password: String,
+    email: { type: String, unique: true },
+    firstname: String,
+    lastname: String,
+    phone: String,
+    registered: Boolean
+},{ collection : 'root' });
+var rootCol = mongoose.model('root', rootSchema);
+
+
+//Advisor User Schema
+var advisorSchema = mongoose.Schema({
+    username: { type: String, unique: true },
+    password: String,
+    email: String,
+    id: { type: String, unique: true },
+    firstname: String,
+    lastname: String,
+    type: String,
+    department: String,
+    office: String,
+    phone: String,
+    registered: Boolean,
+    appointmentTimes: Object,
+    advisee: Array,
+    announcement: String
+},{ collection : 'advisor' });
+var advisorCol = mongoose.model('advisor', advisorSchema);
+
+
+//Student User Schema
+var studentSchema = mongoose.Schema({
+    username: String,
+    password: String,
+    email: String,
+    id:  { type: String, unique: true },
+    firstname: String,
+    lastname: String,
+    department: String,
+    checksheetprotoid: Array,
+    checksheetdata: Array,
+    advisor: Array,
+    registered: Boolean
+},{ collection : 'student' });
+var studentCol = mongoose.model('student', studentSchema);
+
 $scope.advisors[$scope.advisortoview].appointmentTimes[day][index].note.push($scope.appointmentEdit.note);
 $scope.advisors[$scope.advisortoview].appointmentTimes[day][index].studentid.push(AuthService.getuserid());
 $scope.advisors[$scope.advisortoview].appointmentTimes[day][index].appointmentRequestTime.push($scope.todayfullDay);

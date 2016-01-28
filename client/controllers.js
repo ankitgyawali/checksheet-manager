@@ -98,6 +98,52 @@ angular.module('smApp').controller('studentController',
                         $scope.student = data.student;
                         $scope.checksheets = data.checksheet
                         $scope.advisors = data.advisor;
+                        console.log("xxx+"+ JSON.stringify($scope.student));
+                        $scope.data = [];
+                        $scope.yourdata = [
+                        {
+                            key: "Completed",
+                            y: 0
+                        },
+                        {
+                            key: "Remaining",
+                            y: $scope.checksheets[0].credits
+                        }
+                    ];
+
+                    for (i = 0; i < $scope.student.checksheetdata[0].length; i++) {
+                    for (j = 0; j < $scope.student.checksheetdata[0][i].length; j++) {
+                    if(!angular.isUndefinedOrNull($scope.student.checksheetdata[0][i][j])){
+                            if(!angular.isUndefinedOrNull($scope.student.checksheetdata[0][i][j].suffix)){
+                                if(!angular.isUndefinedOrNull($scope.student.checksheetdata[0][i][j].credits)){
+                                $scope.yourdata[0].y = $scope.yourdata[0].y + $scope.student.checksheetdata[0][i][j].credits;
+                                $scope.yourdata[1].y = $scope.yourdata[1].y - $scope.student.checksheetdata[0][i][j].credits;
+                                }
+                            else
+                            {
+                            $scope.yourdata[0].y = $scope.yourdata[0].y + 3;
+                            $scope.yourdata[1].y = $scope.yourdata[1].y - 3;
+                            }
+                            }
+                            // else
+                            // {
+
+                            // }
+                        }
+                        }
+                        }
+
+                        for (i = 0; i < $scope.checksheets[0].blockid.length; i++) {
+                        
+                        $scope.data[i] = {};
+                        $scope.data[i].key = $scope.checksheets[0].blockid[i].name;
+                        $scope.data[i].y = $scope.checksheets[0].blockid[i].credits;
+                        }
+
+
+                        console.log('scopedate: '+$scope.data);
+
+
                         if(!$scope.student.registered){
                             notificationFactory.warning("First time login detected. Change your password to proceed.");
                             $scope.templateURL = "partials/studentsettings.html"
@@ -158,6 +204,25 @@ angular.module('smApp').controller('studentController',
         };
 
 
+   // for (i = 0; i < $scope.student.checksheetdata[0].length; i++) {
+   //                  for (j = 0; j < $scope.student.checksheetdata[0][i].length; j++) {
+   //                  if(!angular.isUndefinedOrNull($scope.student.checksheetdata[0][i][j])){
+   //                          if(!angular.isUndefinedOrNull($scope.student.checksheetdata[0][i][j].suffix)){
+   //                          $scope.yourdata[0].y = $scope.yourdata[0].y + 1;
+   //                          $scope.yourdata[1].y = $scope.yourdata[1].y - 1;
+   //                          }
+   //                          // else
+   //                          // {
+
+   //                          // }
+   //                      }
+   //                      }
+   //                      }
+
+
+
+
+
 
 }]);
 
@@ -170,6 +235,8 @@ angular.module('smApp').controller('studentsummarycontroller',
    function ($scope, $routeParams,$location, notificationFactory, AuthService,$http,$uibModal) {
 
 
+
+
   $scope.options = {
             chart: {
                 type: 'pieChart',
@@ -180,6 +247,7 @@ angular.module('smApp').controller('studentsummarycontroller',
                 duration: 500,
                 labelThreshold: 0.01,
                 labelSunbeamLayout: true,
+
                 legend: {
                     margin: {
                         top: 5,
@@ -191,16 +259,6 @@ angular.module('smApp').controller('studentsummarycontroller',
             }
         };
 
-        $scope.data = [
-            {
-                key: "One",
-                y: 5
-            },
-            {
-                key: "Two",
-                y: 5
-            }
-        ];
 
 
 }]);
@@ -1337,9 +1395,43 @@ $scope.submitcounter = 1;
                     }).success(function(data, status, headers, config) {
                         // this callback will be called asynchronously
                         // when the response is available
+                    //      $scope.yourdata = [
+                    //     {
+                    //         key: "Completed",
+                    //         y: 0
+                    //     },
+                    //     {
+                    //         key: "Remaining",
+                    //         y: $scope.checksheets[0].credits
+                    //     }
+                    // ];
+                    $scope.yourdata[0].y = 0;
+                    $scope.yourdata[1].y = $scope.checksheets[0].credits;
+                    for (i = 0; i < $scope.student.checksheetdata[0].length; i++) {
+                    for (j = 0; j < $scope.student.checksheetdata[0][i].length; j++) {
+                    if(!angular.isUndefinedOrNull($scope.student.checksheetdata[0][i][j])){
+                            if(!angular.isUndefinedOrNull($scope.student.checksheetdata[0][i][j].suffix)){
+                                if(!angular.isUndefinedOrNull($scope.student.checksheetdata[0][i][j].credits)){
+                                $scope.yourdata[0].y = $scope.yourdata[0].y + $scope.student.checksheetdata[0][i][j].credits;
+                                $scope.yourdata[1].y = $scope.yourdata[1].y - $scope.student.checksheetdata[0][i][j].credits;
+                                }
+                            else
+                            {
+                            $scope.yourdata[0].y = $scope.yourdata[0].y + 3;
+                            $scope.yourdata[1].y = $scope.yourdata[1].y - 3;
+                            }
+                            }
+                            // else
+                            // {
+
+                            // }
+                        }
+                        }
+                        }
+
 
                     notificationFactory.success("Checksheetdata updated!");
-                    $scope.settemplateURL("partials/studentviewchecksheet.html");
+                    $scope.settemplateURL("partials/studentsummary.html");
 
                     })
                     .error(function(data, status, headers, config) {

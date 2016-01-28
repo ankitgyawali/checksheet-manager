@@ -8,7 +8,7 @@ angular.module('smApp').controller('advisorController', ['$scope', '$http', '$lo
         // $scope.templateURL = 'partials/rdept.html';
 
         //DEBUG: set advisor default page here
-        $scope.templateURL = 'partials/advisoraddcurrentstudents.html';
+        $scope.templateURL = 'partials/viewstudents.html';
         //Get username and type at parent scope
         $scope.username = AuthService.getusername();
         $scope.lastname = AuthService.getlastname()
@@ -615,6 +615,59 @@ $scope.addnewStudent = function(){
 
 
    }
+}
+
+
+}
+
+]);
+
+//Controller designed to handle mixing of one or more checksheet block for the creation of a checksheet
+angular.module('smApp').controller('advisorsetannouncement', ['$scope', '$http','$location', 'notificationFactory', 'AuthService',
+    function($scope, $http, $location, notificationFactory, AuthService) {
+
+
+   $http({
+                  method: 'POST',
+                  url: '/advisorannouncement',
+                  data: {
+                        _id: AuthService.getuserid()
+                    }
+                    }).success(function(data, status, headers, config) {
+                        // this callback will be called asynchronously
+                        // when the response is available
+                        $scope.advisorannouncementdata = data.announcement;
+                    })
+                    .error(function(data, status, headers, config) {
+                        notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
+                    });
+
+
+$scope.updateannouncement = function(){
+
+
+    $http({
+                    method: 'POST',
+                    url: '/updateadvisorannouncement',
+                    // set the headers so angular passing info as form data (not request payload)
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        announcement: $scope.advisorannouncementdata,
+                        _id: AuthService.getuserid()
+                    }
+
+                }).success(function(data, status, headers, config) {
+                //Set template to revert back to displaying department so that user can view/update newly added department
+                $scope.settemplateURL('partials/viewstudents.html');
+                notificationFactory.info("Updated advisor's announcement message. ");
+                })
+                .error(function(data, status, headers, config) {
+                notificationFactory.error("Error: Unable to update announcement. Try again.");
+                });
+
+
 }
 
 

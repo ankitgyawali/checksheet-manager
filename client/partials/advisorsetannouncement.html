@@ -1,0 +1,30 @@
+<div ng-controller="advisorsetannouncement">
+
+
+<div class="page-header" style="font-size:120%"> 
+
+<a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
+
+</div>
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">Current Announcement</h3>
+  </div>
+  <div class="panel-body">
+    <div ng-if="advisorannouncementdata">{{advisorannouncementdata}} </div>
+     <div ng-if="!advisorannouncementdata">None</div>
+  </div>
+</div>
+
+<br><br>
+
+  <textarea style="resize:none;width:80%" ng-model="advisorannouncementdata" ngMaxlength="100">
+            </textarea><br><br>
+
+<button style="font-size:125%" ng-click="updateannouncement()"><i class="fa fa-pencil-square-o"></i>
+ Update and broadcast my announcement</button>
+
+
+</div>

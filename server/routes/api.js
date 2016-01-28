@@ -166,7 +166,18 @@ router.post('/students', function(req, res) {
 
 //   }); 
 // });
+router.post('/advisorannouncement', function(req, res) {
 
+  models.advisor.findOne({_id:req.body._id}, 'announcement',
+    function(err, doc){
+    if (err) {
+     console.log("error because: "+ err + "&&& doc: "+doc)
+      return res.sendStatus(500);
+    }
+    res.send(doc);
+});
+
+});
 
 
 router.get('/departments', function(req, res) {
@@ -554,11 +565,22 @@ function onInsert(err, docs) {
 });
 
 
+router.post('/updateadvisorannouncement', function(req, res) {
+
+  models.advisor.update({_id:req.body._id}, {announcement:req.body.announcement}, {upsert:true}, 
+    function(err, doc){
+    if (err) {
+
+      return res.sendStatus(500);
+    }
+    return res.sendStatus(200);
+});
+
+});
 
 
 router.post('/requestappointment', function(req, res) {
-  console.log('okokokokok ');
-console.log('okokokokok '+req.body._id);
+
   models.advisor.update({_id:req.body._id}, {appointmentTimes:req.body.appointmentTimes}, {upsert:true}, 
     function(err, doc){
     if (err) {
