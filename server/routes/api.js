@@ -166,6 +166,24 @@ router.post('/students', function(req, res) {
 
 //   }); 
 // });
+
+
+
+
+router.post('/studentprofile', function(req, res) {
+
+  models.student.findOne({_id:req.body._id}, '-password -checksheetdata -checksheetprotoid -registered -advisor',
+    function(err, doc){
+    if (err) {
+     console.log("error because: "+ err + "&&& doc: "+doc)
+      return res.sendStatus(500);
+    }
+    res.send(doc);
+});
+
+});
+
+
 router.post('/advisorannouncement', function(req, res) {
 
   models.advisor.findOne({_id:req.body._id}, 'announcement',

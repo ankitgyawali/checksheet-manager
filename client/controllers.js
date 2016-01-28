@@ -150,7 +150,7 @@ angular.module('smApp').controller('studentController',
                         }
                         else{
                              // $scope.settemplateURL("partials/studentrequestadvising.html");
-                             $scope.templateURL = "partials/studentsummary.html"
+                             $scope.templateURL = "partials/studentviewchecksheet.html"
                         }
                     })
                     .error(function(data, status, headers, config) {
@@ -226,6 +226,31 @@ angular.module('smApp').controller('studentController',
 
 }]);
 
+// Student controller that handles student dashboard and student operation
+angular.module('smApp').controller('studentprofilecontroller',
+  ['$scope', '$routeParams','$location', 'notificationFactory', 'AuthService','$http','$uibModal', 
+   function ($scope, $routeParams,$location, notificationFactory, AuthService,$http,$uibModal) {
+
+
+   $http({
+                  method: 'POST',
+                  url: '/studentprofile',
+                  data: {
+                        _id: AuthService.getuserid()
+                    }
+                    }).success(function(data, status, headers, config) {
+                        // this callback will be called asynchronously
+                        // when the response is available
+
+                        $scope.studentprofile = data;
+                    })
+                    .error(function(data, status, headers, config) {
+                        notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
+                    });
+
+
+}]);
+
 
 
 
@@ -233,9 +258,6 @@ angular.module('smApp').controller('studentController',
 angular.module('smApp').controller('studentsummarycontroller',
   ['$scope', '$routeParams','$location', 'notificationFactory', 'AuthService','$http','$uibModal', 
    function ($scope, $routeParams,$location, notificationFactory, AuthService,$http,$uibModal) {
-
-
-
 
   $scope.options = {
             chart: {
