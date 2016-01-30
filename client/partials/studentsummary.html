@@ -13,11 +13,16 @@
   	<div class="row container"  style="font-size:100%" ng-repeat="advisor in advisors">
 	<div ng-show="advisor.announcement">
   		{{advisor.firstname}} {{advisor.lastname}} : {{advisor.announcement}}
+
 	</div>
 
   		
   	</div>
    
+  </div>
+  <div class="panel-footer" ng-if="studentappt!='none'">
+  	<b>{{studentappt}}</b><br> Go to "request advising appointment" tab for more information.
+  	
   </div>
 </div>
 
