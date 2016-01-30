@@ -2,8 +2,6 @@
 angular.module('smApp').controller('loginController', ['$scope', '$location', 'notificationFactory', 'AuthService', '$timeout',
     function($scope, $location, notificationFactory, AuthService, $timeout) {
 
-        //Check if usertype has been set
-        console.log("if auth get usertype: " + AuthService.getusertype());
 
         if (AuthService.getusertype() == undefined || AuthService.getusertype() == '') {
         //If usertype has not been set already set it to student so that student login is showed by default
@@ -73,6 +71,7 @@ angular.module('smApp').controller('studentController',
         // $scope.templateURL = 'partials/student.html';
         //Get username and type at parent scope
         $scope.username = AuthService.getusername();
+        $scope.lastname = AuthService.getlastname();
         $scope.usertype = AuthService.getusertype();
         $scope.student_id =  AuthService.getuserid();
         //Method to modify templateURL 
@@ -1279,17 +1278,64 @@ angular.module('smApp').controller('studentviewchecksheetcontroller',
 
 $scope.printchecksheet = function(){
     console.log("print checksheet.");
+
+    var pdf = new jsPDF('l', 'pt', 'a4');
+ var options = {
+    pagesplit: true
+};
+
+pdf.addHTML($('#studentchecksheetdiv'), 0, 0, options, function(){
+    pdf.save("test.pdf");
+});
+
 }
 
-                    $scope.divshow = '0'; 
-                    $scope.setdivshowtrue = function(val){ 
-                    $scope.checksheetinview = $scope.checksheets[val];
-                    $scope.checksheetinviewindex = val;
-                    console.log('x'+JSON.stringify($scope.student.checksheetdata[$scope.checksheetinviewindex]));
-                    $scope.checksheetdata = $scope.student.checksheetdata[$scope.checksheetinviewindex];
-                    $scope.divshow = '1'; 
-                    console.log(JSON.stringify($scope.checksheetdata));
-                    }
+
+
+
+$scope.divshow = '0'; 
+$scope.setdivshowtrue = function(val){ 
+$scope.checksheetinview = $scope.checksheets[val];
+$scope.checksheetinviewindex = val;
+$scope.checksheetdata = $scope.student.checksheetdata[$scope.checksheetinviewindex];
+$scope.divshow = '1'; 
+$scope.complete = 0;
+$scope.incomplete = 0;
+$scope.blocksummarycomplete = new Array($scope.checksheetdata.length);
+   for (i = 0;i<$scope.blocksummarycomplete.length; i++) {
+    $scope.blocksummarycomplete[i] = 0;
+   }
+$scope.blocksummaryincomplete = new Array($scope.checksheetdata.length);
+   for (i = 0;i<$scope.blocksummaryincomplete.length; i++) {
+    $scope.blocksummaryincomplete[i] = 0;
+   }
+
+console.log(JSON.stringify($scope.checksheetdata));
+   for (i = 0;i<$scope.checksheetdata.length; i++) {
+
+    for (j = 0;j<$scope.checksheetdata[i].length; j++) {
+        if (!angular.isUndefinedOrNull($scope.checksheetdata[i][j])) {
+        if (!angular.isUndefinedOrNull($scope.checksheetdata[i][j].suffix)) {
+        $scope.complete = $scope.complete+1;
+         $scope.blocksummarycomplete[i] =  $scope.blocksummarycomplete[i] +1;
+        }   //if statement
+        else{
+        $scope.incomplete = $scope.incomplete+1;
+        $scope.blocksummaryincomplete[i] = $scope.blocksummaryincomplete[i] +1;
+        }
+
+        }//outer if
+        else{
+            $scope.incomplete = $scope.incomplete+1;
+            $scope.blocksummaryincomplete[i] = $scope.blocksummaryincomplete[i] +1;
+        }
+    }  //for j
+    } //for i 
+
+console.log('block summary complete :'+JSON.stringify($scope.blocksummarycomplete));
+console.log('block summary is :'+JSON.stringify($scope.blocksummaryincomplete));
+
+}
 
   $scope.isFilled = function(pid,id){
 
