@@ -1,1 +1,35 @@
-View advising
+<div ng-controller="viewadivisingrequests">
+
+<div class="page-header" style="font-size:120%"> 
+
+
+
+<a href="#"> <i class="fa fa-fw fa-info-circle"></i> Help </a>
+
+
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-body" style="font-size:125%">
+     Appointment requests can be viewed and modified. Appointment requests can be made and viewed only within a span of 4 weeks. The first week start from Sunday of the previous week and the last week ends on Saturday of coming two weeks.  </div>
+</div>
+<br><br>
+<div class="panel panel-info" style="font-size:125%">
+  <div class="panel-heading">Current Appointment Times Summary</div>
+  <div class="panel-body"><u>Appointment Slot opened for:</u><br>
+<div class="row container"> Sunday: {{showtimes(myappointmentTimes['S'])}}</div>
+<div class="row container"> Monday {{showtimes(myappointmentTimes['M'])}}</div>
+<div class="row container"> Tuesday {{showtimes(myappointmentTimes['T'])}}</div>
+<div class="row container"> Wednesday {{showtimes(myappointmentTimes['W'])}}</div>
+<div class="row container"> Thursday {{showtimes(myappointmentTimes['TH'])}}</div>
+<div class="row container"> Friday {{showtimes(myappointmentTimes['F'])}}</div>
+<div class="row container"> Saturday {{showtimes(myappointmentTimes['SA'])}}</div>
+
+  </div>
+</div>
+<button ng-click="ok()"> OKKK</button>
+
+
+
+</div>
+

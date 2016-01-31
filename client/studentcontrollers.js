@@ -1300,8 +1300,6 @@ pdf.addHTML($('#studentchecksheetdiv'), 0, 0, options, function(){
 }
 
 
-
-
 $scope.divshow = '0'; 
 $scope.setdivshowtrue = function(val){ 
 $scope.checksheetinview = $scope.checksheets[val];

@@ -8,12 +8,17 @@ angular.module('smApp').controller('advisorController', ['$scope', '$http', '$lo
         // $scope.templateURL = 'partials/rdept.html';
 
         //DEBUG: set advisor default page here
-        $scope.templateURL = 'partials/viewstudents.html';
+        $scope.templateURL = 'partials/viewadvising.html';
         //Get username and type at parent scope
         $scope.username = AuthService.getusername();
         $scope.lastname = AuthService.getlastname()
         $scope.usertype = AuthService.getusertype();
-        //Method to modify templateURL 
+    
+
+     
+
+
+
                $http({
                         method: 'GET',
                         url: '/classes'
@@ -24,6 +29,27 @@ angular.module('smApp').controller('advisorController', ['$scope', '$http', '$lo
                         $scope.dpts = data.dpts;
                         $scope.courses = data.courses;
                         //console.log(JSON.stringify($scope.courses | suffix:135));
+                         $http({
+                        method: 'POST',
+                        url: '/advisorstudentdetails',
+                        data: {
+                        _id: AuthService.getuserid()
+                    }
+                    }).success(function(data, status, headers, config) {
+                        // this callback will be called asynchronously
+                        // when the response is available
+
+                    $scope.studentlist = data.advisee;
+                    $scope.myappointmentTimes = data.appointmentTimes;
+                    
+
+                        console.log(JSON.stringify($scope.myappointmentTimes));
+
+                    })
+                    .error(function(data, status, headers, config) {
+                        notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
+                    });
+
 
                     })
                     .error(function(data, status, headers, config) {
@@ -42,6 +68,314 @@ angular.module('smApp').controller('advisorController', ['$scope', '$http', '$lo
 
     }
 ]);
+
+//Controller that handles "manage advisor" dashboard page
+angular.module('smApp').controller('viewadivisingrequests', ['$scope', '$location', 'notificationFactory', '$uibModal', '$http', 'AuthService',
+    function($scope, $location, notificationFactory, $uibModal, $http, AuthService) {
+
+
+  //Method to modify templateURL 
+          $scope.hourtoIndex = function(hour,minutes){
+      // console.log("hour:"+hour);
+      // console.log("hour:"+minutes);
+      return (((hour-1)*4) + (minutes/15));
+   }
+
+   $scope.indexTohour = function(index){
+      return [((Math.floor(index/4))+1),((index%4)*15)];
+   }
+
+
+$scope.showtimes = function(time){
+  $scope.starteend = new Array();
+
+  if(!angular.isUndefinedOrNull(time)){
+    for(var i = 0; i < time.length; i++){
+
+      if (!angular.isUndefinedOrNull(time[i])) {
+         if (!angular.isUndefinedOrNull(time[i]).state) {
+    
+         if((time[i].state=='true' && angular.isUndefinedOrNull(time[(((i-1) % 96) + 96) % 96])) || (time[i].state=='true' && angular.isUndefinedOrNull(time[(i+1)%96]))){
+
+          $scope.starteend.push(i);
+        } // main state true
+         } //second state defined check
+        } // slot is defined check
+       
+    } // for oop
+
+
+
+ if(!angular.isUndefinedOrNull(time[0])){
+ if(!angular.isUndefinedOrNull(time[95])){
+  console.log('xxx');
+    if(!angular.isUndefinedOrNull(time[0]).state){
+     if(!angular.isUndefinedOrNull(time[95]).state){
+      if((time[0]).state=='true' && (time[95]).state=='true'){
+      $scope.starteend.push($scope.starteend[0]);
+      $scope.starteend.splice(0, 1);
+    }}
+    }}}
+
+if ($scope.starteend.length) {
+  if ($scope.starteend.length==2) {
+
+return '2 only';
+  }else
+  {
+return 'laaang';
+  };
+    }else{
+      return 'None';
+    };
+     
+  } //main if statement
+
+
+
+
+}
+
+console.log($scope.myappointmentTimes);
+
+ 
+
+$scope.ok = function(){
+  console.log($scope.myappointmentTimes);
+}
+
+
+ }
+]);
+
+
+//Controller that handles "manage advisor" dashboard page
+angular.module('smApp').controller('advisorviewstudents', ['$scope', '$location', 'notificationFactory', '$uibModal', '$http', 'AuthService',
+    function($scope, $location, notificationFactory, $uibModal, $http, AuthService) {
+
+   $scope.pageSize = AuthService.getPaginationSize();
+        $scope.currentPage = 1;
+        $scope.divshow = 1;
+        //Watches pagesize to store value in factory
+        $scope.$watch('pageSize', function(val) {
+
+            AuthService.setPaginationSize(val);
+        });
+
+       
+
+
+                  $scope.viewstudentchecksheet = function (checksheet, checksheetdata){
+                    $scope.divshow = '0';
+                    $scope.checksheetinview = checksheet;
+
+                    $scope.checksheetdata = checksheetdata;
+
+                    $scope.complete = 0;
+$scope.incomplete = 0;
+$scope.blocksummarycomplete = new Array($scope.checksheetdata.length);
+   for (i = 0;i<$scope.blocksummarycomplete.length; i++) {
+    $scope.blocksummarycomplete[i] = 0;
+   }
+$scope.blocksummaryincomplete = new Array($scope.checksheetdata.length);
+   for (i = 0;i<$scope.blocksummaryincomplete.length; i++) {
+    $scope.blocksummaryincomplete[i] = 0;
+   }
+
+console.log(JSON.stringify($scope.checksheetdata));
+   for (i = 0;i<$scope.checksheetdata.length; i++) {
+
+    for (j = 0;j<$scope.checksheetdata[i].length; j++) {
+        if (!angular.isUndefinedOrNull($scope.checksheetdata[i][j])) {
+        if (!angular.isUndefinedOrNull($scope.checksheetdata[i][j].suffix)) {
+        $scope.complete = $scope.complete+1;
+         $scope.blocksummarycomplete[i] =  $scope.blocksummarycomplete[i] +1;
+        }   //if statement
+        else{
+        $scope.incomplete = $scope.incomplete+1;
+        $scope.blocksummaryincomplete[i] = $scope.blocksummaryincomplete[i] +1;
+        }
+
+        }//outer if
+        else{
+            $scope.incomplete = $scope.incomplete+1;
+            $scope.blocksummaryincomplete[i] = $scope.blocksummaryincomplete[i] +1;
+        }
+    }  //for j
+    } //for i 
+
+
+                    console.log('checksheet is '+ JSON.stringify($scope.checksheetinview));
+
+                  }
+
+                    $scope.isFilled = function(pid,id){
+
+    if(angular.isUndefinedOrNull($scope.checksheetdata[pid][id])){
+        return true;
+    }
+    else{
+         if(angular.isUndefinedOrNull($scope.checksheetdata[pid][id].prefix))
+         {
+            return true;
+         }
+         return false;
+    }
+   
+ }
+ $scope.switchdiv = function(){
+      $scope.divshow = '1';
+ }
+
+$scope.advisormodifystudent = function(student){
+
+     //Use angularUI bootstrap module to instiate a modal so user can modify a department
+        //This modal contains its own controller and templateURL. depID - the department to update
+        //is passed to this modal as argument
+
+            var modalInstance = $uibModal.open({
+                templateUrl: 'partials/advisormodifystudentmodal.html',
+                controller: 'advisormodifystudentmodal',
+                scope: $scope,
+                resolve: {
+                    student: function() {
+                        return student;
+                    }
+                }
+            });
+              }
+
+
+
+            $scope.showchecksheetinfo = function(checksheet){
+                var modalInstance = $uibModal.open({
+                templateUrl: 'partials/advisorviewchecksheetinfo.html',
+                controller: 'advisorviewchecksheetinfo',
+                scope: $scope,
+                resolve: {
+                    checksheet: function() {
+                        return checksheet;
+                    }
+                }
+            });
+
+            }
+
+
+
+      }
+]);
+
+
+angular.module('smApp').controller('advisormodifystudentmodal',
+  ['$scope', '$location', 'notificationFactory', 'AuthService','$http','$uibModalInstance','student', 
+   function ($scope, $location, notificationFactory, AuthService,$http,$uibModalInstance,student) {
+
+//Deep copy of department object. This is because angular assigns stuff by reference by default
+$scope.newstudentID = angular.copy(student);
+$scope.studentName = $scope.newstudentID.name;
+
+
+$scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+
+
+//Delete department from database
+$scope.delete = function () {
+    $http({
+            method: 'DELETE',
+            url: '/existingstudent',
+            // set the headers so angular passing info as form data (not request payload)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                deleteID: student._id
+            }
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+            console.log("deleted: "+student._id);
+            $uibModalInstance.dismiss('cancel');
+            //$location.url('/root/dashboard');
+            
+             if (status === 200) {
+              
+            $scope.studentlist.splice($scope.studentlist.indexOf(student),1);
+          notificationFactory.info("Successfully deleted student.");
+            }
+
+        })
+        .error(function(data, status, headers, config) {
+
+        $uibModalInstance.dismiss('cancel');
+        notificationFactory.error("Error: Status Code "+status+". Contact admin if issue persists.")
+        });
+
+
+  };
+
+
+// Modify department information on the database
+$scope.modify = function () {
+ // create a new instance of deferred
+    $http({
+            method: 'PUT',
+            url: '/existingstudent',
+            // set the headers so angular passing info as form data (not request payload)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                newstudentID: $scope.newstudentID
+            }
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+            $uibModalInstance.dismiss('cancel');
+            //$location.url('/root/dashboard');
+            
+             if (status === 200) {
+                angular.copy($scope.newstudentID,student);
+
+               notificationFactory.info("Successfully updated student");
+            }
+
+        })
+        .error(function(data, status, headers, config) {
+
+        $uibModalInstance.dismiss('cancel');
+        notificationFactory.error("Error: Status Code "+status+". Contact admin if issue persists.")
+        });
+  };
+
+
+ }]);
+
+
+//Controller for modal to modify department
+angular.module('smApp').controller('advisorviewchecksheetinfo',
+  ['$scope','$uibModalInstance', 'checksheet', '$http', 'notificationFactory', '$location',
+    function ($scope,$uibModalInstance, checksheet,$http,notificationFactory,$location) {
+
+      $scope.checksheettoview = checksheet;
+
+
+//Cancel modal for department
+$scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+
+
+     
+  }
+]);
+
 
 //Controller that handles block creation for checksheet
 angular.module('smApp').controller('blockController', ['$scope', '$http','$location', 'notificationFactory', 'AuthService', '$cookies',

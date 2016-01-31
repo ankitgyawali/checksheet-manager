@@ -79,7 +79,7 @@
   <div class="panel-body">
 	<div class="row">
 
-  		<div class="col-sm-6" ng-repeat="slot in block.details" style="border:1px solid grey;border-style: outset;"> <u><b> {{$parent.$index+1}}.{{$index+1}}: {{slot.title}}</b></u>   <span ng-if="slot.subtitle" style="font-size:75%">({{slot.subtitle}})</span> <span style="color:red" class="pull-right" ng-show="isFilled($parent.$index,$index)"><i class="fa fa-times" uib-tooltip='Slot is not filled'></i></span>
+  		<div class="col-sm-6" ng-repeat="slot in block.details" style="border:1px solid grey;border-style: outset;  border-radius: 5px; "> <u><b> {{$parent.$index+1}}.{{$index+1}}: {{slot.title}}</b></u>   <span ng-if="slot.subtitle" style="font-size:75%">({{slot.subtitle}})</span> <span style="color:red" class="pull-right" ng-show="isFilled($parent.$index,$index)"><i class="fa fa-times" uib-tooltip='Slot is not filled'></i></span>
 
 
   			<span style="color:green" class="pull-right" ng-show="!isFilled($parent.$index,$index)"><i class="fa fa-check" uib-tooltip='Slot is filled'></i></span>
@@ -105,7 +105,7 @@ Note: </span>  {{checksheetdata[$parent.$index][$index].note}}
 
 
 	</div></div>
-<button style="font-size:135%" ng-click="submitchecksheetdata()" confirm="WARNING: You are about to update your checksheet information. Are you sure?" confirm-ok="Yes" confirm-cancel="No" confirm-title="Updating {{checksheetinview.name}}.."><i class="fa fa-floppy-o"></i> Save and submit to database</button><br>
+
 
 
 

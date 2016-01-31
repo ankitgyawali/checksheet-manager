@@ -1,0 +1,106 @@
+        <div class="modal-header">
+            <h4 class="modal-title">Viewing information of "{{checksheettoview.name}}" </h4>
+        </div> 
+        <form role="form">
+        <div class="modal-body" style="font-size:125%">
+       
+            <div class="row">
+            <div class="col-sm-3">
+                Title:
+
+            </div>
+            <div class="col-sm-8">
+               {{checksheettoview.name}}
+
+            </div>
+
+
+            </div> 
+
+              <div class="row" >
+            <div class="col-sm-3">
+                Description:
+
+            </div>
+            <div class="col-sm-8">
+                {{checksheettoview.description}}
+
+            </div>
+
+
+            </div>
+
+             <div class="row">
+            <div class="col-sm-3">
+                Total Credits:
+
+            </div>
+            <div class="col-sm-8">
+                {{checksheettoview.credits}}
+
+            </div>
+
+
+            </div>
+            <div class="row" >
+            <div class="col-sm-3">
+                Department:
+
+            </div>
+            <div class="col-sm-8">
+                {{checksheettoview.department}}
+
+            </div>
+
+
+            </div>
+
+           <div class="row" >
+            <div class="col-sm-3">
+                Type:
+
+            </div>
+            <div class="col-sm-8">
+                {{checksheettoview.type}}
+
+            </div>
+
+
+            </div>
+
+      <div class="row" >
+            <div class="col-sm-3">
+                # of blocks:
+
+            </div>
+            <div class="col-sm-8">
+                {{checksheettoview.blockid.length}}
+
+            </div>
+
+
+            </div>
+      <div class="row" >
+            <div class="col-sm-3">
+                Creator:
+
+            </div>
+            <div class="col-sm-8">
+                {{checksheettoview.creator}}
+
+            </div>
+
+
+            </div>
+
+        </div>
+
+    
+
+
+        <div class="modal-footer">
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel
+            </button> 
+
+        </div>
+    </form>

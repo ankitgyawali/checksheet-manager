@@ -51,9 +51,74 @@ router.post('/login', function(req, res ) {
 });
 
 
+// router.post('/advisorstudentdetails', function(req, res ) {
 
+
+//  models.advisor.findOne({'_id': req.body._id }).
+//   .lean()
+//   .populate({ path: 'advisee' })
+//   .exec(function(err, docs) {
+
+//     var options = {
+//       path: 'advisee.checksheetprotoid',
+//       model: 'checksheet'
+//     };
+
+//     if (err) return res.json(500);
+//     models.advisor.populate(docs, options, function (err, projects) {
+//       res.json(projects);
+//     });
+//   });
+
+// });
  
 
+// router.post('/populateappointmenttimes', function(req, res ) {
+
+//      models.advisor.findOne({'_id': req.body._id },'-password' ,function(err, advisor){
+//       if(err){
+//         return res.sendStatus(500);
+//       }
+//       else{
+
+//       res.send(advisor)
+//       }
+//       }).populate({ 
+//      path: "appointmenttimes.S.studentid",
+//      model: 'student'
+//   })
+//   .exec(function(err, docs) {});
+
+
+// });
+
+
+router.post('/advisorstudentdetails', function(req, res ) {
+
+     models.advisor.findOne({'_id': req.body._id },'-password' ,function(err, advisor){
+      if(err){
+        return res.sendStatus(500);
+      }
+      else{
+
+      res.send(advisor)
+      }
+      }).populate({ 
+     path: 'advisee',
+     populate: {
+       path: 'checksheetprotoid',
+       populate: {
+        path: 'blockid', model: 'block'
+       },
+       model: 'checksheet'
+     } 
+  })
+  .exec(function(err, docs) {});
+
+
+
+
+});
 
 
 
@@ -645,6 +710,21 @@ router.put('/studentsetting', function(req, res) {
   
 });
 
+router.put('/existingstudent', function(req, res) {
+  console.log('new id req body: '+req.body.newstudentID._id);
+
+  models.student.update({_id:req.body.newstudentID._id}, req.body.newstudentID, {upsert:true}, 
+    function(err, doc){
+    if (err) {
+     console.log("error because: "+ err + "&&& doc: "+doc)
+      return res.sendStatus(500);
+    }
+    return res.sendStatus(200);
+});
+  
+});
+
+
 
 router.put('/departments', function(req, res) {
   console.log('new id req body: '+req.body.newID._id);
@@ -657,8 +737,6 @@ router.put('/departments', function(req, res) {
     }
     return res.sendStatus(200);
 });
-
-
   
 });
 
@@ -716,6 +794,21 @@ router.put('/classes', function(req, res) {
 
   
 });
+
+router.delete('/existingstudent', function(req, res) {
+
+
+models.student.remove({ _id: req.body.deleteID }, function(err) {
+    if (err) {
+      console.log("error because: "+ err + "&&& doc: "+doc)
+      return res.sendStatus(500);
+    }
+    console.log("deleted: "+ req.body.deleteID)
+    return res.sendStatus(200);
+});
+
+});
+
 
 router.delete('/departments', function(req, res) {
 

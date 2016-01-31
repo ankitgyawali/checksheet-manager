@@ -101,7 +101,7 @@ angular.module('smApp').factory('AuthService',
   function ($q, $timeout, $http, $cookies) {
 
 
-    var pageSize = 4;
+    var pageSize = 10;
 
     // return available functions for use in controllers
     return ({
