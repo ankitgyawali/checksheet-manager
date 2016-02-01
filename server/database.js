@@ -6,7 +6,7 @@ var db = mongoose.connection;
 //Root User Schema
 var rootSchema = mongoose.Schema({
     username: { type: String, unique: true },
-    password: String,
+    password: { type: String, select: false },
     email: { type: String, unique: true },
     firstname: String,
     lastname: String,
@@ -19,7 +19,7 @@ var rootCol = mongoose.model('root', rootSchema);
 //Advisor User Schema
 var advisorSchema = mongoose.Schema({
     username: { type: String, unique: true },
-    password: String,
+    password: { type: String, select: false },
     email: String,
     id: { type: String, unique: true },
     firstname: String,
@@ -48,7 +48,7 @@ var studentSchema = mongoose.Schema({
     department: String,
     checksheetprotoid: [{ type: String, ref: 'checksheet' }],
     checksheetdata: Array,
-    advisor: Array,
+    advisor: [{ type: String, ref: 'advisor' }],
     registered: Boolean
 },{ collection : 'student' });
 var studentCol = mongoose.model('student', studentSchema);

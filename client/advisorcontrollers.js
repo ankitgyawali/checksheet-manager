@@ -8,15 +8,12 @@ angular.module('smApp').controller('advisorController', ['$scope', '$http', '$lo
         // $scope.templateURL = 'partials/rdept.html';
 
         //DEBUG: set advisor default page here
-        $scope.templateURL = 'partials/viewadvising.html';
+        $scope.templateURL = 'partials/viewstudents.html';
         //Get username and type at parent scope
         $scope.username = AuthService.getusername();
         $scope.lastname = AuthService.getlastname()
         $scope.usertype = AuthService.getusertype();
     
-
-     
-
 
 
                $http({
@@ -43,8 +40,7 @@ angular.module('smApp').controller('advisorController', ['$scope', '$http', '$lo
                     $scope.myappointmentTimes = data.appointmentTimes;
                     
 
-                        console.log(JSON.stringify($scope.myappointmentTimes));
-
+       
                     })
                     .error(function(data, status, headers, config) {
                         notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
@@ -58,6 +54,23 @@ angular.module('smApp').controller('advisorController', ['$scope', '$http', '$lo
         $scope.settemplateURL = function(temp) {
             $scope.templateURL = temp;
         };
+
+          $scope.$watch('templateURL', function(val) {
+          console.log('watch: '+AuthService.isRegistered());
+               if(AuthService.isRegistered()){
+                if($scope.templateURL != "partials/advisorsettings.html")
+                {
+                notificationFactory.warning("Change your settings to proceed.");
+                }
+                            $scope.templateURL = "partials/advisorsettings.html"
+                        }
+                        else{
+                             $scope.templateURL = val;
+                        }
+
+
+        });
+
 
         //Logout function that utilizes factory service 
         $scope.logout = function() {
@@ -82,7 +95,17 @@ angular.module('smApp').controller('viewadivisingrequests', ['$scope', '$locatio
    }
 
    $scope.indexTohour = function(index){
-      return [((Math.floor(index/4))+1),((index%4)*15)];
+    
+    if(((Math.floor(index/4))+1)>12){
+       //DEBUG ADDED INDEX + 1 ON MINUTES, THIS MIGHT BE FAULTY CALCULATE LATER
+      $scope.retval = (((Math.floor(index/4))+1) - 12) + ((((index%4)*15)==0)?'':':'+((parseInt(index+1)%4)*15)) + 'PM';
+    }
+    else{
+        //DEBUG ADDED INDEX + 1 ON MINUTES, THIS MIGHT BE FAULTY CALCULATE LATER
+   $scope.retval = (((Math.floor(index/4))+1)) + ((((index%4)*15)==0)?'':':'+((parseInt(index+1)%4)*15)) + 'AM';
+
+    }
+      return $scope.retval;
    }
 
 
@@ -105,10 +128,9 @@ $scope.showtimes = function(time){
     } // for oop
 
 
-
  if(!angular.isUndefinedOrNull(time[0])){
  if(!angular.isUndefinedOrNull(time[95])){
-  console.log('xxx');
+
     if(!angular.isUndefinedOrNull(time[0]).state){
      if(!angular.isUndefinedOrNull(time[95]).state){
       if((time[0]).state=='true' && (time[95]).state=='true'){
@@ -119,12 +141,20 @@ $scope.showtimes = function(time){
 
 if ($scope.starteend.length) {
   if ($scope.starteend.length==2) {
+  // $scope.returnval = $scope.indexTohour($scope.starteend[0]);
 
-return '2 only';
-  }else
+
+return $scope.indexTohour($scope.starteend[0]) +' to '+ $scope.indexTohour(($scope.starteend[1]+1)%96);
+  }
+  else
   {
-return 'laaang';
+    $scope.returnvalappt = $scope.indexTohour($scope.starteend[0]) +' to '+ $scope.indexTohour(($scope.starteend[1]+1)%96);
+    for(var j=2;j<$scope.starteend.length;j=j+2){
+      $scope.returnvalappt = $scope.returnvalappt + ', '+ $scope.indexTohour($scope.starteend[j]) +' to '+ $scope.indexTohour(($scope.starteend[j+1]+1)%96);
+    }
+return $scope.returnvalappt;
   };
+
     }else{
       return 'None';
     };
@@ -133,19 +163,142 @@ return 'laaang';
 
 
 
-
 }
 
-console.log($scope.myappointmentTimes);
+$scope.convertdateformat = function (date){
+return ((date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear());
+}
 
+ // var d = new Date();
+ // d.setDate(d.getDate()-5);
+$scope.todayfullDay = new Date();
+$scope.today = new Date().getDay();
+
+
+$scope.datetoview = $scope.convertdateformat($scope.todayfullDay);
+
+
+$scope.showapptdate = 0;
+$scope.lastweekBegin = new Date();
+//8 instead of  7 cuz 1 is being added later
+$scope.lastweekBegin = new Date($scope.lastweekBegin.setDate($scope.lastweekBegin.getDate() - (7+ ($scope.today))));
+// $scope.dateArray = new Array(4);
+$scope.dateArray = new Array(4);
+$scope.dateArray[0] = new Array(7);
+$scope.dateArray[1] = new Array(7);
+$scope.dateArray[2] = new Array(7);
+$scope.dateArray[3] = new Array(7);
+
+for (var a = 0; a < 4; a++) {
+for (var b = 0; b < 7; b++) {
+
+$scope.dateArray[a][b] = $scope.convertdateformat($scope.lastweekBegin);
+$scope.lastweekBegin = new Date($scope.lastweekBegin.setDate($scope.lastweekBegin.getDate() +1));
+} }
+  console.log($scope.dateArray);
+//STARTHERE
+$scope.searchappointment = function(idx){
+$scope.showapptdate = 1;
+$scope.datetosearch = $scope.datetoview;
+$scope.appointmentsgotten = new Array();
+$scope.studentids = new Array();
+ for (var key in $scope.myappointmentTimes) {
+                if ($scope.myappointmentTimes.hasOwnProperty(key)) {
+                  for(i=0;i<$scope.myappointmentTimes[key].length;i++){
+
+                    if(!angular.isUndefinedOrNull($scope.myappointmentTimes[key][i])){
+                    if(!angular.isUndefinedOrNull($scope.myappointmentTimes[key][i].state)){
+                      if(!angular.isUndefinedOrNull($scope.myappointmentTimes[key][i].appointmentDate)){
+                       for(j=0;j<$scope.myappointmentTimes[key][i].appointmentDate.length;j++){
+                        if($scope.datetosearch == $scope.convertdateformat(new Date($scope.myappointmentTimes[key][i].appointmentDate[j]))) {
+                        $scope.tempInfo = {};
+                        $scope.tempInfo['timeslot'] = i;
+                        $scope.tempInfo['appointmentRequestTime'] = $scope.myappointmentTimes[key][i]['appointmentRequestTime'][j];
+                        $scope.tempInfo['appointmentDate'] = $scope.myappointmentTimes[key][i]['appointmentDate'][j];
+                        //Line below could be commented out later
+                        $scope.tempInfo['studentid'] = $scope.myappointmentTimes[key][i]['studentid'][j];
+                        $scope.tempInfo['note'] = $scope.myappointmentTimes[key][i]['note'][j];
+                        $scope.studentids.push($scope.myappointmentTimes[key][i]['studentid'][j]);
+                        $scope.appointmentsgotten.push($scope.tempInfo);
+                    }//Main if statement to check
+                } //Match inside appointment date array 
+              } // If to check appointment date array
+            } //If to check appointment state slot
+          } //If to check state 
+        } //For loop to loop inside a whole day            
+      } //If to check if has own property
+    } //For to loop through keys
+
+
+
+    $http({
+            method: 'POST',
+            url: '/populatestudentids',
+            // set the headers so angular passing info as form data (not request payload)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                studentids: $scope.studentids
+            }
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+           $scope.studentids = data;
+
+
+        })
+        .error(function(data, status, headers, config) {
+    
+        });
+
+
+console.log(JSON.stringify($scope.appointmentsgotten));
+console.log(JSON.stringify($scope.studentids));
+
+
+  } //End search appointment function
+
+
+    $scope.indexTohour = function(index){
+         if(index < 47){
+          $scope.valtoreturn = ((Math.floor(index/4))+1);
+        }
+        else{
+           $scope.valtoreturn = (((Math.floor(index/4))+1)-12);
+        }
+
+      if((index%4)==0){
+        if(index < 47){
+          $scope.valtoreturn  = $scope.valtoreturn + 'AM';
+        }
+        else{
+          $scope.valtoreturn  = $scope.valtoreturn + 'PM';
+        }
+      }
+      else
+      {
+        $scope.valtoreturn = $scope.valtoreturn + ':' +  ((index%4)*15);
+
+
+        if(index < 47){
+          $scope.valtoreturn  = $scope.valtoreturn + 'AM';
+        }
+        else{
+          $scope.valtoreturn  = $scope.valtoreturn + 'PM';
+        }
+      }
  
-
-$scope.ok = function(){
-  console.log($scope.myappointmentTimes);
-}
+        return $scope.valtoreturn;
+     }
 
 
- }
+
+
+
+} //End controller
+
 ]);
 
 
@@ -645,6 +798,31 @@ angular.module('smApp').controller('checksheetviewer', ['$scope', '$http','$uibM
 
 
 
+// Student controller that handles student dashboard and student operation
+angular.module('smApp').controller('advisorprofilecontroller',
+  ['$scope', '$routeParams','$location', 'notificationFactory', 'AuthService','$http','$uibModal', 
+   function ($scope, $routeParams,$location, notificationFactory, AuthService,$http,$uibModal) {
+
+
+   $http({
+                  method: 'POST',
+                  url: '/advisorprofile',
+                  data: {
+                        _id: AuthService.getuserid()
+                    }
+                    }).success(function(data, status, headers, config) {
+                        // this callback will be called asynchronously
+                        // when the response is available
+
+                        $scope.advisorprofile = data;
+                    })
+                    .error(function(data, status, headers, config) {
+                        notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
+                    });
+
+
+}]);
+
 
 //Controller designed to handle mixing of one or more checksheet block for the creation of a checksheet
 angular.module('smApp').controller('setadvisingcontroller', ['$scope', '$http','$location', 'notificationFactory', 'AuthService', '$cookies',
@@ -752,8 +930,8 @@ angular.module('smApp').controller('setadvisingcontroller', ['$scope', '$http','
            if ($scope.oneSlot.timediff >= 24 )
            {
             notificationFactory.error("You can't have more than 10 hours of appointment session at once!");
-            console.log($scope.oneSlot.maxHR);
-             console.log($scope.oneSlot.minHR);
+            // console.log($scope.oneSlot.maxHR);
+            //  console.log($scope.oneSlot.minHR);
            }
            else if ($scope.oneSlot.timediff == 0 ){
             notificationFactory.error("Minimum appointment time slot to be opened is 30 min. Try again.");
@@ -764,27 +942,27 @@ angular.module('smApp').controller('setadvisingcontroller', ['$scope', '$http','
             $scope.newTimes[$scope.timeDay].push($scope.timeMinHr+" : "+ $scope.timeMinMin +""+$scope.timeMinAMPM+" to "+$scope.timeMaxHr+" : "+ $scope.timeMaxMin+""+ $scope.timeMaxAMPM);
             if (($scope.hourtoIndex($scope.oneSlot.minHR,$scope.oneSlot.minMin)) > ($scope.hourtoIndex($scope.oneSlot.maxHR,$scope.oneSlot.maxMin)))
             {
-                console.log("opposite");
+                // console.log("opposite");
                 for (i = ($scope.hourtoIndex($scope.oneSlot.minHR,$scope.oneSlot.minMin));
                  i < $scope.appointmentTimes[$scope.timeDay].length; i++) 
                     {
-                    console.log('This is i :'+i);
+                    // console.log('This is i :'+i);
                     $scope.appointmentTimes[$scope.timeDay][i] = $scope.arraySlot;
                     }
 
                 for (i = 0; i < ($scope.hourtoIndex($scope.oneSlot.maxHR,$scope.oneSlot.maxMin)); i++) 
                     {
-                    console.log('This is i :'+i);
+                  
                     $scope.appointmentTimes[$scope.timeDay][i] = $scope.arraySlot;
                     }
             
             }
                else{
-               console.log('this is i start:'+($scope.hourtoIndex($scope.oneSlot.minHR,$scope.oneSlot.minMin)));
-                    console.log('while i is less than:'+($scope.hourtoIndex($scope.oneSlot.maxHR,$scope.oneSlot.maxMin)));
+               // console.log('this is i start:'+($scope.hourtoIndex($scope.oneSlot.minHR,$scope.oneSlot.minMin)));
+               //      console.log('while i is less than:'+($scope.hourtoIndex($scope.oneSlot.maxHR,$scope.oneSlot.maxMin)));
                     for (i = ($scope.hourtoIndex($scope.oneSlot.minHR,$scope.oneSlot.minMin)); i < ($scope.hourtoIndex($scope.oneSlot.maxHR,$scope.oneSlot.maxMin)) ; i++)
                     {
-                    console.log('This is i :'+i);
+                    // console.log('This is i :'+i);
                     $scope.appointmentTimes[$scope.timeDay][i] = $scope.arraySlot;
                     }
                }
@@ -928,6 +1106,7 @@ $scope.addnewStudent = function(){
                 }).success(function(data, status, headers, config) {
                 //Set template to revert back to displaying department so that user can view/update newly added department
                 $scope.settemplateURL('partials/viewstudents.html');
+                $scope.studentlist.push($scope.student);
                 notificationFactory.info("Successfully added students: ");
 
                 })
@@ -1240,3 +1419,39 @@ angular.module('smApp').controller('advisorchecksheetController', ['$scope', '$h
         };
     }
 ]);
+
+
+// Student controller that handles modification of student settings
+angular.module('smApp').controller('advisorsettingscontroller',
+  ['$scope', '$location', 'notificationFactory', 'AuthService','$http', 
+   function ($scope, $location, notificationFactory, AuthService,$http) {
+    $scope.setting = {};
+
+    $scope.updateadvisorsettings = function () {
+        $scope.setting._id = AuthService.getuserid();
+        $scope.setting.password = $scope.advisornewpassword;
+        $scope.setting.registered = true;
+               $http({
+                        method: 'PUT',
+                        url: '/advisorsetting',
+                          headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        setting: $scope.setting
+                    }
+
+                    }).success(function(data, status, headers, config) {
+                    notificationFactory.success("Settings update succesfully.");
+                    AuthService.setRegistered('true');
+                    $scope.settemplateURL("partials/viewstudents.html");
+
+                    })
+                    .error(function(data, status, headers, config) {
+                        notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
+                    });
+    }
+
+}]);
+
+

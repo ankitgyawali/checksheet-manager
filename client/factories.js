@@ -116,10 +116,20 @@ angular.module('smApp').factory('AuthService',
       generatePassword: generatePassword,
       getPaginationSize:getPaginationSize,
       setPaginationSize:setPaginationSize,
+      isRegistered: isRegistered,
+      setRegistered: setRegistered
 
     });
 
+    function setRegistered(value) {
+      $cookies.put('registered', value);
+      
+    }
 
+    function isRegistered(){
+        console.log('cookies get'+ ($cookies.get('registered')));
+       return (angular.isUndefinedOrNull($cookies.get('registered')));
+    }
     function getPaginationSize() {
         return pageSize;
     }
@@ -168,8 +178,8 @@ function login(uname, upwd, utype) {
             // when the response is available
 
             if (status === 200) {
-                user = true;
-
+                
+                $cookies.put('registered', data.person.registered);
                 $cookies.put('username', data.person.firstname);
                 $cookies.put('lastname', data.person.lastname);
                 $cookies.put('loggedin', 'true');
@@ -260,6 +270,9 @@ console.log('type inside logout: '+getusertype())
         function getusertype() {
        return $cookies.get('usertype');
     }
+
+
+ 
 
        function setusertype(value) {
       $cookies.put('usertype', value);

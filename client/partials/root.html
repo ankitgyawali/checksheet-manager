@@ -26,10 +26,10 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{username}} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+                            <a href="#"  ng-click="templateURL='partials/rootprofile.html'"><i class="fa fa-fw fa-user"></i> Profile</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                            <a href="#"  ng-click="templateURL='partials/rootsettings.html'"><i class="fa fa-fw fa-gear"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li>
@@ -49,6 +49,7 @@
       <div class="row" >
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
+            <li><b>Manage Data for User profiles</b></li>
             <li ng-class="{active: (templateURL=='partials/rdept.html' || templateURL=='partials/addnewdepartment.html')}"><a href="#" ng-click="templateURL='partials/rdept.html'">Departments </a></li>
 
             <li ng-class="{active: (templateURL=='partials/rclass.html' || templateURL=='partials/addnewclass.html')}"><a href="#" ng-click="templateURL='partials/rclass.html'">Classes</a>
@@ -58,9 +59,10 @@
           </ul>
 
           <ul class="nav nav-sidebar">
-            <li ng-class="{active: (templateURL=='partials/newrootuser.html' || templateURL=='partials/registernewroot.html')}"><a href="#" ng-click="templateURL='partials/newrootuser.html'">Manage Other Root Users</a></li>
-            <li ng-class="{active: (templateURL=='partials/radvisor.html' || templateURL=='partials/rootregisteradvisor.html')}"><a href="#" ng-click="templateURL='partials/radvisor.html'">Manage Advisors </a></li>
-            <li><a href="">Manage Students </a></li>
+            <li><b>Manage User profiles</b></li>
+            <li ng-class="{active: (templateURL=='partials/newrootuser.html' || templateURL=='partials/registernewroot.html')}"><a href="#" ng-click="templateURL='partials/newrootuser.html'">Add/View Root Users</a></li>
+            <li ng-class="{active: (templateURL=='partials/radvisor.html' || templateURL=='partials/rootregisteradvisor.html')}"><a href="#" ng-click="templateURL='partials/radvisor.html'">Add/View Advisors </a></li>
+            <li ng-class="{active: (templateURL=='partials/rootviewstudents.html')}"><a href="#" ng-click="templateURL='partials/rootviewstudents.html'">View Students </a></li>
 
           </ul>
         </div>

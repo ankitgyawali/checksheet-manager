@@ -16,7 +16,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-    <li><a> Student dashboard</a> </li>
+    <li><a> Student dashboard</a></li>
 
       </ul>
 
@@ -51,6 +51,9 @@
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li ng-class="{active: (templateURL=='partials/studentsummary.html')}"><a href="#" ng-click="templateURL='partials/studentsummary.html'">Home Page </a></li>
+
+          </ul><ul class="nav nav-sidebar">
+          <li><b>Checksheet Manager:</b></li>
               <li ng-class="{active: (templateURL=='partials/studentviewchecksheet.html')}"><a href="#" ng-click="templateURL='partials/studentviewchecksheet.html'">View my checksheet </a></li>
 
             <li ng-class="{active: (templateURL=='partials/studentmodifychecksheet.html')}"><a href="#" ng-click="templateURL='partials/studentmodifychecksheet.html'">Modify my checksheet</a>
@@ -61,6 +64,7 @@
 
      
          <ul class="nav nav-sidebar">
+          <li><b>Appointment Scheduler:</b></li>
             <li ng-class="{active: (templateURL=='partials/studentrequestadvising.html')}"><a href="#" ng-click="templateURL='partials/studentrequestadvising.html'">Request advising appointment </a></li>
 
 	

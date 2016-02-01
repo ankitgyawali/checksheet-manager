@@ -13,12 +13,20 @@
 
 </div>
 
-
 <div class="panel panel-default">
   <div class="panel-body" style="font-size:125%">
     Advising appointment times can be set in the interval of certain time limits. Note that if you make changes to your advising appointment times after you broadcast it to your students, you will be responsible for notifying them the changed times. Refer to the documentation for more information.
   </div>
 </div>
+
+
+<div class="page-header" style="font-size:125%">
+  <button type="button" ng-click="submitAppointments()"><i class="fa fa-eraser"></i> Reset & Submit Appointment times to database</button>
+<br>
+<span style="font-size:75%"> Warning: This will reset all of your current appointments with your students.</span>
+ </div>
+
+
 
 <div style="font-size:125%">
 
@@ -96,10 +104,12 @@ To <br>
 
 </div>
 </div>
+
+
   <br> <br>  <button ng-click="addAppt()">Add appointment time</button> <br><br>
 <span style="font-size:85%"> Time conflicts are handled gracefully. Overlapping times will be shown "as-is" on your appointment schedule summary below. Your actual schedule can be viewed from "view advising appointments" tab once you submit your schedule. </span>
 <div class="row">
-<div class="col-sm-6">
+<div class="col-sm-12">
   <div class="panel panel-default">
   <div class="panel-body" style="font-size:100%">
   <b><u>New Appointment Schedule Summary:</u></b><br><br>
@@ -112,23 +122,23 @@ Appointment time length: 15 min <br><br>
 
 </div>
 <div class="container row">
-<b>Monday:</b> <ul><li ng-repeat="timeslot in newTimes.M track by $index"> {{timeslot}}</li>
+<b>Monday:</b> <ul><li ng-repeat="timeslot in newTimes.M track by $index"> {{timeslot}}</li></ul>
 </div>
 <div class="container row">
-<b>Tuesday:</b> <ul><li ng-repeat="timeslot in newTimes.T track by $index"> {{timeslot}}</li>
+<b>Tuesday:</b> <ul><li ng-repeat="timeslot in newTimes.T track by $index"> {{timeslot}}</li></ul>
 
 </div>
 <div class="container row">
-<b>Wednesday:</b> <ul><li ng-repeat="timeslot in newTimes.W track by $index"> {{timeslot}}</li>
+<b>Wednesday:</b> <ul><li ng-repeat="timeslot in newTimes.W track by $index"> {{timeslot}}</li></ul>
 </div>
 <div class="container row">
-<b>Thursday:</b> <ul><li ng-repeat="timeslot in newTimes.TH track by $index"> {{timeslot}}</li>
+<b>Thursday:</b> <ul><li ng-repeat="timeslot in newTimes.TH track by $index"> {{timeslot}}</li></ul>
  </div>
 <div class="container row">
-<b>Friday:</b> <ul><li ng-repeat="timeslot in newTimes.F track by $index"> {{timeslot}}</li>
+<b>Friday:</b> <ul><li ng-repeat="timeslot in newTimes.F track by $index"> {{timeslot}}</li></ul>
 </div>
 <div class="container row">
-<b>Saturday:</b><ul><li ng-repeat="timeslot in newTimes.SA track by $index"> {{timeslot}}</li>
+<b>Saturday:</b><ul><li ng-repeat="timeslot in newTimes.SA track by $index"> {{timeslot}}</li></ul>
 </div>
 
 
@@ -139,26 +149,22 @@ Appointment time length: 15 min <br><br>
 
 </div>
 
-<div class="col-sm-6">
-  <div class="panel panel-default">
+
+
+
+</div>
+
+<div class="panel panel-default">
   <div class="panel-body" style="font-size:100%">
-  <b><u>Current Appointment Schedule Summary:</u></b><br><br>
-  Maximum Number of appointments possible per week: <br>
-  Appointment time length: 15 min<br>
-  View my current schedule:
-
-  </div></div>
-
-
+    Go to "view advising appointments" tab to view current appointment schedule and requested appointment informaiton.
+  </div>
 </div>
 
-
-</div>
 <div class="row">
   <div class="col-sm-12"><br><br>
-  <button type="button" ng-click="submitAppointments()"> Reset & Submit Appointment times to database</button>
+  <button type="button" ng-click="submitAppointments()"><i class="fa fa-eraser"></i> Reset & Submit Appointment times to database</button>
 <br>
-<span style="font-size:85%"> Warning: This will reset all of your current appointments with your students.</span>
+<span style="font-size:75%"> Warning: This will reset all of your current appointments with your students.</span>
   </div>
 </div>
 

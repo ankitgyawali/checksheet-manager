@@ -93,6 +93,29 @@ router.post('/login', function(req, res ) {
 // });
 
 
+//Returns students information as a whole including checksheet, advisor information
+router.post('/searchstudentforroot', function(req, res ) {
+
+     models.student.findOne({'id': req.body.studentid },'-password' ,function(err, student){
+      if(err){
+        return res.sendStatus(500);
+      }
+      else{
+
+      res.send(student)
+      }
+      }).populate({ 
+     path: 'checksheetprotoid advisor',
+     populate: {
+       path: 'blockid',
+       model: 'block'
+     } 
+  })
+  .exec(function(err, docs) {});
+
+});
+
+
 router.post('/advisorstudentdetails', function(req, res ) {
 
      models.advisor.findOne({'_id': req.body._id },'-password' ,function(err, advisor){
@@ -115,11 +138,23 @@ router.post('/advisorstudentdetails', function(req, res ) {
   })
   .exec(function(err, docs) {});
 
-
-
-
 });
 
+router.post('/populatestudentids', function(req, res ) {
+
+     models.student.find({'_id': { $in: req.body.studentids }},'-checksheetdata -checksheetprotoid -advisor', function(err, student) {
+       if(err)
+    {
+      res.sendStatus(500);
+    }
+    else
+    {
+      console.log('ok'+ student);
+      res.send(student)
+    }
+     });
+
+});
 
 
 router.post('/students', function(req, res) {
@@ -233,6 +268,33 @@ router.post('/students', function(req, res) {
 // });
 
 
+router.post('/rootprofile', function(req, res) {
+
+  models.root.findOne({_id:req.body._id}, '-password',
+    function(err, doc){
+    if (err) {
+      return res.sendStatus(500);
+    }
+    res.send(doc);
+});
+
+});
+
+
+
+
+router.post('/advisorprofile', function(req, res) {
+
+  models.advisor.findOne({_id:req.body._id}, '-password',
+    function(err, doc){
+    if (err) {
+     console.log("error because: "+ err + "&&& doc: "+doc)
+      return res.sendStatus(500);
+    }
+    res.send(doc);
+});
+
+});
 
 
 router.post('/studentprofile', function(req, res) {
@@ -691,6 +753,36 @@ router.post('/appointmenttimes', function(req, res) {
 
 
   
+});
+
+router.put('/rootsetting', function(req, res) {
+ 
+
+  models.root.update({_id:req.body.setting._id}, req.body.setting, {upsert:true}, 
+    function(err, doc){
+    if (err) {
+     console.log("error because: "+ err + "&&& doc: "+doc)
+      return res.sendStatus(500);
+    }
+    return res.sendStatus(200);
+});
+
+});
+
+
+
+router.put('/advisorsetting', function(req, res) {
+  console.log('new id req body: '+req.body.setting._id);
+
+  models.advisor.update({_id:req.body.setting._id}, req.body.setting, {upsert:true}, 
+    function(err, doc){
+    if (err) {
+     console.log("error because: "+ err + "&&& doc: "+doc)
+      return res.sendStatus(500);
+    }
+    return res.sendStatus(200);
+});
+
 });
 
 

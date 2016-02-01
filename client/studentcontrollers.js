@@ -6,6 +6,7 @@ angular.module('smApp').controller('studentController',
       //Instantiates templateURL for dashboard constant at parent scope so subsequent child
         //controllers can modify it
 
+
         $scope.templateURL = 'partials/studentsummary.html';
         // $scope.templateURL = 'partials/student.html';
         //Get username and type at parent scope
@@ -17,6 +18,39 @@ angular.module('smApp').controller('studentController',
         $scope.settemplateURL = function(temp) {
             $scope.templateURL = temp;
         };
+
+        $scope.indexTohourlong = function(index){
+         if(index < 47){
+          $scope.valtoreturn = ((Math.floor(index/4))+1);
+        }
+        else{
+           $scope.valtoreturn = (((Math.floor(index/4))+1)-12);
+        }
+
+      if((index%4)==0){
+        if(index < 47){
+          $scope.valtoreturn  = $scope.valtoreturn + 'AM';
+        }
+        else{
+          $scope.valtoreturn  = $scope.valtoreturn + 'PM';
+        }
+      }
+      else
+      {
+        $scope.valtoreturn = $scope.valtoreturn + ':' +  ((index%4)*15);
+
+
+        if(index < 47){
+          $scope.valtoreturn  = $scope.valtoreturn + 'AM';
+        }
+        else{
+          $scope.valtoreturn  = $scope.valtoreturn + 'PM';
+        }
+      }
+ 
+        return $scope.valtoreturn;
+     }
+
 
          $scope.indextoHR = function(index){
         return [((Math.floor(index/4))+1),((index%4)*15)];
@@ -59,7 +93,8 @@ angular.module('smApp').controller('studentController',
                                 for (j = 0; j < $scope.advisors[0].appointmentTimes[key][i].studentid.length; j++) {
                                     if($scope.advisors[0].appointmentTimes[key][i].studentid[j]==AuthService.getuserid()){
                          
-                                    return 'Appointment requested with '+ $scope.advisors[0].firstname +' ' + $scope.advisors[0].lastname+' from '+ $scope.indextoHR(i)[0] + ':' + $scope.indextoHR(i)[1] + ' to '+$scope.indextoHR(i+1)[0] + ':' + $scope.indextoHR(i+1)[1]+'.';
+                                    return 'Appointment requested with '+ $scope.advisors[0].firstname +' ' + $scope.advisors[0].lastname+' from '+
+                                    $scope.indexTohourlong(i)+ ' to '+ $scope.indexTohourlong((i+1)%96);
 
                                     }
                                 }console.log('worked');
@@ -380,6 +415,9 @@ $scope.setstudentsubmit = function(val){
      }
 
 
+
+
+
 $scope.setdivshowtrue = function(val){
 
 // $scope.advisors[$scope.advisortoview].appointmentTimes
@@ -393,7 +431,9 @@ $scope.currentstudentdata = {};
 $scope.advisortoview = val;
 $scope.divshow = '1'; 
 
-console.log($scope.advisors[val].appointmentTimes);
+
+
+
 for (var i = 0; i < 24; i++) {
 
 $scope.advisortimes[i] = new Array();
@@ -412,7 +452,7 @@ if($scope.advisors[val].appointmentTimes['S'][(i*4)].studentid[x] == AuthService
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['S'][(i*4)].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['S'][(i*4)].note[x];
   $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['S'][(i*4)].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr(i*4)[0] + ':'+$scope.idxtohr(i*4)[1] + ' to '+$scope.idxtohr((i*4)+1)[0] + ':'+ $scope.idxtohr((i*4)+1)[1];
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(i*4) + ' to '+$scope.indexTohourlong(((i*4)+1)%96);
 }
 }
 
@@ -429,7 +469,8 @@ if($scope.advisors[val].appointmentTimes['S'][(i*4)+1].studentid[x] == AuthServi
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['S'][(i*4)+1].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['S'][(i*4)+1].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['S'][(i*4)+1].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr((i*4)+1)[0] + ':'+$scope.idxtohr((i*4)+1)[1] + ' to '+$scope.idxtohr((i*4)+2)[0] + ':'+ $scope.idxtohr((i*4)+2)[1];
+
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(((i*4)+1)%96) + ' to '+$scope.indexTohourlong(((i*4)+2)%96);;
 }
 }
 } }
@@ -443,7 +484,7 @@ if($scope.advisors[val].appointmentTimes['S'][(i*4)+2].studentid[x] == AuthServi
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['S'][(i*4)+2].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['S'][(i*4)+2].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['S'][(i*4)+2].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr((i*4)+2)[0] + ':'+$scope.idxtohr((i*4)+2)[1] + ' to '+$scope.idxtohr((i*4)+3)[0] + ':'+ $scope.idxtohr((i*4)+3)[1];
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(((i*4)+2)%96) + ' to '+$scope.indexTohourlong(((i*4)+3)%96);
 }
 }
 } }
@@ -457,7 +498,7 @@ if($scope.advisors[val].appointmentTimes['S'][(i*4)+3].studentid[x] == AuthServi
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['S'][(i*4)+3].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['S'][(i*4)+3].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['S'][(i*4)+3].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr((i*4)+3)[0] + ':'+$scope.idxtohr((i*4)+3)[1] + ' to '+$scope.idxtohr((i*4)+4)[0] + ':'+ $scope.idxtohr((i*4)+4)[1];
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(((i*4)+3)%96) + ' to '+$scope.indexTohourlong(((i*4)+4)%96);
 }
 }
 } }
@@ -478,7 +519,7 @@ if($scope.advisors[val].appointmentTimes['M'][(i*4)].studentid[x] == AuthService
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['M'][(i*4)].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['M'][(i*4)].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['M'][(i*4)].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr(i*4)[0] + ':'+$scope.idxtohr(i*4)[1] + ' to '+$scope.idxtohr((i*4)+1)[0] + ':'+ $scope.idxtohr((i*4)+1)[1];
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(i*4) + ' to '+$scope.indexTohourlong(((i*4)+1)%96);
 }
 }
 } }
@@ -493,8 +534,7 @@ if($scope.advisors[val].appointmentTimes['M'][(i*4)+1].studentid[x] == AuthServi
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['M'][(i*4)+1].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['M'][(i*4)+1].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['M'][(i*4)+1].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr((i*4)+1)[0] + ':'+$scope.idxtohr((i*4)+1)[1] + ' to '+$scope.idxtohr((i*4)+2)[0] + ':'+ $scope.idxtohr((i*4)+2)[1];
-
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(((i*4)+1)%96) + ' to '+$scope.indexTohourlong(((i*4)+2)%96);;
 }
 }
 } }
@@ -508,7 +548,7 @@ if($scope.advisors[val].appointmentTimes['M'][(i*4)+2].studentid[x] == AuthServi
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['M'][(i*4)+2].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['M'][(i*4)+2].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['M'][(i*4)+2].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr((i*4)+2)[0] + ':'+$scope.idxtohr((i*4)+2)[1] + ' to '+$scope.idxtohr((i*4)+3)[0] + ':'+ $scope.idxtohr((i*4)+3)[1];
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(((i*4)+2)%96) + ' to '+$scope.indexTohourlong(((i*4)+3)%96);
 }
 }
 } }
@@ -522,7 +562,7 @@ if($scope.advisors[val].appointmentTimes['M'][(i*4)+3].studentid[x] == AuthServi
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['M'][(i*4)+3].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['M'][(i*4)+3].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['M'][(i*4)+3].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr((i*4)+3)[0] + ':'+$scope.idxtohr((i*4)+3)[1] + ' to '+$scope.idxtohr((i*4)+4)[0] + ':'+ $scope.idxtohr((i*4)+4)[1];
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(((i*4)+3)%96) + ' to '+$scope.indexTohourlong(((i*4)+4)%96);
 }
 }
 } }
@@ -541,7 +581,7 @@ if($scope.advisors[val].appointmentTimes['T'][(i*4)].studentid[x] == AuthService
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['T'][(i*4)].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['T'][(i*4)].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['T'][(i*4)].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr(i*4)[0] + ':'+$scope.idxtohr(i*4)[1] + ' to '+$scope.idxtohr((i*4)+1)[0] + ':'+ $scope.idxtohr((i*4)+1)[1];
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(i*4) + ' to '+$scope.indexTohourlong(((i*4)+1)%96);
 }
 }
 } }
@@ -556,8 +596,7 @@ if($scope.advisors[val].appointmentTimes['T'][(i*4)+1].studentid[x] == AuthServi
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['T'][(i*4)+1].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['T'][(i*4)+1].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['T'][(i*4)+1].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr((i*4)+1)[0] + ':'+$scope.idxtohr((i*4)+1)[1] + ' to '+$scope.idxtohr((i*4)+2)[0] + ':'+ $scope.idxtohr((i*4)+2)[1];
-
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(((i*4)+1)%96) + ' to '+$scope.indexTohourlong(((i*4)+2)%96);
 }
 }
 } }
@@ -571,7 +610,7 @@ if($scope.advisors[val].appointmentTimes['T'][(i*4)+2].studentid[x] == AuthServi
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['T'][(i*4)+2].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['T'][(i*4)+2].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['T'][(i*4)+2].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr((i*4)+2)[0] + ':'+$scope.idxtohr((i*4)+2)[1] + ' to '+$scope.idxtohr((i*4)+3)[0] + ':'+ $scope.idxtohr((i*4)+3)[1];
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(((i*4)+2)%96) + ' to '+$scope.indexTohourlong(((i*4)+3)%96);
 }
 }
 } }
@@ -585,7 +624,7 @@ if($scope.advisors[val].appointmentTimes['T'][(i*4)+3].studentid[x] == AuthServi
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['T'][(i*4)+3].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['T'][(i*4)+3].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['T'][(i*4)+3].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr((i*4)+3)[0] + ':'+$scope.idxtohr((i*4)+3)[1] + ' to '+$scope.idxtohr((i*4)+4)[0] + ':'+ $scope.idxtohr((i*4)+4)[1];
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(((i*4)+3)%96) + ' to '+$scope.indexTohourlong(((i*4)+4)%96);
 }
 }
 } }
@@ -605,7 +644,7 @@ if($scope.advisors[val].appointmentTimes['W'][(i*4)].studentid[x] == AuthService
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['W'][(i*4)].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['W'][(i*4)].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['W'][(i*4)].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr(i*4)[0] + ':'+$scope.idxtohr(i*4)[1] + ' to '+$scope.idxtohr((i*4)+1)[0] + ':'+ $scope.idxtohr((i*4)+1)[1];
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(i*4) + ' to '+$scope.indexTohourlong(((i*4)+1)%96);
 
 }
 }
@@ -621,8 +660,7 @@ if($scope.advisors[val].appointmentTimes['W'][(i*4)+1].studentid[x] == AuthServi
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['W'][(i*4)+1].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['W'][(i*4)+1].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['W'][(i*4)+1].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr((i*4)+1)[0] + ':'+$scope.idxtohr((i*4)+1)[1] + ' to '+$scope.idxtohr((i*4)+2)[0] + ':'+ $scope.idxtohr((i*4)+2)[1];
-
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(((i*4)+1)%96) + ' to '+$scope.indexTohourlong(((i*4)+2)%96);
 }
 }
 } }
@@ -636,7 +674,7 @@ if($scope.advisors[val].appointmentTimes['W'][(i*4)+2].studentid[x] == AuthServi
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['W'][(i*4)+2].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['W'][(i*4)+2].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['W'][(i*4)+2].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr((i*4)+2)[0] + ':'+$scope.idxtohr((i*4)+2)[1] + ' to '+$scope.idxtohr((i*4)+3)[0] + ':'+ $scope.idxtohr((i*4)+3)[1];
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(((i*4)+2)%96) + ' to '+$scope.indexTohourlong(((i*4)+3)%96);
 }
 }
 } }
@@ -650,7 +688,7 @@ if($scope.advisors[val].appointmentTimes['W'][(i*4)+3].studentid[x] == AuthServi
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['W'][(i*4)+3].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['W'][(i*4)+3].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['W'][(i*4)+3].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr((i*4)+3)[0] + ':'+$scope.idxtohr((i*4)+3)[1] + ' to '+$scope.idxtohr((i*4)+4)[0] + ':'+ $scope.idxtohr((i*4)+4)[1];
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(((i*4)+3)%96) + ' to '+$scope.indexTohourlong(((i*4)+4)%96);
 }
 }
 } }
@@ -669,7 +707,7 @@ if($scope.advisors[val].appointmentTimes['TH'][(i*4)].studentid[x] == AuthServic
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['TH'][(i*4)].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['TH'][(i*4)].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['TH'][(i*4)].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr(i*4)[0] + ':'+$scope.idxtohr(i*4)[1] + ' to '+$scope.idxtohr((i*4)+1)[0] + ':'+ $scope.idxtohr((i*4)+1)[1];
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(i*4) + ' to '+$scope.indexTohourlong(((i*4)+1)%96);
 }
 }
 } }
@@ -684,8 +722,7 @@ if($scope.advisors[val].appointmentTimes['TH'][(i*4)+1].studentid[x] == AuthServ
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['TH'][(i*4)+1].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['TH'][(i*4)+1].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['TH'][(i*4)+1].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr((i*4)+1)[0] + ':'+$scope.idxtohr((i*4)+1)[1] + ' to '+$scope.idxtohr((i*4)+2)[0] + ':'+ $scope.idxtohr((i*4)+2)[1];
-
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(((i*4)+1)%96) + ' to '+$scope.indexTohourlong(((i*4)+2)%96);
 }
 }
 } }
@@ -699,7 +736,7 @@ if($scope.advisors[val].appointmentTimes['TH'][(i*4)+2].studentid[x] == AuthServ
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['TH'][(i*4)+2].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['TH'][(i*4)+2].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['TH'][(i*4)+2].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr((i*4)+2)[0] + ':'+$scope.idxtohr((i*4)+2)[1] + ' to '+$scope.idxtohr((i*4)+3)[0] + ':'+ $scope.idxtohr((i*4)+3)[1];
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(((i*4)+2)%96) + ' to '+$scope.indexTohourlong(((i*4)+3)%96);
 }
 }
 } }
@@ -713,7 +750,7 @@ if($scope.advisors[val].appointmentTimes['TH'][(i*4)+3].studentid[x] == AuthServ
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['TH'][(i*4)+3].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['TH'][(i*4)+3].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['TH'][(i*4)+3].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr((i*4)+3)[0] + ':'+$scope.idxtohr((i*4)+3)[1] + ' to '+$scope.idxtohr((i*4)+4)[0] + ':'+ $scope.idxtohr((i*4)+4)[1];
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(((i*3)+2)%96) + ' to '+$scope.indexTohourlong(((i*4)+4)%96);
 }
 }
 } }
@@ -733,7 +770,7 @@ if($scope.advisors[val].appointmentTimes['F'][(i*4)].studentid[x] == AuthService
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['F'][(i*4)].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['F'][(i*4)].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['F'][(i*4)].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr(i*4)[0] + ':'+$scope.idxtohr(i*4)[1] + ' to '+$scope.idxtohr((i*4)+1)[0] + ':'+ $scope.idxtohr((i*4)+1)[1];
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(i*4) + ' to '+$scope.indexTohourlong(((i*4)+1)%96);
 }
 }
 } }
@@ -748,8 +785,7 @@ if($scope.advisors[val].appointmentTimes['F'][(i*4)+1].studentid[x] == AuthServi
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['F'][(i*4)+1].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['F'][(i*4)+1].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['F'][(i*4)+1].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr((i*4)+1)[0] + ':'+$scope.idxtohr((i*4)+1)[1] + ' to '+$scope.idxtohr((i*4)+2)[0] + ':'+ $scope.idxtohr((i*4)+2)[1];
-
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(((i*4)+1)%96) + ' to '+$scope.indexTohourlong(((i*4)+2)%96);
 }
 }
 } }
@@ -763,7 +799,7 @@ if($scope.advisors[val].appointmentTimes['F'][(i*4)+2].studentid[x] == AuthServi
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['F'][(i*4)+2].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['F'][(i*4)+2].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['F'][(i*4)+2].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr((i*4)+2)[0] + ':'+$scope.idxtohr((i*4)+2)[1] + ' to '+$scope.idxtohr((i*4)+3)[0] + ':'+ $scope.idxtohr((i*4)+3)[1];
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(((i*4)+2)%96) + ' to '+$scope.indexTohourlong(((i*4)+3)%96);
 }
 }
 } }
@@ -777,7 +813,7 @@ if($scope.advisors[val].appointmentTimes['F'][(i*4)+3].studentid[x] == AuthServi
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['F'][(i*4)+3].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['F'][(i*4)+3].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['F'][(i*4)+3].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr((i*4)+3)[0] + ':'+$scope.idxtohr((i*4)+3)[1] + ' to '+$scope.idxtohr((i*4)+4)[0] + ':'+ $scope.idxtohr((i*4)+4)[1];
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(((i*4)+3)%96) + ' to '+$scope.indexTohourlong(((i*4)+4)%96);
 }
 }
 } }
@@ -797,7 +833,7 @@ if($scope.advisors[val].appointmentTimes['SA'][(i*4)].studentid[x] == AuthServic
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['SA'][(i*4)].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['SA'][(i*4)].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['SA'][(i*4)].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr(i*4)[0] + ':'+$scope.idxtohr(i*4)[1] + ' to '+$scope.idxtohr((i*4)+1)[0] + ':'+ $scope.idxtohr((i*4)+1)[1];
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(i*4) + ' to '+$scope.indexTohourlong(((i*4)+1)%96);
 }
 }
 } }
@@ -812,8 +848,7 @@ if($scope.advisors[val].appointmentTimes['SA'][(i*4)+1].studentid[x] == AuthServ
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['SA'][(i*4)+1].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['SA'][(i*4)+1].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['SA'][(i*4)+1].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr((i*4)+1)[0] + ':'+$scope.idxtohr((i*4)+1)[1] + ' to '+$scope.idxtohr((i*4)+2)[0] + ':'+ $scope.idxtohr((i*4)+2)[1];
-
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(((i*4)+1)%96) + ' to '+$scope.indexTohourlong(((i*4)+2)%96);
 }
 }
 } }
@@ -827,7 +862,7 @@ if($scope.advisors[val].appointmentTimes['SA'][(i*4)+2].studentid[x] == AuthServ
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['SA'][(i*4)+2].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['SA'][(i*4)+2].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['SA'][(i*4)+2].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr((i*4)+2)[0] + ':'+$scope.idxtohr((i*4)+2)[1] + ' to '+$scope.idxtohr((i*4)+3)[0] + ':'+ $scope.idxtohr((i*4)+3)[1];
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(((i*4)+2)%96) + ' to '+$scope.indexTohourlong(((i*4)+3)%96);
 }
 }
 } }
@@ -841,7 +876,7 @@ if($scope.advisors[val].appointmentTimes['SA'][(i*4)+3].studentid[x] == AuthServ
    $scope.currentstudentdata.appointmentDate = $scope.advisors[val].appointmentTimes['SA'][(i*4)+3].appointmentDate[x];
    $scope.currentstudentdata.note = $scope.advisors[val].appointmentTimes['SA'][(i*4)+3].note[x];
     $scope.currentstudentdata.appointmentRequestTime = $scope.advisors[val].appointmentTimes['SA'][(i*4)+3].appointmentRequestTime[x];
-$scope.currentstudentdata.appointmentTime = $scope.idxtohr((i*4)+3)[0] + ':'+$scope.idxtohr((i*4)+3)[1] + ' to '+$scope.idxtohr((i*4)+4)[0] + ':'+ $scope.idxtohr((i*4)+4)[1];
+$scope.currentstudentdata.appointmentTime = $scope.indexTohourlong(((i*4)+3)%96) + ' to '+$scope.indexTohourlong(((i*4)+4)%96);
 }
 }
 } }

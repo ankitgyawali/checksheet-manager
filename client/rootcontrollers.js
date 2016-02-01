@@ -4,8 +4,8 @@ angular.module('smApp').controller('rootController', ['$scope', '$location', 'no
 
         //Instantiates templateURL for dashboard constant at parent scope so subsequent child
         //controllers can modify it
-        // $scope.templateURL = 'partials/rdept.html';
-        $scope.templateURL = 'partials/radvisor.html';
+        $scope.templateURL = 'partials/rootviewstudents.html';
+   
         //Get username and type at parent scope
         $scope.username = AuthService.getusername();
         $scope.usertype = AuthService.getusertype();
@@ -21,7 +21,76 @@ angular.module('smApp').controller('rootController', ['$scope', '$location', 'no
             $location.url('/login');
         };
 
+         $scope.$watch('templateURL', function(val) {
+          console.log('watch: '+AuthService.isRegistered());
+               if(AuthService.isRegistered()){
+                if($scope.templateURL != "partials/rootsettings.html")
+                {
+                notificationFactory.warning("Change your settings to proceed.");
+                }
+                            $scope.templateURL = "partials/rootsettings.html"
+                        }
+                        else{
+                             $scope.templateURL = val;
+                        }
+
+
+        });
+
+
+
     }
+]);
+
+angular.module('smApp').controller('rootviewstudentsController', ['$scope', '$location', 'notificationFactory', '$uibModal', '$http', 'AuthService',
+    function($scope, $location, notificationFactory, $uibModal, $http, AuthService) {
+
+$scope.divshow = 0;
+$scope.rootsearchexistingstudent = function(){
+    $scope.divshow = 1;
+  
+        $http({
+            method: 'POST',
+            url: '/searchstudentforroot',
+            // set the headers so angular passing info as form data (not request payload)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                studentid: $scope.studentidtosearch
+            }
+
+        }).success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+
+           $scope.rstudentdetails = data;
+        
+           $scope.rstudentadvisor = data.advisor;
+
+           $scope.rstudentchecksheetdata = data.checksheetdata;
+           $scope.rstudentchecksheet = data.checksheetprotoid;
+           console.log('student details is:' +JSON.stringify($scope.rstudentadvisor));
+              if($scope.rstudentdetails){
+              $scope.studentfound = 1;
+            }
+            else
+            {
+                 $scope.studentfound = 0;
+            }
+
+            
+
+        })
+        .error(function(data, status, headers, config) {
+        notificationFactory.error("Error, student not found.")
+        });
+
+
+}
+
+
+   }
 ]);
 
 //Controller that handles "manage advisor" dashboard page
@@ -661,3 +730,60 @@ $scope.modify = function () {
 }]);
 
 
+// Student controller that handles student dashboard and student operation
+angular.module('smApp').controller('rootprofilecontroller',
+  ['$scope','$location', 'notificationFactory', 'AuthService','$http','$uibModal', 
+   function ($scope,$location, notificationFactory, AuthService,$http,$uibModal) {
+
+
+   $http({
+                  method: 'POST',
+                  url: '/rootprofile',
+                  data: {
+                        _id: AuthService.getuserid()
+                    }
+                    }).success(function(data, status, headers, config) {
+                        // this callback will be called asynchronously
+                        // when the response is available
+
+                        $scope.rootprofile = data;
+                    })
+                    .error(function(data, status, headers, config) {
+                        notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
+                    });
+
+
+}]);
+
+// Student controller that handles modification of student settings
+angular.module('smApp').controller('rootsettingscontroller',
+  ['$scope', '$location', 'notificationFactory', 'AuthService','$http', 
+   function ($scope, $location, notificationFactory, AuthService,$http) {
+    $scope.setting = {};
+
+    $scope.updaterootsettings = function () {
+        $scope.setting._id = AuthService.getuserid();
+        $scope.setting.password = $scope.rootnewpassword;
+        $scope.setting.registered = true;
+               $http({
+                        method: 'PUT',
+                        url: '/rootsetting',
+                          headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        setting: $scope.setting
+                    }
+
+                    }).success(function(data, status, headers, config) {
+                    notificationFactory.success("Settings update succesfully.");
+                    AuthService.setRegistered('true');
+                    $scope.settemplateURL("partials/rdept.html");
+
+                    })
+                    .error(function(data, status, headers, config) {
+                        notificationFactory.error("Error: Status Code " + status + ". Contact admin if issue persists.");
+                    });
+    }
+
+}]);

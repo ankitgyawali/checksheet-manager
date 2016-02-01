@@ -26,10 +26,10 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{username}} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+                            <a href="#" ng-click="templateURL='partials/advisorprofile.html'"><i class="fa fa-fw fa-user"></i> Profile</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                            <a href="#" ng-click="templateURL='partials/advisorsettings.html'"><i class="fa fa-fw fa-gear"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li>
@@ -49,29 +49,39 @@
       <div class="row" >
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
+        <li><b>Manage Advisee:</b></li>
+                <li ng-class="{active: (templateURL=='partials/viewstudents.html')}"><a href="#" ng-click="templateURL='partials/viewstudents.html'">View my Students</a>
+            
+            </li>
+
             <li ng-class="{active: (templateURL=='partials/advisoraddstudents.html')}"><a href="#" ng-click="templateURL='partials/advisoraddstudents.html'">Add a new student </a></li>
               <li ng-class="{active: (templateURL=='partials/advisoraddcurrentstudents.html')}"><a href="#" ng-click="templateURL='partials/advisoraddcurrentstudents.html'">Add existing student </a></li>
 
-            <li ng-class="{active: (templateURL=='partials/viewstudents.html')}"><a href="#" ng-click="templateURL='partials/viewstudents.html'">View my Students</a>
-            
-            </li>
+        
 
           </ul>
 
           <ul class="nav nav-sidebar">
-            <li ng-class="{active: (templateURL=='partials/checksheetviewer.html')}"><a href="#" ng-click="templateURL='partials/checksheetviewer.html'">Manage Checksheet</a></li>
-            <li ng-class="{active: (templateURL=='partials/checksheetmaker.html')}"><a href="#" ng-click="templateURL='partials/checksheetmaker.html'">Add Checksheets </a></li>
-             </ul>
-         <ul class="nav nav-sidebar">
-           <li ng-class="{active: (templateURL=='partials/blockviewer.html')}"><a href="#" ng-click="templateURL='partials/blockviewer.html'">Manage Block </a></li>
+            <li><b>Checksheet Workshop:</b></li>
+            <li ng-class="{active: (templateURL=='partials/blockviewer.html')}"><a href="#" ng-click="templateURL='partials/blockviewer.html'">Manage Block </a></li>
 
             <li ng-class="{active: (templateURL=='partials/checksheetblock.html')}"><a href="#" ng-click="templateURL='partials/checksheetblock.html'">Add Block </a></li>
+
+            <li ng-class="{active: (templateURL=='partials/checksheetviewer.html')}"><a href="#" ng-click="templateURL='partials/checksheetviewer.html'">Manage Checksheet</a></li>
+            <li ng-class="{active: (templateURL=='partials/checksheetmaker.html')}"><a href="#" ng-click="templateURL='partials/checksheetmaker.html'">Add Checksheet </a></li>
+      
+           
         </ul>
          <ul class="nav nav-sidebar">
-          <li ng-class="{active: (templateURL=='partials/advisorsetannouncement.html')}"><a href="#" ng-click="templateURL='partials/advisorsetannouncement.html'">Broadcast message </a></li>
+          <li><b> Appointment Options:</b></li>
+       
             <li ng-class="{active: (templateURL=='partials/setadvising.html')}"><a href="#" ng-click="templateURL='partials/setadvising.html'">Set advising hours </a></li>
             <li ng-class="{active: (templateURL=='partials/viewadvising.html')}"><a href="#" ng-click="templateURL='partials/viewadvising.html'">View advising appointments </a></li>
 	
+          </ul>
+          <ul  class="nav nav-sidebar">
+            <li><b>Other:</b></li>
+   <li ng-class="{active: (templateURL=='partials/advisorsetannouncement.html')}"><a href="#" ng-click="templateURL='partials/advisorsetannouncement.html'">Broadcast message </a></li>
           </ul>
         </div>
 
