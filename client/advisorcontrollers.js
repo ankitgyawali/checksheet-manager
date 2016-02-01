@@ -376,6 +376,7 @@ console.log(JSON.stringify($scope.checksheetdata));
     }
    
  }
+ 
  $scope.switchdiv = function(){
       $scope.divshow = '1';
  }

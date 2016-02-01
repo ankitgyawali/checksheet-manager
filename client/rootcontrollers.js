@@ -4,7 +4,7 @@ angular.module('smApp').controller('rootController', ['$scope', '$location', 'no
 
         //Instantiates templateURL for dashboard constant at parent scope so subsequent child
         //controllers can modify it
-        $scope.templateURL = 'partials/rootviewstudents.html';
+        $scope.templateURL = 'partials/rdept.html';
    
         //Get username and type at parent scope
         $scope.username = AuthService.getusername();
@@ -46,6 +46,75 @@ angular.module('smApp').controller('rootviewstudentsController', ['$scope', '$lo
     function($scope, $location, notificationFactory, $uibModal, $http, AuthService) {
 
 $scope.divshow = 0;
+
+$scope.backtosearch = function(){
+    $scope.divshow = 0;
+}
+
+$scope.backtoprofile = function(){
+    $scope.divshow = 1;
+}
+
+
+$scope.viewstudentchecksheet = function(idx){
+
+
+    $scope.divshow = 2;
+    $scope.checksheetinview = $scope.rstudentchecksheet[idx];
+    $scope.checksheetdata = $scope.rstudentchecksheetdata[idx];
+    console.log('checksheet clicked was'+idx);
+
+       $scope.complete = 0;
+$scope.incomplete = 0;
+$scope.blocksummarycomplete = new Array($scope.checksheetdata.length);
+   for (i = 0;i<$scope.blocksummarycomplete.length; i++) {
+    $scope.blocksummarycomplete[i] = 0;
+   }
+$scope.blocksummaryincomplete = new Array($scope.checksheetdata.length);
+   for (i = 0;i<$scope.blocksummaryincomplete.length; i++) {
+    $scope.blocksummaryincomplete[i] = 0;
+   }
+
+console.log(JSON.stringify($scope.checksheetdata));
+   for (i = 0;i<$scope.checksheetdata.length; i++) {
+
+    for (j = 0;j<$scope.checksheetdata[i].length; j++) {
+        if (!angular.isUndefinedOrNull($scope.checksheetdata[i][j])) {
+        if (!angular.isUndefinedOrNull($scope.checksheetdata[i][j].suffix)) {
+        $scope.complete = $scope.complete+1;
+         $scope.blocksummarycomplete[i] =  $scope.blocksummarycomplete[i] +1;
+        }   //if statement
+        else{
+        $scope.incomplete = $scope.incomplete+1;
+        $scope.blocksummaryincomplete[i] = $scope.blocksummaryincomplete[i] +1;
+        }
+
+        }//outer if
+        else{
+            $scope.incomplete = $scope.incomplete+1;
+            $scope.blocksummaryincomplete[i] = $scope.blocksummaryincomplete[i] +1;
+        }
+    }  //for j
+    } //for i 
+
+}
+
+              $scope.isFilled = function(pid,id){
+
+    if(angular.isUndefinedOrNull($scope.checksheetdata[pid][id])){
+        return true;
+    }
+    else{
+         if(angular.isUndefinedOrNull($scope.checksheetdata[pid][id].prefix))
+         {
+            return true;
+         }
+         return false;
+    }
+   
+ }
+
+
 $scope.rootsearchexistingstudent = function(){
     $scope.divshow = 1;
   
@@ -79,7 +148,7 @@ $scope.rootsearchexistingstudent = function(){
                  $scope.studentfound = 0;
             }
 
-            
+
 
         })
         .error(function(data, status, headers, config) {
