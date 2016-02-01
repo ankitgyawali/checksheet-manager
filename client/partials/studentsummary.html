@@ -1,58 +1,38 @@
 <div ng-controller="studentsummarycontroller">
 
-
-
-
-<div class="panel panel-primary">
-  <div class="panel-heading">
-    <h3 class="panel-title"> Advisor Announcements  <i class="fa fa-bullhorn"></i>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title"> Advisor Announcements  <i class="fa fa-bullhorn"></i>
 </h3>
-  </div>
-  <div class="panel-body">
+        </div>
+        <div class="panel-body">
+            <div class="row container" style="font-size:100%" ng-repeat="advisor in advisors">
+                <div ng-show="advisor.announcement">
+                    {{advisor.firstname}} {{advisor.lastname}} : {{advisor.announcement}}
 
-  	<div class="row container"  style="font-size:100%" ng-repeat="advisor in advisors">
-	<div ng-show="advisor.announcement">
-  		{{advisor.firstname}} {{advisor.lastname}} : {{advisor.announcement}}
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer" ng-if="studentappt!='none'">
+            <b>{{studentappt}}</b><br> Go to "request advising appointment" tab for more information.
 
-	</div>
+        </div>
+    </div>
 
-  		
-  	</div>
-   
-  </div>
-  <div class="panel-footer" ng-if="studentappt!='none'">
-  	<b>{{studentappt}}</b><br> Go to "request advising appointment" tab for more information.
-  	
-  </div>
-</div>
+    <br><br><b style="font-size:125%"><u>{{student.firstname}}'s Summary </u></b>
 
+    <br>
+    <div class="row"> <br>
+        <div class="col-sm-6" style="border-width:3px;border-style:inset;text-slign:center" align="center"><br>
+            <div class="row page-header"><b>Your progress:</b></div>
+            <nvd3 options='options' data='yourdata'></nvd3>
+        </div>
 
-<br><br><b style="font-size:125%"><u>{{student.firstname}}'s Summary </u></b>
+        <div class="col-sm-6" style="border-width:3px;border-style:inset;text-slign:center" align="center"><br>
+            <div class="row page-header"><b>Checksheet summary for {{checksheets[0].name}}</b></div>
+            <nvd3 options='options' data='data'></nvd3>
+        </div>
 
-<br>
-<div class="row"> <br>
-
-		<div class="col-sm-6" style="border-width:3px;border-style:inset;text-slign:center"  align="center"><br>
-			<div class="row page-header"><b>Your progress:</b></div>
-		<nvd3 options='options' data='yourdata'></nvd3>
-	</div>
-
-
-
-	<div class="col-sm-6" style="border-width:3px;border-style:inset;text-slign:center"  align="center"><br>
-			<div class="row page-header"><b>Checksheet summary for {{checksheets[0].name}}</b></div>
-		<nvd3 options='options' data='data'></nvd3>
-	</div>
-
-
-
-
-
-	
-</div>
-
-
-
-
+    </div>
 
 </div>

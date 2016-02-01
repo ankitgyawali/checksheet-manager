@@ -1,3 +1,6 @@
+// Description: Contains the controllers that help with functionalities of advisor user group.
+// Child controllers inherit from primary Parent Controller "advisorController"
+
 //Main Advisor Controller that handles root dashboard
 angular.module('smApp').controller('advisorController', ['$scope', '$http', '$location', 'notificationFactory', 'AuthService', '$cookies',
     function($scope, $http, $location, notificationFactory, AuthService, $cookies) {

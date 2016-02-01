@@ -1,125 +1,105 @@
 <div ng-controller="addnewstudentController">
 
-<div class="page-header" style="font-size:120%"> 
+    <div class="page-header" style="font-size:120%">
 
-
-
-
-<a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
-&nbsp;&nbsp;&nbsp;
-
-</div>
-
-
-
-
-
-
-
-<div class="panel panel-default">
-  <div class="panel-body" style="font-size:125%">
-     You are about to add a new student. You are required to add student's information and match them with a checksheet prototype with at least 40 or more credits so that they can start managing it. You will be able to track their progress and make modifications to their checksheet. Use "add existing student" tab if your student already has a KSM account and you want to match them with a new "minor" checksheet. Refer to the documentation for more information. 
-  </div>
-</div>
-<form ng-submit="addnewStudent()" style="font-size:90%;">
-<div class="container" style="line-height:30px;">
-
-<div class="row">
-  <div class="col-sm-3">    <label style="font-size:125%"><b>First Name:</b> </label> </div><div class="col-sm-4"> 
-    <input type="text" size="50" autofocus="autofocus" ng-model="student.firstname" required ></div>
-</div>
-<div class="row">
-  <div class="col-sm-3">    <label style="font-size:125%"><b>Last Name:</b> </label> </div><div class="col-sm-4"> 
-    <input type="text" size="50" ng-model="student.lastname" required></div>
-</div>
-<div class="row">
-  <div class="col-sm-3">    <label style="font-size:125%"><b>ID (Unique):</b> </label> </div><div class="col-sm-4"> 
-    <input type="text" size="50" ng-model="student.id" required></div>
-</div>
-<div class="row">
-  <div class="col-sm-3">    <label style="font-size:125%"><b>Username:</b> </label> </div><div class="col-sm-4"> 
-    <input type="text" size="50" ng-model="student.username" required></div>
-</div>
-
-<div class="row">
-  <div class="col-sm-3">    <label style="font-size:125%"><b>Password:</b> </label> </div><div class="col-sm-4"> 
-    <input type="text" size="50"  ng-model="student.password" ng-init="student.password=generatepwd()"required>
-     <input type="hidden" size="50"  ng-init="false" ng-model="student.registered" >
-  </div> 
-     <div class="col-sm-2"></div> <button type="button" ng-click="student.password=generatepwd()"> <i class="fa fa-fw fa-random"></i> Generate a different password</button> </div>
-     <div class="row">
-  <div class="col-sm-3">    <label style="font-size:125%"><b>Email:</b> </label> </div><div class="col-sm-4"> 
-    <input type="text" size="50" ng-model="student.email" required></div>
-</div>
-
-
-<div class="row">
-  <div class="col-sm-3">    <label style="font-size:125%"><b>Major/Department:</b> </label> </div>
-  <div class="col-sm-4" style="font-size:125%"> 
-
-      <select ng-model="student.department" style="width:300px" ng-init="student.department='None'" required>
-                   <option ng-repeat="dpt in dpts" >{{dpt.name}}</option>
-             </select> 
-   
-  </div>
-
-
-</div>
-
-<div class="row">
-  <div class="col-sm-3">    <label style="font-size:125%"><b>Checksheet Prototype:</b> </label> </div><div class="col-sm-4" style="font-size:125%"> 
-      <select ng-model="studentchecksheet" style="width:300px" ng-options="checksheet as checksheet.name for checksheet in checksheets | filter:{department:student.department} track by $index" ng-init="studentchecksheet=checksheets[0]" required>
-        
-             </select> 
-
- 
-</div>
- <div class="col-sm-2">
- 	
- </div> <button type="button" type="button" ng-click="isCollapsed = !isCollapsed" style="font-size:105%"><i class="fa fa-toggle-on" ng-show="isCollapsed"></i> <i class="fa fa-toggle-off" ng-show="!isCollapsed"></i>
-
-See checksheet info</button> </div>
-<br><br>
-
-	<div uib-collapse="!isCollapsed">
-		<div class="well well-lg">
-
-
-
-     <div class="row"><div class="col-sm-3">Checksheet Name:</div>{{studentchecksheet.name}} </div> 
-         <div class="row"><div class="col-sm-3">Checksheet ID:</div>{{studentchecksheet.id}} </div>
-
-      <div class="row"><div class="col-sm-3">Checksheet Type:</div>{{studentchecksheet.type}} </div>
-       <div class="row"><div class="col-sm-3">Checksheet Department:</div>{{studentchecksheet.department}} </div>
-        <div class="row"><div class="col-sm-3">Total Credits in checksheet:</div>{{studentchecksheet.credits}} </div>
-         <div class="row"><div class="col-sm-3">Checksheet Description:</div>{{studentchecksheet.description}} </div>
-      
-
+        <a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
+        &nbsp;&nbsp;&nbsp;
 
     </div>
 
+    <div class="panel panel-default">
+        <div class="panel-body" style="font-size:125%">
+            You are about to add a new student. You are required to add student's information and match them with a checksheet prototype with at least 40 or more credits so that they can start managing it. You will be able to track their progress and make modifications to their checksheet. Use "add existing student" tab if your student already has a KSM account and you want to match them with a new "minor" checksheet. Refer to the documentation for more information.
+        </div>
+    </div>
+    <form ng-submit="addnewStudent()" style="font-size:90%;">
+        <div class="container" style="line-height:30px;">
 
+            <div class="row">
+                <div class="col-sm-3"> <label style="font-size:125%"><b>First Name:</b> </label> </div>
+                <div class="col-sm-4">
+                    <input type="text" size="50" autofocus="autofocus" ng-model="student.firstname" required></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3"> <label style="font-size:125%"><b>Last Name:</b> </label> </div>
+                <div class="col-sm-4">
+                    <input type="text" size="50" ng-model="student.lastname" required></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3"> <label style="font-size:125%"><b>ID (Unique):</b> </label> </div>
+                <div class="col-sm-4">
+                    <input type="text" size="50" ng-model="student.id" required></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3"> <label style="font-size:125%"><b>Username:</b> </label> </div>
+                <div class="col-sm-4">
+                    <input type="text" size="50" ng-model="student.username" required></div>
+            </div>
 
+            <div class="row">
+                <div class="col-sm-3"> <label style="font-size:125%"><b>Password:</b> </label> </div>
+                <div class="col-sm-4">
+                    <input type="text" size="50" ng-model="student.password" ng-init="student.password=generatepwd()" required>
+                    <input type="hidden" size="50" ng-init="false" ng-model="student.registered">
+                </div>
+                <div class="col-sm-2"></div> <button type="button" ng-click="student.password=generatepwd()"> <i class="fa fa-fw fa-random"></i> Generate a different password</button> </div>
+            <div class="row">
+                <div class="col-sm-3"> <label style="font-size:125%"><b>Email:</b> </label> </div>
+                <div class="col-sm-4">
+                    <input type="text" size="50" ng-model="student.email" required></div>
+            </div>
 
-	</div>
+            <div class="row">
+                <div class="col-sm-3"> <label style="font-size:125%"><b>Major/Department:</b> </label> </div>
+                <div class="col-sm-4" style="font-size:125%">
 
-</div>
+                    <select ng-model="student.department" style="width:300px" ng-init="student.department='None'" required>
+                   <option ng-repeat="dpt in dpts" >{{dpt.name}}</option>
+             </select>
 
+                </div>
+            </div>
 
-<button style="font-size:125%" type="submit" >
-	<i class="fa fa-fw fa-check"></i>Register new student as your advisee & send login information
+            <div class="row">
+                <div class="col-sm-3"> <label style="font-size:125%"><b>Checksheet Prototype:</b> </label> </div>
+                <div class="col-sm-4" style="font-size:125%">
+                    <select ng-model="studentchecksheet" style="width:300px" ng-options="checksheet as checksheet.name for checksheet in checksheets | filter:{department:student.department} track by $index" ng-init="studentchecksheet=checksheets[0]" required>
+        
+             </select>
+
+                </div>
+                <div class="col-sm-2">
+
+                </div> <button type="button" type="button" ng-click="isCollapsed = !isCollapsed" style="font-size:105%"><i class="fa fa-toggle-on" ng-show="isCollapsed"></i> <i class="fa fa-toggle-off" ng-show="!isCollapsed"></i>
+
+See checksheet info</button> </div>
+            <br><br>
+
+            <div uib-collapse="!isCollapsed">
+                <div class="well well-lg">
+
+                    <div class="row">
+                        <div class="col-sm-3">Checksheet Name:</div>{{studentchecksheet.name}} </div>
+                    <div class="row">
+                        <div class="col-sm-3">Checksheet ID:</div>{{studentchecksheet.id}} </div>
+
+                    <div class="row">
+                        <div class="col-sm-3">Checksheet Type:</div>{{studentchecksheet.type}} </div>
+                    <div class="row">
+                        <div class="col-sm-3">Checksheet Department:</div>{{studentchecksheet.department}} </div>
+                    <div class="row">
+                        <div class="col-sm-3">Total Credits in checksheet:</div>{{studentchecksheet.credits}} </div>
+                    <div class="row">
+                        <div class="col-sm-3">Checksheet Description:</div>{{studentchecksheet.description}} </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <button style="font-size:125%" type="submit">
+  <i class="fa fa-fw fa-check"></i>Register new student as your advisee & send login information
 </button></form>
 
 
-
-
-
-
-
-
 </div>
-
-
-
-
-

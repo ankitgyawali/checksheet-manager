@@ -1,3 +1,9 @@
+/* 
+ Author: Ankit Gyawali
+   Email: agyaw792@gmail.com
+   Description: CSS for syllabus manager.
+
+*/
 /*
  * Base structure
  */
@@ -132,6 +138,7 @@ body {
 background-color: red;
 }*/
 
+/* Appointment slot css for scheduling appointment with advisor */
 .appointment_red{
 border:1px solid #df0909; -webkit-border-radius: 3px; -moz-border-radius: 3px;border-radius: 3px;font-size:12px;font-family:arial, helvetica, sans-serif; padding: 10px 10px 10px 10px; text-decoration:none; display:inline-block;text-shadow: -1px -1px 0 rgba(0,0,0,0.3);font-weight:bold; color: #FFFFFF;
  background-color: #f62b2b; background-image: -webkit-gradient(linear, left top, left bottom, from(#f62b2b), to(#d20202));
@@ -142,6 +149,7 @@ border:1px solid #df0909; -webkit-border-radius: 3px; -moz-border-radius: 3px;bo
  background-image: linear-gradient(to bottom, #f62b2b, #d20202);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#f62b2b, endColorstr=#d20202);
 }
 
+/* Appointment slot css for scheduling appointment with advisor */
 .appointment_red:hover{
  border:1px solid #b30808;
  background-color: #e40a0a; background-image: -webkit-gradient(linear, left top, left bottom, from(#e40a0a), to(#9f0202));
@@ -157,6 +165,7 @@ border:1px solid #df0909; -webkit-border-radius: 3px; -moz-border-radius: 3px;bo
 }
 */
 
+/* Appointment slot css for scheduling appointment with advisor */
 .appointment_green{
 border:1px solid #34740e; -webkit-border-radius: 3px; -moz-border-radius: 3px;border-radius: 3px;font-size:12px;font-family:arial, helvetica, sans-serif; padding: 10px 10px 10px 10px; text-decoration:none; display:inline-block;text-shadow: -1px -1px 0 rgba(0,0,0,0.3);font-weight:bold; color: #FFFFFF;
  background-color: #4ba614; background-image: -webkit-gradient(linear, left top, left bottom, from(#4ba614), to(#008c00));
@@ -167,6 +176,7 @@ border:1px solid #34740e; -webkit-border-radius: 3px; -moz-border-radius: 3px;bo
  background-image: linear-gradient(to bottom, #4ba614, #008c00);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#4ba614, endColorstr=#008c00);
 }
 
+/* Appointment slot css for scheduling appointment with advisor */
 .appointment_green:hover{
  border:1px solid #224b09;
  background-color: #36780f; background-image: -webkit-gradient(linear, left top, left bottom, from(#36780f), to(#005900));
@@ -177,7 +187,7 @@ border:1px solid #34740e; -webkit-border-radius: 3px; -moz-border-radius: 3px;bo
  background-image: linear-gradient(to bottom, #36780f, #005900);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#36780f, endColorstr=#005900);
 }
 
-
+/* Appointment slot css for scheduling appointment with advisor */
 .appointment_yellow{
 border:1px solid #cb9b14; -webkit-border-radius: 3px; -moz-border-radius: 3px;border-radius: 3px;font-size:12px;font-family:arial, helvetica, sans-serif; padding: 10px 10px 10px 10px; text-decoration:none; display:inline-block;text-shadow: -1px -1px 0 rgba(0,0,0,0.3);font-weight:bold; color: #FFFFFF;
  background-color: #eab92d; background-image: -webkit-gradient(linear, left top, left bottom, from(#eab92d), to(#c79810));
@@ -188,7 +198,7 @@ border:1px solid #cb9b14; -webkit-border-radius: 3px; -moz-border-radius: 3px;bo
  background-image: linear-gradient(to bottom, #eab92d, #c79810);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#eab92d, endColorstr=#c79810);
 }
 
-
+/* Appointment slot css for scheduling appointment with advisor */
 .appointment_yellow:hover{
  border:1px solid #a17b10;
  background-color: #cf9f15; background-image: -webkit-gradient(linear, left top, left bottom, from(#cf9f15), to(#98740c));

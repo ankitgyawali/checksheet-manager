@@ -1,3 +1,6 @@
+// Description: Contains the controllers that help with functionalities of student user group.
+// Child controllers inherit from primary Parent Controller "studentController"
+
 // Student controller that handles student dashboard and student operation
 angular.module('smApp').controller('studentController', ['$scope', '$routeParams', '$location', 'notificationFactory', 'AuthService', '$http',
     function($scope, $routeParams, $location, notificationFactory, AuthService, $http) {

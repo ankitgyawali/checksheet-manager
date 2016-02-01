@@ -1,85 +1,75 @@
 <div class="row" ng-controller="rootController">
 
- <nav class="navbar navbar-default navbar-fixed-top" >
-  <div class="container-fluid" >
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header" >
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand"> <i class="fa fa-list-alt fa-sm"></i> &nbsp;&nbsp; Kutztown Syllabus Manager</a>
-    </div>
+                <a class="navbar-brand"> <i class="fa fa-list-alt fa-sm"></i> &nbsp;&nbsp; Kutztown Syllabus Manager</a>
+            </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-    <li><a> Root user dashboard</a> </li>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"><!-- Menu for root user starts here -->
+                <ul class="nav navbar-nav">
+                    <li><a> Root user dashboard</a> </li>
 
-      </ul>
-
-      <ul class="nav navbar-nav navbar-right">
-
-  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{username}} <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="#"  ng-click="templateURL='partials/rootprofile.html'"><i class="fa fa-fw fa-user"></i> Profile</a>
-                        </li>
-                        <li>
-                            <a href="#"  ng-click="templateURL='partials/rootsettings.html'"><i class="fa fa-fw fa-gear"></i> Settings</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#"  ng-click="logout()"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
-                        </li>
-                    </ul>
-                </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-   </nav>
-
-
-
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{username}} <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#" ng-click="templateURL='partials/rootprofile.html'"><i class="fa fa-fw fa-user"></i> Profile</a>
+                            </li>
+                            <li>
+                                <a href="#" ng-click="templateURL='partials/rootsettings.html'"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#" ng-click="logout()"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
 
     <div class="container-fluid">
-      <div class="row" >
-        <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-            <li><b>Manage Data for User profiles</b></li>
-            <li ng-class="{active: (templateURL=='partials/rdept.html' || templateURL=='partials/addnewdepartment.html')}"><a href="#" ng-click="templateURL='partials/rdept.html'">Departments </a></li>
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li><b>Manage Data for User profiles</b></li>
+                    <li ng-class="{active: (templateURL=='partials/rdept.html' || templateURL=='partials/addnewdepartment.html')}"><a href="#" ng-click="templateURL='partials/rdept.html'">Departments </a></li>
 
-            <li ng-class="{active: (templateURL=='partials/rclass.html' || templateURL=='partials/addnewclass.html')}"><a href="#" ng-click="templateURL='partials/rclass.html'">Classes</a>
-            
-            </li>
+                    <li ng-class="{active: (templateURL=='partials/rclass.html' || templateURL=='partials/addnewclass.html')}"><a href="#" ng-click="templateURL='partials/rclass.html'">Classes</a>
+                    </li>
+                </ul>
 
-          </ul>
+                <ul class="nav nav-sidebar">
+                    <li><b>Manage User profiles</b></li>
+                    <li ng-class="{active: (templateURL=='partials/newrootuser.html' || templateURL=='partials/registernewroot.html')}"><a href="#" ng-click="templateURL='partials/newrootuser.html'">Add/View Root Users</a></li>
+                    <li ng-class="{active: (templateURL=='partials/radvisor.html' || templateURL=='partials/rootregisteradvisor.html')}"><a href="#" ng-click="templateURL='partials/radvisor.html'">Add/View Advisors </a></li>
+                    <li ng-class="{active: (templateURL=='partials/rootviewstudents.html')}"><a href="#" ng-click="templateURL='partials/rootviewstudents.html'">View Students </a></li>
 
-          <ul class="nav nav-sidebar">
-            <li><b>Manage User profiles</b></li>
-            <li ng-class="{active: (templateURL=='partials/newrootuser.html' || templateURL=='partials/registernewroot.html')}"><a href="#" ng-click="templateURL='partials/newrootuser.html'">Add/View Root Users</a></li>
-            <li ng-class="{active: (templateURL=='partials/radvisor.html' || templateURL=='partials/rootregisteradvisor.html')}"><a href="#" ng-click="templateURL='partials/radvisor.html'">Add/View Advisors </a></li>
-            <li ng-class="{active: (templateURL=='partials/rootviewstudents.html')}"><a href="#" ng-click="templateURL='partials/rootviewstudents.html'">View Students </a></li>
+                </ul>
+            </div>
 
-          </ul>
+
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                   <!-- Root user functionalities begin here (controller logic aka NOT dashboard/menu) -->
+                <div ng-include="templateURL"></div> 
+
+            </div>
         </div>
 
 
-
-
- <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-
- 	 <div ng-include="templateURL"></div>
-          
-
-
-      </div>
     </div>
-
-
-
-
-</div></div>
+</div>

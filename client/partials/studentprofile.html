@@ -1,33 +1,29 @@
 <div ng-controller="studentprofilecontroller">
 
+    <div class="row" style="font-size:125%">
 
-<div class="row"  style="font-size:125%">
+        <div class="col-sm-2">
+            <img src="img/profile.png" alt="Profile Picture" width="100%" height="100%" style='border:5px solid black;border-style:groove'>
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-3">
 
-	<div class="col-sm-2">
-<img src="img/profile.png" alt="Profile Picture" width="100%" height="100%" style='border:5px solid black;border-style:groove'>
+            <label style="font-size:100%"> First Name:    &nbsp; 	<input type="text" ng-model="studentprofile.firstname" readonly> </label>
 
-</div><div class="col-sm-1"></div>
-	<div class="col-sm-3">
+            <br>
+            <label style="font-size:100%"> Last Name:    &nbsp; 	<input type="text" ng-model="studentprofile.firstname" readonly> </label>
+            <br>
+            <label style="font-size:100%"> Email:    &nbsp; 	<input type="text" ng-model="studentprofile.email" readonly> </label>
+            <br>
+            <label style="font-size:100%"> Username:    &nbsp; 	<input type="text" ng-model="studentprofile.username" readonly> </label>
+            <br>
+            <label style="font-size:100%"> Student ID:    &nbsp; 	<input type="text" ng-model="studentprofile.id" readonly> </label> <br>
+            <label style="font-size:100%"> Department:    &nbsp; 	<input type="text" ng-model="studentprofile.department" readonly> </label> <br>
 
-	 <label style="font-size:100%"> First Name:    &nbsp; 	<input type="text" ng-model="studentprofile.firstname" readonly> </label> 
+        </div>
 
-<br>
-		 <label style="font-size:100%"> Last Name:    &nbsp; 	<input type="text" ng-model="studentprofile.firstname" readonly> </label> 
-	 	 <br>
-	 	  <label style="font-size:100%"> Email:    &nbsp; 	<input type="text" ng-model="studentprofile.email" readonly> </label> 
-	 	 <br>
-	 <label style="font-size:100%"> Username:    &nbsp; 	<input type="text" ng-model="studentprofile.username" readonly> </label> 
-	 	 <br>
-		 <label style="font-size:100%"> Student ID:    &nbsp; 	<input type="text" ng-model="studentprofile.id" readonly> </label>   <br>
-		  <label style="font-size:100%"> Department:    &nbsp; 	<input type="text" ng-model="studentprofile.department" readonly> </label>   <br>
-
-
-</div>
-
-
-	</div><br><br>
-	<button style="font-size:125%" ng-click="settemplateURL('partials/studentsettings.html')"><i class="fa fa-key"></i>
- Change my password</button> &nbsp;&nbsp; 	<button ng-click="logout()" style="font-size:125%"><i class="fa fa-power-off"></i>
+    </div><br><br>
+    <button style="font-size:125%" ng-click="settemplateURL('partials/studentsettings.html')"><i class="fa fa-key"></i>
+ Change my password</button> &nbsp;&nbsp; <button ng-click="logout()" style="font-size:125%"><i class="fa fa-power-off"></i>
  Logout</button>
-
 </div>

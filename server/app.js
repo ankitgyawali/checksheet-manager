@@ -1,4 +1,4 @@
-// dependencies
+// Dependencies for app
 var express = require('express'),
  mongoose = require('mongoose'),
     logger = require('morgan'),
@@ -12,8 +12,6 @@ var express = require('express'),
    
 
 
-// user schema/model
-var User = require('./models/user.js');
 
 // create instance of express
 var app = express();
@@ -34,27 +32,15 @@ app.use(require('express-session')({
     resave: false,
     saveUninitialized: false
 }));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(express.static(path.join(__dirname, 'public')));
-
-// configure passport
-passport.use(new localStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 
 
 
 // routes
 app.use('/', routes);
-
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, '../client', 'index.html'));
   console.log('ok');
 });
-
-
-
 
 
 // error hndlers
@@ -73,4 +59,3 @@ app.use(function(err, req, res) {
 });
 
 module.exports = app;
-

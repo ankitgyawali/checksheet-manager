@@ -18,9 +18,9 @@
      <span class="input-group-addon" id="basic-addon1">Number of departments to add:</span>
   <input type="number" class="form-control" ng-model="numtoadd" aria-describedby="basic-addon1" max="50" min="1">
   
-	<span class="input-group-btn" id="basic-addon1">
+  <span class="input-group-btn" id="basic-addon1">
         <button class="btn btn-default" type="button" ng-click="showme=false">
-	<i class="fa fa-fw fa-cancel"></i>Cancel
+  <i class="fa fa-fw fa-cancel"></i>Cancel
 </button> </span>
 
 
@@ -33,18 +33,18 @@
     <thead>
     <tr class="info">
 
-		<th><i class="fa fa-fw fa-list-ol"></i></th>
+    <th><i class="fa fa-fw fa-list-ol"></i></th>
         <th>Department ID</th>
         <th>Department Name</th>
         <th>Department Office</th>
         <th>Department Phone</th>        
-		<th><i class="fa fa-fw fa-trash"></i></th>
+    <th><i class="fa fa-fw fa-trash"></i></th>
         </tr>
   </thead>
   <tbody>
-	<tr ng-repeat="i in newDepts(numtoadd) track by $index">
+  <tr ng-repeat="i in newDepts(numtoadd) track by $index"><!-- Add multiple departments -->
 
-		<td> {{$index+1}}) </td>
+    <td> {{$index+1}}) </td>
         <td><input type="text" class="form-control" ng-model="arraytoAdd[$index].id" placeholder="Department ID" required></td>
         <td><input type="text" class="form-control" ng-model="arraytoAdd[$index].name" placeholder="Department Name" required></td>
         <td> <input type="text" class="form-control" ng-model="arraytoAdd[$index].office" placeholder="Department Office" required></td>
@@ -56,8 +56,5 @@
 
 
 <button style="font-size:125%" type="submit" >
-	<i class="fa fa-fw fa-check"></i>Add all departments to database
+  <i class="fa fa-fw fa-check"></i>Add all departments to database
 </button></form></div>
-
-
-

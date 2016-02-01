@@ -1,15 +1,16 @@
-        <div class="modal-header">
-            <h4 class="modal-title">Adding a note for "{{checksheetinview.blockid[pid].details[id].title}}" </h4>
-        </div> 
-        <form role="form" ng-submit="submitslotnote()">
-        <div class="modal-body">
-       
-            <div class="form-group row">
+<div class="modal-header">
+    <h4 class="modal-title">Adding a note for "{{checksheetinview.blockid[pid].details[id].title}}" </h4>
+</div>
+<form role="form" ng-submit="submitslotnote()">
+    <div class="modal-body">
+
+        <div class="form-group row">
             <textarea style="resize:none;width:80%" ng-model="tempNote" ngMaxlength="100">
             </textarea>
-    </div> </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" type="submit">Submit</button>
-            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button> 
-
-        </div></form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit">Submit</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+</form>

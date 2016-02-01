@@ -1,29 +1,31 @@
-        <div class="modal-header">
-            <h4 class="modal-title">Modifying "{{chksName}}" department </h4>
-        </div> <form role="form" ng-submit="modify()">
-        <div class="modal-body">
-       
-            <div class="form-group row">
+<div class="modal-header">
+    <h4 class="modal-title">Modifying "{{chksName}}" department </h4>
+</div>
+<form role="form" ng-submit="modify()">
+    <div class="modal-body">
+        <div class="form-group row">
             <label for="search" style="font-size:120%" class="col-sm-3"><u>Name:</u></label>
-              <input type="string" ng-model="newID.name" autofocus>
-             </div>
-            <div class="form-group row">
-                 <label for="search" style="font-size:120%" class="col-sm-3"><u>ID:</u></label>
-              <input type="string" ng-model="newID.id">
-</div>    <div class="form-group row">
-                 <label for="search" style="font-size:120%" class="col-sm-3"><u>Category:</u></label>
-                 <select ng-model="newID.department" style="width:300px">
+            <input type="string" ng-model="newID.name" autofocus>
+        </div>
+        <div class="form-group row">
+            <label for="search" style="font-size:120%" class="col-sm-3"><u>ID:</u></label>
+            <input type="string" ng-model="newID.id">
+        </div>
+        <div class="form-group row">
+            <label for="search" style="font-size:120%" class="col-sm-3"><u>Category:</u></label>
+            <select ng-model="newID.department" style="width:300px">
 
                    <option ng-repeat="dpt in dpts">{{dpt.name}}</option>
                  </select>
-              </div>
-              <div class="form-group row">
-                 <label for="search" style="font-size:120%" class="col-sm-3"><u>Description:</u></label>
-              <input type="string" ng-model="newID.description">
+        </div>
+        <div class="form-group row">
+            <label for="search" style="font-size:120%" class="col-sm-3"><u>Description:</u></label>
+            <input type="string" ng-model="newID.description">
         </div>
     </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" type="submit">OK</button>
-            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button> 
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
 
-        </div></form>
+    </div>
+</form>

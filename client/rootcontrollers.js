@@ -1,3 +1,6 @@
+// Description: Contains the controllers that help with functionalities of root user group.
+// Child controllers inherit from primary Parent Controller "rootController"
+
 //Main Root Controller that handles root dashboard
 angular.module('smApp').controller('rootController', ['$scope', '$location', 'notificationFactory', 'AuthService', '$cookies',
     function($scope, $location, notificationFactory, AuthService, $cookies) {

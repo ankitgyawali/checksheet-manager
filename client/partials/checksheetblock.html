@@ -1,316 +1,261 @@
 <div ng-controller="blockController">
 
-<div class="page-header" style="font-size:120%"> 
-<!-- <a href="#" ng-click = "settemplateURL('partials/radvisor.html')"> <i class="fa fa-fw fa-times"></i> Cancel registering advisor </a>&nbsp;&nbsp;&nbsp;
-<a href="#"  ng-click="showme=true"> <i class="fa fa-fw fa-plus-circle"></i> Add multiple advisors </a> -->
+    <div class="page-header" style="font-size:120%">
 
+        <a ng-if="!divshow" href="" ng-click="addSlot()"> <i class="fa fa-fw fa-plus"></i> Add one more slot </a>
+        &nbsp;&nbsp;&nbsp;
+        <a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
+        &nbsp;&nbsp;&nbsp;
 
-<a ng-if="!divshow" href="" ng-click="addSlot()"> <i class="fa fa-fw fa-plus"></i> Add one more slot </a>
-&nbsp;&nbsp;&nbsp;
-<a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
-&nbsp;&nbsp;&nbsp;
+    </div>
 
-</div>
+    <div ng-if="divshow">
 
+        <div class="panel panel-default">
+            <div class="panel-body" style="font-size:125%">
+                Checksheets blocks are representation of similar types of checksheets slots. You can combine multiple blocks to build a checksheet. Blocks can be reused on multiple checksheet. Refer to the documentation for more information.
+            </div>
+        </div>
 
+        <form name="blockcreator" style="font-size:90%;" ng-submit="buildBlock(numSlot)"><!-- Creates block array here -->
+            <div class="container" style="line-height:30px;">
 
+                <div class="row">
+                    <div class="col-sm-2"> <label style="font-size:125%"><b>Block Name:</b> </label> </div>
+                    <div class="col-sm-4">
+                        <input type="text" size="50" autofocus="autofocus" ng-model="block.name" required></div>
+                </div>
 
+                <div class="row">
+                    <div class="col-sm-2"> <label style="font-size:125%"><b>Block ID (unique):</b> </label> </div>
+                    <div class="col-sm-4">
+                        <input type="text" size="50" ng-model="block.id" required></div>
+                </div>
 
-<div ng-if="divshow">
+                <div class="row">
+                    <div class="col-sm-2"> <label style="font-size:125%"><b>Block Description:</b> </label> </div>
+                    <div class="col-sm-8">
+                        <input type="text" size="100" ng-model="block.description"></div>
+                </div>
 
-<div class="panel panel-default">
-  <div class="panel-body" style="font-size:125%">
-     Checksheets blocks are representation of similar types of checksheets slots. You can combine multiple blocks to build a checksheet. Blocks can be reused on multiple checksheet. Refer to the documentation for more information.
-  </div>
-</div>
+                <div class="row">
+                    <div class="col-sm-2"> <label style="font-size:125%"><b>Block Category:</b> </label> </div>
+                    <div class="col-sm-4" style="font-size:125%">
 
-<form name="blockcreator" style="font-size:90%;" ng-submit="buildBlock(numSlot)" >
-<div class="container" style="line-height:30px;">
-<!--     name: String,   id: String, credits: Number,  type: String,
-   
-    
-    details: Object,
-    department: String,
-    createdby: String,
-   -->
-
-<div class="row">
-  <div class="col-sm-2">    <label style="font-size:125%"><b>Block Name:</b> </label> </div><div class="col-sm-4"> 
-    <input type="text" size="50" autofocus="autofocus" ng-model="block.name" required ></div>
-</div>
-
-
-
-<div class="row">
-  <div class="col-sm-2">    <label style="font-size:125%"><b>Block ID (unique):</b> </label> </div><div class="col-sm-4"> 
-    <input type="text" size="50" ng-model="block.id" required></div>
-</div>
-
-<div class="row">
-  <div class="col-sm-2">    <label style="font-size:125%"><b>Block Description:</b> </label> </div><div class="col-sm-8"> 
-    <input type="text" size="100" ng-model="block.description"></div>
-</div>
-
-
-<div class="row">
-  <div class="col-sm-2">    <label style="font-size:125%"><b>Block Category:</b> </label> </div>
-  <div class="col-sm-4" style="font-size:125%"> 
-
-<!--       <select ng-init="block.department=dpts[2].name"  ng-model="block.department"  style="width:300px" ng-options="dpt.name for dpt in dpts" required>
-                <option></option>
-             </select> 
- -->   
- <select  ng-model="block.department" ng-init="block.department='Checksheet: General Education'" style="width:300px" required>
- <option ng-repeat="dpt in dpts" >{{dpt.name}}</option>
+                        <select ng-model="block.department" ng-init="block.department='Checksheet: General Education'" style="width:300px" required>
+ <option ng-repeat="dpt in dpts" >{{dpt.name}}</option><!-- Repeat department -->
 </select>
+                    </div>
 
-  </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2"> <label style="font-size:125%"><b>Block Type:</b> </label> </div>
+                    <div class="col-sm-4" style="font-size:125%">
 
-
-</div>
-<div class="row">
-  <div class="col-sm-2">    <label style="font-size:125%"><b>Block Type:</b> </label> </div>  <div class="col-sm-4" style="font-size:125%"> 
-
-
-
-
-
-      <select ng-model="block.type" ng-init="block.type='Required'" style="width:300px" required>
+                        <select ng-model="block.type" ng-init="block.type='Required'" style="width:300px" required>
                    <option>Required</option>
                    <option>Electives</option>
                    <option value="Competencies">Concomitant/Competencies</option>
-             </select> 
-   
-  </div></div>
+             </select>
 
-<div class="row">
+                    </div>
+                </div>
 
-  <div class="col-sm-2">    <label style="font-size:125%"><b>Number of slots:</b> </label> </div><div class="col-sm-1"> 
-    <input type="number" size="5" min="1" max="40" ng-model="numSlot" ng-init="numSlot=1" required></div>
+                <div class="row">
+                    <div class="col-sm-2"> <label style="font-size:125%"><b>Number of slots:</b> </label> </div>
+                    <div class="col-sm-1">
+                        <input type="number" size="5" min="1" max="40" ng-model="numSlot" ng-init="numSlot=1" required></div>
 
-</div>
+                </div>
 
+                <div class="row">
+                    <div class="col-sm-2"> <label style="font-size:125%"><b>Created by:</b> </label> </div>
+                    <div class="col-sm-4">
+                        <input type="text" size="50" ng-model="block.creator" readonly></div>
+                </div>
 
+                <br><br>
 
-
-
-<div class="row">
-  <div class="col-sm-2">    <label style="font-size:125%"><b>Created by:</b> </label> </div><div class="col-sm-4"> 
-    <input type="text" size="50" ng-model="block.creator" readonly></div>
-</div>
-
-<br><br>
-
-</div>
-<button style="font-size:125%" type="submit">
-	<i class="fa fa-fw fa-gears"></i> Start building block
+            </div>
+            <button style="font-size:125%" type="submit">
+  <i class="fa fa-fw fa-gears"></i> Start building block
 </button></form>
 
-</div>
-
-
-<div ng-if="!divshow">
-<span style="font-size:125%">Creating "{{block.name}}"<br> Number of slots: <b>{{block.slot}}</b> </span><br><br>
-  <div class="panel panel-default">
-  <div class="panel-body" style="font-size:125%">
-     Fill out the required information to create a checksheet block. Note that the order in which slot information is filled will be the order in which the block is rendered in checksheet.
-  </div>
-</div>
-
-  <div class="panel panel-default" ng-if="block.type=='Electives'">
-  <div class="panel-body" style="font-size:125%">
-    <div class="row page-header"><div class="col-sm-6">
-       Add class options available for this block of electives:
     </div>
 
-      <div class="col-sm-4">
+    <div ng-if="!divshow"><!-- Block logic starts here -->
+        <span style="font-size:125%">Creating "{{block.name}}"<br> Number of slots: <b>{{block.slot}}</b> </span><br><br>
+        <div class="panel panel-default">
+            <div class="panel-body" style="font-size:125%">
+                Fill out the required information to create a checksheet block. Note that the order in which slot information is filled will be the order in which the block is rendered in checksheet.
+            </div>
+        </div>
 
-    <label  style="font-size:100%" >Class Prefix:</label>
-<!--     <select ng-options="dpt.id as dpt.id for dpt in dpts" required>
-      
-    </select> -->
-     <select ng-model="tempPrefix" ng-options="dpt.id as dpt.id for dpt in dpts" 
-      ng-init="tempPrefix=dpts[0].id" required> 
+        <div class="panel panel-default" ng-if="block.type=='Electives'">
+            <div class="panel-body" style="font-size:125%">
+                <div class="row page-header">
+                    <div class="col-sm-6">
+                        Add class options available for this block of electives:
+                    </div>
+
+                    <div class="col-sm-4">
+
+                        <label style="font-size:100%">Class Prefix:</label>
+                        <select ng-model="tempPrefix" ng-options="dpt.id as dpt.id for dpt in dpts" ng-init="tempPrefix=dpts[0].id" required> 
   <option></option>
-    </select>
-    &nbsp;&nbsp;&nbsp;
+    </select> &nbsp;&nbsp;&nbsp;
 
-     <label  style="font-size:100%">Suffix:</label>
-    <select ng-options="course.suffix as course.suffix for course in courses | filter:{prefix:tempPrefix}" ng-model="tempSuffix"required>
+                        <label style="font-size:100%">Suffix:</label>
+                        <select ng-options="course.suffix as course.suffix for course in courses | filter:{prefix:tempPrefix}" ng-model="tempSuffix" required>
       
     </select>
-  </div>
-  <div class="col-sm-2">
-    <button type="button" ng-click="addelectiveoption(tempPrefix,tempSuffix)">Add class</button>
-  </div></div>
-  <div class="row col-sm-12">
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" ng-click="addelectiveoption(tempPrefix,tempSuffix)">Add class</button>
+                    </div>
+                </div>
+                <div class="row col-sm-12">
 
-     <div ng-show="!block.electivechoices.length">No classes added yet.</div>
-     <div class="row" ng-show="block.electivechoices.length">
-   
-         <div class="col-sm-2" ng-repeat="class in block.electivechoices track by $index">
-       <a type="button" class="close" ng-click="removeoption($index)" style="color:black;hover:disabled" disabled>{{class.prefix}} {{class.suffix}}
+                    <div ng-show="!block.electivechoices.length">No classes added yet.</div>
+                    <div class="row" ng-show="block.electivechoices.length">
+
+                        <div class="col-sm-2" ng-repeat="class in block.electivechoices track by $index">
+                            <a type="button" class="close" ng-click="removeoption($index)" style="color:black;hover:disabled" disabled>{{class.prefix}} {{class.suffix}}
         <span aria-hidden="true" style="font-size: 20px">&times;</span>
        </a> </div>
 
 
-      </div>
-     </div>
-  </div>
-  </div>
- 
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<div class="container" style="line-height:30px;">
-   <div class="row" style="" ng-repeat="slot in block.details track by $index">
-<div class="panel panel-info">
-  <div class="panel-heading">
-    <h3 class="panel-title"><b>Slot #{{$index+1}}</b>
+        <div class="container" style="line-height:30px;">
+            <div class="row" style="" ng-repeat="slot in block.details track by $index">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><b>Slot #{{$index+1}}</b>
 
     <span class="pull-right"><b><button type="button" ng-click="removeslot($index)" class="close" aria-hidden="false" ng-disabled="block.slot==1" >&times;</button> </b></span>
 
   </h3>
 
-      
+                    </div>
+                    <div class="panel-body">
 
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label style="font-size:125%">Title:</label>
+                                <input type="text" class="form-control" ng-model="block.details[$index].title">
+                            </div>
+                            <div class="col-sm-6">
+                                <label style="font-size:125%">Sub-title (optional):</label>
+                                <input type="text" class="form-control" ng-model="block.details[$index].subtitle">
+                            </div>
+                        </div>
 
-  </div>
-  <div class="panel-body" >
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label style="font-size:125%">Slot Description:</label>
+                                <input type="text" class="form-control" ng-model="block.details[$index].description">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
 
-       <div class="row">
-  <div class="col-sm-6" >
-    <label style="font-size:125%">Title:</label>
-    <input type="text" class="form-control" ng-model="block.details[$index].title">
-  </div>
-  <div class="col-sm-6">
-    <label style="font-size:125%">Sub-title (optional):</label>
-    <input type="text" class="form-control" ng-model="block.details[$index].subtitle">
-  </div>
-  </div>
+                        <div class="row page-header">
 
-      <div class="row">
-  <div class="col-sm-12" >
-    <label style="font-size:125%">Slot Description:</label>
-    <input type="text" class="form-control" ng-model="block.details[$index].description">
-  </div>  </div>
-</div>
-
-  <div class="panel-footer">
-
-  <div class="row page-header">
-
-   <div class="col-sm-12" ng-if="block.type=='Required' || block.type=='competencies'" ng-init="block.details[$index].rule='None'">
-    <label  style="font-size:125%">Enforce a slot rule (optional):</label>
-        <select ng-model="block.details[$index].rule" ng-init="block.details[$index].rule='None'" required>
+                            <div class="col-sm-12" ng-if="block.type=='Required' || block.type=='competencies'" ng-init="block.details[$index].rule='None'">
+                                <label style="font-size:125%">Enforce a slot rule (optional):</label>
+                                <select ng-model="block.details[$index].rule" ng-init="block.details[$index].rule='None'" required>
       <option >None</option>
       <option ng-value="101">Require targeted class code</option>
       <option ng-value="102">Require targeted class prefix</option>
       <option ng-value="103">Require targeted class code or upper level class with same prefix</option>
-             </select> 
+             </select>
+
+                            </div>
 
 
+                            <div class="col-sm-6" ng-if="block.details[$index].rule=='101' || block.details[$index].rule=='103' ">
 
-  </div>
+                                <label style="font-size:125%">Class Prefix:</label>
+                                <select ng-model="block.details[$index].ruleconstraint.prefix" ng-options="dpt.id as dpt.id for dpt in dpts" ng-init="block.details[$index].ruleconstraint.prefix='None'" required>
+      
+    </select> &nbsp;&nbsp;&nbsp;
 
-  
-  <div class="col-sm-6" ng-if="block.details[$index].rule=='101' || block.details[$index].rule=='103' ">
-
-    <label  style="font-size:125%" >Class Prefix:</label>
-    <select ng-model="block.details[$index].ruleconstraint.prefix" ng-options="dpt.id as dpt.id for dpt in dpts"  ng-init="block.details[$index].ruleconstraint.prefix='None'" required>
+                                <label style="font-size:125%">Class Suffix:</label>
+                                <select ng-model="block.details[$index].ruleconstraint.suffix" ng-options="course.suffix as course.suffix for course in courses | filter:{prefix:block.details[$index].ruleconstraint.prefix}" required>
       
     </select>
-    &nbsp;&nbsp;&nbsp;
+                            </div>
+                            <div class="col-sm-6" ng-if="block.details[$index].rule=='102'">
 
-     <label  style="font-size:125%">Class Suffix:</label>
-    <select ng-model="block.details[$index].ruleconstraint.suffix" ng-options="course.suffix as course.suffix for course in courses | filter:{prefix:block.details[$index].ruleconstraint.prefix}" required>
-      
-    </select>
-  </div>
-    <div class="col-sm-6" ng-if="block.details[$index].rule=='102'">
-     
-     <label  style="font-size:125%" >Class Prefix:</label>
-    <select ng-model="block.details[$index].ruleconstraint.prefix" ng-options="dpt.id as dpt.id for dpt in dpts"  ng-init="block.details[$index].ruleconstraint.prefix='None'" required>
+                                <label style="font-size:125%">Class Prefix:</label>
+                                <select ng-model="block.details[$index].ruleconstraint.prefix" ng-options="dpt.id as dpt.id for dpt in dpts" ng-init="block.details[$index].ruleconstraint.prefix='None'" required>
       <option></option>
 
     </select>
 
-    </div>
-  <!--     <div ng-repeat="course in courses | filter:{prefix:'POL'}">
-      {{course.prefix}} {{course.suffix}}
-    </div> -->
+                            </div>
+    
+                            <div class="col-sm-12" ng-if="block.type=='Electives'" style="font-size:125%">
+                                Slot Rule: Choice of classes for students.
+                            </div>
 
 
-  
-  
-  <div class="col-sm-12" ng-if="block.type=='Electives'" style="font-size:125%">
-    Slot Rule: Choice of classes for students.
-  </div>
-
-
-  </div>
-   <div class="row page-header"><div class="col-sm-12">
-    <label style="font-size:125%">Enforce pre-requisite requirement (optional):</label>
-    <select ng-model="block.details[$index].prerequisite" ng-init="block.details[$index].prerequisite='None'">
+                        </div>
+                        <div class="row page-header">
+                            <div class="col-sm-12">
+                                <label style="font-size:125%">Enforce pre-requisite requirement (optional):</label>
+                                <select ng-model="block.details[$index].prerequisite" ng-init="block.details[$index].prerequisite='None'">
       <option ng-value="None">None</option>
       <option ng-value="1001">Single class required</option>
       <option ng-value="1002">Two class required (Class#1 AND Class#2)</option>
       <option ng-value="1003">One of two classes required (Class#1 OR Class#2)</option>
     </select>
 
-   </div>
+                            </div>
+                            <div class="col-sm-4" ng-if="block.details[$index].prerequisite!='None'">
 
+                                <label style="font-size:125%">Class Prefix:</label>
+                                <select ng-model="block.details[$index].prereqconstraint.prefix" ng-options="dpt.id as dpt.id for dpt in dpts" ng-init="block.details[$index].prereqconstraint.prefix='None'" required>
+      
+    </select> &nbsp;&nbsp;&nbsp;
 
-  <div class="col-sm-4" ng-if="block.details[$index].prerequisite!='None'">
- 
-    <label  style="font-size:125%" >Class Prefix:</label>
-    <select ng-model="block.details[$index].prereqconstraint.prefix" ng-options="dpt.id as dpt.id for dpt in dpts"  ng-init="block.details[$index].prereqconstraint.prefix='None'" required>
+                                <label style="font-size:125%">Class Suffix:</label>
+                                <select ng-model="block.details[$index].prereqconstraint.suffix" ng-options="course.suffix as course.suffix for course in courses | filter:{prefix:block.details[$index].prereqconstraint.prefix}" required>
       
     </select>
-    &nbsp;&nbsp;&nbsp;
+                            </div>
+                            <div class="col-sm-2" ng-show="block.details[$index].prerequisite=='1002'"> AND </div>
+                            <div class="col-sm-2" ng-show="block.details[$index].prerequisite=='1003'"> OR </div>
+                            <div class="col-sm-4" ng-if="block.details[$index].prerequisite=='1002' || block.details[$index].prerequisite=='1003'">
 
-     <label  style="font-size:125%">Class Suffix:</label>
-    <select ng-model="block.details[$index].prereqconstraint.suffix" ng-options="course.suffix as course.suffix for course in courses | filter:{prefix:block.details[$index].prereqconstraint.prefix}" required>
+                                <label style="font-size:125%">Class Prefix:</label>
+                                <select ng-model="block.details[$index].prereqconstraint.prefix2" ng-options="dpt.id as dpt.id for dpt in dpts" ng-init="block.details[$index].prereqconstraint.prefix2='None'" required>
+      
+    </select> &nbsp;&nbsp;&nbsp;
+
+                                <label style="font-size:125%">Class Suffix:</label>
+                                <select ng-model="block.details[$index].prereqconstraint.suffix2" ng-options="course.suffix as course.suffix for course in courses | filter:{prefix:block.details[$index].prereqconstraint.prefix2}" required>
       
     </select>
-  </div>
-  <div class="col-sm-2" ng-show="block.details[$index].prerequisite=='1002'"> AND </div>
-  <div class="col-sm-2" ng-show="block.details[$index].prerequisite=='1003'"> OR </div>
-    <div class="col-sm-4" ng-if="block.details[$index].prerequisite=='1002' || block.details[$index].prerequisite=='1003'">
- 
-    <label  style="font-size:125%" >Class Prefix:</label>
-    <select ng-model="block.details[$index].prereqconstraint.prefix2" ng-options="dpt.id as dpt.id for dpt in dpts"  ng-init="block.details[$index].prereqconstraint.prefix2='None'" required>
-      
-    </select>
-    &nbsp;&nbsp;&nbsp;
-
-     <label  style="font-size:125%">Class Suffix:</label>
-    <select ng-model="block.details[$index].prereqconstraint.suffix2" ng-options="course.suffix as course.suffix for course in courses | filter:{prefix:block.details[$index].prereqconstraint.prefix2}" required>
-      
-    </select>
-  </div>
-
-  </div>
-<div class="row">
-        <div class="col-sm-12">
-    <label  style="font-size:125%">Slot provides credits (classes  are accounted for in other part of checksheet):</label>
-    <select ng-model="block.details[$index].hascredit" ng-init="block.details[$index].hascredit='True'">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label style="font-size:125%">Slot provides credits (classes  are accounted for in other part of checksheet):</label>
+                                <select ng-model="block.details[$index].hascredit" ng-init="block.details[$index].hascredit='True'">
       <option>True</option>
       <option>False</option>
     </select>
-  </div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End block logic -->
 
-
-  </div>
-</div>
-
-   </div>
-
-
-
-<button style="text-size:125%" type="button" ng-click="submitSlot()" confirm="Are you sure you want to submit the block to database?" confirm-title="Submitting {{block.name}}.." confirm-ok="Submit" confirm-cancel="No">Submit Slot to database</button>
-
-
-
-
-
-  </div>
-</div>
+            <button style="text-size:125%" type="button" ng-click="submitSlot()" confirm="Are you sure you want to submit the block to database?" confirm-title="Submitting {{block.name}}.." confirm-ok="Submit" confirm-cancel="No">Submit Slot to database</button>
+        </div>
+    </div>

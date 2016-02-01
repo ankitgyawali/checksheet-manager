@@ -1,48 +1,37 @@
-        <div class="modal-header">
-            <h4 class="modal-title">Modifying "{{className}}" department </h4>
-        </div> <form role="form" ng-submit="modify()">
-        <div class="modal-body">
-       
-            <div class="form-group row">
+<div class="modal-header">
+    <h4 class="modal-title">Modifying "{{className}}" department </h4>
+</div>
+<form role="form" ng-submit="modify()">
+    <div class="modal-body">
+        <div class="form-group row">
             <label for="search" style="font-size:120%" class="col-sm-3"><u>Name:</u></label>
-              <input type="string" ng-model="classID.name">
-             </div>
+            <input type="string" ng-model="classID.name">
+        </div>
 
-
-            <div class="form-group row">
-                 <label for="search" style="font-size:120%" class="col-sm-3"><u>Department:</u></label>
-                 <select ng-model="classID.department" style="width:300px">
+        <div class="form-group row">
+            <label for="search" style="font-size:120%" class="col-sm-3"><u>Department:</u></label>
+            <select ng-model="classID.department" style="width:300px">
 
                    <option ng-repeat="dpt in dpts" ng-click="setprefix(dpt.id)">{{dpt.name}}</option>
                  </select>
-              </div>
-              <!--     <select class="deptSelect" ng-model="classID.department" ng-options="dpt.name for dpt in dpts" style="width:300px" ng-init="classID.department">
-      </select> -->
+        </div>
 
+        <div class="form-group row">
+            <label for="search" style="font-size:120%" class="col-sm-3"><u>Class Code:</u></label>
 
+            <div class="col-sm-6 input-group">
 
-     
-<div class="form-group row">
+                <span class="input-group-addon" id="basic-addon1" ng-model="classID.prefix">{{classID.prefix}}</span>
 
-     
+                <input type="number" class="form-control" ng-model="classID.suffix" aria-describedby="basic-addon1" max="700" min="0"> </div>
 
-                 <label for="search" style="font-size:120%" class="col-sm-3"><u>Class Code:</u></label>
-
-                 <div class="col-sm-6 input-group">
-
-
-     <span class="input-group-addon" id="basic-addon1" ng-model="classID.prefix">{{classID.prefix}}</span>
-
-  <input type="number" class="form-control" ng-model="classID.suffix" aria-describedby="basic-addon1" max="700" min="0"> </div>
-
-              
-</div>
+        </div>
     </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" type="submit">OK</button>
-            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button> 
-            <div style="float:left">
-            <button class="btn btn-danger" type="button" ng-click="delete()"
-             confirm="WARNING: You are about to delete a class. This might affect other people's account. Are you sure?" confirm-title="Deleting {{className}}.." confirm-ok="Yes" confirm-cancel="No">Delete</button>
-                </div>
-        </div></form>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        <div style="float:left">
+            <button class="btn btn-danger" type="button" ng-click="delete()" confirm="WARNING: You are about to delete a class. This might affect other people's account. Are you sure?" confirm-title="Deleting {{className}}.." confirm-ok="Yes" confirm-cancel="No">Delete</button>
+        </div>
+    </div>
+</form>

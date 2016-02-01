@@ -1,3 +1,8 @@
+// Designed by: Ankit Gyawali
+// Email: agyaw792@gmail.com
+// Description: Defined the structures and route changes for syllabus manager.
+// Also contains extra filters and directives that is needed througout the app.
+
 //Define angular app and its dependencies
 var smApp = angular.module('smApp', ['ngRoute', 'ngCookies', 'angularUtils.directives.dirPagination',
     'ui.bootstrap', 'angular.filter', 'angular-confirm', 'passwordModule', 'nvd3'

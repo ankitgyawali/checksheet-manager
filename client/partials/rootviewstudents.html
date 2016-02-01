@@ -1,197 +1,162 @@
 <div ng-controller="rootviewstudentsController">
-<br>
+    <br>
 
-<div class="page-header" style="font-size:120%"> 
+    <div class="page-header" style="font-size:120%">
+        <a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
+    </div>
 
-<a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
+    <div class="panel panel-default">
+        <div class="panel-body" style="font-size:125%">
+            You can look through a student's current checksheet by accessing their profile through their student id. Set up an advisor account to access functionalities that require checksheet modification and interaction with student.
+        </div>
+    </div>
 
+    <div class="row" ng-show="divshow == 0">
+        <form ng-submit="rootsearchexistingstudent()" style="font-size:90%;">
+            <div class="container" style="line-height:30px;">
+                <br><br>
+                <div class="row">
+                    <div class="col-sm-2"> <label style="font-size:125%"><b>Student ID:</b> </label> </div>
+                    <div class="col-sm-5">
+                        <input type="text" size="50" autofocus="autofocus" ng-model="studentidtosearch" required></div>
+                    <div class="col-sm-3"><button type="submit" style="font-size:125%"><i class="fa fa-fw fa-search"></i> Search student by ID</button></div>
 
-</div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- User divshow's value as counter to switch between views -->
+    <div ng-show="divshow== 1 && studentfound==1">
+        <div class="panel panel-success">
+            <div class="panel-heading"><b>Showing Info for: {{rstudentdetails.firstname}} {{rstudentdetails.lastname}} </b></div>
 
+            <div class="panel-body" style="font-size:125%">
+                <div class="row container">
+                    <div class="col-sm-2"> Name: </div>
+                    <div class="col-sm-6"> {{rstudentdetails.firstname}} {{rstudentdetails.lastname}} </div>
+                </div>
+                <div class="row container">
+                    <div class="col-sm-2"> Username: </div>
+                    <div class="col-sm-6"> {{rstudentdetails.username}} </div>
+                </div>
 
+                <div class="row container">
+                    <div class="col-sm-2"> Email: </div>
+                    <div class="col-sm-6"> {{rstudentdetails.email}} </div>
+                </div>
 
-<div class="panel panel-default">
-  <div class="panel-body" style="font-size:125%">
-     You can look through a student's current checksheet by accessing their profile through their student id. Set up an advisor account to access functionalities that require checksheet modification and interaction with student. 
-  </div>
-</div>
+                <div class="row container">
+                    <div class="col-sm-2"> ID: </div>
+                    <div class="col-sm-6"> {{rstudentdetails.id}} </div>
+                </div>
 
+                <div class="row container">
+                    <div class="col-sm-2"> Major: </div>
+                    <div class="col-sm-6"> {{rstudentdetails.department}} </div>
+                </div>
 
-<div class="row" ng-show="divshow == 0">
-<form ng-submit="rootsearchexistingstudent()" style="font-size:90%;">
-<div class="container" style="line-height:30px;">
-<br><br>
-<div class="row">
-  <div class="col-sm-2">    <label style="font-size:125%"><b>Student ID:</b> </label> </div><div class="col-sm-5"> 
-    <input type="text" size="50" autofocus="autofocus" ng-model="studentidtosearch" required ></div>
-<div class="col-sm-3"><button type="submit" style="font-size:125%"><i class="fa fa-fw fa-search"></i> Search student by ID</button></div>
+                <div class="row container">
+                    <div class="col-sm-2"> Advisor: </div>
+                    <div class="col-sm-10">
+                        <ul>
+                            <li ng-repeat="advisor in rstudentadvisor">{{advisor.firstname}} {{advisor.lastname}} [<b>Email:</b> {{advisor.email}}], [<b>ID:</b> {{advisor.id}}] from {{advisor.department}} department.
+                            </li>
+                        </ul>
+                    </div>
 
-</div>
+                </div>
 
-</div>
+                <div class="row container">
+                    <div class="col-sm-2"> Advisor: </div>
+                    <div class="col-sm-10">
+                        <ul>
+                            <li ng-repeat="checksheet in rstudentchecksheet track by $index"><a href="#" ng-click="viewstudentchecksheet($index)">{{checksheet.name}}</a> [<b>Type:</b> {{checksheet.type}}], [<b>ID:</b> {{checksheet.id}}]
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-</form>
-</div>
-
-<div ng-show="divshow== 1 && studentfound==1">
-		<div class="panel panel-success">
-  <div class="panel-heading"><b>Showing Info for: {{rstudentdetails.firstname}} {{rstudentdetails.lastname}} </b></div>
-
-
-  <div class="panel-body" style="font-size:125%">
-  <div class="row container">
-	<div class="col-sm-2"> Name: </div>
-	<div class="col-sm-6"> {{rstudentdetails.firstname}} {{rstudentdetails.lastname}} </div>
-  </div>
-
-<div class="row container">
-	<div class="col-sm-2"> Username: </div>
-	<div class="col-sm-6"> {{rstudentdetails.username}} </div>
-  </div>
-
-
-<div class="row container">
-	<div class="col-sm-2"> Email: </div>
-	<div class="col-sm-6"> {{rstudentdetails.email}} </div>
-  </div>
-
-
-<div class="row container">
-	<div class="col-sm-2"> ID: </div>
-	<div class="col-sm-6"> {{rstudentdetails.id}} </div>
-  </div>
-
-
-<div class="row container">
-	<div class="col-sm-2"> Major: </div>
-	<div class="col-sm-6"> {{rstudentdetails.department}} </div>
-  </div>
-
-<div class="row container">
-	<div class="col-sm-2"> Advisor: </div>
-		<div class="col-sm-10"> 
-	<ul>
-  	<li ng-repeat="advisor in rstudentadvisor">{{advisor.firstname}} {{advisor.lastname}} [<b>Email:</b> {{advisor.email}}], [<b>ID:</b> {{advisor.id}}] from {{advisor.department}} department.
-  	</li>
-	</ul>
-</div>
-
- </div>
-
-
-<div class="row container">
-	<div class="col-sm-2"> Advisor: </div>
-		<div class="col-sm-10"> 
-	<ul>
-  	<li ng-repeat="checksheet in rstudentchecksheet track by $index"><a href="#" ng-click="viewstudentchecksheet($index)">{{checksheet.name}}</a> [<b>Type:</b> {{checksheet.type}}], [<b>ID:</b> {{checksheet.id}}]
-  	</li>
-	</ul>
-</div>
-
- </div>
-
-
-</div>
-</div>
-
-
-<button style="font-size:125%" ng-click="backtosearch()"> <i class="fa fa-chevron-left"></i>
+        <button style="font-size:125%" ng-click="backtosearch()"> <i class="fa fa-chevron-left"></i>
  Go back</button>
-</div>
+    </div>
 
+    <div ng-show="divshow==1 && studentfound==0">
 
-<div ng-show="divshow==1 && studentfound==0">
+        <div class="panel panel-danger">
+            <div class="panel-heading"><b>Error</b></div>
+            <div class="panel-body">Student not found!</div>
+        </div>
 
-	<div class="panel panel-danger">
-  <div class="panel-heading"><b>Error</b></div>
-  <div class="panel-body">Student not found!</div>
-</div>
-
-<button style="font-size:125%" ng-click="backtosearch()"> <i class="fa fa-chevron-left"></i>
+        <button style="font-size:125%" ng-click="backtosearch()"> <i class="fa fa-chevron-left"></i>
  Go back</button>
 
-</div>
-
-
-<div ng-if="divshow==2">
-<button style="font-size:125%" ng-click="backtosearch()"> <i class="fa fa-backward"></i>
+    </div>
+    <!-- Ng-if used here but not above because it doesnt matter to other local scopes if DIV dome element below is not rendered which is not the case for other views rendered by divshow -->
+    <div ng-if="divshow==2">
+        <button style="font-size:125%" ng-click="backtosearch()"> <i class="fa fa-backward"></i>
  Back to search students</button>
 
-
-<button style="font-size:125%" ng-click="backtoprofile()"> <i class="fa fa-chevron-left"></i>
+        <button style="font-size:125%" ng-click="backtoprofile()"> <i class="fa fa-chevron-left"></i>
  Back to profile</button>
- <br><br>
+        <br><br>
 
-     <div class="panel panel-info">
-    <div class="panel-heading"><b>Summary of {{checksheetinview.name}}</b></div>
-    <div class="panel-body">
+        <div class="panel panel-info">
+            <div class="panel-heading"><b>Summary of {{checksheetinview.name}}</b></div>
+            <div class="panel-body">
 
-     <b>Checksheet slots completed: {{complete}} /  {{complete+incomplete}} ({{(complete/(complete+incomplete))*100 | number : 0}}% completed)</b>
-     <ul>
-       <li ng-repeat="block in checksheetinview.blockid track by $index">
-         {{block.name}} : {{blocksummarycomplete[$index]}}/{{blocksummarycomplete[$index]+ blocksummaryincomplete[$index]}} ({{(blocksummarycomplete[$index]/(blocksummarycomplete[$index]+blocksummaryincomplete[$index]))*100 | number : 0}}% completed)
-       </li>
-     </ul>
-    </div>
-  </div>
+                <b>Checksheet slots completed: {{complete}} /  {{complete+incomplete}} ({{(complete/(complete+incomplete))*100 | number : 0}}% completed)</b>
+                <ul>
+                    <li ng-repeat="block in checksheetinview.blockid track by $index">
+                        {{block.name}} : {{blocksummarycomplete[$index]}}/{{blocksummarycomplete[$index]+ blocksummaryincomplete[$index]}} ({{(blocksummarycomplete[$index]/(blocksummarycomplete[$index]+blocksummaryincomplete[$index]))*100 | number : 0}}% completed)
+                    </li>
+                </ul>
+            </div>
+        </div>
 
+        <div class="panel panel-primary">
+            <div class="panel-heading"><b>Showing checksheet</b></div>
+            <div class="panel-body">
 
+                <div class="panel panel-default row" style="font-size:125%" ng-repeat="block in checksheetinview.blockid track by $index">
+                    <div class="panel-heading">{{block.name}} </div>
+                    <div class="container" ng-if="block.type=='Electives'"><b> Electives Choices: </b><br>
+                        <div class="col-sm-2" ng-repeat="class in block.electivechoices"> {{class.prefix}} {{class.suffix}}</div>
+                    </div>
 
+                    <div class="panel-body">
+                        <div class="row">
 
-	<div class="panel panel-primary">
-  <div class="panel-heading"><b>Showing checksheet</b></div>
-  <div class="panel-body">
-		
-
-		 <div class="panel panel-default row" style="font-size:125%" ng-repeat="block in checksheetinview.blockid track by $index">
-       <div class="panel-heading">{{block.name}} </div> 
-       <div class="container" ng-if="block.type=='Electives'"><b> Electives Choices: </b><br>
-      <div class="col-sm-2" ng-repeat="class in block.electivechoices"> {{class.prefix}} {{class.suffix}}</div>
-       </div>
-  
-  <div class="panel-body">
-  <div class="row">
-
-      <div class="col-sm-6" ng-repeat="slot in block.details" style="border:1px solid grey;border-style: outset;  border-radius: 5px; "> <u><b> {{$parent.$index+1}}.{{$index+1}}: {{slot.title}}</b></u>   <span ng-if="slot.subtitle" style="font-size:75%">({{slot.subtitle}})</span> <span style="color:red" class="pull-right" ng-show="isFilled($parent.$index,$index)"><i class="fa fa-times" uib-tooltip='Slot is not filled'></i></span>
+                            <div class="col-sm-6" ng-repeat="slot in block.details" style="border:1px solid grey;border-style: outset;  border-radius: 5px; "> <u><b> {{$parent.$index+1}}.{{$index+1}}: {{slot.title}}</b></u> <span ng-if="slot.subtitle" style="font-size:75%">({{slot.subtitle}})</span> <span style="color:red" class="pull-right" ng-show="isFilled($parent.$index,$index)"><i class="fa fa-times" uib-tooltip='Slot is not filled'></i></span>
 
 
-        <span style="color:green" class="pull-right" ng-show="!isFilled($parent.$index,$index)"><i class="fa fa-check" uib-tooltip='Slot is filled'></i></span>
-
-        
-        <br>
-       <span style="font-size:90%">{{slot.description}} </span>
-<br>
-       <div class="row" style="margin-bottom:0px"> 
-<!-- <input type="text" ng-model="checksheetdata[$parent.$index][$index].state"> -->
-
-<div class="col-sm-5" style="font-size:90%;">
- <span><i class="fa fa-sticky-note"></i>
-Note: </span>  {{checksheetdata[$parent.$index][$index].note}}
-</div>
-
-</div>
-      </div>
-
-    </div>
-  </div>
+                                <span style="color:green" class="pull-right" ng-show="!isFilled($parent.$index,$index)"><i class="fa fa-check" uib-tooltip='Slot is filled'></i></span>
 
 
+                                <br>
+                                <span style="font-size:90%">{{slot.description}} </span>
+                                <br>
+                                <div class="row" style="margin-bottom:0px">
+                                    <!-- <input type="text" ng-model="checksheetdata[$parent.$index][$index].state"> -->
 
-  </div>
+                                    <div class="col-sm-5" style="font-size:90%;">
+                                        <span><i class="fa fa-sticky-note"></i>
+Note: </span> {{checksheetdata[$parent.$index][$index].note}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-
-
-  </div>
-</div>
-<button style="font-size:125%" ng-click="backtosearch()"> <i class="fa fa-backward"></i>
+            </div>
+        </div>
+        <button style="font-size:125%" ng-click="backtosearch()"> <i class="fa fa-backward"></i>
  Back to search students</button>
 
-
-<button style="font-size:125%" ng-click="backtoprofile()"> <i class="fa fa-chevron-left"></i>
+        <button style="font-size:125%" ng-click="backtoprofile()"> <i class="fa fa-chevron-left"></i>
  Back to profile</button>
-
-</div>
-
-
+    </div>
 
 </div>

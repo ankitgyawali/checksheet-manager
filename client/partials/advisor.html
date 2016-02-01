@@ -1,102 +1,90 @@
 <div class="row">
 
- <nav class="navbar navbar-default navbar-fixed-top" >
-  <div class="container-fluid" >
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header" >
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand"> <i class="fa fa-list-alt fa-sm"></i> &nbsp;&nbsp; Kutztown Syllabus Manager</a>
-    </div>
+                <a class="navbar-brand"> <i class="fa fa-list-alt fa-sm"></i> &nbsp;&nbsp; Kutztown Syllabus Manager</a>
+            </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-    <li><a> Advisor dashboard</a> </li>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a> Advisor dashboard</a> </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
 
-      </ul>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{username}} <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#" ng-click="templateURL='partials/advisorprofile.html'"><i class="fa fa-fw fa-user"></i> Profile</a>
+                            </li>
+                            <li>
+                                <a href="#" ng-click="templateURL='partials/advisorsettings.html'"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#" ng-click="logout()"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
 
-      <ul class="nav navbar-nav navbar-right">
+    <div class="container-fluid"> <!-- Menu starts here -->
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li><b>Manage Advisee:</b></li>
+                    <li ng-class="{active: (templateURL=='partials/viewstudents.html')}"><a href="#" ng-click="templateURL='partials/viewstudents.html'">View my Students</a>
 
-  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{username}} <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="#" ng-click="templateURL='partials/advisorprofile.html'"><i class="fa fa-fw fa-user"></i> Profile</a>
-                        </li>
-                        <li>
-                            <a href="#" ng-click="templateURL='partials/advisorsettings.html'"><i class="fa fa-fw fa-gear"></i> Settings</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#"  ng-click="logout()"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
-                        </li>
-                    </ul>
-                </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-   </nav>
+                    </li>
+
+                    <li ng-class="{active: (templateURL=='partials/advisoraddstudents.html')}"><a href="#" ng-click="templateURL='partials/advisoraddstudents.html'">Add a new student </a></li>
+                    <li ng-class="{active: (templateURL=='partials/advisoraddcurrentstudents.html')}"><a href="#" ng-click="templateURL='partials/advisoraddcurrentstudents.html'">Add existing student </a></li>
+
+                </ul>
+
+                <ul class="nav nav-sidebar">
+                    <li><b>Checksheet Workshop:</b></li>
+                    <li ng-class="{active: (templateURL=='partials/blockviewer.html')}"><a href="#" ng-click="templateURL='partials/blockviewer.html'">Manage Block </a></li>
+
+                    <li ng-class="{active: (templateURL=='partials/checksheetblock.html')}"><a href="#" ng-click="templateURL='partials/checksheetblock.html'">Add Block </a></li>
+
+                    <li ng-class="{active: (templateURL=='partials/checksheetviewer.html')}"><a href="#" ng-click="templateURL='partials/checksheetviewer.html'">Manage Checksheet</a></li>
+                    <li ng-class="{active: (templateURL=='partials/checksheetmaker.html')}"><a href="#" ng-click="templateURL='partials/checksheetmaker.html'">Add Checksheet </a></li>
 
 
+                </ul>
+                <ul class="nav nav-sidebar">
+                    <li><b> Appointment Options:</b></li>
 
+                    <li ng-class="{active: (templateURL=='partials/setadvising.html')}"><a href="#" ng-click="templateURL='partials/setadvising.html'">Set advising hours </a></li>
+                    <li ng-class="{active: (templateURL=='partials/viewadvising.html')}"><a href="#" ng-click="templateURL='partials/viewadvising.html'">View advising appointments </a></li>
 
-    <div class="container-fluid">
-      <div class="row" >
-        <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-        <li><b>Manage Advisee:</b></li>
-                <li ng-class="{active: (templateURL=='partials/viewstudents.html')}"><a href="#" ng-click="templateURL='partials/viewstudents.html'">View my Students</a>
-            
-            </li>
+                </ul>
+                <ul class="nav nav-sidebar">
+                    <li><b>Other:</b></li>
+                    <li ng-class="{active: (templateURL=='partials/advisorsetannouncement.html')}"><a href="#" ng-click="templateURL='partials/advisorsetannouncement.html'">Broadcast message </a></li>
+                </ul>
+            </div>
 
-            <li ng-class="{active: (templateURL=='partials/advisoraddstudents.html')}"><a href="#" ng-click="templateURL='partials/advisoraddstudents.html'">Add a new student </a></li>
-              <li ng-class="{active: (templateURL=='partials/advisoraddcurrentstudents.html')}"><a href="#" ng-click="templateURL='partials/advisoraddcurrentstudents.html'">Add existing student </a></li>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
-        
-
-          </ul>
-
-          <ul class="nav nav-sidebar">
-            <li><b>Checksheet Workshop:</b></li>
-            <li ng-class="{active: (templateURL=='partials/blockviewer.html')}"><a href="#" ng-click="templateURL='partials/blockviewer.html'">Manage Block </a></li>
-
-            <li ng-class="{active: (templateURL=='partials/checksheetblock.html')}"><a href="#" ng-click="templateURL='partials/checksheetblock.html'">Add Block </a></li>
-
-            <li ng-class="{active: (templateURL=='partials/checksheetviewer.html')}"><a href="#" ng-click="templateURL='partials/checksheetviewer.html'">Manage Checksheet</a></li>
-            <li ng-class="{active: (templateURL=='partials/checksheetmaker.html')}"><a href="#" ng-click="templateURL='partials/checksheetmaker.html'">Add Checksheet </a></li>
-      
-           
-        </ul>
-         <ul class="nav nav-sidebar">
-          <li><b> Appointment Options:</b></li>
-       
-            <li ng-class="{active: (templateURL=='partials/setadvising.html')}"><a href="#" ng-click="templateURL='partials/setadvising.html'">Set advising hours </a></li>
-            <li ng-class="{active: (templateURL=='partials/viewadvising.html')}"><a href="#" ng-click="templateURL='partials/viewadvising.html'">View advising appointments </a></li>
-	
-          </ul>
-          <ul  class="nav nav-sidebar">
-            <li><b>Other:</b></li>
-   <li ng-class="{active: (templateURL=='partials/advisorsetannouncement.html')}"><a href="#" ng-click="templateURL='partials/advisorsetannouncement.html'">Broadcast message </a></li>
-          </ul>
+                <div ng-include="templateURL"></div><!-- Main view inside user group -->
+            </div>
         </div>
 
-
-
-
- <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-
-   <div ng-include="templateURL"></div>
-
-
-      </div>
     </div>
-
-
-
-
-</div></div>
+</div>

@@ -1,108 +1,83 @@
 <div ng-controller="viewadivisingrequests">
 
-<div class="page-header" style="font-size:120%"> 
+    <div class="page-header" style="font-size:120%">
+        <a href="#"> <i class="fa fa-fw fa-info-circle"></i> Help </a>
+    </div>
+    
+    <div class="panel panel-default">
+        <div class="panel-body" style="font-size:125%">
+            Appointment requests can be viewed and modified. Appointment requests can be made and viewed only within a span of 4 weeks. The first week start from Sunday of the previous week and the last week ends on Saturday of coming two weeks. </div>
+    </div>
+    <br>
 
+    <div class="row" style="font-size:125%">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-4"> <label style="font-size:100%"><b>Search my Appointments for date:</b> </label> </div>
+        <div class="col-sm-4">
 
+            <select ng-model="datetoview">
 
-<a href="#"> <i class="fa fa-fw fa-info-circle"></i> Help </a>
-
-
-</div>
-
-<div class="panel panel-default">
-  <div class="panel-body" style="font-size:125%">
-     Appointment requests can be viewed and modified. Appointment requests can be made and viewed only within a span of 4 weeks. The first week start from Sunday of the previous week and the last week ends on Saturday of coming two weeks.  </div>
-</div>
-<br>
-
-
-<div class="row" style="font-size:125%"><div class="col-sm-1"></div>
-  <div class="col-sm-4">    <label style="font-size:100%"><b>Search my Appointments for date:</b> </label> </div><div class="col-sm-4"> 
-
-  <select ng-model="datetoview">
-
-	<option ng-repeat="datetoview in dateArray[0]" ng-value='datetoview'>{{datetoview}}</option>
-	<option ng-repeat="datetoview in dateArray[1]" ng-value='datetoview'>{{datetoview}}</option>
-	<option ng-repeat="datetoview in dateArray[2]" ng-value='datetoview'>{{datetoview}}</option>
-	<option ng-repeat="datetoview in dateArray[3]" ng-value='datetoview'>{{datetoview}}</option>
+  <option ng-repeat="datetoview in dateArray[0]" ng-value='datetoview'>{{datetoview}}</option>
+  <option ng-repeat="datetoview in dateArray[1]" ng-value='datetoview'>{{datetoview}}</option>
+  <option ng-repeat="datetoview in dateArray[2]" ng-value='datetoview'>{{datetoview}}</option>
+  <option ng-repeat="datetoview in dateArray[3]" ng-value='datetoview'>{{datetoview}}</option>
   </select>
-  <!--   <input type="text" size="30" autofocus="autofocus" ng-model="appttoview.datetoview" > -->
 
-
-</div>
-<div class="col-sm-3"><button ng-click="searchappointment($index)"><i class="fa fa-search"></i>
+        </div>
+        <div class="col-sm-3"><button ng-click="searchappointment($index)"><i class="fa fa-search"></i>
  Search appointments </button></div>
 
-</div>
-<br>
-<div class="panel panel-info" style="font-size:125%" ng-show="showapptdate==1">
-  <div class="panel-heading"><b>Appointments scheduled for the day of {{datetosearch}}</b></div>
-  <div class="panel-body container" ng-if="appointmentsgotten.length"> 
-<div class="table-responsive">
+    </div>
+    <br>
+    <div class="panel panel-info" style="font-size:125%" ng-show="showapptdate==1">
+        <div class="panel-heading"><b>Appointments scheduled for the day of {{datetosearch}}</b></div>
+        <div class="panel-body container" ng-if="appointmentsgotten.length">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-condensed" style="font-size:100%">
+                    <thead>
+                        <tr class="info">
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Student's Name</th>
+                            <th>Student's ID</th>
+                            <th> Student's Email </th>
+                            <th> Student's Major </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="appt in appointmentsgotten track by $index">
 
-<table class="table table-bordered table-hover table-condensed" style="font-size:100%">
-    <thead>
-    <tr class="info">
+                            <td> {{indexTohour(appt.timeslot)}} </td>
+                            <td> {{indexTohour(appt.timeslot+1)}} </td>
+                            <td> {{studentids[$index].firstname}} {{studentids[$index].lastname}}</td>
+                            <td> {{studentids[$index].id}}</td>
+                            <td> {{studentids[$index].email}}</td>
+                            <td> {{studentids[$index].department}}</td>
 
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-        <th>From</th>
-        <th>To</th>
-        <th>Student's Name</th>
-        <th>Student's ID</th>        
-        <th> Student's Email </th>
-        <th> Student's Major </th>
-        </tr>
-  </thead>
-  <tbody>
-<tr ng-repeat="appt in appointmentsgotten track by $index">
+        </div>
 
+        <div class="panel-body" ng-if="!appointmentsgotten.length">
+            No appointments found!
+        </div>
+    </div>
 
-  	<td> {{indexTohour(appt.timeslot)}}  </td>
-  	<td> {{indexTohour(appt.timeslot+1)}} </td>
-  	<td> {{studentids[$index].firstname}} {{studentids[$index].lastname}}</td>
-  	<td> {{studentids[$index].id}}</td>
-  	<td> {{studentids[$index].email}}</td>
-  	<td> {{studentids[$index].department}}</td>
-
-  	</tr>
-  </tbody>
-</table>
-
-</div>
-  	
-  		
-
-  
-  </div>
-
-  <div class="panel-body" ng-if="!appointmentsgotten.length"> 
-	No appointments found!
-  
-  </div>
-
-</div>
-
-<br>
-<div class="panel panel-info" style="font-size:125%">
-  <div class="panel-heading"><b>Current Appointment Times Summary</b></div>
-  <div class="panel-body"><u>Appointment Slot opened for:</u><br>
-<div class="row container"> Sunday: {{showtimes(myappointmentTimes['S'])}}</div>
-<div class="row container"> Monday: {{showtimes(myappointmentTimes['M'])}}</div>
-<div class="row container"> Tuesday: {{showtimes(myappointmentTimes['T'])}}</div>
-<div class="row container"> Wednesday: {{showtimes(myappointmentTimes['W'])}}</div>
-<div class="row container"> Thursday: {{showtimes(myappointmentTimes['TH'])}}</div>
-<div class="row container"> Friday: {{showtimes(myappointmentTimes['F'])}}</div>
-<div class="row container"> Saturday: {{showtimes(myappointmentTimes['SA'])}}</div>
-
-  </div>
-</div>
-
-
-
-
-
-
-
+    <br>
+    <div class="panel panel-info" style="font-size:125%">
+        <div class="panel-heading"><b>Current Appointment Times Summary</b></div>
+        <div class="panel-body"><u>Appointment Slot opened for:</u><br>
+            <div class="row container"> Sunday: {{showtimes(myappointmentTimes['S'])}}</div>
+            <div class="row container"> Monday: {{showtimes(myappointmentTimes['M'])}}</div>
+            <div class="row container"> Tuesday: {{showtimes(myappointmentTimes['T'])}}</div>
+            <div class="row container"> Wednesday: {{showtimes(myappointmentTimes['W'])}}</div>
+            <div class="row container"> Thursday: {{showtimes(myappointmentTimes['TH'])}}</div>
+            <div class="row container"> Friday: {{showtimes(myappointmentTimes['F'])}}</div>
+            <div class="row container"> Saturday: {{showtimes(myappointmentTimes['SA'])}}</div>
+        </div>
+    </div>
 
 </div>
-
