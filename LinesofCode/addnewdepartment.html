@@ -1,0 +1,63 @@
+<div ng-controller="rootDeptController">
+
+<div class="page-header" style="font-size:120%"> 
+<a href="#" ng-click = "settemplateURL('partials/rdept.html')"> <i class="fa fa-fw fa-times"></i> Cancel adding department </a>&nbsp;&nbsp;&nbsp;
+<a href="#"  ng-click="showme=true"> <i class="fa fa-fw fa-plus-circle"></i> Add multiple departments </a>
+
+
+&nbsp;&nbsp;&nbsp;
+<a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
+&nbsp;&nbsp;&nbsp;
+
+</div>
+
+
+<div class="col-sm-6 input-group" ng-show="showme">
+
+
+     <span class="input-group-addon" id="basic-addon1">Number of departments to add:</span>
+  <input type="number" class="form-control" ng-model="numtoadd" aria-describedby="basic-addon1" max="50" min="1">
+  
+	<span class="input-group-btn" id="basic-addon1">
+        <button class="btn btn-default" type="button" ng-click="showme=false">
+	<i class="fa fa-fw fa-cancel"></i>Cancel
+</button> </span>
+
+
+</div>
+
+<br><br>
+
+<form ng-submit="addDepts()">
+<table class="table table-bordered table-hover table-condensed" style="font-size:125%">
+    <thead>
+    <tr class="info">
+
+		<th><i class="fa fa-fw fa-list-ol"></i></th>
+        <th>Department ID</th>
+        <th>Department Name</th>
+        <th>Department Office</th>
+        <th>Department Phone</th>        
+		<th><i class="fa fa-fw fa-trash"></i></th>
+        </tr>
+  </thead>
+  <tbody>
+	<tr ng-repeat="i in newDepts(numtoadd) track by $index">
+
+		<td> {{$index+1}}) </td>
+        <td><input type="text" class="form-control" ng-model="arraytoAdd[$index].id" placeholder="Department ID" required></td>
+        <td><input type="text" class="form-control" ng-model="arraytoAdd[$index].name" placeholder="Department Name" required></td>
+        <td> <input type="text" class="form-control" ng-model="arraytoAdd[$index].office" placeholder="Department Office" required></td>
+        <td> <input class="form-control" ng-model="arraytoAdd[$index].phone" placeholder="Department Phone" required></td>
+        <td><button type="button" ng-click="delnewDepts($index)" ng-disabled="numtoadd==1"><i class="fa fa-fw fa-trash"></i></button></td>
+    </tr>
+</tbody></table>
+
+
+
+<button style="font-size:125%" type="submit" >
+	<i class="fa fa-fw fa-check"></i>Add all departments to database
+</button></form></div>
+
+
+

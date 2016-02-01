@@ -1,0 +1,114 @@
+<div ng-controller="studentmodifychecksheetcontroller">
+ <div class="page-header" style="font-size:120%">
+        <!-- <a href="#" ng-click = "settemplateURL('partials/radvisor.html')"> <i class="fa fa-fw fa-times"></i> Cancel registering advisor </a>&nbsp;&nbsp;&nbsp;
+<a href="#"  ng-click="showme=true"> <i class="fa fa-fw fa-plus-circle"></i> Add multiple advisors </a> -->
+
+
+        &nbsp;&nbsp;&nbsp;
+        <a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
+        &nbsp;&nbsp;&nbsp;
+
+    </div>
+
+<div class="panel panel-default">
+  <div class="panel-body" style="font-size:125%">
+     You are about to make modifications to checksheet. <b>Note that the changes are not saved until you submit your checksheet to database.</b> Manaual modification of checksheet slots is generally unadvised unless absolutely necessary. Refer to documentation for more information. 
+  </div>
+</div>
+
+<div  ng-if="divshow!='1'">
+
+
+	<div class="panel panel-default container" style="font-size:125%">
+		
+		<br>
+		Choose a checksheet to continue<br><br>
+		<ul>
+		<li ng-repeat="checksheet in checksheets track by $index">
+				<a href="#" ng-model="checksheettoview" ng-click="setdivshowtrue($index)">{{checksheet.name}}</a>
+		</li>			
+
+		</ul> <br>
+	</div>
+
+
+</div>
+
+
+<div  ng-if="divshow=='1'">
+
+
+
+<div class="row page-header">  <h3>{{checksheetinview.name}}</h3></div> <br>
+
+<button style="font-size:135%" ng-click="submitchecksheetdata()" confirm="WARNING: You are about to update your checksheet information. Are you sure?" confirm-ok="Yes" confirm-cancel="No" confirm-title="Updating {{checksheetinview.name}}.."><i class="fa fa-floppy-o"></i> Save and submit to database</button><br><br>
+
+
+
+
+	<div class="panel panel-default row" style="font-size:125%" ng-repeat="block in checksheetinview.blockid track by $index">
+		   <div class="panel-heading">{{block.name}} </div> 
+		   <div class="container" ng-if="block.type=='Electives'"><b> Electives Choices: </b><br>
+			<div class="col-sm-2" ng-repeat="class in block.electivechoices"> {{class.prefix}} {{class.suffix}}</div>
+		   </div>
+  
+  <div class="panel-body">
+	<div class="row">
+ 	
+  		<div class="col-sm-6" ng-repeat="slot in block.details" style="border:1px solid grey;border-style: outset;border-radius: 5px;"> <u><b> {{$parent.$index+1}}.{{$index+1}}: {{slot.title}}</b></u>   <span ng-if="slot.subtitle" style="font-size:75%">({{slot.subtitle}})</span> <span style="color:red" class="pull-right" ng-show="isFilled($parent.$index,$index)"><i class="fa fa-times" uib-tooltip='Slot is not filled'></i></span>
+
+
+  			<span style="color:green" class="pull-right" ng-show="!isFilled($parent.$index,$index)"><i class="fa fa-check" uib-tooltip='Slot is filled'></i></span>
+
+  			
+  			<br>
+  		 <span style="font-size:90%">{{slot.description}} </span>
+<hr>
+<div class="row" style="margin-bottom:-5px"> <span class="pull-right">
+<!-- <input type="text" ng-model="checksheetdata[$parent.$index][$index].state"> -->
+
+<div class="col-sm-5" style="font-size:65%">
+	Slot options:
+</div>
+<div class="col-sm-1">
+	<span><a href="#" ng-click='modifySlot($parent.$index,$index)'><i class="fa fa-pencil-square" uib-tooltip='Change slot status'></i></a></span>
+</div>
+<div class="col-sm-1">
+	<span><a href="#" ng-click='viewSlotInfo($parent.$index,$index)'><i class="fa fa-info-circle" uib-tooltip='View slot information'></i></a></span>
+</div>
+
+<div class="col-sm-1">
+	<span><a href="#" ng-click='addSlotNote($parent.$index,$index)'><i class="fa fa-sticky-note" uib-tooltip='View/modify personal slot note'></i></a></span>
+</div>
+
+
+<div class="col-sm-1">
+	<span>
+
+		<a href="#" ng-click='deleteSlotDetails($parent.$index,$index)' confirm="WARNING: You are about to delete your checksheet slot information. Are you sure?" confirm-ok="Yes" confirm-cancel="No" confirm-title="Deleting slot information for '{{slot.title}}'.."><i class="fa fa-trash" uib-tooltip='Delete slot settings'></i></a></span>
+</div>
+
+
+ </span>
+
+</div>
+  		</div>
+
+  	
+
+  	</div>
+  </div>
+
+
+
+	</div>
+<button style="font-size:135%" ng-click="submitchecksheetdata()" confirm="WARNING: You are about to update your checksheet information. Are you sure?" confirm-ok="Yes" confirm-cancel="No" confirm-title="Updating {{checksheetinview.name}}.."><i class="fa fa-floppy-o"></i> Save and submit to database</button><br>
+
+
+
+
+
+</div>
+
+
+</div>

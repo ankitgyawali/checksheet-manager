@@ -1,0 +1,151 @@
+<div ng-controller="advisorviewstudents">
+    <div class="page-header" style="font-size:120%">
+
+
+        &nbsp;&nbsp;&nbsp;
+        <a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
+        &nbsp;&nbsp;&nbsp;
+
+    </div>
+
+  <div class="panel panel-default">
+            <div class="panel-body" style="font-size:125%">
+                Advisor can monitor student's checksheet and their checksheet notes. Student's profile information can also be modified from this page.
+
+            </div>
+        </div>
+
+
+
+<div ng-show="divshow=='1'">
+<b>Current Page: {{ currentPage }}</b> 
+<br><br>    
+<div class="row">
+<div class="col-xs-4">
+              <label for="search" style="font-size:120%"><u>Search:</u></label>
+              <input ng-model="q" id="search" class="form-control" placeholder="Filter text">
+            </div>
+            <div class="col-xs-2">
+              <label for="search" style="font-size:120%"><u>Items per page:</u></label>
+              <input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+            </div>
+        </div>
+
+<br>
+<br><span style="font-size:125%"><u><b>
+Student List</u>:<br></b>
+</span>
+<div class="table-responsive">
+
+<table class="table table-bordered table-hover table-condensed" style="font-size:125%">
+    <thead>
+    <tr class="info">
+
+    
+        <th>Full Name</th>
+        <th>ID</th>
+
+        <th>Email</th>
+        <th>Major</th>
+        <th>View Checksheet</th>
+       
+
+           <th>Modify</th>
+        </tr>
+  </thead>
+  <tbody>
+    <tr dir-paginate="student in studentlist | filter:q | itemsPerPage: pageSize" current-page="currentPage" pagination-id="classes">
+        <td>{{student.firstname}} {{student.lastname}} </td>
+        <td>{{student.id}}</td>
+        <td style="word-wrap: break-word;max-width: 145px;">{{student.email}}</td>
+        <td>{{student.department}}</td>
+        <td><ul>
+          <li ng-repeat="checksheet in student.checksheetprotoid"><a href="#" ng-click="viewstudentchecksheet(student.checksheetprotoid[$index],student.checksheetdata[$index])">{{checksheet.name}}</a> &nbsp;<a href="#" ng-click="showchecksheetinfo(checksheet)"><i class="fa fa-info-circle"></i></a>
+
+ </li>
+        </ul></td> 
+       
+        <td>
+
+        <div><i class="fa fa-fw fa-user"></i> <a href="#" ng-click="advisormodifystudent(student)">Edit profile</a>
+
+    </div>
+
+    </td>
+
+
+
+    
+   
+    </tr>
+</tbody>
+</table>
+</div>
+<br><br>
+
+ <dir-pagination-controls boundary-links="true" template-url="partials/dirPagination.tpl.html" pagination-id="classes"></dir-pagination-controls>
+
+</div>
+
+<div ng-if="divshow=='0'">
+
+    <div class="panel panel-default">
+    <div class="panel-heading"><b>Summary of {{checksheetinview.name}} for {{username}} {{lastname}} </b></div>
+    <div class="panel-body">
+
+     <b>Checksheet slots completed: {{complete}} /  {{complete+incomplete}} ({{(complete/(complete+incomplete))*100 | number : 0}}% completed)</b>
+     <ul>
+       <li ng-repeat="block in checksheetinview.blockid track by $index">
+         {{block.name}} : {{blocksummarycomplete[$index]}}/{{blocksummarycomplete[$index]+ blocksummaryincomplete[$index]}} ({{(blocksummarycomplete[$index]/(blocksummarycomplete[$index]+blocksummaryincomplete[$index]))*100 | number : 0}}% completed)
+       </li>
+     </ul>
+    </div>
+  </div>
+
+  
+<button style='font-size:125%' ng-click="switchdiv()"><i class="fa fa-chevron-left"></i>
+ Go Back</button><br>
+<br>
+  <div class="panel panel-default row" style="font-size:125%" ng-repeat="block in checksheetinview.blockid track by $index">
+       <div class="panel-heading">{{block.name}} </div> 
+       <div class="container" ng-if="block.type=='Electives'"><b> Electives Choices: </b><br>
+      <div class="col-sm-2" ng-repeat="class in block.electivechoices"> {{class.prefix}} {{class.suffix}}</div>
+       </div>
+  
+  <div class="panel-body">
+  <div class="row">
+
+      <div class="col-sm-6" ng-repeat="slot in block.details" style="border:1px solid grey;border-style: outset;  border-radius: 5px; "> <u><b> {{$parent.$index+1}}.{{$index+1}}: {{slot.title}}</b></u>   <span ng-if="slot.subtitle" style="font-size:75%">({{slot.subtitle}})</span> <span style="color:red" class="pull-right" ng-show="isFilled($parent.$index,$index)"><i class="fa fa-times" uib-tooltip='Slot is not filled'></i></span>
+
+
+        <span style="color:green" class="pull-right" ng-show="!isFilled($parent.$index,$index)"><i class="fa fa-check" uib-tooltip='Slot is filled'></i></span>
+
+        
+        <br>
+       <span style="font-size:90%">{{slot.description}} </span>
+<br>
+       <div class="row" style="margin-bottom:0px"> 
+<!-- <input type="text" ng-model="checksheetdata[$parent.$index][$index].state"> -->
+
+<div class="col-sm-5" style="font-size:90%;">
+ <span><i class="fa fa-sticky-note"></i>
+Note: </span>  {{checksheetdata[$parent.$index][$index].note}}
+</div>
+
+</div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+  </div>
+  
+
+</div>
+
+</div>
+
+
+

@@ -1,0 +1,116 @@
+  <div ng-if="advisortimes[hourinDay][timeSlotandDay].state=='true' && slotclass!='0'">
+        <div class="modal-header">
+            <h4 class="modal-title">Appointment slot already taken.. </h4>
+        </div> 
+
+        
+        <div class="modal-body">
+
+          This appointment slot has already been reserved.
+
+  </div>
+        <div class="modal-footer">
+         
+
+            <button class="btn btn-warning" type="button" ng-click="cancel()">OK</button> 
+
+        </div>
+</div>
+
+   <div ng-if="advisortimes[hourinDay][timeSlotandDay].state=='true' && slotclass=='0' && studentcanSubmit=='0'">
+        <div class="modal-header">
+            <h4 class="modal-title">Appointment request already made </h4>
+        </div> 
+
+        
+        <div class="modal-body">
+
+          You have already made an appointment. You can make a new appointment 10 days after your current appointment.
+
+  </div>
+        <div class="modal-footer">
+         
+
+            <button class="btn btn-warning" type="button" ng-click="cancel()">OK</button> 
+
+        </div>
+</div>
+
+
+
+
+
+   <div ng-if="advisortimes[hourinDay][timeSlotandDay].state=='true' && slotclass=='0' && studentcanSubmit=='1'">
+        <div class="modal-header">
+            <h4 class="modal-title">Reserving appointment slot.. </h4>
+        </div> 
+
+        <div class="modal-body">
+     
+
+            <div class="form-group row">
+<!--           {{hourinDay}}  or {{timeSlotandDay}}
+          this is  GREEEN   <br>
+            Modified advisor times {{advisortimes[hourinDay][timeSlotandDay].note[0]}} <br>
+
+            Modified advisor direct {{advisors[advisortoview].appointmentTimes[indextoday(timeSlotandDay)][indextodayarray(hourinDay,timeSlotandDay)].note[0]}} <br>  
+
+
+ -->
+
+  <!--       <br>  DAY:  {{indextoday(timeSlotandDay)}}<br>INDEX IS:  {{indextodayarray(hourinDay,timeSlotandDay)}} <br> -->
+
+
+    </div> 
+<div class="container row"> Note for advisor:</div>
+
+     <div class="form-group row container">
+            <textarea style="resize:none;width:45%" ng-model="appointmentEdit.note" ngMaxlength="100">
+            </textarea>
+
+    </div> 
+<br>
+ <input type="checkbox" ng-model="locksubmit" ng-click="unlockSubmit()">  I want to reserve this time slot for an appointment. 
+
+
+ 
+
+
+  </div>
+        <div class="modal-footer">
+             <button class="btn btn-primary" type="submit" ng-click="submitappointmentrequest(indextoday(timeSlotandDay),indextodayarray(hourinDay,timeSlotandDay),hourinDay,timeSlotandDay)" ng-disabled="buttondisabled" confirm="WARNING: You are about to reserve an appointment request. This change can only be reversed by your advisor. You cannot make a new appointment until one week after your current appointment."  confirm-ok="Request appointment session" confirm-cancel="Cancel" confirm-title="Appointment Request">Submit</button>
+
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button> 
+
+        </div>
+</div>
+
+ <div ng-if="(advisortimes[hourinDay][timeSlotandDay].state)!='true'">
+        <div class="modal-header">
+            <h4 class="modal-title">Appointment slot unavailable.</h4>
+        </div> 
+        
+        <div class="modal-body">
+
+          Appointment slot is locked by advisor. Email or Call your advisor if you want this time slot for an appointment.
+
+
+ <!--     <br>  DAY:  {{indextoday(timeSlotandDay)}}<br>INDEX IS:  {{indextodayarray(hourinDay,timeSlotandDay)}} <br>
+            <div class="form-group row">
+                     {{hourinDay}}  or {{timeSlotandDay}}
+          Cannot pick appointment slot.     
+
+          {{advisortimes[hourinDay][timeSlotandDay]}}
+
+
+          REDDD
+    </div>  -->
+
+
+  </div>
+        <div class="modal-footer">
+        
+            <button class="btn btn-warning" type="button" ng-click="cancel()">OK</button> 
+
+        </div>
+</div>

@@ -1,0 +1,176 @@
+<div ng-controller="setadvisingcontroller">
+
+
+
+<div class="page-header" style="font-size:120%"> 
+<!-- <a href="#" ng-click = "settemplateURL('partials/radvisor.html')"> <i class="fa fa-fw fa-times"></i> Cancel registering advisor </a>&nbsp;&nbsp;&nbsp;
+<a href="#"  ng-click="showme=true"> <i class="fa fa-fw fa-plus-circle"></i> Add multiple advisors </a> -->
+
+
+
+<a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
+&nbsp;&nbsp;&nbsp;
+
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-body" style="font-size:125%">
+    Advising appointment times can be set in the interval of certain time limits. Note that if you make changes to your advising appointment times after you broadcast it to your students, you will be responsible for notifying them the changed times. Refer to the documentation for more information.
+  </div>
+</div>
+
+
+<div class="page-header" style="font-size:125%">
+  <button type="button" ng-click="submitAppointments()"><i class="fa fa-eraser"></i> Reset & Submit Appointment times to database</button>
+<br>
+<span style="font-size:75%"> Warning: This will reset all of your current appointments with your students.</span>
+ </div>
+
+
+
+<div style="font-size:125%">
+
+  <br>
+<u>Allocate advising time slots for a week:</u><br>
+
+<br>
+<div class="row">
+<div class="col-xs-3">
+              <label style="font-size:100%"><u>Day:</u> &nbsp;&nbsp;</label>
+              <select ng-model="timeDay" ng-init="timeDay='S'">
+              	<option value="S">Sunday</option>
+              	<option value="M">Monday</option>
+              	<option value="T">Tuesday</option>
+              	<option value="W">Wednesday</option>
+              	<option value="TH">Thursday</option>
+              	<option value="F">Friday</option>
+              	<option value="SA">Saturday</option>
+              </select>
+</div>
+<div class="col-xs-1">Time:</div>
+<div class="col-xs-4">
+
+       From<br>
+       <select ng-model="timeMinHr" ng-init="timeMinHr='1'">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+                <option>11</option>
+                <option>12</option>
+      </select>
+      :
+      <select ng-model="timeMinMin" ng-init="timeMinMin='00'" >
+                <option>00</option>
+                <option>30</option>
+      </select>
+
+      <button type="button" ng-if="timeMinAMPM=='PM'" ng-click="setMinAMPM('AM')">PM</button>
+      <button type="button"  ng-if="timeMinAMPM=='AM'" ng-click="setMinAMPM('PM')">AM</button>
+</div>
+
+
+
+<div class="col-xs-4">
+To <br>
+   <select ng-model="timeMaxHr" ng-init="timeMaxHr='1'">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+                <option>11</option>
+                <option>12</option>
+      </select>
+      :
+      <select ng-model="timeMaxMin" ng-init="timeMaxMin='00'" >
+                <option>00</option>
+                <option>30</option>
+      </select>
+      <button type="button" ng-if="timeMaxAMPM=='PM'" ng-click="setMaxAMPM('AM')">PM</button>
+      <button type="button"  ng-if="timeMaxAMPM=='AM'" ng-click="setMaxAMPM('PM')">AM</button>
+
+
+</div>
+</div>
+
+
+  <br> <br>  <button ng-click="addAppt()">Add appointment time</button> <br><br>
+<span style="font-size:85%"> Time conflicts are handled gracefully. Overlapping times will be shown "as-is" on your appointment schedule summary below. Your actual schedule can be viewed from "view advising appointments" tab once you submit your schedule. </span>
+<div class="row">
+<div class="col-sm-12">
+  <div class="panel panel-default">
+  <div class="panel-body" style="font-size:100%">
+  <b><u>New Appointment Schedule Summary:</u></b><br><br>
+  
+  Maximum # of appointments possible per week: <b>{{newTimes.maxAppts}}</b><br>
+Appointment time length: 15 min <br><br>
+<u>Newly created appointment hours:</u><br><br>
+<div class="container row">
+<b>Sunday:</b> <ul><li ng-repeat="timeslot in newTimes.S track by $index"> {{timeslot}}</li></ul>
+
+</div>
+<div class="container row">
+<b>Monday:</b> <ul><li ng-repeat="timeslot in newTimes.M track by $index"> {{timeslot}}</li></ul>
+</div>
+<div class="container row">
+<b>Tuesday:</b> <ul><li ng-repeat="timeslot in newTimes.T track by $index"> {{timeslot}}</li></ul>
+
+</div>
+<div class="container row">
+<b>Wednesday:</b> <ul><li ng-repeat="timeslot in newTimes.W track by $index"> {{timeslot}}</li></ul>
+</div>
+<div class="container row">
+<b>Thursday:</b> <ul><li ng-repeat="timeslot in newTimes.TH track by $index"> {{timeslot}}</li></ul>
+ </div>
+<div class="container row">
+<b>Friday:</b> <ul><li ng-repeat="timeslot in newTimes.F track by $index"> {{timeslot}}</li></ul>
+</div>
+<div class="container row">
+<b>Saturday:</b><ul><li ng-repeat="timeslot in newTimes.SA track by $index"> {{timeslot}}</li></ul>
+</div>
+
+
+
+
+  </div></div>
+
+
+</div>
+
+
+
+
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-body" style="font-size:100%">
+    Go to "view advising appointments" tab to view current appointment schedule and requested appointment informaiton.
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12"><br><br>
+  <button type="button" ng-click="submitAppointments()"><i class="fa fa-eraser"></i> Reset & Submit Appointment times to database</button>
+<br>
+<span style="font-size:75%"> Warning: This will reset all of your current appointments with your students.</span>
+  </div>
+</div>
+
+
+
+</div>
+
+
+</div>

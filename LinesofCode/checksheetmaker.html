@@ -1,0 +1,205 @@
+<div ng-controller="advisorchecksheetController">
+
+    <div class="page-header" style="font-size:120%">
+        <!-- <a href="#" ng-click = "settemplateURL('partials/radvisor.html')"> <i class="fa fa-fw fa-times"></i> Cancel registering advisor </a>&nbsp;&nbsp;&nbsp;
+<a href="#"  ng-click="showme=true"> <i class="fa fa-fw fa-plus-circle"></i> Add multiple advisors </a> -->
+
+
+        &nbsp;&nbsp;&nbsp;
+        <a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
+        &nbsp;&nbsp;&nbsp;
+
+    </div>
+
+
+
+
+
+    <div ng-show="divshow">
+
+        <div class="panel panel-default">
+            <div class="panel-body" style="font-size:125%">
+                Checksheet prototypes are representation of empty checksheet. One can combine different checksheet blocks to create a new checksheet. Checksheet are reusable by students and its rule are modifiable to provide flexibility with different kind of student career path. Refer to the documentation for more information.
+
+            </div>
+        </div>
+    
+
+
+<form name="blockcreator" style="font-size:90%;" ng-submit="buildChecksheet()" >
+<div class="container" style="line-height:30px;">
+<!--     name: String,   id: String, credits: Number,  type: String,
+   
+    
+    details: Object,
+    department: String,
+    createdby: String,
+   -->
+
+<div class="row">
+  <div class="col-sm-3">    <label style="font-size:125%"><b>Checksheet Name:</b> </label> </div><div class="col-sm-4"> 
+    <input type="text" size="50" autofocus="autofocus" ng-model="checksheet.name" required ></div>
+</div>
+
+
+
+<div class="row">
+  <div class="col-sm-3">    <label style="font-size:125%"><b>Checksheet ID (unique):</b> </label> </div><div class="col-sm-4"> 
+    <input type="text" size="50" ng-model="checksheet.id" required></div>
+</div>
+
+<div class="row">
+  <div class="col-sm-3">    <label style="font-size:125%"><b>Checksheet Description:</b> </label> </div><div class="col-sm-8"> 
+    <input type="text" size="100" ng-model="checksheet.description"></div>
+</div>
+
+
+<div class="row">
+  <div class="col-sm-3">    <label style="font-size:125%"><b>Checksheet Category:</b> </label> </div>
+  <div class="col-sm-4" style="font-size:125%"> 
+
+<!--       <select ng-init="checksheet.department=dpts[2].name"  ng-model="checksheet.department"  style="width:300px" ng-options="dpt.name for dpt in dpts" required>
+                <option></option>
+             </select> 
+ -->   
+ <select  ng-model="checksheet.department" ng-init="checksheet.department='Checksheet: General Education'" style="width:300px" required>
+ <option ng-repeat="dpt in dpts" >{{dpt.name}}</option>
+</select>
+
+  </div>
+
+
+</div>
+<div class="row">
+  <div class="col-sm-3">    <label style="font-size:125%"><b>Checksheet Type:</b> </label> </div>  <div class="col-sm-4" style="font-size:125%"> 
+
+
+
+
+
+      <select ng-model="checksheet.type" ng-init="checksheet.type='Full'" style="width:300px" required>
+                   <option>Full</option>
+                   <option>Partial</option>
+
+             </select> 
+   
+  </div></div>
+
+
+
+
+
+
+<div class="row">
+  <div class="col-sm-3">    <label style="font-size:125%"><b>Created by:</b> </label> </div><div class="col-sm-4"> 
+    <input type="text" size="50" ng-model="checksheet.creator" readonly></div>
+</div>
+
+<br><br>
+
+</div>
+<button style="font-size:125%" type="submit">
+    <i class="fa fa-fw fa-gears"></i> Start building checksheet
+</button></form>
+</div>
+<div ng-show="!divshow">
+   
+        <div class="panel panel-default">
+            <div class="panel-body" style="font-size:125%">
+                Pick one or more checksheet blocks for your checksheet. The checksheet will be populated with slots from the blocks. The order in which block is indexed during checksheet construction will be the order in which checksheet is rendered to advisors and students. Refer to documentation for more instructions.
+
+            </div>
+        </div>
+
+
+  <div class="panel panel-default">  <div class="panel-body">
+    <div class="row col-sm-12" style="font-size:125%"> Add a block on checksheet:</div>
+    <div class="row page-header" style="font-size:125%">
+
+    
+      <div class="col-sm-4">   
+        Block category:<br>
+      <select  ng-model="blockcategory" ng-init="blockcategory='None'" style="width:300px" required>
+        <option value="None">None</option>
+      <option ng-repeat="dpt in dpts" >{{dpt.name}}</option>
+      </select> </div>
+      <div class="col-sm-1"></div>
+
+
+
+      <div class="col-sm-4" ng-show="blockcategory!='None'">
+
+        Block Name:<br>
+      
+
+        <select ng-model="blockdesc" ng-init="blockdesc='None'"required>
+        <option value="None">None</option>
+        <option ng-repeat="blockdetail in blockdetails | filter:{department:blockcategory} " ng-value="blockdetail._id">{{blockdetail.name}}</option>
+      </select>
+      </div>
+    
+      
+    </div>
+
+    <div class="page-header" style="font-size:125%" ng-show="blockdesc!='None' && blockcategory!='None'" ng-init="renderblockdetails(blockdesc)">
+
+       Block Name: {{blockdetail.name}} <br>
+       Block Description: {{blockdetail.description}} <br>
+       Block Creator:{{blockdetail.creator}} <br>
+       Block Department: {{blockdetail.department}} <br>
+       Block Type: {{blockdetail.type}} <br>
+       Block Credits: {{blockdetail.credits}} <br>
+       Block Slots: {{blockdetail.slot}}
+
+    <br><br>
+     <button style="font-size:100%" ng-click="addtochecksheet(blockdetail)"><i class="fa fa-fw fa-file-text"></i> Add block to checksheet</button> 
+     </div>
+      <div   style="font-size:125%" ng-if="blockname=='None' || blockcategory=='None' ">
+       Not a valid selection
+     </div>
+
+   </div>
+        </div>
+
+
+</div>
+
+
+<div ng-show="!divshow" class="container" style="font-size:125%">
+
+  <div class="panel panel-info">
+    <div class="panel-heading">Checksheet Information</div>
+    <div class="panel-body">
+      <div class="page-header">
+      Checksheet Name: {{checksheet.name}}
+      <br> Number of blocks in checksheet: {{checksheet.blockid.length}}
+      <br> Total number of credits contained in checksheet: {{checksheet.credits}}
+      </div>
+      Checksheet Structure:<br><br>
+
+      <div ng-repeat="block in tempblockid track by $index" >
+          <div class="row">
+            <div class="col-sm-1"></div>
+              <div style="border:1px solid black;border-radius: 10px;" class="col-sm-4">
+                Block #{{$index+1}}  <span class="pull-right"><b><button type="button" ng-click="removeblock($index)" style="color:black" class="close" aria-hidden="false" ng-disabled="checksheet.blockid.length==1" >&times;</button> </b></span>
+                <br>
+                Block Name: {{block.name}}<br>
+                Block ID: {{block.id}}<br>
+                Block Credit Weight: {{block.credits}}
+              </div>
+          </div>
+          <br>
+      </div>
+
+    </div>
+
+    <div class="panel-footer">
+
+      <button type="button" ng-click="submitChecksheet()" confirm="Are you sure you want to submit the checksheet prototype to database?" confirm-title="Submitting {{checksheet.name}}.." confirm-ok="Submit" confirm-cancel="No"><i class="fa fa-fw fa-plus"></i> Submit checksheet to database </button></div>
+ 
+
+  </div>
+
+</div>
+
+</div> <!-- End of closetop controller div -->

@@ -1,0 +1,71 @@
+<div ng-controller="rootDeptController">
+<br>
+<div class="page-header" style="font-size:120%"> 
+<a href="#" ng-click = "settemplateURL('partials/addnewdepartment.html')"> <i class="fa fa-fw fa-plus"></i> Add a new department </a>
+&nbsp;&nbsp;&nbsp;
+<a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
+&nbsp;&nbsp;&nbsp;
+
+
+
+</div>
+
+
+
+<b>Current Page: {{ currentPage }}</b> 
+<br><br>		
+<div class="row">
+<div class="col-xs-4">
+              <label for="search" style="font-size:120%"><u>Search:</u></label>
+              <input ng-model="q" id="search" class="form-control" placeholder="Filter text">
+            </div>
+            <div class="col-xs-2">
+              <label for="search" style="font-size:120%"><u>Items per page:</u></label>
+              <input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+            </div>
+        </div>
+
+<br>
+<br><span style="font-size:125%"><u><b>
+Department List</u>:<br></b>
+</span>
+<div class="table-responsive">
+
+<table class="table table-bordered table-hover table-condensed" style="font-size:125%">
+    <thead>
+    <tr class="info">
+
+
+        <th>ID</th>
+        <th>Name</th>
+        <th>Office</th>
+        <th>Phone</th>        
+        <th> Modify </th>
+        </tr>
+  </thead>
+  <tbody>
+    <tr dir-paginate="department in departments | filter:q | itemsPerPage: pageSize" current-page="currentPage" pagination-id="depts">
+        
+        <td>{{department.id}}</td>
+        <td>{{department.name}}</td>
+        <td>{{department.office}}</td>
+        <td>{{department.phone}}</td>        
+        <td> <a href="#" ng-Click="modifyDept(department)"> Edit </a> </td>
+
+    </tr>
+</tbody>
+</table>
+</div>
+<br><br>
+
+<div>
+ <dir-pagination-controls boundary-links="true" template-url="partials/dirPagination.tpl.html" pagination-id="depts"></dir-pagination-controls>
+ </div
+
+</div>
+
+
+
+</div>
+
+

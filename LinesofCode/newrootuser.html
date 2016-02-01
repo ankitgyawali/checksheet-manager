@@ -1,0 +1,75 @@
+<div ng-controller="rootmanagerController">
+<br>
+
+<div class="page-header" style="font-size:120%"> 
+<a href="#" ng-click = "settemplateURL('partials/registernewroot.html')"> <i class="fa fa-fw fa-user-plus"></i> Register a new root user </a>
+&nbsp;&nbsp;&nbsp;
+<a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
+&nbsp;&nbsp;&nbsp;
+
+</div>
+
+<b>Current Page: {{ currentPage }}</b> 
+<br><br>		
+<div class="row">
+<div class="col-xs-4">
+              <label for="search" style="font-size:120%"><u>Search:</u></label>
+              <input ng-model="q" id="search" class="form-control" placeholder="Filter text">
+            </div>
+            <div class="col-xs-2">
+              <label for="search" style="font-size:120%"><u>Items per page:</u></label>
+              <input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+            </div>
+        </div>
+
+<br>
+<br><span style="font-size:125%"><u><b>
+Root users List</u>:<br></b>
+</span>
+<div class="table-responsive">
+
+<table class="table table-bordered table-hover table-condensed" style="font-size:125%">
+    <thead>
+    <tr class="info">
+
+		
+        <th>Username</th>
+        <th>First Name</th>
+        <th>Last Name</th>       
+
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Status</th>
+        </tr>
+  </thead>
+  <tbody>
+    <tr dir-paginate="root in roots | filter:q | itemsPerPage: pageSize" current-page="currentPage" pagination-id="classes">
+        <td>{{root.username}} </td>
+        <td>{{root.firstname}}</td>
+        <td>{{root.lastname}}</td>
+        <td>{{root.email}}</td>
+        <td>{{root.phone}}</td> 
+        <td>
+        <div ng-if="root.registered">
+    	<i class="fa fa-fw fa-check"></i> Verified: <a href="#"> View Profile</a>
+		</div>
+		<div ng-if="!root.registered">
+    	<i class="fa fa-fw fa-times"></i> Unverified : <a href="#" ng-click="deleteroot(root)" confirm="WARNING: You are about to delete an unverified root account. This root user will not be able to access the account. Are you sure you want to continue?" confirm-title="Deleting {{root.firstname}} {{root.lastname}}.." confirm-ok="Delete" confirm-cancel="No">Delete</a>
+
+
+
+
+		</div>
+</td>      
+    </tr>
+</tbody>
+</table>
+</div>
+<br><br>
+
+ <dir-pagination-controls boundary-links="true" template-url="partials/dirPagination.tpl.html" pagination-id="classes"></dir-pagination-controls>
+
+
+</div>
+
+

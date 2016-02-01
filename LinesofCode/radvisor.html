@@ -1,0 +1,78 @@
+<div ng-controller="rootadvisorController">
+<br>
+
+<div class="page-header" style="font-size:120%"> 
+<a href="#" ng-click = "settemplateURL('partials/rootregisteradvisor.html')"> <i class="fa fa-fw fa-user-plus"></i> Register a new advisor </a>
+&nbsp;&nbsp;&nbsp;
+<a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
+&nbsp;&nbsp;&nbsp;
+
+</div>
+
+<b>Current Page: {{ currentPage }}</b> 
+<br><br>		
+<div class="row">
+<div class="col-xs-4">
+              <label for="search" style="font-size:120%"><u>Search:</u></label>
+              <input ng-model="q" id="search" class="form-control" placeholder="Filter text">
+            </div>
+            <div class="col-xs-2">
+              <label for="search" style="font-size:120%"><u>Items per page:</u></label>
+              <input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+            </div>
+        </div>
+
+<br>
+<br><span style="font-size:125%"><u><b>
+Advisor User List</u>:<br></b>
+</span>
+<div class="table-responsive">
+
+<table class="table table-bordered table-hover table-condensed" style="font-size:125%">
+    <thead>
+    <tr class="info">
+
+		
+        <th>Full Name</th>
+        <th>ID</th>
+
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Department</th>
+        <th>Office</th>
+        <th>Status</th>
+        </tr>
+  </thead>
+  <tbody>
+    <tr dir-paginate="advisor in advisors | filter:q | itemsPerPage: pageSize" current-page="currentPage" pagination-id="classes">
+        <td>{{advisor.firstname}} {{advisor.lastname}} </td>
+        <td>{{advisor.id}}</td>
+        <td>{{advisor.email}}</td>
+        <td>{{advisor.phone}}</td>
+        <td>{{advisor.department}}</td> 
+        <td>{{advisor.office}}</td> 
+        <td>
+
+        <div ng-if="advisor.registered"><i class="fa fa-fw fa-user"></i> Verified: <a href="#">View Profile</a>
+
+		</div>
+		<div ng-if="!advisor.registered">
+    	<i class="fa fa-fw fa-times"></i> Unverified : <a href="#" ng-click="deleteadvisor(advisor)" confirm="WARNING: You are about to delete an unverified advisor account. This root user will not be able to access the account. Are you sure you want to continue?" confirm-title="Deleting {{advisor.firstname}} {{advisor.lastname}}.." confirm-ok="Delete" confirm-cancel="No">Delete</a></div>
+    </td>
+
+
+
+		
+   
+    </tr>
+</tbody>
+</table>
+</div>
+<br><br>
+
+ <dir-pagination-controls boundary-links="true" template-url="partials/dirPagination.tpl.html" pagination-id="classes"></dir-pagination-controls>
+
+
+</div>
+
+

@@ -1,0 +1,121 @@
+<div ng-controller="blockviewer">
+
+
+
+<div class="page-header" style="font-size:120%"> 
+<!-- <a href="#" ng-click = "settemplateURL('partials/radvisor.html')"> <i class="fa fa-fw fa-times"></i> Cancel registering advisor </a>&nbsp;&nbsp;&nbsp;
+<a href="#"  ng-click="showme=true"> <i class="fa fa-fw fa-plus-circle"></i> Add multiple advisors </a> -->
+
+
+
+<a href=""> <i class="fa fa-fw fa-info-circle"></i> Help </a>
+&nbsp;&nbsp;&nbsp;
+
+</div>
+
+
+
+
+<div ng-show="divshow">
+<div class="panel panel-default">
+  <div class="panel-body" style="font-size:125%">
+    Block's slot rule can't be modified by advisor as it affects the checksheet prototypes associated with it and the students linked to it. However, block description and slot information are modifiable by advisors. Contact with root users/administrators for more information. Alternatively, you can also refer to the documentation.
+  </div>
+</div>
+
+<b>Current Page: {{ currentPage }}</b> 
+<br><br>		
+<div class="row">
+<div class="col-xs-4">
+              <label for="search" style="font-size:120%"><u>Search:</u></label>
+              <input ng-model="q" id="search" class="form-control" placeholder="Filter text">
+            </div>
+            <div class="col-xs-2">
+              <label for="search" style="font-size:120%"><u>Items per page:</u></label>
+              <input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+            </div>
+        </div>
+
+<br><br><span style="font-size:125%"><u><b>
+Block List</u>:<br></b>
+</span>
+<div class="table-responsive">
+
+<table class="table table-bordered table-hover table-condensed" style="font-size:125%">
+    <thead>
+    <tr class="info">
+
+
+        <th>ID</th>
+        <th>Name</th>
+        <th>Department</th>
+        <th>Creator</th>        
+        <th>Credits</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th># of Slots</th>
+        <th>Modify</th>
+        </tr>
+  </thead>
+  <tbody>
+    <tr dir-paginate="block in blocks | filter:q | itemsPerPage: pageSize" current-page="currentPage" pagination-id="depts">
+        
+        <td>{{block.id}}</td>
+        <td>{{block.name}}</td>
+        <td>{{block.department}}</td>
+        <td>{{block.creator}}</td>  
+        <td>{{block.credits}}</td>  
+        <td>{{block.type}}</td>  
+        <td>{{block.description}}</td>
+        <td>{{block.details.length}}</td>      
+        <td><a href="#" ng-Click="modifyBlock(block)">Edit</a></td>
+
+    </tr>
+</tbody>
+</table>
+</div>
+<br><br>
+
+<div>
+ <dir-pagination-controls boundary-links="true" template-url="partials/dirPagination.tpl.html" pagination-id="depts"></dir-pagination-controls>
+ </div>
+
+
+</div>
+
+
+<div ng-if="!divshow">
+<span style="font-size:125%">
+Modifying "{{blkName}}" department... 
+</span><br><br>
+<div class="row">
+       
+            <div class="form-group row">
+            <label for="search" style="font-size:120%" class="col-sm-3"><u>Name:</u></label>
+              <input type="string" ng-model="newID.name" autofocus size="30" required>
+             </div>
+            <div class="form-group row">
+                 <label for="search" style="font-size:120%" class="col-sm-3"><u>ID:</u></label>
+              <input type="string" ng-model="newID.id">
+</div>    <div class="form-group row">
+                 <label for="search" style="font-size:120%" class="col-sm-3"><u>Category:</u></label>
+                 <select ng-model="newID.department" style="width:300px">
+
+                   <option ng-repeat="dpt in dpts">{{dpt.name}}</option>
+                 </select>
+              </div>
+              <div class="form-group row ">
+                 <label for="search" style="font-size:120%" class="col-sm-3"><u>Description:</u></label>
+              <input type="string" ng-model="newID.description" size="75">
+        </div>
+    </div>
+
+
+<div> <br>
+<button type="button" ng-click="submitmodifiedBlock()"><i class="fa fa-fw fa-check"></i> Submit modified block to database </button>
+&nbsp;&nbsp;<button type="button" ng-click="cancelsub()"><i class="fa fa-fw fa-times"></i> Cancel </button>
+
+</div>
+</div>
+
+</div>

@@ -1,0 +1,107 @@
+        <div class="modal-header">
+            <h4 class="modal-title">Viewing information of "{{checksheetinview.blockid[pid].details[id].title}}" </h4>
+        </div> 
+        <form role="form">
+        <div class="modal-body" style="font-size:125%">
+       
+            <div class="row">
+            <div class="col-sm-3">
+                Slot Title:
+
+            </div>
+            <div class="col-sm-9">
+                {{checksheetinview.blockid[pid].details[id].title}}
+
+            </div>
+
+
+            </div> 
+
+             <div class="row" ng-if="checksheetinview.blockid[pid].details[id].subtitle">
+            <div class="col-sm-3">
+                Slot Subtitle:
+
+            </div>
+            <div class="col-sm-9">
+                {{checksheetinview.blockid[pid].details[id].subtitle}}
+
+            </div>
+
+
+            </div>
+            <div class="row" ng-if="checksheetinview.blockid[pid].details[id].description">
+            <div class="col-sm-3">
+                Slot Description:
+
+            </div>
+            <div class="col-sm-9">
+                {{checksheetinview.blockid[pid].details[id].description}}
+
+            </div>
+
+
+            </div>
+
+            <div class="row">
+            <div class="col-sm-3">
+                Slot Rule:
+
+            </div>
+            <div class="col-sm-9"  ng-if="!(checksheetinview.blockid[pid].details[id].rule)">
+                None
+
+            </div>
+            <div class="col-sm-9"  ng-if="checksheetinview.blockid[pid].details[id].rule=='101'">
+                Only {{checksheetinview.blockid[pid].details[id].ruleconstraint.prefix}} {{checksheetinview.blockid[pid].details[id].ruleconstraint.suffix}} can be used to fill this slot.
+
+            </div>
+               <div class="col-sm-9"  ng-if="checksheetinview.blockid[pid].details[id].rule=='102'">
+                Slot needs to have class prefix {{checksheetinview.blockid[pid].details[id].ruleconstraint.prefix}}.
+
+            </div>
+               <div class="col-sm-9"  ng-if="checksheetinview.blockid[pid].details[id].rule=='103'">
+               Slot needs to be at least of class code class {{checksheetinview.blockid[pid].details[id].ruleconstraint.prefix}} {{checksheetinview.blockid[pid].details[id].ruleconstraint.suffix}} or other upper level class from same department.
+
+            </div>
+
+
+
+            </div>
+
+                 <div class="row">
+            <div class="col-sm-3">
+                Slot Requirements:
+
+            </div>
+            <div class="col-sm-9"  ng-if="!(checksheetinview.blockid[pid].details[id].prerequisite)">
+                None
+
+            </div>
+            <div class="col-sm-9"  ng-if="checksheetinview.blockid[pid].details[id].prerequisite=='1001'">
+                You need to have taken "{{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix}}" to fill this slot.
+
+            </div>
+               <div class="col-sm-9"  ng-if="checksheetinview.blockid[pid].details[id].prerequisite=='1002'">
+                 You need to have taken "{{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix}}" AND "{{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix2}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix2}}" to fill this slot.
+
+            </div>
+               <div class="col-sm-9"  ng-if="checksheetinview.blockid[pid].details[id].prerequisite=='1003'">
+                You need to have taken "{{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix}}" OR "{{checksheetinview.blockid[pid].details[id].prereqconstraint.prefix2}} {{checksheetinview.blockid[pid].details[id].prereqconstraint.suffix2}}" to fill this slot.
+
+            </div>
+
+
+
+            </div>
+    
+
+
+        </div>
+
+
+        <div class="modal-footer">
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel
+            </button> 
+
+        </div>
+    </form>
