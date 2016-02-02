@@ -2,22 +2,20 @@
 <!-- 
    Author: Ankit Gyawali
    Email: agyaw792@gmail.com
-   Description: Index page for syllabus manager. Login/Dashboard/Parent Controller is scaffolded here.
+   Description: Index page for checksheet manager. Login/Dashboard/Parent Controllers are scaffolded here.
    -->
 <html ng-app="smApp"><!-- Initialize syllabus manager app -->
 
 <head>
-  <!-- Define mets  -->
     <meta name="description" content="Kutztown Syllabus Manager">
     <meta name="author" content="Ankit Gyawali">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-     <!--  Title of page. Debug: Configure it so that this can be modified on installation -->
-    <title>KSM: Kutztown Syllabus Manager</title>
+    <title>{{cmTitle}} Checksheet Manager</title>
    <!--  Required stylesheets loaded before javascript -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="font-awesome-4.4.0/css/font-awesome.css">
+    <link rel="stylesheet" href="font-awesome-4.4.0/css/font-awesome.css"> 
     <link href="css/toastr.min.css" rel="stylesheet" />
     <link href="css/custom.css" rel="stylesheet" /><!-- Custom CSS file -->
 
@@ -38,16 +36,17 @@
 <!-- Scripts for app -->
 <script src="js/jquery-1.11.3.min.js"></script><!-- Jquery -->
 <script src="js/bootstrap.min.js"></script><!-- Bootstrap -->
-<script src="js/angular.min.js"></script><!-- AngularJs -->
-<script src="js/angular-animate.min.js"></script><!-- AngularjS Animate -->
-<script src="js/angular-route.min.js"></script><!-- Angularjs Route -->
-<script src="js/angular-filter.min.js"></script><!-- Angularjs Filter -->
-<script src="js/angular-cookies.min.js"></script><!-- Angularjs Cooie -->
-<script src="js/toastr.min.js"></script>
-<script src="js/ui-bootstrap-tpls.min.js"></script>
+<script src="js/angular.min.js"></script><!-- AngularJS -->
+<script src="js/angular-animate.min.js"></script><!-- AngularJS Animate -->
+<script src="js/angular-route.min.js"></script><!-- AngularJS Route -->
+<script src="js/angular-filter.min.js"></script><!-- AngularJS Filter -->
+<script src="js/angular-cookies.min.js"></script><!-- AngularJS Cookie -->
+<script src="js/toastr.min.js"></script><!--  Angular Toaster notification -->
+<script src="js/ui-bootstrap-tpls.min.js"></script><!-- Angular UI bootstrap -->
 
 <!-- Scripts for angularjs controllers -->
-<script src="./main.js"></script><!-- Scaffolding for app -->
+<script src="./main.js"></script><!-- Initialization and route configuration of app -->
+<script src="./configuration.js"></script><!-- Global constants for angular app -->
 <script src="./factories.js"></script><!-- Factories and services for the app -->
 <script src="./controllers.js"></script><!-- Common controllers, login & menu controllers for app -->
 <script src="./studentcontrollers.js"></script><!-- Controllers for student group -->
