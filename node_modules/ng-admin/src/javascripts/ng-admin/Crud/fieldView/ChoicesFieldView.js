@@ -1,6 +1,0 @@
-module.exports = {
-    getReadWidget:   () => '<ma-choices-column values="::value"></ma-choices-column>',
-    getLinkWidget:   () => '<a ng-click="gotoDetail()">' + module.exports.getReadWidget() + '</a>',
-    getFilterWidget: () => '<ma-choices-field field="::field" value="value"></ma-choices-field>',
-    getWriteWidget:  () => '<ma-choices-field field="::field" entry="::entry" value="value"></ma-choices-field>'
-};
