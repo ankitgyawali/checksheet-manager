@@ -1,6 +1,6 @@
 //Main login controller that handles login of three different user types
-angular.module('smApp').controller('loginController', ['$scope', '$location', 'notificationFactory', 'AuthService', '$timeout',
-    function($scope, $location, notificationFactory, AuthService, $timeout) {
+angular.module('smApp').controller('loginController', ['$scope', '$location', 'notificationFactory', 'AuthService', 
+    function($scope, $location, notificationFactory, AuthService) {
 
 
         if (AuthService.getusertype() == undefined || AuthService.getusertype() == '') {
@@ -16,9 +16,7 @@ angular.module('smApp').controller('loginController', ['$scope', '$location', 'n
             AuthService.setusertype(val);
             $scope.userType = AuthService.getusertype();
 
-            $timeout(function() {
-                console.log('setUser Auth from controler: ' + AuthService.getusertype())
-            }, 100);
+     
 
         }
         //Submit function that passes email password and usertype to factory so that it can be 

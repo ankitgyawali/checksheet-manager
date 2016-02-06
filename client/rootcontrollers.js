@@ -17,6 +17,20 @@ angular.module('smApp').controller('rootController', ['$scope', '$location', 'no
             $scope.templateURL = temp;
         };
 
+        //Template URL watch to see if advisor is registered. If not don't let in until password change
+        $scope.$watch('templateURL', function(val) {
+            if (AuthService.isRegistered()) { //Authservice function to see if user is registered
+                if ($scope.templateURL != "partials/rootsettings.html") {
+                    notificationFactory.warning("Change your settings to proceed.");
+                }
+                $scope.templateURL = "partials/rootsettings.html"
+            } else { //User is registered
+                $scope.templateURL = val;
+            }
+
+
+        });
+
         //Logout function that utilizes factory service 
         $scope.logout = function() {
             AuthService.logout();
@@ -422,7 +436,7 @@ angular.module('smApp').controller('rootmanagerController', ['$scope', 'notifica
 
         //Set newroot users registered status to false by default so that they will be prompted
         // for password change on login
-        $scope.newroot.registered = "false";
+        // $scope.newroot.registered = "false";
         $scope.generatepwd = function() {
             $scope.newroot.password = AuthService.generatePassword();
         };

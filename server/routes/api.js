@@ -608,6 +608,7 @@ router.put('/rootsetting', function(req, res) {
         },
         function(err, doc) {
             if (err) {
+                console.log(err);
                 return res.sendStatus(500);
             }
             return res.sendStatus(200);
@@ -617,7 +618,6 @@ router.put('/rootsetting', function(req, res) {
 
 //Updates advisor settings for advisors.
 router.put('/advisorsetting', function(req, res) {
-    console.log('new id req body: ' + req.body.setting._id);
 
     models.advisor.update({
             _id: req.body.setting._id
