@@ -2,12 +2,23 @@
 
 Checksheet-manager is a web application that allows an educational organization to keep track of their student's progress in their curriculum. Checksheet manager works by providing different levels of access controls to three different types of user: Root users, advisors(proffesors) and advisee(students).
 
-Stable link: <a href="http://kucm.ankitgyawali.com">kucm.ankitgyawali.com</a>
+Stable link: <a href="http://kucm.ankitgyawali.com" target="_blank">kucm.ankitgyawali.com</a>
+The login for all three levels of users are set temporarily to:
+
+username:a
+
+password: asdfgh
 
 ##How it works:
 Checksheet manager utilizes REST API services, to create empty checksheet prototypes, instantiate accounts in hierarchial manner (root users add advisors, and advisors add students), and link students with empty checksheet so that they can maintain their checksheet througout their edcuational career.
 
-##Installation:
+##How to use:
+Checksheet-manager has been designed in a way so that the students find it inituitive to use it. Tutorial are available throughout the web app. A detailed documentation on using checksheet-manager and discovering it features can be found here.
+
+##Issues
+Report all issues related to checksheet-manager on this separate <a href="https://github.com/ankitgyawali/checksheet-manager/issues" target="_blank">issue page</a>.
+
+##How to build:
 Checksheet manager is runs as a node js application. Because we are running a web application and not traditional static files, we run node js with nginx. Running nginx and apache along side requires some researching into if you are switching from apache only server. Below are the steps to install checksheet-manager on debian based operating system. These steps were tested on Ubuntu 14.04 LTS.
 Start off by cloning the repository with: 
 
@@ -46,7 +57,7 @@ cd checksheet-manager/server
 pm2 start server
 ````
 
-At this point you should have node.js and pm2 installed. We now need mongodb and set our nginx.
+At this point you should have node.js and pm2 installed. We now need mongodb(for database) and nginx(to run the app) on our system.
 There is a guide to install mongodb which can be found <a href="https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/" target="_blank">here</a>.
 Once you are done start mongod by running, `sudo service mongod start` and make sure the service is running by running, `sudo service mongod status`.
 
