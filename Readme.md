@@ -81,11 +81,11 @@ server {
     }
 }
 ````
-Restart nginx service with `sudo service nginx restart` and you should be all set and ready to go! To instantiate your first root user to be able to populate more accounts, you need to insert your first root user via mongo shell. To do this execute `mongo` to enter the mongo shell and execute the following commands:
+Restart nginx service with `sudo service nginx restart`. To instantiate your first root user to be able to populate more accounts, you need to insert your first root user via mongo shell. To do this execute `mongo` to enter the mongo shell(look for 'robomongo' if you dont want to learn mongo shell) and execute the following commands:
 ````
 use ksm
 db.createCollection("root");
 db.root.insert({"username":"root","password":"rootPassw0rd"})
 ````
-This will instantiate your first root user and you can add more accounts from there. Login with username: root and password: rootPassw0rd to start using checksheet manager. There's a GUI program available for mongodb called "robomongo" that you can use if you dont want to bother learning mongo shell.
+This will instantiate your first root user and you can add more accounts from that root account. You should be all set and ready to go with the login information you just inserted to the mongo database(username: root and password: rootPassw0rd).
 
