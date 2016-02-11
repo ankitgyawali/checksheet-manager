@@ -20,7 +20,7 @@ Checksheet-manager has been designed in a way so that the students find it initu
 Report all issues related to checksheet-manager on this separate <a href="https://github.com/ankitgyawali/checksheet-manager/issues" target="_blank">issue page</a>.
 
 ##How to build:
-Checksheet manager is runs as a node js application. Because we are running a web application and not traditional static files, we run node js with nginx. Running nginx and apache along side requires some researching into if you are switching from apache only server. Below are the steps to install checksheet-manager on debian based operating system. These steps were tested on Ubuntu 14.04 LTS.
+Checksheet manager runs as a node js application. Because we are running a web application and not traditional static files, we run node js with nginx. Running nginx and apache along side requires some researching into if you are switching from an apache only server. Below are the steps to build and run checksheet-manager on a debian based operating system. These steps were tested on Ubuntu 14.04 LTS.
 Start off by cloning the repository with: 
 
 ```git clone https://github.com/ankitgyawali/checksheet-manager.git```
