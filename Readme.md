@@ -14,7 +14,7 @@ password: asdfgh
 Checksheet manager utilizes REST API services, to create empty checksheet prototypes, instantiate accounts in hierarchial manner (root users add advisors, and advisors add students), and link students with empty checksheet so that they can maintain their checksheet througout their edcuational career.
 
 ##How to use:
-Checksheet-manager has been designed in a way so that the students find it inituitive to use it. Tutorial are available throughout the web app. A detailed documentation on using checksheet-manager and discovering it features can be found here.
+Checksheet-manager has been designed in a way so that the students find it inituitive to use it. Tutorials are available throughout the web app. A detailed documentation on using checksheet-manager and discovering it features can be found here.
 
 ##Issues
 Report all issues related to checksheet-manager on this separate <a href="https://github.com/ankitgyawali/checksheet-manager/issues" target="_blank">issue page</a>.
