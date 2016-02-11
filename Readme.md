@@ -1,8 +1,9 @@
 #Checksheet-manager
 
-Checksheet-manager is a web application that allows an educational organization to keep track of their student's progress in their curriculum. Checksheet manager works by providing different levels of access controls to three different types of user: Root users, advisors(proffesors) and advisee(students).
+Checksheet-manager is a web application that allows an educational organization to keep track of their student's progress in their curriculum. Checksheet manager works by providing different levels of access controls to three different types of user: Root users, advisors(professors) and advisee(students).
 
-Stable link: <a href="http://kucm.ankitgyawali.com" target="_blank">kucm.ankitgyawali.com</a>
+A demo of checksheet manager can be found at: <a href="http://kucm.ankitgyawali.com" target="_blank">kucm.ankitgyawali.com</a>
+
 The login for all three levels of users are set temporarily to:
 
 username:a
