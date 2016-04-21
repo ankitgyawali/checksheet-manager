@@ -2,6 +2,8 @@
 
 Checksheet-manager is a web application that allows an educational organization to keep track of their student's progress in their curriculum. Checksheet manager works by providing different levels of access controls to three different types of user: Root users, advisors(professors) and advisee(students).
 
+Refer to this <a href="https://cdn.rawgit.com/ankitgyawali/checksheet-manager/gh-pages/index.html" target="_blank">documentation</a> if you need help with user interface. 
+
 A demo of checksheet manager can be found at: <a href="http://kucm.ankitgyawali.com" target="_blank">kucm.ankitgyawali.com</a>
 
 The login for all three levels of users are set temporarily to:
@@ -14,7 +16,7 @@ password: asdfgh
 Checksheet manager utilizes REST API services, to create empty checksheet prototypes, instantiate accounts in hierarchial manner (root users add advisors, and advisors add students), and link students with empty checksheet so that they can maintain their checksheet througout their edcuational career.
 
 ##How to use:
-Checksheet-manager has been designed in a way so that the students find it inituitive to use it. Tutorials are available throughout the web app. A detailed documentation on using checksheet-manager and discovering it features can be found here.
+Checksheet-manager has been designed in a way so that the students find it inituitive to use it. Tutorials are available throughout the web app. A detailed documentation on using checksheet-manager and discovering it features can be found <a href="https://cdn.rawgit.com/ankitgyawali/checksheet-manager/gh-pages/index.html" target="_blank">here</a>.
 
 ##Issues
 Report all issues related to checksheet-manager on this separate <a href="https://github.com/ankitgyawali/checksheet-manager/issues" target="_blank">issue page</a>.
