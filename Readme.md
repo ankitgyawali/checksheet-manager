@@ -2,7 +2,7 @@
 
 Checksheet-manager is a web application that allows an educational organization to keep track of their student's progress in their curriculum. Checksheet manager works by providing different levels of access controls to three different types of user: Root users, advisors(professors) and advisee(students).
 
-Refer to this <a href="https://cdn.rawgit.com/ankitgyawali/checksheet-manager/gh-pages/index.html" target="_blank">documentation</a> if you need help with user interface. 
+Refer to this <a href="https://cdn.rawgit.com/ankitgyawali/checksheet-manager/gh-pages/index.html" target="_blank">documentation</a> if you need help with user interface. [Documentation <a href="http://ankitgyawali.com/cmdocs/" target="_blank">mirror</a> on github]
 
 A demo of checksheet manager can be found at: <a href="http://kucm.ankitgyawali.com" target="_blank">kucm.ankitgyawali.com</a>
 
