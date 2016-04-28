@@ -1,2 +1,14 @@
 Root User Dashboard
 ==============================================
+.. image:: image/2.png
+
+
+Root user dashboard has 5 major options that can handle 5 major responsibilities that was described in the previous section.
+
+Since department contain multiple classes, the interface is designed so that, users can add multiple classes at the same time. Alternatively a CSV or any datbase file could also be imported to the checksheet manager database by contacting the administrator.
+
+.. image:: image/3.png
+
+As shown in the picture below, a root user can also access a student's information with their id.
+
+.. image:: image/4.png

@@ -1,2 +1,12 @@
 Responsibilities
 ==============================================
+An advisor has the following primary responsiblities inside checksheet management system:
+
+ * Be able to add new student's to the system by entering their information and matching them with an empty checksheet, there by adding the newly created student as one of their advisee.
+ * Be able to add existing student to their list of advisee by matching them with a minor checksheet or a dual major checksheet.
+ * Be able to view a list of all of students matched with them.
+ * Be able to view their checksheet, track their progress and advise them. 
+ * Be able to create new empty checksheet from checksheet workshop. (This is done by creating cheksheet sections(blocks) which are then combined to form checksheets. Especial consideration should be taken here copies of that empty checksheet will be distributed to multiple students over time.)
+ * Be able to set appointment time(office hour) for every week so that the students can make appointment if they want to.
+ * Be able to broadcast message, which will be sent to all of the advisee(student accounts) matched with that particular advisor.
+

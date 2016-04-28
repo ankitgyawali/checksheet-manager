@@ -1,3 +1,6 @@
 .. _advisor_introduction:
 Introduction for advisor user group
 ==============================================
+Advisor user group are responsible for managing their students inside the checksheet management system. Advisor can add a new student into the system by matching a new student with an existing empty checksheet that defines their major. An advisor can also add an existing students by matching them with a minor checksheet or a dual major checksheet.
+
+Advisors have the option of creating and editing empty checksheet which is one of the main foundation of checksheet management system. Checksheet creation is a two step process where, firstly an advisor creats section of checksheet, and then they combine those section to create a final checksheet. The instructions for which are descibed in more detail in the next section.

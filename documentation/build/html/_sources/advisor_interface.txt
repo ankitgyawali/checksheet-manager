@@ -1,2 +1,19 @@
 Advisor Dashboard
 ==============================================
+.. image:: image/5.png
+
+An advisor can view list of their advisee, modify/view their checksheet and personal information and add new instances of student into the system from their user interface as shown in the picture above.
+
+The image below shows the first step of the two-step checksheet creation process where sections of checksheets are created. Generally each sections have 5-10 slots (15-30) credits. These sections for instance a specific part of the checksheet such as gen-ed requirements, or elective requirements.
+
+.. image:: image/6.png
+
+The image below shows the second step of the two-step checksheet creation process where checksheet sections(blocks) are combined to craeate final checksheet.
+
+.. image:: image/7.png
+
+The final two images below shows the user interface for setting up office hours so student's can schedule their appointments and the interface to broadcast their status to their advisees.
+
+.. image:: image/8.png
+
+.. image:: image/9.png

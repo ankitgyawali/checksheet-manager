@@ -1,2 +1,11 @@
 Responsibilities
 ==============================================
+ Besides acting as a department head for their department within the checksheet management system, a root user is reponsible for the following tasks:
+
+ * Be able to make changes to classes (such as add/edit/delete) for his/her department inside checksheet management system.
+ * Be able to make changes to their department information.
+ * Be able to add and modify other root user account (other department heads) in the system..
+ * Be able to add and modify new advisor account (their follow department members) in the system.
+ * Be able to retrieve student's checksheet with their student id.
+
+ A brief introduction to root user's dashboard is provided in the next section.

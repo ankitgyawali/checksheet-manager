@@ -3,7 +3,7 @@ Checksheet Manager Documentation
 ==============================================
 
 Welcome to  `Checksheet Manager`_ 's documentation.
-Checksheet Manager is a free online checksheet management system for educational institution.
+Checksheet Manager is a free online checksheet management system for educational institutions.
 
 
 
@@ -45,7 +45,7 @@ The main documentation for checksheet manager is organized into a couple of sect
    root_introduction
    root_responsibilities
    root_interface
-   root_relation
+
 
 .. toctree::
    :maxdepth: 2
@@ -54,7 +54,7 @@ The main documentation for checksheet manager is organized into a couple of sect
    advisor_introduction
    advisor_responsibilities
    advisor_interface
-   advisor_relation
+
 
 .. toctree::
    :maxdepth: 2
@@ -63,7 +63,7 @@ The main documentation for checksheet manager is organized into a couple of sect
    student_introduction
    student_responsibilities
    student_interface
-   student_relation
+
 
 .. toctree::
    :maxdepth: 2
@@ -75,9 +75,9 @@ The main documentation for checksheet manager is organized into a couple of sect
    dev_words
 
 
-*This documentation was written as a part of project for the class WRI 220(Technical Writing and Communication) for* `Dr Robert Folk`_.
+*This documentation was written as a part of project for the class WRI 220(Technical Writing and Communication) for* `Dr Moe Folk`_.
 
-.. _Dr Robert Folk: https://kutztownenglish.com/faculty/folk/
+.. _Dr Moe Folk: https://kutztownenglish.com/faculty/folk/
 .. _Checksheet Manager: http://kucm.ankitgyawali.com
 .. _available on github: https://github.com/ankitgyawali/checksheet-manager
 .. _issues: https://github.com/ankitgyawali/checksheet-manager/issues

@@ -74,3 +74,5 @@ Restart nginx service with sudo service nginx restart. To instantiate your first
     db.root.insert({"username":"root","password":"rootPassw0rd"})
 
 This will instantiate your first root user and you can add more accounts from that root account. You should be all set and ready to go with the login information you just inserted to the mongo database(username: root and password: rootPassw0rd).
+
+.. _the official issues: https://github.com/ankitgyawali/checksheet-manager/issues

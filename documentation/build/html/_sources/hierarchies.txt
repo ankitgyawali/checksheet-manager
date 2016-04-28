@@ -7,7 +7,7 @@ Checksheet management system primarily contains three user groups:
 
 Root User
 ########
-Root user is the main user group of checksheet management system. In an educational institution, root users would represent department heads from different departments. Root users have the power to add other root users (other department heads) and advisor (department members) into the checksheet management system. Each root user is identified by their ID and their email. 
+Root user is the main user group of checksheet management system. In an educational institution, root users would represent department heads from different departments. Root users have the power to add other root users (other department heads) and advisor (department members) into the checksheet management system. Each root user is identified by their ID and their email address. 
 
 The task and responsiblities of root user have been described in their respective user documentation section.
 

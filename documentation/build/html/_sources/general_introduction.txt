@@ -1,7 +1,7 @@
 .. _general_introduction:
 Introduction
 ==============================================
-Checksheet manager provides its user with option of creating syllabus, making appointment with advisors, managing department information, and mainly management of checksheets. Because of the nature of the problem of checksheet management, the system is divded into three user groups with different allocated tasks and responsibilites which will be discussed in more detail in the next section.
+Checksheet manager provides it's user with option of creating syllabus, making appointment with advisors, managing department information, and mainly the management of checksheets. Because of the nature of the problem of checksheet management, the system is divded into three user groups with different allocated tasks and responsibilites which will be discussed in more detail in the next section.
 
 As a general overview, it is important to know that root user will always have the most control over how the system is used followed by the advisor user group.
 
