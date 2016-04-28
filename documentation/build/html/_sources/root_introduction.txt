@@ -1,0 +1,5 @@
+Introduction for root user group
+==============================================
+Root User group are the user group that are responsible for ensuring advisors are maintained properly in the system. They are also responsible for ensuring that the classes from their department is properly maintained in the system. A root user also has the power to create an alternate advisor account for themself to be able to view and interact with student's in their department.
+
+A more detailed list of root user's responsibilities provided in the next section could provide more insight on what exactly a root user group does in the syste.

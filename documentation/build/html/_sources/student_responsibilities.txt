@@ -1,0 +1,9 @@
+Responsibilities
+==============================================
+A student has the following primary responsiblities inside checksheet management system:
+
+ * Ensure that their checksheet is updated every semester especially before they make an advising appointment.
+ * Add notes inside their checksheet denoting the semester they took the class and any other information that they might want for themself or their advisor to know.
+ * Request advising session at least a week ahead once their advisor notifies them that advising session has begun.
+
+ These tasks can be handled from the intiuitive student user dashboard which will be discussed in the next section.

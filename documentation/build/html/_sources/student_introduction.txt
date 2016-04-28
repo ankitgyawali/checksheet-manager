@@ -1,0 +1,8 @@
+.. _student_introduction:
+Introduction for student user group
+==============================================
+Student user group are simply responsible for managing their checksheet inside checksheet management system. They are held responsible to update their checksheet every semester, so that their advisor can counsel them properly according to their checksheet. Besides being able to update their checksheet, student's get to track their progress in the curriculum and set up appointments with advisors during their office hours.
+
+.. image:: image/10.png
+
+Above is an example of student user homepage. We will briefly discuss primary responsibilities of student users in the next section before moving on to documentation for student dashboard.
