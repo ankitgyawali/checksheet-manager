@@ -1,4 +1,4 @@
-#Checksheet-manager
+# Checksheet-manager
 
 Checksheet-manager is a web application that allows an educational organization to keep track of their student's progress in their curriculum. Checksheet manager works by providing different levels of access controls to three different types of user: Root users, advisors(professors) and advisee(students).
 
@@ -12,16 +12,16 @@ username:a
 
 password: asdfgh
 
-##How it works:
+## How it works:
 Checksheet manager utilizes REST API services, to create empty checksheet prototypes, instantiate accounts in hierarchial manner (root users add advisors, and advisors add students), and link students with empty checksheet so that they can maintain their checksheet througout their edcuational career.
 
-##How to use:
+## How to use:
 Checksheet-manager has been designed in a way so that the students find it inituitive to use it. Tutorials are available throughout the web app. A detailed documentation on using checksheet-manager and discovering it features can be found <a href="https://cdn.rawgit.com/ankitgyawali/checksheet-manager/gh-pages/index.html" target="_blank">here</a>.
 
-##Issues
+## Issues
 Report all issues related to checksheet-manager on this separate <a href="https://github.com/ankitgyawali/checksheet-manager/issues" target="_blank">issue page</a>.
 
-##How to build:
+## How to build:
 Checksheet manager runs as a node js application. Because we are running a web application and not traditional static files, we run node js with nginx. Running nginx and apache along side requires some researching into if you are switching from an apache only server. Below are the steps to build and run checksheet-manager on a debian based operating system. These steps were tested on Ubuntu 14.04 LTS.
 Start off by cloning the repository with: 
 

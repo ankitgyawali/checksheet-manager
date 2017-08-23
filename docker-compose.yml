@@ -1,0 +1,22 @@
+version: '3'
+services:
+  web:
+    build:
+      context: ./docker/nodejs
+    container_name: checksheet_manager_nodejs
+    ports:
+      - "3000:3000"
+    volumes:
+       - .:/checksheet-manager
+    tty: true
+    entrypoint: sh -c
+  mongodb:
+    image: mongo
+    ports:
+      - "27777:27017"
+  mongo-seed:
+    build: ./docker/mongo-seed
+    links:
+      - mongodb
+volumes:
+    checksheet-manager:
