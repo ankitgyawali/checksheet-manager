@@ -8,16 +8,19 @@ A demo of checksheet manager can be found at: <a href="http://kucm.ankitgyawali.
 
 The login for all three levels of users are set temporarily to:
 
-username:a
+username: `a`
 
-password: asdfgh
+password: `asdfgh`
 
 
 ## Docker Installation 
 Make sure you have `docker` & `docker-compose` installed. Simply run `npm install && docker-compose up -d` from root of the repo. A sample application with demo data will be bootstrapped. Sample app can be accessed at `localhost:3000` & docker mongodb instance can be accessed on `localhost:2777`. Refer to [docker-compose.yml](https://github.com/ankitgyawali/checksheet-manager/blob/master/docker-compose.yml).
 
 Login for sample docker app: 
-Root Username: root, Root Password: demoPassword
+
+Root Username: `root`
+
+Root Password: `demoPassword`
 
 
 ## How it works:
