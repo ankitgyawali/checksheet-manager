@@ -12,6 +12,14 @@ username:a
 
 password: asdfgh
 
+
+## Docker Installation 
+Make sure you have `docker` & `docker-compose` installed. Simply run `npm install && docker-compose up -d` from root of the repo. A sample application with demo data will be bootstrapped. Sample app can be accessed at `localhost:3000` & docker mongodb instance can be accessed on `localhost:2777`. Refer to [docker-compose.yml](https://github.com/ankitgyawali/checksheet-manager/blob/master/docker-compose.yml).
+
+Login for sample docker app: 
+Root Username: root, Root Password: demoPassword
+
+
 ## How it works:
 Checksheet manager utilizes REST API services, to create empty checksheet prototypes, instantiate accounts in hierarchial manner (root users add advisors, and advisors add students), and link students with empty checksheet so that they can maintain their checksheet througout their edcuational career.
 

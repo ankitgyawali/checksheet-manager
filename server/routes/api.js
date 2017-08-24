@@ -20,10 +20,13 @@ router.get('/logout', function(req, res) {
 //Searches the collection of appropriate type. Matches user name and password
 //Extracs required data, stores them in session value and sends back appropriate response.
 router.post('/login', function(req, res) {
+    console.log("in");
     models[req.body.type].findOne({
         'username': req.body.username,
         'password': req.body.password
     }, function(err, person) {
+        console.log(err);
+        console.log(person);
         if (err) {
             res.send({
                 username: '404',

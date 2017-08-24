@@ -1,9 +1,8 @@
 //Mongoose connection 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/ksm');
+mongoose.connect('mongodb://mongodb:27017/ksm');
 
-var db = mongoose.connection;
-
+ var db = mongoose.connection;
 //Root User Schema
 var rootSchema = mongoose.Schema({
     username: {
@@ -24,7 +23,7 @@ var rootSchema = mongoose.Schema({
     registered: Boolean
 }, {
     collection: 'root'
-});
+}); 
 var rootCol = mongoose.model('root', rootSchema);
 
 

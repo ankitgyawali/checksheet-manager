@@ -6,17 +6,29 @@ services:
     container_name: checksheet_manager_nodejs
     ports:
       - "3000:3000"
+      # - "3001:3001"
     volumes:
        - .:/checksheet-manager
+    depends_on: 
+      - mongodb
     tty: true
-    entrypoint: sh -c
+    # networks:
+    #   - checksheet
+    # entrypoint: node server/server.js
   mongodb:
     image: mongo
     ports:
       - "27777:27017"
+    # networks:
+    #   - checksheet
   mongo-seed:
     build: ./docker/mongo-seed
     links:
       - mongodb
+    # networks:
+    #   - checksheet
 volumes:
     checksheet-manager:
+# networks:
+#   checksheet:
+#     driver: bridge

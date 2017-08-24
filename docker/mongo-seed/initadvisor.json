@@ -1,0 +1,24 @@
+[{
+  
+    "password" : "demoPassword",
+    "firstname" : "John",
+    "lastname" : "Doe",
+    "id" : "johndoe",
+    "username" : "advisor",
+    "email" : "demoadvisor@abcd.com",
+    "phone" : "1231324234",
+    "office" : "CS"
+},
+{
+    
+      "password" : "demoPassword",
+      "firstname" : "John",
+      "lastname" : "Doe",
+      "id" : "johndoe",
+      "username" : "registeredadvisor",
+      "email" : "demoadvisor@abcd.com",
+      "phone" : "1231324234",
+      "office" : "CS",
+      "registered": true
+}
+]
